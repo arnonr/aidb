@@ -80,13 +80,11 @@
                       selectText="ยืนยัน"
                       placeholder="วัน-เดือน-ปี (เกิด)"
                     >
-                      <template #year="{ year }">
-                        {{ year + 543 }}
-
-                      </template>
-                      <template #year-overlay="{ value }">
-                        <!-- {{ value + 543 }} -->
-                        {{ parseInt(value) + 543 }}
+                        <template #year-overlay-value="{ text }">
+                            {{ parseInt(text) + 543 }}
+                        </template>
+                        <template #year="{ year }">
+                            {{ year + 543 }}
                       </template>
                     </Datepicker>
                   </div>
@@ -1260,6 +1258,9 @@ export default {
       const dayStart = date.getDate();
       const monthStart = date.getMonth();
       const yearStart = date.getFullYear() + 543;
+        
+    //   return `${dayStart} ${monthStart} ${yearStart}`;
+
       const formatStart = format(
         new Date(yearStart, monthStart, dayStart),
         "dd/MM/yyyy",

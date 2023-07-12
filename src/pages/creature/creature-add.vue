@@ -376,7 +376,7 @@
                         {{ year + 543 }}
                       </template>
                       <template #year-overlay="{ value }">
-                        {{ value + 543 }}
+                        {{ parseInt(value) + 543 }}
                       </template>
                     </Datepicker>
                   </div>

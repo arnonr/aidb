@@ -1,0 +1,732 @@
+<template>
+  <div class="grid">
+    <div class="col-12">
+      <PageTitle title="ข้อมูลสุขภาพ : ถ่ายพยาธิ" :pages="breadcrumb" />
+
+      <div class="card">
+        <h1 class="text-2xl text-600 mb-5">เพิ่มข้อมูลถ่ายพยาธิ</h1>
+        <div v-if="loader" class="formgrid grid mb-3">
+          <div class="field col-12 sm:col-12">
+            <label class="block text-600 text-sm font-bold mb-2">
+              ฟาร์ม<span class="text-red-500"> *</span>
+            </label>
+            <InputText class="w-full" v-model="form.FullName" disabled />
+          </div>
+          <div class="field col-12 sm:col-6">
+            <label for="drug" class="block text-600 text-sm font-bold mb-2"
+              >ยาถ่ายพยาธิที่ใช้<span class="text-red-500"> *</span></label
+            >
+            <Dropdown
+              class="w-full"
+              :options="items.DewormMedicine"
+              optionLabel="DewormMedicineName"
+              optionValue="DewormMedicineID"
+              placeholder="เลือกยา"
+              :showClear="true"
+              :filter="true"
+              v-model="form.DewormMedicineID"
+              :class="{ 'p-invalid': !form.DewormMedicineID && valid }"
+            />
+          </div>
+          <div class="field col-12 sm:col-6">
+            <label
+              for="otherdrugs"
+              class="block text-600 text-sm font-bold mb-2"
+              >หมายเหตุ (ถ้ามี)</label
+            >
+            <InputText
+              id="otherdrugs"
+              v-model="form.Remark"
+              type="text"
+              class="w-full"
+            />
+          </div>
+          <div class="field col-12 sm:col-6">
+            <label for="date" class="block text-600 text-sm font-bold mb-2"
+              >วันที่ถ่ายพยาธิ<span class="text-red-500"> *</span></label
+            >
+            <!-- <Calendar
+              class="w-full"
+              v-model="form.DewormActivityDate"
+              dateFormat="dd/mm/yy"
+              :manualInput="false"
+              :class="{ 'p-invalid': !form.DewormActivityDate && valid }"
+            /> -->
+            <Datepicker
+              v-model="form.DewormActivityDate"
+              :class="{ 'p-invalid': !form.DewormActivityDate && valid }"
+              id="dateRange"
+              locale="th"
+              :format="format"
+              utc
+              :enableTimePicker="false"
+              :maxDate="new Date()"
+              cancelText="ยกเลิก"
+              selectText="ยืนยัน"
+              placeholder="วันที่บันทึก"
+            >
+              <template #year="{ year }">
+                {{ year + 543 }}
+              </template>
+              <template #year-overlay="{ value }">
+                {{ value + 543 }}
+              </template>
+            </Datepicker>
+          </div>
+          <!-- <div class="field col-6 sm:col-3">
+            <label for="nexttime" class="block text-600 text-sm font-bold mb-2"
+              >ถ่ายพยาธิครั้งถัดไป</label
+            >
+            <Calendar
+              id="nexttime"
+              class="w-full"
+              :timeOnly="true"
+              hourFormat="24"
+              placeholder="เลือกเวลาถ่ายพยาธิครั้งถัดไป"
+            />
+          </div> -->
+          <div class="field col-6 sm:col-6">
+            <label for="tomorrow" class="block text-600 text-sm font-bold mb-2"
+              >วันที่ถ่ายพยาธิครั้งต่อไป<span class="text-red-500">
+                *</span
+              ></label
+            >
+            <!-- <Calendar
+              class="w-full"
+              v-model="form.DewormNextDate"
+              dateFormat="dd/mm/yy"
+              :manualInput="false"
+              :class="{ 'p-invalid': !form.DewormNextDate && valid }"
+            /> -->
+
+            <Datepicker
+              v-model="form.DewormNextDate"
+              :class="{ 'p-invalid': !form.DewormNextDate && valid }"
+              id="dateRange"
+              locale="th"
+              :format="format"
+              utc
+              :enableTimePicker="false"
+              cancelText="ยกเลิก"
+              selectText="ยืนยัน"
+              placeholder="วันที่บันทึก"
+            >
+              <template #year="{ year }">
+                {{ year + 543 }}
+              </template>
+              <template #year-overlay="{ value }">
+                {{ value + 543 }}
+              </template>
+            </Datepicker>
+          </div>
+
+          <div class="field col-12 sm:col-6">
+            <label for="owner" class="block text-600 text-sm font-bold mb-2"
+              >เจ้าหน้าที่ผู้รับผิดชอบ<span class="text-red-500">
+                *</span
+              ></label
+            >
+
+            <Dropdown
+              class="w-full"
+              :options="personal"
+              optionLabel="StaffFullName"
+              optionValue="StaffID"
+              placeholder="เลือกเจ้าหน้าที่ผู้รับผิดชอบ"
+              :showClear="true"
+              :filter="true"
+              v-model="form.ResponsibilityStaffID"
+              :class="{
+                'p-invalid': !form.StaffID && valid,
+              }"
+            />
+          </div>
+          <div class="field col-12 sm:col-6">
+            <label
+              for="inspectionagency"
+              class="block text-600 text-sm font-bold mb-2"
+              >หน่วยงานที่ตรวจ<span class="text-red-500"> *</span></label
+            >
+            <Dropdown
+              class="w-full"
+              v-model="form.OrganizationID"
+              :options="organization"
+              optionLabel="OrganizationName"
+              optionValue="OrganizationID"
+              :filter="true"
+              :showClear="true"
+              placeholder="เลือกหน่วยงาน"
+            >
+            </Dropdown>
+          </div>
+        </div>
+        <div v-else class="grid">
+          <div class="col-12">
+            <Skeleton width="20rem" height="2rem" class="mb-4"></Skeleton>
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <Skeleton width="5rem" class="mb-2"></Skeleton>
+            <Skeleton height="2rem"></Skeleton>
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <Skeleton width="5rem" class="mb-2"></Skeleton>
+            <Skeleton height="2rem"></Skeleton>
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <Skeleton width="5rem" class="mb-2"></Skeleton>
+            <Skeleton height="2rem"></Skeleton>
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <Skeleton width="5rem" class="mb-2"></Skeleton>
+            <Skeleton height="2rem"></Skeleton>
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <Skeleton width="5rem" class="mb-2"></Skeleton>
+            <Skeleton height="2rem"></Skeleton>
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <Skeleton width="5rem" class="mb-2"></Skeleton>
+            <Skeleton height="2rem"></Skeleton>
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <Skeleton width="5rem" class="mb-2"></Skeleton>
+            <Skeleton height="2rem"></Skeleton>
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <Skeleton width="5rem" class="mb-2"></Skeleton>
+            <Skeleton height="2rem"></Skeleton>
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <Skeleton width="5rem" class="mb-2"></Skeleton>
+            <Skeleton height="2rem"></Skeleton>
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <Skeleton width="5rem" class="mb-2"></Skeleton>
+            <Skeleton height="2rem"></Skeleton>
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <Skeleton width="5rem" class="mb-2"></Skeleton>
+            <Skeleton height="2rem"></Skeleton>
+          </div>
+          <div class="col-12">
+            <div class="grid">
+              <div class="col-12">
+                <Skeleton width="5rem" class="mb-2"></Skeleton>
+                <Skeleton height="2rem" class="mb-2"></Skeleton>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <h1 class="text-xl font-normal text-600 mb-4">เลือกสัตว์</h1> -->
+        <div v-if="form.FarmID" class="mt-5">
+          <DataTable
+            class="text-sm"
+            :value="data"
+            :loading="isLoading"
+            v-model:selection="form.Animal"
+            paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
+            responsiveLayout="scroll"
+            currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords}"
+            @sort="sort($event)"
+          >
+            <Column selectionMode="multiple" class="text-center"></Column>
+            <Column
+              v-for="col of columns"
+              :field="col.field"
+              :header="col.header"
+              :key="col.field"
+              class="text-center"
+              :sortable="true"
+            >
+            </Column>
+          </DataTable>
+          <Paginator
+            @page="page($event)"
+            :rows="15"
+            :totalRecords="total"
+          ></Paginator>
+          <div class="col-12 text-center mt-5">
+            <router-link to="/activity/deworm">
+              <Button
+                label="ยกเลิก"
+                icon="pi pi-times"
+                class="p-button-text mx-2"
+              />
+            </router-link>
+            <Button
+              label="บันทึกข้อมูล"
+              icon="pi pi-save"
+              @click="add()"
+              autofocus
+            />
+          </div>
+        </div>
+        <!-- <div class="mt-5">
+          <DataTable
+            class="text-sm"
+            :value="data"
+            v-model:selection="selectedAnimal"
+            dataKey="id"
+            :paginator="true"
+            :rows="10"
+            paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+            :rowsPerPageOptions="[10, 20, 50]"
+            responsiveLayout="scroll"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
+          >
+            <Column
+              selectionMode="multiple"
+              :exportable="false"
+              class="text-center"
+            ></Column>
+            <Column
+              field="animal_number"
+              header="หมายเลขสัตว์"
+              class="text-center"
+            ></Column>
+            <Column
+              field="animal_name"
+              header="ชื่อสัตว์"
+              class="text-center"
+            ></Column>
+            <Column
+              field="animal_birthday"
+              header="วัน/เดือน/ปีเกิด"
+              class="text-center"
+            ></Column>
+            <Column
+              field="animal_age"
+              header="อายุ"
+              class="text-center"
+            ></Column>
+            <Column
+              field="animal_breed"
+              header="Breed"
+              class="text-center"
+            ></Column>
+            <Column
+              field="animal_status"
+              header="สถานะ"
+              class="text-center"
+            ></Column>
+          </DataTable>
+          <div class="col-12 text-center mt-5">
+            <router-link to="/activity/deworm">
+              <Button
+                label="ยกเลิก"
+                icon="pi pi-times"
+                class="p-button-text mx-2"
+              />
+            </router-link>
+            <Button label="บันทึกข้อมูล" icon="pi pi-save" autofocus />
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+// import { reactive, ref } from "vue";
+import PageTitle from "@/components/PageTitle.vue";
+import axios from "axios";
+import dayjs from "dayjs";
+import { mapGetters } from "vuex";
+import { format } from "date-fns";
+import { th } from "date-fns/locale";
+export default {
+  computed: {
+    ...mapGetters({
+      animal_id: "animal_id",
+      user: "user",
+    }),
+  },
+  components: {
+    PageTitle,
+  },
+  data() {
+    return {
+      breadcrumb: [
+        { label: "กิจกรรม", to: "/" },
+        {
+          label: "ข้อมูลสุขภาพ : เพิ่มข้อมูลตรวจโรค",
+          to: "/activity/diagnose/add",
+        },
+      ],
+      url: "/animal",
+      apiPersonal: "/staff?isActive=1",
+      postDeworm: "/deworm-activity",
+      id: "AnimalID",
+      isLoading: false,
+      total: null,
+      curpage: 0,
+      selection: false,
+      loading: false,
+      loader: false,
+      valid: false,
+      AnimalID: 1,
+      form: {
+        isActive: 1,
+        // AnimalID: [1,2],
+        Animal: [],
+        AnimalID: [],
+        FarmID: this.$route.params.id,
+        FarmIdentificationNumber: this.$route.params.farm,
+      },
+      formdata: [],
+      data: [],
+      columns: [
+        {
+          field: "show_id",
+          header: "ลำดับ",
+        },
+        {
+          field: "AnimalEarID",
+          header: "หมายเลขสัตว์",
+        },
+        {
+          field: "AnimalName",
+          header: "ชื่อสัตว์",
+        },
+        {
+          field: "AnimalAge",
+          header: "อายุ",
+        },
+        {
+          field: "AnimalBornType",
+          header: "ลักษณะการเกิด",
+        },
+        {
+          field: "AnimalStatus.AnimalStatusName",
+          header: "สถานะ",
+        },
+        {
+          field: "AnimalFarm.FarmName",
+          header: "ฟาร์ม",
+        },
+      ],
+      sortBy: [],
+      Farm: [],
+      items: [],
+      controller: new AbortController(),
+    };
+  },
+  loadLazyTimeout: null,
+  watch: {
+    "form.Animal"() {
+      let val = [];
+      let res = [];
+      val = this.form.Animal;
+      for (let index = 0; index < val.length; index++) {
+        res[index] = val[index].AnimalID;
+      }
+      this.form.AnimalID = res;
+
+      return this.form.AnimalID;
+    },
+  },
+  async mounted() {
+    await this.load();
+    this.breadcrumb[1].label = this.name;
+    await axios
+      .get("/staff", {
+        signal: this.controller.signal,
+      })
+      .then((response) => {
+        this.personal = response.data.rows.map((item) => {
+          return {
+            StaffID: item.StaffID,
+            // StaffNumber: item.StaffNumber,
+            StaffFullName: item.StaffFullName,
+          };
+        });
+      })
+      .finally(() => {
+        this.loader = true;
+      });
+    this.form.ResponsibilityStaffID = this.user.StaffID;
+    this.form.OrganizationID = this.user.Staff.StaffOrganizationID;
+  },
+  methods: {
+    format(date) {
+      const dayStart = date.getDate();
+      const monthStart = date.getMonth();
+      const yearStart = date.getFullYear() + 543;
+      const formatStart = format(
+        new Date(yearStart, monthStart, dayStart),
+        "dd/MM/yyyy",
+        {
+          locale: th,
+        }
+      );
+      return `${formatStart}`;
+    },
+    // sort table
+    sort($event) {
+      if ($event.sortField !== "show_id") {
+        if ($event.sortOrder == 1) {
+          this.sortOrder = "asc";
+        } else {
+          this.sortOrder = "desc";
+        }
+        this.sortField = $event.sortField;
+        this.load();
+      }
+    },
+    // page change
+    page($event) {
+      this.curpage = $event.page + 1;
+      this.load();
+    },
+    load() {
+      this.isLoading = true;
+      let url = this.url + "?size=15";
+      url += "&page=";
+      if (this.curpage) {
+        url += this.curpage;
+      }
+      if (this.sortBy.FarmID) {
+        url += "&FarmID=" + this.sortBy.FarmID;
+      }
+      if (this.form.FarmID) {
+        url += "&FarmID=" + this.form.FarmID;
+      }
+
+      if (this.animal_id == 1) {
+        url += "&AnimalTypeID=" + "[1, 2]";
+        // this.data = response.data.rows.filter(
+        //   (item) => item.AnimalTypeID === 1 || item.AnimalTypeID === 2
+        // );
+      } else if (this.animal_id == 2) {
+        url += "&AnimalTypeID=" + "[3, 4]";
+
+        // this.data = response.data.rows.filter(
+        //   (item) => item.AnimalTypeID === 3 || item.AnimalTypeID === 4
+        // );
+      } else if (this.animal_id == 3) {
+        url += "&AnimalTypeID=" + "[17, 18]";
+
+        // this.data = response.data.rows.filter(
+        //   (item) => item.AnimalTypeID === 17 || item.AnimalTypeID === 18
+        // );
+      }
+      // console.log(url);
+      axios
+        .get(url, { signal: this.controller.signal })
+        .then((response) => {
+          this.total = response.data.total;
+          this.data = response.data.rows;
+          // console.log(response.data.rows);
+          // if (this.animal_id == 1) {
+          //   this.data = response.data.rows.filter(
+          //     (item) => item.AnimalTypeID === 1 || item.AnimalTypeID === 2
+          //   );
+          // } else if (this.animal_id == 2) {
+          //   this.data = response.data.rows.filter(
+          //     (item) => item.AnimalTypeID === 3 || item.AnimalTypeID === 4
+          //   );
+          // } else if (this.animal_id == 3) {
+          //   this.data = response.data.rows.filter(
+          //     (item) => item.AnimalTypeID === 17 || item.AnimalTypeID === 18
+          //   );
+          // }
+
+          if (this.curpage == 0 || this.curpage == 1) {
+            for (let i = 0; i < this.data.length; i++) {
+              this.data[i].show_id = i + 1;
+              if (this.data[i].AnimalBirthDate != null) {
+                // หาจำนวนเดือน
+                var today = new Date();
+                const date1 = dayjs(this.data[i].AnimalBirthDate);
+                this.data[i].AnimalAge = date1.diff(today, "month");
+                // แปลงเป็น ปี และ เดือน
+                let countyear = this.data[i].AnimalAge / 12;
+                let countmonth = this.data[i].AnimalAge % 12;
+                // ถ้าปีน้อยกว่า 0 ไม่ต้องแสดง
+                if (Math.abs(countyear) < 1) {
+                  if (Math.abs(Math.ceil(countmonth)) != 0) {
+                    this.data[i].AnimalAge =
+                      Math.abs(Math.ceil(countmonth)) + " เดือน ";
+                  } else {
+                    this.data[i].AnimalAge = "-";
+                  }
+                } else {
+                  this.data[i].AnimalAge =
+                    Math.abs(Math.ceil(countyear)) +
+                    " ปี " +
+                    Math.abs(Math.ceil(countmonth)) +
+                    " เดือน ";
+                }
+              }
+            }
+          } else {
+            let start = (this.curpage - 1) * 15;
+            for (let i = 0; i < this.data.length; i++) {
+              this.data[i].show_id = i + 1 + start;
+            }
+          }
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+
+      axios
+        .get("/farm/" + this.form.FarmID, { signal: this.controller.signal })
+        .then((res) => {
+          // this.Farm.data = res.data;
+
+          let item = res.data;
+
+          this.form.FarmName = item.FarmName;
+          this.form.FarmProvince = item.Province.ProvinceName;
+          this.form.FarmOrganizationZone = item.OrganizationZone
+            .OrganizationZoneName
+            ? item.OrganizationZone.OrganizationZoneName
+            : "- ";
+          this.form.FarmOwner = item.Farmer ? item.Farmer.FullName : "- ";
+          // console.log(this.form.FarmOrganizationZone);
+
+          this.form.FullName =
+            "ฟาร์ม " +
+            this.form.FarmName +
+            " (" +
+            this.$route.params.farm +
+            ")" +
+            " | เจ้าของฟาร์ม " +
+            this.form.FarmOwner +
+            " | จังหวัด " +
+            this.form.FarmProvince +
+            " | " +
+            this.form.FarmOrganizationZone;
+          return;
+        })
+        .finally(() => {
+          this.loader = true;
+        });
+      axios
+        .get("/deworm-medicine", { signal: this.controller.signal })
+        .then((res) => {
+          this.items.DewormMedicine = res.data.rows;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+      axios
+        .get("organization", {
+          signal: this.controller.signal,
+        })
+        .then((response) => {
+          this.organization = response.data.rows;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+    validation() {
+      if (
+        !this.form.DewormActivityDate ||
+        !this.form.DewormMedicineID ||
+        !this.form.DewormNextDate ||
+        !this.form.OrganizationID ||
+        !this.form.ResponsibilityStaffID ||
+        !this.form.AnimalID
+      ) {
+        this.valid = true;
+        this.$toast.add({
+          severity: "error",
+          summary: "ล้มเหลว",
+          detail: "กรุณากรอกข้อมูล",
+          life: 5000,
+        });
+        return false;
+      } else {
+        return true;
+      }
+    },
+    add() {
+      if (this.validation() == false) {
+        return;
+      }
+
+      axios
+        .post(this.postDeworm, this.form, {
+          signal: this.controller.signal,
+        })
+        .then(() => {
+          this.load();
+          this.$toast.add({
+            severity: "success",
+            summary: "สำเร็จ",
+            detail: "ข้อมูลถูกบันทึก",
+            // detail: "เพิ่มข้อมูลเสร็จสิ้น",
+            life: 2000,
+          });
+          setTimeout(() => {
+            this.$router.push("/activity/deworm");
+          }, 2000);
+        })
+
+        .catch((err) => {
+          this.$toast.add({
+            severity: "error",
+            summary: "ล้มเหลว",
+            detail: err.response.data.error.message,
+            life: 5000,
+          });
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+    onLazyLoad() {
+      this.loading = true;
+
+      if (this.loadLazyTimeout) {
+        clearTimeout(this.loadLazyTimeout);
+      }
+
+      this.loadLazyTimeout = setTimeout(() => {
+        this.loading = false;
+      }, Math.random() * 1000 + 250);
+    },
+  },
+  unmounted() {
+    this.controller.abort();
+  },
+  setup() {
+    // const breadcrumb = ref([
+    //   { label: "กิจกรรม", to: "/" },
+    //   {
+    //     label: "ข้อมูลสุขภาพ : เพิ่มข้อมูลตรวจโรค",
+    //     to: "/activity/diagnose/add",
+    //   },
+    // ]);
+    // const data = reactive([
+    //   {
+    //     id: 1,
+    //     animal_number: "151605349",
+    //     animal_name: "สนธยา  ทิศเหนือ",
+    //     animal_birthday: "01/05/2565",
+    //     animal_age: "3-6",
+    //     animal_breed: "HF",
+    //     animal_status: "แม่โค",
+    //   },
+    //   {
+    //     id: 2,
+    //     animal_number: "151605349",
+    //     animal_name: "สนธยา  ทิศเหนือ",
+    //     animal_birthday: "01/05/2565",
+    //     animal_age: "3-6",
+    //     animal_breed: "HF",
+    //     animal_status: "แม่โค",
+    //   },
+    // ]);
+    // const selectedAnimal = ref();
+    // return {
+    //   breadcrumb,
+    //   data,
+    //   selectedAnimal,
+    // };
+  },
+};
+</script>

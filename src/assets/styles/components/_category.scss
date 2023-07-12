@@ -1,0 +1,25 @@
+.category {
+  &-item {
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s;
+
+    &:hover {
+      color: var(--primary-color) !important;
+      border-color: var(--primary-color) !important;
+      font-weight: 600;
+    }
+
+    &:active,
+    &:focus,
+    &.active {
+      background-color: var(--primary-color) !important;
+      color: var(--text-color-theme) !important;
+
+      &:hover {
+        color: var(--text-color-theme);
+        border-color: var(--primary-color) !important;
+        font-weight: 400;
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+.dp__theme_light {
+    --dp-background-color: #ffffff;
+    --dp-text-color: #212121;
+    --dp-hover-color: #f3f3f3;
+    --dp-hover-text-color: #212121;
+    --dp-hover-icon-color: #959595;
+    --dp-primary-color: var(--primary-color);
+    --dp-primary-text-color: #f8f5f5;
+    --dp-secondary-color: #c0c4cc;
+    --dp-border-color: #ced4da;
+    --dp-menu-border-color: #ced4da;
+    --dp-border-color-hover: var(--primary-color);
+    --dp-disabled-color: #f6f6f6;
+    --dp-scroll-bar-background: #f3f3f3;
+    --dp-scroll-bar-color: #959595;
+    --dp-success-color: var(--primary-color);
+    --dp-success-color-disabled: #a3d9b1;
+    --dp-icon-color: #959595;
+    --dp-danger-color: #ff6f60;
+    --dp-highlight-color: rgba(25, 118, 210, 0.1);
+}
+
+.dp__input {
+    font-family: -apple-system, Open Sans, Prompt, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif,
+        Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+    color: var(--dp-text-color) !important;
+    padding: 0.75rem 0.75rem 0.75rem 2.4rem !important;
+    border-radius: 6px !important;
+    border: 1px solid var(--dp-border-color);
+}

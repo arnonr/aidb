@@ -1,0 +1,19 @@
+input:read-only,
+select:read-only {
+  background: #f6f6f6 !important;
+  color: #999999 !important;
+  cursor: no-drop;
+
+  &:hover,
+  &:active,
+  &:focus {
+    border: 1px solid #dadada !important;
+    box-shadow: none !important;
+  }
+}
+
+.p-calendar .p-inputtext{
+  background: #fff !important;
+  color: #495057 !important;
+  cursor: pointer;
+}

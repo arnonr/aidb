@@ -1308,8 +1308,8 @@ export default {
   methods: {
     // แสดงปุ่ม
     gotoPersonal() {
-      console.log(this.data[this.index].StaffID)
-      
+      console.log(this.data[this.index].StaffID);
+
       let route = this.$router.resolve({ path: "/personnel" });
       localStorage.setItem("staffID", this.data[this.index].StaffID);
       window.open(route.href);
@@ -1637,6 +1637,7 @@ export default {
       if (this.validation() == false) {
         return;
       }
+
       let form = {};
       form.StaffID = this.data[this.index].StaffID;
       form.Username = this.data[this.index].Username;
@@ -1692,20 +1693,28 @@ export default {
         }
 
         if (this.isCard == 0) {
-          axios
-            .get(
-              "/staff/generate-staff-number?StaffID=" +
-                this.data[this.index].StaffID +
-                "&isCard=" +
-                this.data[this.index].Staff.isCard
-            )
-            .then((response) => {
-              let form_staff = {};
-              form_staff.isCard = this.data[this.index].Staff.isCard;
-              form_staff.StaffNumber = response.data.StaffNumber;
-              axios.put("/staff/" + this.data[this.index].StaffID, form_staff);
-            });
+          // Edit
+          let form_staff = {};
+          if (
+            this.data[this.index].Staff.StaffNumber == "" ||
+            this.data[this.index].Staff.StaffNumber == null
+          ) {
+            axios
+              .get(
+                "/staff/generate-staff-number?StaffID=" +
+                  this.data[this.index].StaffID +
+                  "&isCard=" +
+                  this.data[this.index].Staff.isCard
+              )
+              .then((response) => {
+                form_staff.StaffNumber = response.data.StaffNumber;
+              });
+          }
+
+          form_staff.isCard = this.data[this.index].Staff.isCard;
+          axios.put("/staff/" + this.data[this.index].StaffID, form_staff);
         }
+
         axios
           .put(this.url + "/" + this.data[this.index][this.id], form)
           .then(() => {

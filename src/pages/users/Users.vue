@@ -552,12 +552,12 @@
                   selectText="ยืนยัน"
                   placeholder="วันที่เริ่มงาน"
                 >
-                  <template #year="{ year }">
-                    {{ year + 543 }}
-                  </template>
-                  <template #year-overlay="{ value }">
-                    {{ value + 543 }}
-                  </template>
+                  <template #year-overlay-value="{ text }">
+                            {{ parseInt(text) + 543 }}
+                        </template>
+                        <template #year="{ year }">
+                            {{ year + 543 }}
+                      </template>
                 </Datepicker>
               </div>
               <div class="field col-12 sm:col-6">
@@ -586,12 +586,12 @@
                   selectText="ยืนยัน"
                   placeholder="วันที่สิ้นสุดการทำงาน"
                 >
-                  <template #year="{ year }">
-                    {{ year + 543 }}
-                  </template>
-                  <template #year-overlay="{ value }">
-                    {{ value + 543 }}
-                  </template>
+                  <template #year-overlay-value="{ text }">
+                            {{ parseInt(text) + 543 }}
+                        </template>
+                        <template #year="{ year }">
+                            {{ year + 543 }}
+                      </template>
                 </Datepicker>
               </div>
               <div class="field col-12 sm:col-6">
@@ -620,12 +620,12 @@
                   selectText="ยืนยัน"
                   placeholder="วันที่ออกบัตร"
                 >
-                  <template #year="{ year }">
-                    {{ year + 543 }}
-                  </template>
-                  <template #year-overlay="{ value }">
-                    {{ value + 543 }}
-                  </template>
+                  <template #year-overlay-value="{ text }">
+                            {{ parseInt(text) + 543 }}
+                        </template>
+                        <template #year="{ year }">
+                            {{ year + 543 }}
+                      </template>
                 </Datepicker>
               </div>
               <div class="field col-12 sm:col-6">
@@ -654,12 +654,12 @@
                   selectText="ยืนยัน"
                   placeholder="วันที่บัตรหมดอายุ"
                 >
-                  <template #year="{ year }">
-                    {{ year + 543 }}
-                  </template>
-                  <template #year-overlay="{ value }">
-                    {{ value + 543 }}
-                  </template>
+                  <template #year-overlay-value="{ text }">
+                            {{ parseInt(text) + 543 }}
+                        </template>
+                        <template #year="{ year }">
+                            {{ year + 543 }}
+                      </template>
                 </Datepicker>
               </div>
               <div class="field col-12 sm:col-6">

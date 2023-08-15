@@ -1184,7 +1184,7 @@ export default {
       this.url.gender = "/gender";
       this.url.education = "/education";
       this.url.occupation = "/occupation";
-      this.url.province = "/province";
+      this.url.province = "/province?includeAll=false";
       this.url.tumbol = "/tumbol";
       this.url.amphur = "/amphur";
       this.url.farm = "/farm";
@@ -1232,9 +1232,12 @@ export default {
       axios
         .get(this.url.province, {
           signal: this.controller.signal,
+          
         })
         .then((res) => {
+
           this.province = res.data.rows;
+          console.log(this.province)
         })
         .finally(() => {
           this.isLoading = false;

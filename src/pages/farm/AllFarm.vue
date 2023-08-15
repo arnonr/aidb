@@ -197,11 +197,11 @@
                     selectText="ยืนยัน"
                     placeholder="ตั้งแต่วันที่ - จนถึงวันที่"
                   >
+                    <template #year-overlay-value="{ text }">
+                      {{ parseInt(text) + 543 }}
+                    </template>
                     <template #year="{ year }">
                       {{ year + 543 }}
-                    </template>
-                    <template #year-overlay="{ value }">
-                      {{ value + 543 }}
                     </template>
                   </Datepicker>
                 </div>
@@ -374,7 +374,7 @@
                 :on-click="load"
               />
             </div> -->
-<!-- 
+            <!-- 
             :paginator="true"
               v-model:rows="rowPerPage"
               stripedRows
@@ -391,7 +391,6 @@
               currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords}"
               @sort="sort($event)"
               @page="load" -->
-
 
             <DataTable
               class="text-sm"

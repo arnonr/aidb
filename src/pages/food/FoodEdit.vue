@@ -40,11 +40,11 @@
               selectText="ยืนยัน"
               placeholder="วันที่เริ่มขุน"
             >
+              <template #year-overlay-value="{ text }">
+                {{ parseInt(text) + 543 }}
+              </template>
               <template #year="{ year }">
                 {{ year + 543 }}
-              </template>
-              <template #year-overlay="{ value }">
-                {{ value + 543 }}
               </template>
             </Datepicker>
           </div>
@@ -67,11 +67,11 @@
               selectText="ยืนยัน"
               placeholder="วันที่สิ้นสุด"
             >
+              <template #year-overlay-value="{ text }">
+                {{ parseInt(text) + 543 }}
+              </template>
               <template #year="{ year }">
                 {{ year + 543 }}
-              </template>
-              <template #year-overlay="{ value }">
-                {{ value + 543 }}
               </template>
             </Datepicker>
           </div>

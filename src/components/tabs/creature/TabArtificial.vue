@@ -376,11 +376,11 @@
               @update:model-value="date()"
               placeholder="วันที่ผสม"
             >
+              <template #year-overlay-value="{ text }">
+                {{ parseInt(text) + 543 }}
+              </template>
               <template #year="{ year }">
                 {{ year + 543 }}
-              </template>
-              <template #year-overlay="{ value }">
-                {{ value + 543 }}
               </template>
             </Datepicker>
           </div>
@@ -526,11 +526,11 @@
               @update:model-value="date()"
               placeholder="วันที่ผสม"
             >
+              <template #year-overlay-value="{ text }">
+                {{ parseInt(text) + 543 }}
+              </template>
               <template #year="{ year }">
                 {{ year + 543 }}
-              </template>
-              <template #year-overlay="{ value }">
-                {{ value + 543 }}
               </template>
             </Datepicker>
             <!-- 
@@ -663,11 +663,11 @@
               @update:model-value="date()"
               placeholder="วันที่ผสม"
             >
+              <template #year-overlay-value="{ text }">
+                {{ parseInt(text) + 543 }}
+              </template>
               <template #year="{ year }">
                 {{ year + 543 }}
-              </template>
-              <template #year-overlay="{ value }">
-                {{ value + 543 }}
               </template>
             </Datepicker>
 
@@ -800,11 +800,11 @@
               @update:model-value="date()"
               placeholder="วันที่ผสม"
             >
+              <template #year-overlay-value="{ text }">
+                {{ parseInt(text) + 543 }}
+              </template>
               <template #year="{ year }">
                 {{ year + 543 }}
-              </template>
-              <template #year-overlay="{ value }">
-                {{ value + 543 }}
               </template>
             </Datepicker>
 
@@ -938,11 +938,11 @@
               @update:model-value="date()"
               placeholder="วันที่ผสม"
             >
+              <template #year-overlay-value="{ text }">
+                {{ parseInt(text) + 543 }}
+              </template>
               <template #year="{ year }">
                 {{ year + 543 }}
-              </template>
-              <template #year-overlay="{ value }">
-                {{ value + 543 }}
               </template>
             </Datepicker>
             <!-- <Calendar
@@ -1169,11 +1169,11 @@
               @update:model-value="date()"
               placeholder="วันที่ผสม"
             >
+              <template #year-overlay-value="{ text }">
+                {{ parseInt(text) + 543 }}
+              </template>
               <template #year="{ year }">
                 {{ year + 543 }}
-              </template>
-              <template #year-overlay="{ value }">
-                {{ value + 543 }}
               </template>
             </Datepicker>
           </div>
@@ -1204,11 +1204,11 @@
               placeholder="ประมาณการ"
               readonly
             >
+              <template #year-overlay-value="{ text }">
+                {{ parseInt(text) + 543 }}
+              </template>
               <template #year="{ year }">
                 {{ year + 543 }}
-              </template>
-              <template #year-overlay="{ value }">
-                {{ value + 543 }}
               </template>
             </Datepicker>
           </div>
@@ -1808,7 +1808,8 @@ export default {
           for (let i in this.LoadSelection) {
             if (this.LoadSelection[i] == "/project") {
               this.LoadSelection[i] =
-                this.LoadSelection[i] + "?ProjectLevel=AI&includeAll=false&isActive=1";
+                this.LoadSelection[i] +
+                "?ProjectLevel=AI&includeAll=false&isActive=1";
             }
 
             if (this.LoadSelection[i] == "/staff") {
@@ -1821,11 +1822,14 @@ export default {
             // console.log(555);
             if (this.LoadSelection[i] == "/semen") {
               if (this.animal_id == 1) {
-                this.LoadSelection.Semen += "?AnimalTypeID=[1,2]&includeAll=false&isActive=1";
+                this.LoadSelection.Semen +=
+                  "?AnimalTypeID=[1,2]&includeAll=false&isActive=1";
               } else if (this.animal_id == 2) {
-                this.LoadSelection.Semen += "?AnimalTypeID=[3,4,42]&includeAll=false&isActive=1";
+                this.LoadSelection.Semen +=
+                  "?AnimalTypeID=[3,4,42]&includeAll=false&isActive=1";
               } else if (this.animal_id == 3) {
-                this.LoadSelection.Semen += "?AnimalTypeID=[17,18]&includeAll=false&isActive=1";
+                this.LoadSelection.Semen +=
+                  "?AnimalTypeID=[17,18]&includeAll=false&isActive=1";
               }
             }
 

@@ -73,11 +73,11 @@
                       selectText="ยืนยัน"
                       placeholder="วัน-เดือน-ปี (เกิด)"
                     >
+                      <template #year-overlay-value="{ text }">
+                        {{ parseInt(text) + 543 }}
+                      </template>
                       <template #year="{ year }">
                         {{ year + 543 }}
-                      </template>
-                      <template #year-overlay="{ value }">
-                        {{ value + 543 }}
                       </template>
                     </Datepicker>
                   </div>
@@ -358,11 +358,11 @@
                       selectText="ยืนยัน"
                       placeholder="วัน-เดือน-ปี"
                     >
+                      <template #year-overlay-value="{ text }">
+                        {{ parseInt(text) + 543 }}
+                      </template>
                       <template #year="{ year }">
                         {{ year + 543 }}
-                      </template>
-                      <template #year-overlay="{ value }">
-                        {{ value + 543 }}
                       </template>
                     </Datepicker>
                   </div>
@@ -1572,8 +1572,6 @@ export default {
                 console.log(this.animalfather);
               });
           }
-
-
         });
     },
     project_check() {

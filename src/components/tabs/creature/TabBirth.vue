@@ -149,11 +149,11 @@
               selectText="ยืนยัน"
               placeholder="วันที่ผสม"
             >
+              <template #year-overlay-value="{ text }">
+                {{ parseInt(text) + 543 }}
+              </template>
               <template #year="{ year }">
                 {{ year + 543 }}
-              </template>
-              <template #year-overlay="{ value }">
-                {{ value + 543 }}
               </template>
             </Datepicker>
           </div>
@@ -259,11 +259,11 @@
               selectText="ยืนยัน"
               placeholder="วันที่คลอด"
             >
+              <template #year-overlay-value="{ text }">
+                {{ parseInt(text) + 543 }}
+              </template>
               <template #year="{ year }">
                 {{ year + 543 }}
-              </template>
-              <template #year-overlay="{ value }">
-                {{ value + 543 }}
               </template>
             </Datepicker>
           </div>
@@ -1195,8 +1195,7 @@ export default {
         }
 
         if (error == 2) {
-          this.txtCheck =
-            "ไม่สามารถบันทึกคลอดก่อนวันเกิดโคแม่พันธุ์ได้";
+          this.txtCheck = "ไม่สามารถบันทึกคลอดก่อนวันเกิดโคแม่พันธุ์ได้";
           this.displayViewConfirmBirth = true;
           this.btnSubmit = false;
         } else if (error == 1) {

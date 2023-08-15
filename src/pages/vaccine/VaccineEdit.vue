@@ -82,11 +82,11 @@
                   placeholder="วันที่บันทึก"
                 >
                   <template #year-overlay-value="{ text }">
-                            {{ parseInt(text) + 543 }}
-                        </template>
-                        <template #year="{ year }">
-                            {{ year + 543 }}
-                      </template>
+                    {{ parseInt(text) + 543 }}
+                  </template>
+                  <template #year="{ year }">
+                    {{ year + 543 }}
+                  </template>
                 </Datepicker>
               </div>
 
@@ -107,11 +107,11 @@
                   placeholder="วันที่บันทึก"
                 >
                   <template #year-overlay-value="{ text }">
-                            {{ parseInt(text) + 543 }}
-                        </template>
-                        <template #year="{ year }">
-                            {{ year + 543 }}
-                      </template>
+                    {{ parseInt(text) + 543 }}
+                  </template>
+                  <template #year="{ year }">
+                    {{ year + 543 }}
+                  </template>
                 </Datepicker>
               </div>
 

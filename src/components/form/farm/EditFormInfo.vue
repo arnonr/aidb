@@ -224,11 +224,11 @@
             placeholder="เลือกวันที่"
             :maxDate="new Date()"
           >
+            <template #year-overlay-value="{ text }">
+              {{ parseInt(text) + 543 }}
+            </template>
             <template #year="{ year }">
               {{ year + 543 }}
-            </template>
-            <template #year-overlay="{ value }">
-              {{ value + 543 }}
             </template>
           </Datepicker>
         </div>
@@ -652,7 +652,7 @@ export default {
         });
 
       axios
-        .get(this.urlFarm+"?FarmID="+this.$route.params.id, {
+        .get(this.urlFarm + "?FarmID=" + this.$route.params.id, {
           signal: this.controller.signal,
         })
         .then((res) => {

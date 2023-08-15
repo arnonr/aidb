@@ -197,11 +197,11 @@
                     selectText="ยืนยัน"
                     placeholder="ตั้งแต่วันที่ - จนถึงวันที่"
                   >
+                    <template #year-overlay-value="{ text }">
+                      {{ parseInt(text) + 543 }}
+                    </template>
                     <template #year="{ year }">
                       {{ year + 543 }}
-                    </template>
-                    <template #year-overlay="{ value }">
-                      {{ value + 543 }}
                     </template>
                   </Datepicker>
                 </div>

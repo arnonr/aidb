@@ -9,7 +9,7 @@
         icon="pi pi-plus"
         class="w-full md:w-auto"
         @click="open"
-        v-if=" AnimalSecretStatus.includes(5) && permit[0].IsAdd"
+        v-if="AnimalSecretStatus.includes(5) && permit[0].IsAdd"
       />
     </div>
   </div>
@@ -156,11 +156,11 @@
               @update:model-value="date()"
               placeholder="วันที่แท้ง"
             >
+              <template #year-overlay-value="{ text }">
+                {{ parseInt(text) + 543 }}
+              </template>
               <template #year="{ year }">
                 {{ year + 543 }}
-              </template>
-              <template #year-overlay="{ value }">
-                {{ value + 543 }}
               </template>
             </Datepicker>
           </div>
@@ -376,9 +376,9 @@ export default {
   },
   async mounted() {
     await this.load().then(() => {
-     this.load_selection();
+      this.load_selection();
     });
-   
+
     if (
       this.display_prop &&
       this.AnimalSecretStatus.includes(5) &&

@@ -125,11 +125,11 @@
               selectText="ยืนยัน"
               placeholder="วันที่ติดตาม"
             >
+              <template #year-overlay-value="{ text }">
+                {{ parseInt(text) + 543 }}
+              </template>
               <template #year="{ year }">
                 {{ year + 543 }}
-              </template>
-              <template #year-overlay="{ value }">
-                {{ value + 543 }}
               </template>
             </Datepicker>
           </div>
@@ -406,7 +406,6 @@ export default {
               //           (item) =>
               //             item.AnimalTypeID === 1 || item.AnimalTypeID === 2
               //         );
-
               //         this.selection[i] = this.selection[i].map((item) => {
               //           return {
               //             AnimalID: item.AnimalID,
@@ -450,7 +449,6 @@ export default {
               //       }
               //     }
               //     index++;
-
               //     if (Object.keys(this.LoadSelection).length == index) {
               //       resolve();
               //     }

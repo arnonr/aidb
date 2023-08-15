@@ -135,11 +135,11 @@
             placeholder="เลือกวันที่"
             :maxDate="new Date()"
           >
+            <template #year-overlay-value="{ text }">
+              {{ parseInt(text) + 543 }}
+            </template>
             <template #year="{ year }">
               {{ year + 543 }}
-            </template>
-            <template #year-overlay="{ value }">
-              {{ value + 543 }}
             </template>
           </Datepicker>
           <!-- <Calendar
@@ -821,7 +821,7 @@
                     :class="{ 'p-invalid': !form.FarmerRegisterDate && valid }"
                   /> -->
 
-                  <Datepicker
+                  <!-- <Datepicker
                     v-model="form.FarmerRegisterDate"
                     id="dateRange"
                     locale="th"
@@ -839,7 +839,7 @@
                     <template #year-overlay="{ value }">
                       {{ value + 543 }}
                     </template>
-                  </Datepicker>
+                  </Datepicker> -->
                 </div>
               </div>
             </div>

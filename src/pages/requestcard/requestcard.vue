@@ -234,11 +234,11 @@
                 selectText="ยืนยัน"
                 placeholder="วันที่ออกบัตร"
               >
+                <template #year-overlay-value="{ text }">
+                  {{ parseInt(text) + 543 }}
+                </template>
                 <template #year="{ year }">
                   {{ year + 543 }}
-                </template>
-                <template #year-overlay="{ value }">
-                  {{ value + 543 }}
                 </template>
               </Datepicker>
             </div>
@@ -266,11 +266,11 @@
                 selectText="ยืนยัน"
                 placeholder="วันที่บัตรหมดอายุ"
               >
+                <template #year-overlay-value="{ text }">
+                  {{ parseInt(text) + 543 }}
+                </template>
                 <template #year="{ year }">
                   {{ year + 543 }}
-                </template>
-                <template #year-overlay="{ value }">
-                  {{ value + 543 }}
                 </template>
               </Datepicker>
             </div>
@@ -297,11 +297,11 @@
                 selectText="ยืนยัน"
                 placeholder="วันที่อนุมัติ"
               >
+                <template #year-overlay-value="{ text }">
+                  {{ parseInt(text) + 543 }}
+                </template>
                 <template #year="{ year }">
                   {{ year + 543 }}
-                </template>
-                <template #year-overlay="{ value }">
-                  {{ value + 543 }}
                 </template>
               </Datepicker>
             </div>

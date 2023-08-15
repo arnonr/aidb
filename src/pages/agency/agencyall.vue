@@ -536,7 +536,7 @@ export default {
       getOrganizationZone: "/organization-zone",
       getOrganizationType: "/organization-type",
 
-      getProvince: "/province",
+      getProvince: "/province?includeAll=false",
       getAmphur: "/amphur",
       getTumbol: "/tumbol",
       // ID
@@ -837,6 +837,7 @@ export default {
         this.valid = true;
         return false;
       }
+      //   this.data[this.index].OrganizationRegisterDate = null;
       this.data[this.index].OrganizationRegisterDate = Date.now();
       return true;
     },
@@ -884,6 +885,7 @@ export default {
       if (this.filtered.OrganizationType) {
         url += "&OrganizationTypeID=" + this.filtered.OrganizationType;
       }
+
       if (this.filtered.OrganizationName) {
         url += "&OrganizationName=" + this.filtered.OrganizationName;
       }
@@ -954,9 +956,58 @@ export default {
         this.data[this.index].CreatedUserID == ""
       ) {
         //create data
+        // this.data[this.index].createdAt = null;
+        // this.data[this.index].isRemove = null;
+        // this.data[this.index].show_id = null;
+
+        // ParentOrganizationID": null,
+        // "OrganizationCode": "100000000401",
+        // "OrganizationName": "กรมปศุสัตว์111",
+        // "OrganizationExecutive": null,
+        // "OrganizationExecutivePosition": null,
+        // "OrganizationTypeID": 1,
+        // "OrganizationRegisterDate": null,
+        // "OrganizationZoneID": null,
+        // "OrganizationAddress": null,
+        // "OrganizationProvinceID": null,
+        // "OrganizationAmphurID": null,
+        // "OrganizationTumbolID": null,
+        // "OrganizationZipCode": null,
+        // "OrganizationTelNo": null,
+        // "OrganizationFaxNo": null,
+        // "OrganizationMobileNo": null,
+        // "OrganizationWebsite": null,
+        // "OrganizationEmailAddress": null,
+        // "isActive": 1
+
         this.data[this.index].isActive = 1;
+
+        // let dataSend = this.data[this.index]
+        let dataSend = {
+          ParentOrganizationID: this.data[this.index].ParentOrganizationID,
+          OrganizationCode: this.data[this.index].OrganizationCode,
+          OrganizationName: this.data[this.index].OrganizationName,
+          OrganizationExecutive: null,
+          OrganizationExecutivePosition: null,
+          OrganizationTypeID: this.data[this.index].OrganizationTypeID,
+          OrganizationRegisterDate: null,
+          OrganizationZoneID:  this.data[this.index].OrganizationZoneID,
+          OrganizationAddress: this.data[this.index].OrganizationAddress,
+          OrganizationProvinceID: this.data[this.index].OrganizationProvinceID,
+          OrganizationAmphurID: this.data[this.index].OrganizationAmphurID,
+          OrganizationTumbolID: this.data[this.index].OrganizationTumbolID,
+          OrganizationZipCode: null,
+          OrganizationTelNo: null,
+          OrganizationFaxNo: null,
+          OrganizationMobileNo: null,
+          OrganizationWebsite: null,
+          OrganizationEmailAddress: null,
+          isActive: 1,
+        };
+
+        console.log(this.data[this.index]);
         axios
-          .post(this.url, this.data[this.index])
+          .post(this.url, dataSend)
           .then(() => {
             this.close();
             this.load();

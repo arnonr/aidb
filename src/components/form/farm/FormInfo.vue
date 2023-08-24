@@ -493,6 +493,15 @@ export default {
       });
       // OrganizationProvinceID
     },
+    "form.FarmAmphurID"(val) {
+      this.organization_tmp = this.organization.filter((item) => {
+        return (
+          item.OrganizationAmphurID == val &&
+          (item.OrganizationTypeID == "2" || item.OrganizationTypeID == "11")
+        );
+      });
+      // OrganizationProvinceID
+    },
   },
   mounted() {
     this.load();

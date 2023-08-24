@@ -1,7 +1,7 @@
 <template>
   <div class="mb-5">
     <h1 class="text-xl mb-2 font-light">ข้อมูลฟาร์ม</h1>
-    <p class="p-0 m-0 text-500">ป้อนรายละเอียดฟาร์ม1</p>
+    <p class="p-0 m-0 text-500">ป้อนรายละเอียดฟาร์ม</p>
   </div>
   <form class="grid">
     <div class="col-12 lg:col-12">
@@ -71,7 +71,7 @@
             :virtualScrollerOptions="{ itemSize: 38 }"
             :filter="true"
             :showClear="true"
-            placeholder="เลือกอำเภอ"
+            placeholder="เลือกอำเภอ1"
             @change="filterTumbol($event)"
             :class="{ 'p-invalid': !form.FarmAmphurID && valid }"
           >
@@ -669,6 +669,8 @@ export default {
             this.data.FarmType = "ฟาร์มสาธิต";
           }
 
+        //   selectProject
+
           this.form = {
             FarmIdentificationNumber: this.data.FarmIdentificationNumber,
             FarmName: this.data.FarmName,
@@ -691,6 +693,8 @@ export default {
             FarmRegisterDate: this.data.FarmRegisterDate,
             ProjectID: this.data.ProjectID,
           };
+          this.form.selectProject = this.data.ProjectID;
+          
           axios
             .get("/organization/" + this.form.OrganizationID, {
               signal: this.controller.signal,
@@ -737,7 +741,7 @@ export default {
             FarmTelephoneNumber: this.form.FarmTelephoneNumber,
             FarmMobilePhoneNumber: this.form.FarmMobilePhoneNumber,
             FarmRegisterDate: this.form.FarmRegisterDate,
-            ProjectID: this.form.ProjectID,
+            ProjectID: this.form.selectProject,
             IsActive: "1",
           },
           {

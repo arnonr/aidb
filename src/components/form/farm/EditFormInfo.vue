@@ -564,11 +564,17 @@ export default {
       // project
 
       if (this.animal_id == 1) {
-        this.urlProject += "&ProjectLevel=FARM&AnimalTypeID=[1,2]";
+        if (!this.urlProject.includes("&AnimalTypeID=[1,2]")) {
+          this.urlProject += "&ProjectLevel=FARM&AnimalTypeID=[1,2]";
+        }
       } else if (this.animal_id == 2) {
+        if (!this.urlProject.includes("&AnimalTypeID=[3,4]")) {
         this.urlProject += "&ProjectLevel=FARM&AnimalTypeID=[3,4]";
+        }
       } else if (this.animal_id == 3) {
+        if (!this.urlProject.includes("&AnimalTypeID=[17,18]")) {
         this.urlProject += "&ProjectLevel=FARM&AnimalTypeID=[17,18]";
+        }
       }
       axios
         .get(this.urlProject, {
@@ -669,7 +675,7 @@ export default {
             this.data.FarmType = "ฟาร์มสาธิต";
           }
 
-        //   selectProject
+          //   selectProject
 
           this.form = {
             FarmIdentificationNumber: this.data.FarmIdentificationNumber,
@@ -694,7 +700,7 @@ export default {
             ProjectID: this.data.ProjectID,
           };
           this.form.selectProject = this.data.ProjectID;
-          
+
           axios
             .get("/organization/" + this.form.OrganizationID, {
               signal: this.controller.signal,

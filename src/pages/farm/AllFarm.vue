@@ -287,12 +287,20 @@
                 icon="pi pi-plus"
                 class="md:w-auto mr-2"
               />
+              <json-excel :data="json_data" style="display:inline-block">
+                <Button
+                  label="ดาวน์โหลด"
+                  icon="pi pi-download"
+                  class="p-button-raised p-button-raised p-button-success"
+                />
+              </json-excel>
+<!-- 
               <Button
                 label="ดาวน์โหลด"
                 icon="pi pi-download"
                 class="p-button-raised p-button-raised p-button-success"
                 @click="exportCSV($event)"
-              />
+              /> -->
             </div>
           </div>
           <div class="mt-3">
@@ -1150,6 +1158,7 @@ import router from "@/router";
 import { mapGetters } from "vuex";
 import { format } from "date-fns";
 import { th } from "date-fns/locale";
+import JsonExcel from "vue-json-excel3";
 // import Paginate from "vuejs-paginate";
 // import Paginator from "primevue/paginator"
 
@@ -1157,9 +1166,11 @@ export default {
   components: {
     PageTitle,
     // Paginate,
+    JsonExcel,
   },
   data() {
     return {
+      json_data: [],
       url: "/farm",
       getFarm: "/farmer",
       getOrganization: "/organization?includeAll=false",
@@ -1586,6 +1597,11 @@ export default {
         `&page=` +
         this.currentPage;
 
+      let urlExcel =
+        this.url +
+        `?orderByField=FarmID&orderBy=desc&size=1000000&page=` +
+        this.currentPage;
+
       if (event) {
         this.curpage = event.page + 1;
       }
@@ -1596,36 +1612,53 @@ export default {
           this.filtered.FarmIdentificationNumber +
           "&FarmName=" +
           this.filtered.FarmName;
+
+        urlExcel +=
+          "&FarmIdentificationNumber=" +
+          this.filtered.FarmIdentificationNumber +
+          "&FarmName=" +
+          this.filtered.FarmName;
       }
       if (this.search.FarmerFullName) {
         url += "&FullName=" + this.search.FarmerFullName;
+
+        urlExcel += "&FullName=" + this.search.FarmerFullName;
       }
       if (this.filtered.OrganizationID) {
         url += "&OrganizationID=" + this.filtered.OrganizationID;
+        urlExcel += "&OrganizationID=" + this.filtered.OrganizationID;
       }
       if (this.filtered.OrganizationZone) {
         url += "&OrganizationZoneID=" + this.filtered.OrganizationZone;
+        urlExcel += "&OrganizationZoneID=" + this.filtered.OrganizationZone;
       }
       if (this.filtered.FarmStatusID) {
         url += "&FarmStatusID=" + this.filtered.FarmStatusID;
+        urlExcel += "&FarmStatusID=" + this.filtered.FarmStatusID;
       }
       if (this.filtered.FarmProvinceID) {
         url += "&FarmProvinceID=" + this.filtered.FarmProvinceID;
+        urlExcel += "&FarmProvinceID=" + this.filtered.FarmProvinceID;
       }
       if (this.filtered.FarmAmphurID) {
         url += "&FarmAmphurID=" + this.filtered.FarmAmphurID;
+        urlExcel += "&FarmAmphurID=" + this.filtered.FarmAmphurID;
       }
       if (this.filtered.FarmTumbolID) {
         url += "&FarmTumbolID=" + this.filtered.FarmTumbolID;
+        urlExcel += "&FarmTumbolID=" + this.filtered.FarmTumbolID;
       }
       if (this.search.dateRange) {
         url += `&FarmRegisterStartDate=${this.search.dateRange[0]}&FarmRegisterEndDate=${this.search.dateRange[1]}`;
+        urlExcel += `&FarmRegisterStartDate=${this.search.dateRange[0]}&FarmRegisterEndDate=${this.search.dateRange[1]}`;
       }
       if (this.filtered.ProjectID) {
         if (this.filtered.ProjectID.length === 0) {
           url += `&ProjectID=`;
+          urlExcel += `&ProjectID=`;
         } else {
           url += `&ProjectID=${JSON.stringify(this.filtered.ProjectID)}`;
+          urlExcel += `&ProjectID=${JSON.stringify(this.filtered.ProjectID)}`;
         }
       }
 
@@ -1661,6 +1694,30 @@ export default {
         .finally(() => {
           this.isLoading = false;
         });
+
+      //
+      axios
+        .get(urlExcel, { signal: this.controller.signal })
+        .then((response) => {
+          this.json_data = response.data.rows.map((e) => {
+            return {
+              หมายเลขฟาร์ม: e.FarmIdentificationNumber,
+              ชื่อฟาร์ม: e.FarmName,
+              ชื่อนามสกุลเกษตรกร: e.Farmer ? e.Farmer.FullName : '-',
+              จังหวัด: e.Province.ProvinceName,
+              อำเภอ: e.Amphur.AmphurName,
+              ตำบล: e.Tumbol.TumbolName,
+              หน่วยงาน: e.Organization ? e.Organization.OrganizationName : "-",
+              วันที่ขึ้นทะเบียน: e.FarmRegisterDate
+                ? dayjs(e.FarmRegisterDate).locale(locale).format("DD/MM/YYYY")
+                : "",
+            };
+          });
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+      //
     },
     add() {
       if (this.permit[0].IsAdd == 0) {

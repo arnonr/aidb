@@ -1168,15 +1168,18 @@ export default {
 
         let error = 0;
         if (this.data.length != 0) {
-          let check = this.data[this.data.length - 2];
-          console.log(check.GiveBirthDate);
+        //   let check = this.data[this.data.length-1];
+        //   console.log( this.data);
+        //   console.log(check.GiveBirthDate+"FREEDOM");
 
-          let dateDiff1 = dayjs(this.data[this.index].GiveBirthDate).diff(
-            check.GiveBirthDate,
-            "day"
-          );
+        //   let dateDiff1 = dayjs(this.data[this.index].GiveBirthDate).diff(
+        //     check.GiveBirthDate,
+        //     "day"
+        //   );
+        //   console.log(dateDiff)
+        
 
-          if (dateDiff1 < 280) {
+          if (res  < 280) {
             error = 1;
           }
         }

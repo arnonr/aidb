@@ -207,6 +207,7 @@
               :permit="permit"
               @refresh_secret_status="refresh_secret_status"
               :display_prop="display"
+              :FarmName="data.AnimalFarm.FarmName"
               @onclear_display="clear_display"
             />
           </TabPanel>

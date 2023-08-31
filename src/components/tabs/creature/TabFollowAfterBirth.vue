@@ -209,6 +209,10 @@ export default {
       required: false,
       default: false,
     },
+    FarmName:{
+      type: String,
+      required: false,
+    }
   },
   data() {
     return {
@@ -301,6 +305,7 @@ export default {
   async mounted() {
     await this.load();
     await this.load_selection();
+    // this.open();
     // if (
     //   this.display_prop &&
     //   this.permit[0].IsAdd
@@ -490,8 +495,8 @@ export default {
           })
           .then((response) => {
             this.data = response.data.rows;
+            console.log(this.data )
             this.total = this.data.length;
-
             for (let i = 0; i < this.data.length; i++) {
               this.data[i].show_id = i + 1;
             }
@@ -599,6 +604,7 @@ export default {
           signal: this.controller.signal,
         })
         .then((response) => {
+          //   console.log("FREEDOM1123");
           this.show.id = response.data.rows[0].AnimalEarID;
           this.show.name = response.data.rows[0].AnimalName;
           this.show.farm = `${response.data.rows[0].AnimalFarm.FarmIdentificationNumber}, ${response.data.rows[0].AnimalFarm.FarmName} `;
@@ -617,7 +623,12 @@ export default {
         });
         return;
       }
+
       this.index = id;
+      this.show.id =this.data[this.index].AnimalEarID
+      this.show.name = this.data[this.index].AnimalName
+      this.show.farm = this.FarmName
+
       this.formheader = "แก้ไข";
       this.temp = JSON.parse(JSON.stringify(this.data[this.index]));
       this.data[this.index].ResponsibilityStaffID = this.user.StaffID;

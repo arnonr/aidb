@@ -1709,7 +1709,6 @@ export default {
             denyButtonText: "ยกเลิก",
             allowOutsideClick: false,
           }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
 
             if (result.isConfirmed) {
               // this.date_last_event diff abort and birth last AbortDate and GiveBirthDate

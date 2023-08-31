@@ -307,6 +307,7 @@ import axios from "axios";
 import { format } from "date-fns";
 import { th } from "date-fns/locale";
 import Swal from "sweetalert2";
+import dayjs from "dayjs";
 export default {
   emits: ["refresh_secret_status", "onclear_display"],
   props: {
@@ -510,6 +511,19 @@ export default {
         });
         this.valid = true;
         return false;
+      } else {
+        // let $d1 = this.show.date;
+        // let $d2 = 400;
+
+        var $d1 = dayjs(this.data[this.index].CheckupDate).diff(this.show.date, "day");
+
+        if ($d1 < 21 || $d1 > 310) {
+          Swal.fire({
+            icon: "error",
+            text: "วันที่ตรวจท้อง ต้องอยู่ภายในระยะเวลา 21-310 วัน หลังจากผสมเทียม",
+          });
+          return false;
+        }
       }
 
       return true;
@@ -786,3 +800,11 @@ export default {
   },
 };
 </script>
+
+<style>
+.swal2-container.swal2-top,
+.swal2-container.swal2-center,
+.swal2-container.swal2-bottom {
+  z-index: 9999999 !important;
+}
+</style>

@@ -1392,10 +1392,11 @@ export default {
         .get(setUrl, { signal: this.controller.signal })
         .then((response) => {
           let id = response.data;
-          console.log(id);
 
           this.path = id.AnimalImagePath;
-          this.OrganizationZone = id.OrganizationZone.OrganizationZoneName;
+          this.OrganizationZone = id.OrganizationZone
+            ? id.OrganizationZone.OrganizationZoneName
+            : null;
 
           if (id.AnimalSource == "BORN") {
             id.AnimalSource = this.AnimalSource[0];
@@ -1542,35 +1543,51 @@ export default {
                   }
                 }
               }
+              console.log(response.data.rows[0]);
+
+              this.OrganizationZone = response.data.rows[0].OrganizationZone
+                ? response.data.rows[0].OrganizationZone.OrganizationZoneName
+                : null;
+
+              this.form.OrganizationZoneID = response.data.rows[0]
+                .OrganizationZoneID
+                ? response.data.rows[0].OrganizationZoneID
+                : this.form.OrganizationZoneID;
+              this.form.OrganizationID = response.data.rows[0].OrganizationID
+                ? response.data.rows[0].OrganizationID
+                : this.form.OrganizationID;
+              //   id.OrganizationZone.OrganizationZoneName
               //
             });
 
           // console.log(this.form.AnimalFirstBreed);
 
-          if (this.form.AnimalFirstBreed.id == 0) {
-            if (this.animal_id == 1) {
-              this.apiAnimalMotherID += "&AnimalTypeID=[1,2]";
-            } else if (this.animal_id == 2) {
-              this.apiAnimalMotherID += "&AnimalTypeID=[3,4,42]";
-            } else if (this.animal_id == 3) {
-              this.apiAnimalMotherID += "&AnimalTypeID=[17,18]";
-            }
+          if (this.form.AnimalFirstBreed) {
+            if (this.form.AnimalFirstBreed.id == 0) {
+              if (this.animal_id == 1) {
+                this.apiAnimalMotherID += "&AnimalTypeID=[1,2]";
+              } else if (this.animal_id == 2) {
+                this.apiAnimalMotherID += "&AnimalTypeID=[3,4,42]";
+              } else if (this.animal_id == 3) {
+                this.apiAnimalMotherID += "&AnimalTypeID=[17,18]";
+              }
 
-            axios
-              .get(this.apiAnimalMotherID, { signal: this.controller.signal })
-              .then((response) => {
-                this.animalmother = response.data.rows.filter(
-                  (item) => item.AnimalSexID === 2
-                );
-                this.animalfather = response.data.rows.filter(
-                  (item) => item.AnimalSexID === 1
-                );
-              })
-              .finally(() => {
-                console.log(this.form.AnimalMotherID);
-                console.log(this.animalmother);
-                console.log(this.animalfather);
-              });
+              axios
+                .get(this.apiAnimalMotherID, { signal: this.controller.signal })
+                .then((response) => {
+                  this.animalmother = response.data.rows.filter(
+                    (item) => item.AnimalSexID === 2
+                  );
+                  this.animalfather = response.data.rows.filter(
+                    (item) => item.AnimalSexID === 1
+                  );
+                })
+                .finally(() => {
+                  //   console.log(this.form.AnimalMotherID);
+                  //   console.log(this.animalmother);
+                  //   console.log(this.animalfather);
+                });
+            }
           }
         });
     },

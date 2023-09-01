@@ -1599,7 +1599,7 @@ export default {
 
       let urlExcel =
         this.url +
-        `?orderByField=FarmID&orderBy=desc&size=1000000&page=` +
+        `?orderByField=FarmID&orderBy=desc&size=20&page=` +
         this.currentPage;
 
       if (event) {

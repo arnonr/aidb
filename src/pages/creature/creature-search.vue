@@ -479,12 +479,23 @@
               class="mb-3 mr-1 p-button-raised p-button-raised p-button-info"
               @click="creature"
             />
-            <Button
+            <!-- <Button
               label="ดาวน์โหลด"
               icon="pi pi-download"
               class="mb-3 p-button-raised p-button-raised p-button-success"
               @click="exportCSV($event)"
-            />
+            /> -->
+            <json-excel
+              :data="json_data"
+              style="display: inline-block"
+              class="mb-3"
+            >
+              <Button
+                label="ดาวน์โหลด"
+                icon="pi pi-download"
+                class="p-button-raised p-button-raised p-button-success"
+              />
+            </json-excel>
           </div>
         </div>
         <DataTable
@@ -1108,10 +1119,12 @@ import store from "@/service/Vuex";
 import { mapGetters } from "vuex";
 import _ from "lodash";
 import RegisteredAnimalReport from "./RegisteredAnimalReport";
+import JsonExcel from "vue-json-excel3";
 
 export default {
   components: {
     PageTitle,
+    JsonExcel,
   },
   data() {
     return {
@@ -1138,6 +1151,7 @@ export default {
 
       // load
       data: [],
+      json_data: [],
       Organization: [],
       OrganizationZone: [],
       Farm: [],
@@ -1550,6 +1564,35 @@ export default {
           this.table.total = data.total;
           this.table.last_page = data.lastPage;
           this.data = data.rows;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+
+      // Excel
+      axios
+        .get(this.url, {
+          params: { ...this.params, size: 100000, noEventLatest: true,includeEventLatest: false },
+          signal: this.controller.signal,
+        })
+        .then((response) => {
+          console.log(response.data);
+          this.json_data = response.data.rows.map((x) => {
+            let e = {
+              EarID: "'" + x.AnimalEarID,
+              Name: x.AnimalName,
+              Age: "'" + x.AnimalAge,
+              Status: x.AnimalStatus.AnimalStatusName,
+              BreedAll: x.AnimalBreedAll,
+              ThaiBirthDate: x.ThaiAnimalBirthDate,
+              Gender: x.AnimalSex.AnimalSexName,
+              FarmIdentificationNumber: x.AnimalFarm.FarmIdentificationNumber,
+              FarmName: x.AnimalFarm.FarmName,
+              Organization: x.Organization ? x.Organization.OrganizationName : "-",
+            };
+            return e;
+          });
+          console.log(this.json_data);
         })
         .finally(() => {
           this.isLoading = false;

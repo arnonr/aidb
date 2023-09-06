@@ -285,9 +285,9 @@
                 @click="add"
                 label="เพิ่มทะเบียนฟาร์ม"
                 icon="pi pi-plus"
-                class="md:w-auto mr-2"
+                class="md:w-auto mr-2 mb-3"
               />
-              <json-excel :data="json_data" style="display:inline-block">
+              <json-excel :data="json_data" style="display:inline-block"  class="mb-3">
                 <Button
                   label="ดาวน์โหลด"
                   icon="pi pi-download"

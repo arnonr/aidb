@@ -298,12 +298,19 @@
               @click="open_add"
             />
 
-            <Button
+            <!-- <Button
               label="ดาวน์โหลด"
               icon="pi pi-download"
               class="mb-3 p-button-raised p-button-raised p-button-success"
               @click="exportCSV($event)"
-            />
+            /> -->
+            <json-excel :data="json_data" style="display: inline-block" class="mb-3">
+              <Button
+                label="ดาวน์โหลด"
+                icon="pi pi-download"
+                class="p-button-raised p-button-raised p-button-success"
+              />
+            </json-excel>
           </div>
         </div>
 
@@ -2489,9 +2496,11 @@ import buddhistEra from "dayjs/plugin/buddhistEra";
 import { format } from "date-fns";
 import { th } from "date-fns/locale";
 import { mapGetters } from "vuex";
+import JsonExcel from "vue-json-excel3";
 export default {
   components: {
     PageTitle,
+    JsonExcel,
   },
   computed: {
     ...mapGetters({
@@ -2524,6 +2533,7 @@ export default {
 
       // load
       data: [],
+      json_data: [],
       Title: [],
       Gender: [],
       MariedStatus: [],
@@ -2967,6 +2977,9 @@ export default {
                 .format("DD/MM/YYYY");
             }
           }
+
+
+          this.json_data = this.data;
         })
         .finally(() => {
           this.isLoading = false;

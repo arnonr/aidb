@@ -494,7 +494,6 @@
                         <Dropdown
                           class="w-full"
                           id="selectedstatus"
-                          :options="animalbreed"
                           optionLabel="Fullname"
                           optionValue="AnimalBreedID"
                           placeholder="สายพันธุ์ที่ 2"
@@ -529,7 +528,7 @@
                         <Dropdown
                           class="w-full"
                           id="selectedstatus"
-                          :options="animalbreed"
+                          :options="animalbreedDefault"
                           optionLabel="Fullname"
                           optionValue="AnimalBreedID"
                           placeholder="สายพันธุ์ที่ 3"
@@ -561,7 +560,7 @@
                         <Dropdown
                           class="w-full"
                           id="selectedstatus"
-                          :options="animalbreed"
+                          :options="animalbreedDefault"
                           optionLabel="Fullname"
                           optionValue="AnimalBreedID"
                           placeholder="สายพันธุ์ที่ 4"
@@ -593,7 +592,7 @@
                         <Dropdown
                           class="w-full"
                           id="selectedstatus"
-                          :options="animalbreed"
+                          :options="animalbreedDefault"
                           optionLabel="Fullname"
                           optionValue="AnimalBreedID"
                           placeholder="สายพันธุ์ที่ 5"
@@ -688,7 +687,7 @@
                         <Dropdown
                           class="w-full"
                           id="selectedstatus"
-                          :options="animalbreed"
+                          :options="animalbreedDefault"
                           optionLabel="Fullname"
                           optionValue="AnimalBreedID"
                           placeholder="เลือกสายพันธุ์ที่"
@@ -721,7 +720,7 @@
                         <Dropdown
                           class="w-full"
                           id="selectedstatus"
-                          :options="animalbreed"
+                          :options="animalbreedDefault"
                           optionLabel="Fullname"
                           optionValue="AnimalBreedID"
                           placeholder="เลือกสายพันธุ์ที่"
@@ -751,7 +750,7 @@
                         <Dropdown
                           class="w-full"
                           id="selectedstatus"
-                          :options="animalbreed"
+                          :options="animalbreedDefault"
                           optionLabel="Fullname"
                           optionValue="AnimalBreedID"
                           placeholder="เลือกสายพันธุ์ที่"
@@ -781,7 +780,7 @@
                         <Dropdown
                           class="w-full"
                           id="selectedstatus"
-                          :options="animalbreed"
+                          :options="animalbreedDefault"
                           optionLabel="Fullname"
                           optionValue="AnimalBreedID"
                           placeholder="เลือกสายพันธุ์ที่"
@@ -946,7 +945,7 @@ export default {
       animalfather: [],
       animaltype: [],
       gennumber: [],
-
+      animalbreedDefault: [],
       OrganizationZone: [],
       project: [],
 
@@ -1118,6 +1117,17 @@ export default {
 
     "form.AnimalTypeID"(val) {
       this.filtered.AnimalTypeID = val;
+      if (this.animalbreedDefault != undefined) {
+        let animalbreedFind = this.animalbreedDefault.filter((x) => {
+          return x.AnimalTypeID == this.filtered.AnimalTypeID;
+        });
+        this.animalbreed = [...animalbreedFind];
+      }
+    //   console.log(this.animalbreed);
+    //   console.log(this.animalbreedDefault);
+
+      //   console.log("FREEDOM8")
+
       // this.callGennumber();
     },
     "form.AnimalSexID"(val) {
@@ -1421,17 +1431,17 @@ export default {
       //   });
 
       if (this.animal_id == 1) {
-        this.apiAnimalMotherID += "&AnimalTypeID=[1,2]";
+        this.apiAnimalMotherID += "&AnimalTypeID=[1,2,42]";
       } else if (this.animal_id == 2) {
-        this.apiAnimalMotherID += "&AnimalTypeID=[3,4,42]";
+        this.apiAnimalMotherID += "&AnimalTypeID=[3,4,44]";
       } else if (this.animal_id == 3) {
-        this.apiAnimalMotherID += "&AnimalTypeID=[17,18]";
+        this.apiAnimalMotherID += "&AnimalTypeID=[17,18,46]";
       }
 
       axios
         .get(this.apiAnimalMotherID, { signal: this.controller.signal })
         .then((response) => {
-          console.log(response.data.rows);
+          //   console.log(response.data.rows);
           this.animalmother = response.data.rows.filter(
             (item) => item.AnimalSexID === 2
           );
@@ -1441,9 +1451,9 @@ export default {
         })
         .finally(() => {
           // console.log(this.form.AnimalMotherID);
-          console.log(this.animalmother);
-          console.log(this.animalfather);
-          console.log("FREEDOM");
+          //   console.log(this.animalmother);
+          //   console.log(this.animalfather);
+          //   console.log("FREEDOM");
         });
 
       // if (this.animal_id == 1) {
@@ -1508,10 +1518,15 @@ export default {
                   AnimalBreedID: item.AnimalBreedID,
                   AnimalBreedCode: item.AnimalBreedCode,
                   Fullname: item.AnimalBreedCode + ", " + item.AnimalBreedName,
+                  AnimalTypeID: item.AnimalTypeID,
                 };
               });
 
-            // console.log(this.animalbreed);
+            this.animalbreedDefault = this.animalbreed;
+            // console.log(this.animalbreed)
+            console.log(this.animalbreedDefault)
+           
+            // console.log(this.animalbreedDefault);
           } else if (this.animal_id == 2) {
             this.animalbreed = response.data.rows
               .filter(
@@ -1526,8 +1541,11 @@ export default {
                   AnimalBreedID: item.AnimalBreedID,
                   AnimalBreedCode: item.AnimalBreedCode,
                   Fullname: item.AnimalBreedCode + ", " + item.AnimalBreedName,
+                  AnimalTypeID: item.AnimalTypeID,
                 };
               });
+
+            this.animalbreedDefault = [...this.animalbreed];
           } else if (this.animal_id == 3) {
             this.animalbreed = response.data.rows
               .filter(
@@ -1542,8 +1560,11 @@ export default {
                   AnimalBreedID: item.AnimalBreedID,
                   AnimalBreedCode: item.AnimalBreedCode,
                   Fullname: item.AnimalBreedCode + ", " + item.AnimalBreedName,
+                  AnimalTypeID: item.AnimalTypeID,
                 };
               });
+
+            this.animalbreedDefault = [...this.animalbreed];
           }
 
           // this.animalbreed = response.data.rows.map((item) => {
@@ -1613,20 +1634,36 @@ export default {
         .get(this.apiAnimalTypeID, { signal: this.controller.signal })
         .then((response) => {
           this.animaltype = response.data.rows.filter(
-            (item) => item.AnimalTypeID === 1 || item.AnimalTypeID === 2
+            (item) =>
+              item.AnimalTypeID === 1 ||
+              //   item.AnimalTypeID === 2 ||
+              //   item.AnimalTypeID === 41 ||
+              item.AnimalTypeID === 42
           );
 
           if (this.animal_id == 1) {
             this.animaltype = response.data.rows.filter(
-              (item) => item.AnimalTypeID === 1 || item.AnimalTypeID === 2
+              (item) =>
+                item.AnimalTypeID === 1 ||
+                // item.AnimalTypeID === 2 ||
+                // item.AnimalTypeID === 41 ||
+                item.AnimalTypeID === 42
             );
           } else if (this.animal_id == 2) {
             this.animaltype = response.data.rows.filter(
-              (item) => item.AnimalTypeID === 3 || item.AnimalTypeID === 4
+              (item) =>
+                item.AnimalTypeID === 3 ||
+                item.AnimalTypeID === 4 ||
+                item.AnimalTypeID === 43 ||
+                item.AnimalTypeID === 44
             );
           } else if (this.animal_id == 3) {
             this.animaltype = response.data.rows.filter(
-              (item) => item.AnimalTypeID === 17 || item.AnimalTypeID === 18
+              (item) =>
+                item.AnimalTypeID === 17 ||
+                item.AnimalTypeID === 18 ||
+                item.AnimalTypeID === 45 ||
+                item.AnimalTypeID === 46
             );
           }
         });

@@ -647,6 +647,7 @@
                         >
 
                         <Dropdown
+                          v-if="form.AnimalSexID == 2"
                           class="w-full"
                           :options="Percent"
                           optionLabel="name"
@@ -660,13 +661,16 @@
                           }"
                         >
                         </Dropdown>
-                        <!-- <InputText
-                          type="number"
+                        <InputNumber
+                          v-if="form.AnimalSexID == 1"
+                          inputId="minmax"
                           class="w-full"
                           v-model="form.AnimalBreedPercent1"
-                          min="0"
-                          max="100"
-                        /> -->
+                          mode="decimal"
+                          :minFractionDigits="2"
+                          :min="0"
+                          :max="100"
+                        />
                         <!-- 
                         <InputNumber
                           inputId="minmax"
@@ -1067,11 +1071,11 @@ export default {
     this.form.AnimalAlive = this.alive[0];
 
     if (this.animal_id == 1) {
-    //   this.form.AnimalTypeID = 1;
+      //   this.form.AnimalTypeID = 1;
     } else if (this.animal_id == 2) {
-    //   this.form.AnimalTypeID = 3;
+      //   this.form.AnimalTypeID = 3;
     } else if (this.animal_id == 3) {
-    //   this.form.AnimalTypeID = 17;
+      //   this.form.AnimalTypeID = 17;
     }
 
     this.load();
@@ -1123,8 +1127,8 @@ export default {
         });
         this.animalbreed = [...animalbreedFind];
       }
-    //   console.log(this.animalbreed);
-    //   console.log(this.animalbreedDefault);
+      //   console.log(this.animalbreed);
+      //   console.log(this.animalbreedDefault);
 
       //   console.log("FREEDOM8")
 
@@ -1524,8 +1528,8 @@ export default {
 
             this.animalbreedDefault = this.animalbreed;
             // console.log(this.animalbreed)
-            console.log(this.animalbreedDefault)
-           
+            console.log(this.animalbreedDefault);
+
             // console.log(this.animalbreedDefault);
           } else if (this.animal_id == 2) {
             this.animalbreed = response.data.rows

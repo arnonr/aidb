@@ -788,11 +788,11 @@ export default {
       let url = this.url.main;
 
       if (this.animal_id == 1) {
-        url += "?AnimalTypeID=[1,2]";
+        url += "?AnimalTypeID=[1,2,41,42]";
       } else if (this.animal_id == 2) {
-        url += "?AnimalTypeID=[3,4,42]";
+        url += "?AnimalTypeID=[3,4,43,44]";
       } else if (this.animal_id == 3) {
-        url += "?AnimalTypeID=[17,18]";
+        url += "?AnimalTypeID=[17,18,45,46]";
       }
 
       if (this.filtered.SemenNumber) {

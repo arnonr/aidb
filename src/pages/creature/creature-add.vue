@@ -1497,7 +1497,11 @@ export default {
           if (this.animal_id == 1) {
             this.animalbreed = response.data.rows
               .filter(
-                (item) => item.AnimalTypeID === 1 || item.AnimalTypeID === 2
+                (item) =>
+                  item.AnimalTypeID === 1 ||
+                  item.AnimalTypeID === 2 ||
+                  item.AnimalTypeID === 41 ||
+                  item.AnimalTypeID === 42
               )
               .map((item) => {
                 return {
@@ -1514,7 +1518,8 @@ export default {
                 (item) =>
                   item.AnimalTypeID === 3 ||
                   item.AnimalTypeID === 4 ||
-                  item.AnimalTypeID === 42
+                  item.AnimalTypeID === 43 ||
+                  item.AnimalTypeID === 44
               )
               .map((item) => {
                 return {
@@ -1526,7 +1531,11 @@ export default {
           } else if (this.animal_id == 3) {
             this.animalbreed = response.data.rows
               .filter(
-                (item) => item.AnimalTypeID === 17 || item.AnimalTypeID === 18
+                (item) =>
+                  item.AnimalTypeID === 17 ||
+                  item.AnimalTypeID === 18 ||
+                  item.AnimalTypeID === 45 ||
+                  item.AnimalTypeID === 46
               )
               .map((item) => {
                 return {

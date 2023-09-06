@@ -1609,11 +1609,11 @@ export default {
       }
 
       if (this.animal_id == 1) {
-        this.params.AnimalTypeID = "[1,2]";
+        this.params.AnimalTypeID = "[1,2,41,42]";
       } else if (this.animal_id == 2) {
-        this.params.AnimalTypeID = "[3,4]";
+        this.params.AnimalTypeID = "[3,4,43,44]";
       } else if (this.animal_id == 3) {
-        this.params.AnimalTypeID = "[17,18]";
+        this.params.AnimalTypeID = "[17,18,45,46]";
       }
     },
     load_selection() {

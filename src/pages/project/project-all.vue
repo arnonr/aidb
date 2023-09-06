@@ -770,8 +770,9 @@ export default {
   data() {
     return {
       url: "/project",
+      urlProject: "/project?includeAll=false",
       urlAnimalType: "/animal-type",
-      urlOrganization: "/organization",
+      urlOrganization: "/organization?includeAll=false",
       breadcrumb: [
         { label: "ระบบโครงการ", to: "/project/all" },
         { label: "ข้อมูลพื้นฐาน", to: "" },
@@ -1021,7 +1022,7 @@ export default {
     // Axios
     load() {
       this.isLoading = true;
-      let url = this.url;
+      let url = this.urlProject;
       // url += "&page=";
       // if (this.curpage) {
       //   url += this.curpage;
@@ -1132,6 +1133,27 @@ export default {
       this.form.isActive = this.form.isActive.value;
       this.form.ProjectLevel = this.form.ProjectLevel.id;
       this.form.IsExtend = this.form.IsExtend.id;
+
+      //   console.log(this.form.StartDate)
+
+      if (this.form.StartDate) {
+        let date = this.form.StartDate.split("/");
+        this.form.StartDate = "20" + date[2] + "-" + date[1] + "-" + date[0];
+      }
+
+      if (this.form.EndDate) {
+        let date = this.form.EndDate.split("/");
+
+        this.form.EndDate = "20" + date[2] + "-" + date[1] + "-" + date[0];
+      }
+
+      console.log(this.form.EndDate);
+
+      //   if (this.form.EndDate) {
+      //     this.form.StartDate = dayjs(this.data[i].StartDate)
+      //       .locale(locale)
+      //       .format("DD/MM/YY");
+      //   }
 
       axios
         .put(this.url + "/" + this.form.ProjectID, this.form)

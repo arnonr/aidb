@@ -841,7 +841,7 @@ export default {
       urlPosition: "/position",
       urlTumbol: "/tumbol",
       urlAmphur: "/amphur",
-      urlProvince: "/province",
+      urlProvince: "/province?includeAll=false",
       urlEducation: "/education",
       urlMajor: "/major",
       breadcrumb: [

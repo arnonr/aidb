@@ -2510,7 +2510,7 @@ export default {
       urlPosition: "/position?isActive=1",
       urlTumbol: "/tumbol?isActive=1",
       urlAmphur: "/amphur?isActive=1",
-      urlProvince: "/province?isActive=1",
+      urlProvince: "/province?isActive=1&includeAll=false",
       urlEducation:
         "/education?isActive=1&orderByField=EducationCode&orderBy=asc",
       urlMajor: "/major?isActive=1",

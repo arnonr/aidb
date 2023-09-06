@@ -201,6 +201,8 @@
                         หน่วยงานที่สังกัด<span class="text-red-500"> *</span>
                       </label>
                       <Dropdown
+                        :showClear="true"
+                        id="selectedOrganization"
                         emptyMessage="ไม่มีข้อมูล"
                         emptyFilterMessage="ไม่พบข้อมูล"
                         v-model="form_staff.StaffOrganizationID"
@@ -208,11 +210,27 @@
                         optionValue="OrganizationID"
                         :options="selection.Organization"
                         class="w-full"
+                        :filter="true"
                         placeholder="เลือกหน่วยงานที่สังกัด"
                         :class="{
                           'p-invalid': !form_staff.StaffOrganizationID && valid,
                         }"
                       />
+
+                      <!-- <Dropdown
+              :showClear="true"
+              emptyMessage="ไม่มีข้อมูล"
+              emptyFilterMessage="ไม่พบข้อมูล"
+              class="w-full"
+              id="selectedFarm"
+              placeholder="ทั้งหมด"
+              optionLabel="TumbolName"
+              optionValue="TumbolID"
+              :options="Tumbol"
+              :filter="true"
+              v-model="search.StaffTumbolID"
+              :virtualScrollerOptions="{ itemSize: 38 }"
+            /> -->
                     </div>
                     <div class="col-6">
                       <label

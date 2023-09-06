@@ -156,6 +156,25 @@
                       readonly
                     />
                   </div> -->
+
+                  <div class="field col-12 sm:col-6">
+                    <label class="block text-600 text-sm font-bold mb-2"
+                      >ชนิดสัตว์ <span class="text-red-500">*</span></label
+                    >
+                    <Dropdown
+                      class="w-full"
+                      :options="animaltype"
+                      optionLabel="AnimalTypeName"
+                      optionValue="AnimalTypeID"
+                      placeholder="เลือกชนิดสัตว์"
+                      :showClear="true"
+                      :filter="true"
+                      v-model="form.AnimalTypeID"
+                      :class="{ 'p-invalid': !form.AnimalTypeID && valid }"
+                    >
+                    </Dropdown>
+                  </div>
+
                   <div class="field col-12 sm:col-6">
                     <label class="block text-600 text-sm font-bold mb-2">
                       หมายเลขเบอร์หู
@@ -242,7 +261,7 @@
                     </Dropdown>
                   </div>
 
-                  <div class="field col-12 sm:col-6">
+                  <!-- <div class="field col-12 sm:col-6">
                     <label class="block text-600 text-sm font-bold mb-2"
                       >ชนิดสัตว์ <span class="text-red-500">*</span></label
                     >
@@ -258,7 +277,7 @@
                       :class="{ 'p-invalid': !form.AnimalTypeID && valid }"
                     >
                     </Dropdown>
-                  </div>
+                  </div> -->
                   <div class="field col-12 sm:col-6">
                     <label class="block text-600 text-sm font-bold mb-2">
                       น้ำหนักแรกเกิด (กก.)</label
@@ -1128,6 +1147,11 @@ export default {
         });
         this.animalbreed = [...animalbreedFind];
       }
+
+      this.callGennumber();
+
+      //
+
       //   console.log(this.animalbreed);
       //   console.log(this.animalbreedDefault);
 

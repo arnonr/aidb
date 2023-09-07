@@ -168,7 +168,7 @@
             <InputNumber
               v-model="data[index].PAR"
               :max="limitPar"
-              :min="data[index].PAR"
+              :min="1"
               showButtons
               :disabled="disabledPar"
               class="w-full"

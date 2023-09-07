@@ -620,8 +620,6 @@
             <h1 class="text-white text-center">กรุณารอสักครู่...</h1>
           </template>
         </DataTable>
-
-     
       </div>
     </div>
     <!-- end main page -->
@@ -1228,11 +1226,11 @@ export default {
     this.load();
 
     if (this.animal_id == 1) {
-      this.apiProject += "&ProjectLevel=ANIMAL&AnimalTypeID=[1,2]";
+      this.apiProject += "&ProjectLevel=ANIMAL&AnimalTypeID=[1,2,41,42]";
     } else if (this.animal_id == 2) {
-      this.apiProject += "&ProjectLevel=ANIMAL&AnimalTypeID=[3,4]";
+      this.apiProject += "&ProjectLevel=ANIMAL&AnimalTypeID=[3,4,43,44]";
     } else if (this.animal_id == 3) {
-      this.apiProject += "&ProjectLevel=ANIMAL&AnimalTypeID=[17,18]";
+      this.apiProject += "&ProjectLevel=ANIMAL&AnimalTypeID=[17,18,45,46]";
     }
     axios
       .get(this.apiProject, { signal: this.controller.signal })
@@ -1488,7 +1486,11 @@ export default {
           if (this.animal_id == 1) {
             this.AnimalBreed = response.data.rows
               .filter(
-                (item) => item.AnimalTypeID === 1 || item.AnimalTypeID === 2
+                (item) =>
+                  item.AnimalTypeID === 1 ||
+                  item.AnimalTypeID === 2 ||
+                  item.AnimalTypeID === 41 ||
+                  item.AnimalTypeID === 42
               )
               .map((item) => {
                 return {
@@ -1500,7 +1502,11 @@ export default {
           } else if (this.animal_id == 2) {
             this.AnimalBreed = response.data.rows
               .filter(
-                (item) => item.AnimalTypeID === 3 || item.AnimalTypeID === 4
+                (item) =>
+                  item.AnimalTypeID === 3 ||
+                  item.AnimalTypeID === 4 ||
+                  item.AnimalTypeID === 43 ||
+                  item.AnimalTypeID === 44
               )
               .map((item) => {
                 return {
@@ -1512,7 +1518,11 @@ export default {
           } else if (this.animal_id == 3) {
             this.AnimalBreed = response.data.rows
               .filter(
-                (item) => item.AnimalTypeID === 17 || item.AnimalTypeID === 18
+                (item) =>
+                  item.AnimalTypeID === 17 ||
+                  item.AnimalTypeID === 18 ||
+                  item.AnimalTypeID === 45 ||
+                  item.AnimalTypeID === 46
               )
               .map((item) => {
                 return {
@@ -1536,11 +1546,11 @@ export default {
       }
 
       if (this.animal_id == 1) {
-        this.params.AnimalTypeID = "[1,2]";
+        this.params.AnimalTypeID = "[1,2,41,42]";
       } else if (this.animal_id == 2) {
-        this.params.AnimalTypeID = "[3,4]";
+        this.params.AnimalTypeID = "[3,4,43,44]";
       } else if (this.animal_id == 3) {
-        this.params.AnimalTypeID = "[17,18]";
+        this.params.AnimalTypeID = "[17,18,45,46]";
       }
     },
     load_selection() {
@@ -1906,6 +1916,6 @@ export default {
   background-color: #2988c8;
 }
 .p-button:focus {
-    box-shadow: #fff;
+  box-shadow: #fff;
 }
 </style>

@@ -423,20 +423,33 @@ export default {
               // ป้องกันค้นหาเลขสัตว์อื่นแล้วเจอ
               if (this.animal_id == 1) {
                 if (
-                  !(this.data.AnimalTypeID == 1 || this.data.AnimalTypeID == 2)
+                  !(
+                    this.data.AnimalTypeID == 1 ||
+                    this.data.AnimalTypeID == 2 ||
+                    this.data.AnimalTypeID == 41 ||
+                    this.data.AnimalTypeID == 42
+                  )
                 ) {
                   this.data = {};
                 }
               } else if (this.animal_id == 2) {
                 if (
-                  !(this.data.AnimalTypeID == 3 || this.data.AnimalTypeID == 4)
+                  !(
+                    this.data.AnimalTypeID == 3 ||
+                    this.data.AnimalTypeID == 4 ||
+                    this.data.AnimalTypeID == 43 ||
+                    this.data.AnimalTypeID == 44
+                  )
                 ) {
                   this.data = {};
                 }
               } else if (this.animal_id == 3) {
                 if (
                   !(
-                    this.data.AnimalTypeID == 17 || this.data.AnimalTypeID == 18
+                    this.data.AnimalTypeID == 17 ||
+                    this.data.AnimalTypeID == 18 ||
+                    this.data.AnimalTypeID == 45 ||
+                    this.data.AnimalTypeID == 46
                   )
                 ) {
                   this.data = {};
@@ -482,20 +495,33 @@ export default {
               // ป้องกันค้นหาเลขสัตว์อื่นแล้วเจอ
               if (this.animal_id == 1) {
                 if (
-                  !(this.data.AnimalTypeID == 1 || this.data.AnimalTypeID == 2)
+                  !(
+                    this.data.AnimalTypeID == 1 ||
+                    this.data.AnimalTypeID == 2 ||
+                    this.data.AnimalTypeID == 41 ||
+                    this.data.AnimalTypeID == 42
+                  )
                 ) {
                   this.data = {};
                 }
               } else if (this.animal_id == 2) {
                 if (
-                  !(this.data.AnimalTypeID == 3 || this.data.AnimalTypeID == 4)
+                  !(
+                    this.data.AnimalTypeID == 3 ||
+                    this.data.AnimalTypeID == 4 ||
+                    this.data.AnimalTypeID == 43 ||
+                    this.data.AnimalTypeID == 44
+                  )
                 ) {
                   this.data = {};
                 }
               } else if (this.animal_id == 3) {
                 if (
                   !(
-                    this.data.AnimalTypeID == 17 || this.data.AnimalTypeID == 18
+                    this.data.AnimalTypeID == 17 ||
+                    this.data.AnimalTypeID == 18 ||
+                    this.data.AnimalTypeID == 45 ||
+                    this.data.AnimalTypeID == 46
                   )
                 ) {
                   this.data = {};

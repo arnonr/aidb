@@ -9,7 +9,11 @@
         icon="pi pi-plus"
         class="w-full md:w-auto"
         @click="open"
-        v-if="AnimalSecretStatus.includes(2) && permit[0].IsAdd && this.animalInfo.ProductionStatusID != 6"
+        v-if="
+          AnimalSecretStatus.includes(2) &&
+          permit[0].IsAdd &&
+          this.animalInfo.ProductionStatusID != 6
+        "
       />
     </div>
   </div>
@@ -1518,6 +1522,7 @@ export default {
       display_confirm_ma: false,
       temp: null,
       olddate: null,
+      olddate1: null,
       formheader: "",
       date_last_event: null,
       // uneditable
@@ -1697,6 +1702,13 @@ export default {
       if (abort.rows.length > 0 || birth.rows.length > 0) {
         var $d1 = dayjs().diff(abort.rows[0]?.AbortDate, "day");
         var $d2 = dayjs().diff(birth.rows[0]?.GiveBirthDate, "day");
+
+        if ($d1 > $d2) {
+          this.olddate1 = abort.rows[0]?.AbortDate;
+        } else {
+          this.olddate1 = birth.rows[0]?.GiveBirthDate;
+        }
+
         if ($d1 == 0) {
           $d1 = 100;
         }
@@ -2093,7 +2105,6 @@ export default {
         if (this.display_birth == true) {
           if (this.date_last_event > date) {
             this.olddate = this.date_last_event;
-
             // if (this.index == 0) {
             //     this.olddate = this.date_last_event;
             // }
@@ -2103,6 +2114,11 @@ export default {
             } else {
               this.olddate = date;
             }
+          }
+
+          let test = dayjs(this.olddate).isBefore(dayjs(this.olddate1))
+          if(test == true){
+            this.olddate = this.olddate1
           }
 
           this.display = true;

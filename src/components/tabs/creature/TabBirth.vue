@@ -1191,10 +1191,12 @@ export default {
             this.btnSubmit = true;
             this.displayViewConfirmBirth = true;
           } else if (res <= 260) {
+            // this.txtCon =
+            //   "ระยะเวลาครั้งผสมครั้งล่าสุด ถึงวันคลอดน้อยกว่า 260 วัน ยืนยันคลอดหรือบันทึกแท้ง";
             this.txtCon =
-              "ระยะเวลาครั้งผสมครั้งล่าสุด ถึงวันคลอดน้อยกว่า 260 วัน ยืนยันคลอดหรือบันทึกแท้ง";
-            this.btnSubmit = true;
+              "ระยะเวลาครั้งผสมครั้งล่าสุด ถึงวันคลอดน้อยกว่า 260 วัน ไม่สามารถบันทึกคลอดได้";
             this.displayViewConfirmBirth = true;
+            this.btnSubmit = false;
           } else if (res >= 310) {
             this.txtCon =
               "ระยะเวลาครั้งผสมครั้งล่าสุด ถึงวันคลอดมากกว่า 310 วัน ยืนยันคลอดหรือบันทึกผสมเพิ่มเติม";
@@ -1271,13 +1273,13 @@ export default {
             // this.displayViewConfirmBirth = true;
             this.displayViewConfirmBirth = true;
             this.btnSubmit = false;
-          } 
-        //   else if (res >= 310) {
-        //     this.txtCon =
-        //       "ระยะเวลาครั้งผสมครั้งล่าสุด ถึงวันคลอดมากกว่า 310 วัน ยืนยันคลอดหรือบันทึกผสมเพิ่มเติม";
-        //     this.btnSubmit = true;
-        //     this.displayViewConfirmBirth = true;
-        //   } 
+          }
+          //   else if (res >= 310) {
+          //     this.txtCon =
+          //       "ระยะเวลาครั้งผสมครั้งล่าสุด ถึงวันคลอดมากกว่า 310 วัน ยืนยันคลอดหรือบันทึกผสมเพิ่มเติม";
+          //     this.btnSubmit = true;
+          //     this.displayViewConfirmBirth = true;
+          //   }
           else {
             this.displayViewConfirmBirth = false;
             this.btnSubmit = true;

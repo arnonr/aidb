@@ -9,7 +9,7 @@
         icon="pi pi-plus"
         class="w-full md:w-auto"
         @click="open"
-        v-if="AnimalSecretStatus.includes(2) && permit[0].IsAdd"
+        v-if="AnimalSecretStatus.includes(2) && permit[0].IsAdd && this.animalInfo.ProductionStatusID != 6"
       />
     </div>
   </div>
@@ -1368,6 +1368,9 @@ export default {
   props: {
     permit: {
       type: Array,
+      required: true,
+    },
+    animalInfo: {
       required: true,
     },
     display_prop: {

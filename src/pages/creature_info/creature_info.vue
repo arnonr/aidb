@@ -165,6 +165,7 @@
           <TabPanel header="ผสมเทียม">
             <TabArtificial
               :permit="permit"
+              :animalInfo="animalInfo"
               @refresh_secret_status="refresh_secret_status"
               :display_prop="display"
               @onclear_display="clear_display"
@@ -354,6 +355,7 @@ export default {
     this.permit = this.permission.filter((item) => {
       return item.MenuID == 12;
     });
+
 
     // if (this.tabAnimal.id >= 10) {
     //   let x = 0;

@@ -1130,99 +1130,162 @@ export default {
     async openConfirmBirth() {
       // console.log(this.lastInformation.AIDate);
 
-      if (this.data[this.index].GiveBirthDate) {
-        // const maxDate = new Date(
-        //   Math.max(
-        //     ...this.lastInformation.map((element) => {
-        //       return new Date(element.GiveBirthDate);
-        //     })
-        //   )
-        // );
-        // let date_1 = new Date("11/25/2022");
-        //
+      if (this.animal_id == 1) {
+        if (this.data[this.index].GiveBirthDate) {
+          let date_1 = new Date(this.lastInformation.AIDate);
 
-        let date_1 = new Date(this.lastInformation.AIDate);
-        // let date_2 = new Date();
+          console.log(this.lastInformation.AIDate);
 
-        // const days = (date_1, date_2) => {
-        //   let difference = date_1.getTime() - date_2.getTime();
-        //   let TotalDays = Math.abs(Math.ceil(difference / (1000 * 3600 * 24)));
-        //   return TotalDays;
-        // };
+          //
 
-        // let res = days(date_1, date_2);
-
-        console.log(this.lastInformation.AIDate);
-
-        //
-
-        let dateDiff = dayjs(this.data[this.index].GiveBirthDate).diff(
-          date_1,
-          "day"
-        );
-
-        let res = dateDiff;
-
-        this.txtCheck =
-          "จำนวนวันตั้งแต่ผสมครั้งล่าสุด ถึงวันคลอดอยู่ระหว่าง" + res + "วัน";
-
-        let error = 0;
-        if (this.data.length != 0) {
-          let check = this.data[this.data.length - 2];
-          console.log(this.data);
-
-          if (check) {
-            let dateDiff1 = dayjs(this.data[this.index].GiveBirthDate).diff(
-              check.GiveBirthDate,
-              "day"
-            );
-            if (dateDiff1 < 280) {
-              error = 1;
-            }
-          }
-        }
-
-        if (this.data.length != 0) {
-          console.log(this.animalInfo.AnimalBirthDate);
-
-          let dateDiff2 = dayjs(this.data[this.index].GiveBirthDate).diff(
-            this.animalInfo.AnimalBirthDate,
+          let dateDiff = dayjs(this.data[this.index].GiveBirthDate).diff(
+            date_1,
             "day"
           );
 
-          if (dateDiff2 < 1) {
-            error = 2;
+          let res = dateDiff;
+
+          this.txtCheck =
+            "จำนวนวันตั้งแต่ผสมครั้งล่าสุด ถึงวันคลอดอยู่ระหว่าง" + res + "วัน";
+
+          let error = 0;
+          if (this.data.length != 0) {
+            let check = this.data[this.data.length - 2];
+            console.log(this.data);
+
+            if (check) {
+              let dateDiff1 = dayjs(this.data[this.index].GiveBirthDate).diff(
+                check.GiveBirthDate,
+                "day"
+              );
+              if (dateDiff1 < 280) {
+                error = 1;
+              }
+            }
+          }
+
+          if (this.data.length != 0) {
+            console.log(this.animalInfo.AnimalBirthDate);
+
+            let dateDiff2 = dayjs(this.data[this.index].GiveBirthDate).diff(
+              this.animalInfo.AnimalBirthDate,
+              "day"
+            );
+
+            if (dateDiff2 < 1) {
+              error = 2;
+            }
+          }
+
+          if (error == 2) {
+            this.txtCheck = "ไม่สามารถบันทึกคลอดก่อนวันเกิดโคแม่พันธุ์ได้";
+            this.displayViewConfirmBirth = true;
+            this.btnSubmit = false;
+          } else if (error == 1) {
+            this.txtCheck =
+              "ระยะห่างจากวันที่คลอดครั้งล่าสุดน้อยกว่า 280 วัน ไม่สามารถบันทึกคลอดได้";
+            this.displayViewConfirmBirth = true;
+            this.btnSubmit = false;
+          } else if (this.lastInformation.AIDate == null) {
+            this.txtCheck = "เพิ่มข้อมูลการคลอด โดยไม่มีการผสม";
+            this.btnSubmit = true;
+            this.displayViewConfirmBirth = true;
+          } else if (res <= 260) {
+            this.txtCon =
+              "ระยะเวลาครั้งผสมครั้งล่าสุด ถึงวันคลอดน้อยกว่า 260 วัน ยืนยันคลอดหรือบันทึกแท้ง";
+            this.btnSubmit = true;
+            this.displayViewConfirmBirth = true;
+          } else if (res >= 310) {
+            this.txtCon =
+              "ระยะเวลาครั้งผสมครั้งล่าสุด ถึงวันคลอดมากกว่า 310 วัน ยืนยันคลอดหรือบันทึกผสมเพิ่มเติม";
+            this.btnSubmit = true;
+            this.displayViewConfirmBirth = true;
+          } else {
+            this.displayViewConfirmBirth = false;
+            this.btnSubmit = true;
+            this.add();
           }
         }
+      } else if (this.animal_id == 2) {
+        if (this.data[this.index].GiveBirthDate) {
+          let date_1 = new Date(this.lastInformation.AIDate);
 
-        if (error == 2) {
-          this.txtCheck = "ไม่สามารถบันทึกคลอดก่อนวันเกิดโคแม่พันธุ์ได้";
-          this.displayViewConfirmBirth = true;
-          this.btnSubmit = false;
-        } else if (error == 1) {
+          console.log(this.lastInformation.AIDate);
+
+          let dateDiff = dayjs(this.data[this.index].GiveBirthDate).diff(
+            date_1,
+            "day"
+          );
+
+          let res = dateDiff;
+
           this.txtCheck =
-            "ระยะห่างจากวันที่คลอดครั้งล่าสุดน้อยกว่า 280 วัน ไม่สามารถบันทึกคลอดได้";
-          this.displayViewConfirmBirth = true;
-          this.btnSubmit = false;
-        } else if (this.lastInformation.AIDate == null) {
-          this.txtCheck = "เพิ่มข้อมูลการคลอด โดยไม่มีการผสม";
-          this.btnSubmit = true;
-          this.displayViewConfirmBirth = true;
-        } else if (res <= 260) {
-          this.txtCon =
-            "ระยะเวลาครั้งผสมครั้งล่าสุด ถึงวันคลอดน้อยกว่า 260 วัน ยืนยันคลอดหรือบันทึกแท้ง";
-          this.btnSubmit = true;
-          this.displayViewConfirmBirth = true;
-        } else if (res >= 310) {
-          this.txtCon =
-            "ระยะเวลาครั้งผสมครั้งล่าสุด ถึงวันคลอดมากกว่า 310 วัน ยืนยันคลอดหรือบันทึกผสมเพิ่มเติม";
-          this.btnSubmit = true;
-          this.displayViewConfirmBirth = true;
-        } else {
-          this.displayViewConfirmBirth = false;
-          this.btnSubmit = true;
-          this.add();
+            "จำนวนวันตั้งแต่ผสมครั้งล่าสุด ถึงวันคลอดอยู่ระหว่าง" + res + "วัน";
+
+          let error = 0;
+          if (this.data.length != 0) {
+            let check = this.data[this.data.length - 2];
+            console.log(this.data);
+
+            if (check) {
+              let dateDiff1 = dayjs(this.data[this.index].GiveBirthDate).diff(
+                check.GiveBirthDate,
+                "day"
+              );
+              if (dateDiff1 < 320) {
+                error = 1;
+              }
+            }
+          }
+
+          if (this.data.length != 0) {
+            console.log(this.animalInfo.AnimalBirthDate);
+
+            let dateDiff2 = dayjs(this.data[this.index].GiveBirthDate).diff(
+              this.animalInfo.AnimalBirthDate,
+              "day"
+            );
+
+            if (dateDiff2 < 1) {
+              error = 2;
+            }
+          }
+
+          if (error == 2) {
+            this.txtCheck = "ไม่สามารถบันทึกคลอดก่อนวันเกิดแม่พันธุ์ได้";
+            this.displayViewConfirmBirth = true;
+            this.btnSubmit = false;
+          } else if (error == 1) {
+            this.txtCheck =
+              "ระยะห่างจากวันที่คลอดครั้งล่าสุดน้อยกว่า 320 วัน ไม่สามารถบันทึกคลอดได้";
+            this.displayViewConfirmBirth = true;
+            this.btnSubmit = false;
+          } else if (this.lastInformation.AIDate == null) {
+            this.txtCheck = "เพิ่มข้อมูลการคลอด โดยไม่มีการผสม";
+            this.btnSubmit = true;
+            this.displayViewConfirmBirth = true;
+          } else if (res < 320) {
+            this.txtCon =
+              "ระยะเวลาครั้งผสมครั้งล่าสุด ถึงวันคลอดน้อยกว่า 320 วัน ไม่สามารถบันทึกคลอดได้";
+            // this.btnSubmit = true;
+            // this.displayViewConfirmBirth = true;
+            this.displayViewConfirmBirth = true;
+            this.btnSubmit = false;
+          } 
+        //   else if (res >= 310) {
+        //     this.txtCon =
+        //       "ระยะเวลาครั้งผสมครั้งล่าสุด ถึงวันคลอดมากกว่า 310 วัน ยืนยันคลอดหรือบันทึกผสมเพิ่มเติม";
+        //     this.btnSubmit = true;
+        //     this.displayViewConfirmBirth = true;
+        //   } 
+          else {
+            this.displayViewConfirmBirth = false;
+            this.btnSubmit = true;
+            this.add();
+          }
         }
+      } else {
+        console.log("แพะ");
       }
 
       // this.displayViewConfirmBirth = true;

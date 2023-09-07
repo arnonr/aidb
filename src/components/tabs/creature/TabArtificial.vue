@@ -1700,6 +1700,7 @@ export default {
       });
 
       if (abort.rows.length > 0 || birth.rows.length > 0) {
+        console.log(abort.rows[0])
         var $d1 = dayjs().diff(abort.rows[0]?.AbortDate, "day");
         var $d2 = dayjs().diff(birth.rows[0]?.GiveBirthDate, "day");
 
@@ -2116,9 +2117,9 @@ export default {
             }
           }
 
-          let test = dayjs(this.olddate).isBefore(dayjs(this.olddate1))
-          if(test == true){
-            this.olddate = this.olddate1
+          let test = dayjs(this.olddate).isBefore(dayjs(this.olddate1));
+          if (test == true) {
+            this.olddate = this.olddate1;
           }
 
           this.display = true;

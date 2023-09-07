@@ -161,10 +161,17 @@
             <label class="block text-600 text-sm font-bold mb-2">
               ท้องที่</label
             >
-            <InputText
-              v-model="data[index].PAR"
+            <!-- <InputText
               class="w-full"
-              :disabled="true"
+              :disabled="disabledPar"
+            /> -->
+            <InputNumber
+              v-model="data[index].PAR"
+              :max="limitPar"
+              :min="data[index].PAR"
+              showButtons
+              :disabled="disabledPar"
+              class="w-full"
             />
           </div>
 
@@ -598,6 +605,8 @@ export default {
       id: "GiveBirthID",
       // Name
       name: "คลอด",
+      disabledPar: true,
+      limitPar: 2,
       textBirth: "",
       show: {
         date: "",
@@ -751,7 +760,6 @@ export default {
       handler(val) {
         if (val[0]) {
           if (this.data[this.index].GiveBirthDate) {
-
             let date_1 = new Date(this.lastInformation.AIDate);
             let dateDiff = dayjs(this.data[this.index].GiveBirthDate).diff(
               date_1,
@@ -759,7 +767,58 @@ export default {
             );
             let res = dateDiff;
 
-            this.textBirth = "ระยะห่างจากวันผสม "+res + " วัน";
+            this.textBirth = "ระยะห่างจากวันผสม " + res + " วัน";
+          }
+        }
+
+        if (this.data[this.index]) {
+          if (this.data[this.index].PAR == 1) {
+            this.disabledPar = false;
+            console.log(this.data[this.index]);
+
+            let dateDiff4 = dayjs().diff(
+              this.animalInfo.AnimalBirthDate,
+              "day"
+            );
+
+            if (this.animal_id == 1 || this.animal_id == 2) {
+              if (dateDiff4 < 360 * 4) {
+                this.limitPar = 2;
+              } else if (dateDiff4 < 360 * 5) {
+                this.limitPar = 3;
+              } else if (dateDiff4 < 360 * 6) {
+                this.limitPar = 4;
+              } else if (dateDiff4 < 360 * 7) {
+                this.limitPar = 5;
+              } else if (dateDiff4 < 360 * 8) {
+                this.limitPar = 6;
+              } else if (dateDiff4 < 360 * 9) {
+                this.limitPar = 7;
+              } else if (dateDiff4 < 360 * 10) {
+                this.limitPar = 8;
+              } else {
+                this.limitPar = 9;
+              }
+            }
+
+
+            if (this.animal_id == 3) {
+              if (dateDiff4 < 360 * 2) {
+                this.limitPar = 1;
+              } else if (dateDiff4 < 360 * 3) {
+                this.limitPar = 3;
+              } else if (dateDiff4 < 360 * 4) {
+                this.limitPar = 5;
+              } else if (dateDiff4 < 360 * 5) {
+                this.limitPar = 7;
+              } else {
+                this.limitPar = 9;
+              }
+            }
+
+
+
+            // this.limitPar = 1;
           }
         }
       },
@@ -1083,6 +1142,7 @@ export default {
           signal: this.controller.signal,
         })
         .then((response) => {
+          console.log(response.data.rows[0]);
           this.data[this.index].PAR = response.data.rows[0].PAR;
           if (response.data.rows[0].AIID) {
             this.data[this.index].AIID = response.data.rows[0].AIID;
@@ -1171,7 +1231,6 @@ export default {
           let error = 0;
           if (this.data.length != 0) {
             let check = this.data[this.data.length - 2];
-            console.log(this.data);
 
             if (check) {
               let dateDiff1 = dayjs(this.data[this.index].GiveBirthDate).diff(
@@ -1375,7 +1434,6 @@ export default {
         BornType: borntype,
       };
 
-      console.log(item);
       store.dispatch("bornItem", item);
       this.$router.push("/creaturebaby/add");
     },

@@ -1137,6 +1137,7 @@ export default {
       this.filtered.AnimalBirthDate = val;
       this.callGennumber();
       this.callStatus();
+      this.callStatus1();
     },
 
     "form.AnimalTypeID"(val) {
@@ -1769,6 +1770,7 @@ export default {
         const date2 = dayjs(AnimalBirthDate);
         // นับอายุสัตว์
         let total = date1.diff(date2, "month");
+        // let totalday = date1.diff(date2, "day");
         // เงื่อนไขการกำหนดสถานะสัตว์
         // โคเนื้อ
         console.log(this.animal_id);
@@ -1884,67 +1886,104 @@ export default {
     },
 
     callStatus1() {
+      let date = JSON.stringify(this.filtered.AnimalBirthDate);
+      let AnimalBirthDate = date.slice(1, 11);
+      const date1 = dayjs();
+      const date2 = dayjs(AnimalBirthDate);
+      let totalday = date1.diff(date2, "day");
+
       if (this.animal_id == 1) {
         if (this.form.AnimalSexID == 1) {
-          this.animalstatus = this.animalstatusDefault.filter((x) => {
-            console.log(x.AnimalStatusName);
-            return (
-              x.AnimalStatusName !== "โคสาว" &&
-              x.AnimalStatusName !== "โคแม่พันธุ์"
-            );
-          });
+          if (totalday < 30 * 4) {
+            this.animalstatus = this.animalstatusDefault.filter((x) => {
+              return x.AnimalStatusName === "ลูกโค";
+            });
+          } else {
+            this.animalstatus = this.animalstatusDefault.filter((x) => {
+              return (
+                x.AnimalStatusName !== "โคสาว" &&
+                x.AnimalStatusName !== "โคแม่พันธุ์" &&
+                x.AnimalStatusName !== "ลูกโค"
+              );
+            });
+          }
         } else {
-          console.log(
-            this.animal_id +
-              this.form.AnimalSexID +
-              "FREEDOM90" +
-              this.animalstatusDefault
-          );
-          this.animalstatus = this.animalstatusDefault.filter((x) => {
-            console.log(x.AnimalStatusName);
-            return (
-              x.AnimalStatusName !== "โครุ่น" &&
-              x.AnimalStatusName !== "โคพ่อพันธุ์"
-            );
-          });
+          if (totalday < 30 * 12) {
+            this.animalstatus = this.animalstatusDefault.filter((x) => {
+              return x.AnimalStatusName === "ลูกโค";
+            });
+          } else {
+            this.animalstatus = this.animalstatusDefault.filter((x) => {
+              return (
+                x.AnimalStatusName !== "โครุ่น" &&
+                x.AnimalStatusName !== "โคพ่อพันธุ์" &&
+                x.AnimalStatusName !== "ลูกโค"
+              );
+            });
+          }
         }
       }
       if (this.animal_id == 2) {
         if (this.form.AnimalSexID == 1) {
-          this.animalstatus = this.animalstatusDefault.filter((x) => {
-            console.log(x.AnimalStatusName);
-            return (
-              x.AnimalStatusName !== "กระบือสาว" &&
-              x.AnimalStatusName !== "กระบือแม่พันธุ์"
-            );
-          });
+          if (totalday < 30 * 6) {
+            this.animalstatus = this.animalstatusDefault.filter((x) => {
+              return x.AnimalStatusName === "ลูกกระบือ";
+            });
+          } else {
+            this.animalstatus = this.animalstatusDefault.filter((x) => {
+              return (
+                x.AnimalStatusName !== "กระบือสาว" &&
+                x.AnimalStatusName !== "กระบือแม่พันธุ์" &&
+                x.AnimalStatusName !== "ลูกกระบือ"
+              );
+            });
+          }
         } else {
-          this.animalstatus = this.animalstatusDefault.filter((x) => {
-            console.log(x.AnimalStatusName);
-            return (
-              x.AnimalStatusName !== "กระบือรุ่น" &&
-              x.AnimalStatusName !== "กระบือพ่อพันธุ์"
-            );
-          });
+          if (totalday < 30 * 13) {
+            this.animalstatus = this.animalstatusDefault.filter((x) => {
+              return x.AnimalStatusName === "ลูกกระบือ";
+            });
+          } else {
+            this.animalstatus = this.animalstatusDefault.filter((x) => {
+              return (
+                x.AnimalStatusName !== "กระบือรุ่น" &&
+                x.AnimalStatusName !== "กระบือพ่อพันธุ์" &&
+                x.AnimalStatusName !== "ลูกกระบือ"
+              );
+            });
+          }
         }
       }
       if (this.animal_id == 3) {
         if (this.form.AnimalSexID == 1) {
-          this.animalstatus = this.animalstatusDefault.filter((x) => {
-            console.log(x.AnimalStatusName);
-            return (
-              x.AnimalStatusName !== "แพะสาว" &&
-              x.AnimalStatusName !== "แพะแม่พันธุ์"
-            );
-          });
+          if (totalday < 30 * 4) {
+            this.animalstatus = this.animalstatusDefault.filter((x) => {
+              return x.AnimalStatusName === "ลูกแพะ";
+            });
+          } else {
+            this.animalstatus = this.animalstatusDefault.filter((x) => {
+              return (
+                x.AnimalStatusName !== "แพะสาว" &&
+                x.AnimalStatusName !== "แพะแม่พันธุ์" &&
+                x.AnimalStatusName !== "ลูกแพะ"
+              );
+            });
+          }
+          //
         } else {
-          this.animalstatus = this.animalstatusDefault.filter((x) => {
-            console.log(x.AnimalStatusName);
-            return (
-              x.AnimalStatusName !== "แพะรุ่น" &&
-              x.AnimalStatusName !== "แพะพ่อพันธุ์"
-            );
-          });
+          if (totalday < 30 * 6) {
+            this.animalstatus = this.animalstatusDefault.filter((x) => {
+              return x.AnimalStatusName === "ลูกแพะ";
+            });
+          } else {
+            this.animalstatus = this.animalstatusDefault.filter((x) => {
+              return (
+                x.AnimalStatusName !== "แพะรุ่น" &&
+                x.AnimalStatusName !== "แพะพ่อพันธุ์" &&
+                x.AnimalStatusName !== "ลูกแพะ"
+              );
+            });
+          }
         }
       }
     },

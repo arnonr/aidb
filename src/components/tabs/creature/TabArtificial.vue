@@ -1709,7 +1709,6 @@ export default {
             denyButtonText: "ยกเลิก",
             allowOutsideClick: false,
           }).then((result) => {
-
             if (result.isConfirmed) {
               // this.date_last_event diff abort and birth last AbortDate and GiveBirthDate
               if (abort.rows.length > 0 && birth.rows.length > 0) {
@@ -1913,6 +1912,7 @@ export default {
             this.show.id = response.data.rows[0].AnimalEarID;
             this.show.name = response.data.rows[0].AnimalName;
             this.show.farm = `${response.data.rows[0].AnimalFarm.FarmIdentificationNumber}, ${response.data.rows[0].AnimalFarm.FarmName} `;
+            this.show.AnimalBirthDate = response.data.rows[0].AnimalBirthDate;
           });
         resolve();
       });
@@ -2080,6 +2080,7 @@ export default {
           date = response.data.rows[0].AIDate;
         });
       this.data[this.index].AIDate = this.olddate;
+
       this.doseAuto();
 
       await this.checkabort();
@@ -2089,8 +2090,16 @@ export default {
         if (this.display_birth == true) {
           if (this.date_last_event > date) {
             this.olddate = this.date_last_event;
+
+            // if (this.index == 0) {
+            //     this.olddate = this.date_last_event;
+            // }
           } else {
-            this.olddate = date;
+            if (date == null) {
+              this.olddate = this.show.AnimalBirthDate;
+            } else {
+              this.olddate = date;
+            }
           }
 
           this.display = true;

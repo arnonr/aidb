@@ -266,6 +266,7 @@
                 {{ year + 543 }}
               </template>
             </Datepicker>
+            <span>{{ this.textBirth }}</span>
           </div>
           <div class="col-12 lg:col-6">
             <label class="block text-600 text-sm font-bold mb-2">
@@ -597,6 +598,7 @@ export default {
       id: "GiveBirthID",
       // Name
       name: "คลอด",
+      textBirth: "",
       show: {
         date: "",
       },
@@ -744,6 +746,24 @@ export default {
       } else {
         this.data = [];
       }
+    },
+    data: {
+      handler(val) {
+        if (val[0]) {
+          if (this.data[this.index].GiveBirthDate) {
+
+            let date_1 = new Date(this.lastInformation.AIDate);
+            let dateDiff = dayjs(this.data[this.index].GiveBirthDate).diff(
+              date_1,
+              "day"
+            );
+            let res = dateDiff;
+
+            this.textBirth = "ระยะห่างจากวันผสม "+res + " วัน";
+          }
+        }
+      },
+      deep: true,
     },
   },
   computed: {

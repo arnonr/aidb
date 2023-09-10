@@ -659,9 +659,8 @@
       :style="{ width: '75vw' }"
       :modal="false"
       :dismissableMask="true"
-      v-show="false"
     >
-      <VueCreatureInfo :display="true" v-show="false" v-if="displaytab" />
+      <VueCreatureInfo :display="true" v-if="displaytab" />
     </Dialog>
 
     <!-- <Creature_info

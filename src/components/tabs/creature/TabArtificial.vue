@@ -1374,9 +1374,6 @@ export default {
       type: Array,
       required: true,
     },
-    animalInfo: {
-      required: true,
-    },
     display_prop: {
       type: Boolean,
       required: false,
@@ -1581,6 +1578,7 @@ export default {
       user: "user",
       AnimalID: "AnimalID",
       animal_id: "animal_id",
+      animalInfo: "animalInfo",
       AnimalSecretStatus: "AnimalSecretStatus",
     }),
   },
@@ -1700,7 +1698,7 @@ export default {
       });
 
       if (abort.rows.length > 0 || birth.rows.length > 0) {
-        console.log(abort.rows[0])
+        console.log(abort.rows[0]);
         var $d1 = dayjs().diff(abort.rows[0]?.AbortDate, "day");
         var $d2 = dayjs().diff(birth.rows[0]?.GiveBirthDate, "day");
 

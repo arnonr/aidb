@@ -160,7 +160,7 @@
           <div class="col-12 lg:col-6">
             <label class="block text-600 text-sm font-bold mb-2">
               ท้องที่</label
-            >
+            >   
             <!-- <InputText
               class="w-full"
               :disabled="disabledPar"
@@ -168,7 +168,7 @@
             <InputNumber
               v-model="data[index].PAR"
               :max="limitPar"
-              :min="data[index].PAR"
+              :min="1"
               showButtons
               :disabled="disabledPar"
               class="w-full"

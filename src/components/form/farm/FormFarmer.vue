@@ -910,6 +910,7 @@ import _ from "lodash";
 import { format } from "date-fns";
 import { th } from "date-fns/locale";
 import store from "@/service/Vuex";
+import Swal from "sweetalert2";
 export default {
   data() {
     return {
@@ -1028,12 +1029,45 @@ export default {
           .then((res) => {
             this.form = res.data.rows[0];
             this.checkSelect = 1;
-            this.$toast.add({
-              severity: "success",
-              summary: "สำเร็จ",
-              detail: "พบข้อมูลเกษตกร",
-              life: 2000,
-            });
+
+            // ถามว่าพบข้อมูล
+            axios
+              .get(this.url.farm + "?FarmerID=" + this.form.FarmerID, {
+                signal: this.controller.signal,
+              })
+              .then((res1) => {
+                if (res1) {
+                  let farmCheck = res1.data.rows[0];
+
+                  Swal.fire({
+                    title:
+                      "หมายเลขนี้เคยขึ้นทะเบียนด้วยหมายเลขฟาร์ม :" +
+                      farmCheck.FarmIdentificationNumber +
+                      "<br>ชื่อฟาร์ม : " +
+                      farmCheck.FarmName,
+                    showDenyButton: true,
+                    showCancelButton: false,
+                    confirmButtonText: "เพิ่มฟาร์มใหม่",
+                    denyButtonText: `ยกเลิก`,
+                  }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                      this.$toast.add({
+                        severity: "success",
+                        summary: "สำเร็จ",
+                        detail: "พบข้อมูลเกษตกร",
+                        life: 2000,
+                      });
+                    } else if (result.isDenied) {
+                      //   Swal.fire("Changes are not saved", "", "info");
+
+                      this.$router.push({ name: "farmall" });
+                    }
+                  });
+                }
+
+                // return res;
+              });
           })
           .catch(() => {
             this.checkSelect = 3;
@@ -1232,12 +1266,9 @@ export default {
       axios
         .get(this.url.province, {
           signal: this.controller.signal,
-          
         })
         .then((res) => {
-
           this.province = res.data.rows;
-          console.log(this.province)
         })
         .finally(() => {
           this.isLoading = false;
@@ -1287,7 +1318,6 @@ export default {
         }
       }
 
-      console.log(this.form);
       this.formFarm = this.form;
       // this.formFarm = {
       //   FarmerID: this.form.FarmerID,

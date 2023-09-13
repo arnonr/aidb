@@ -1352,11 +1352,11 @@ export default {
                 // this.form.AnimalBreedPercent1 =
                 //   response.data[i].AnimalBreedPercent;
 
-                if (response.data[i].AnimalBreedPercent == "50.00") {
+                if (response.data[i].AnimalBreedPercent == "50.000") {
                   breed1tmp = this.Percent[0];
-                } else if (response.data[i].AnimalBreedPercent == "75.00") {
+                } else if (response.data[i].AnimalBreedPercent == "75.000") {
                   breed1tmp = this.Percent[1];
-                } else if (response.data[i].AnimalBreedPercent == "100.00") {
+                } else if (response.data[i].AnimalBreedPercent == "100.000") {
                   breed1tmp = this.Percent[2];
                 }
                 this.form.AnimalBreedPercent1 = breed1tmp;
@@ -1378,6 +1378,9 @@ export default {
                   response.data[i].AnimalBreedPercent;
               }
             }
+
+            console.log(this.form.AnimalBreedPercent1)
+            console.log(this.form.AnimalBreedPercent2)
 
             // console.log(this.form);
           })

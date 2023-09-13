@@ -484,7 +484,7 @@
                           :class="{
                             'p-invalid': !form.AnimalBreedPercent1 && valid,
                           }"
-                          :readonly="
+                          :disabled="
                             checkFirst == '0' ||
                             (user.GroupID != 1 &&
                               user.GroupID != 16 &&

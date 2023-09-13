@@ -378,7 +378,11 @@
                       optionLabel="name"
                       :showClear="true"
                       :filter="true"
-                      :disabled="true"
+                      :disabled="
+                        user.GroupID != 1 &&
+                        user.GroupID != 16 &&
+                        user.GroupID != 15
+                      "
                       placeholder="เลือกตั้งต้นสายเลือด"
                       v-model="form.AnimalFirstBreed"
                       :class="{ 'p-invalid': !form.AnimalFirstBreed && valid }"
@@ -403,6 +407,11 @@
                           :filter="true"
                           v-model="form.AnimalFatherID"
                           :blur="callCheckNew()"
+                          :disabled="
+                            user.GroupID != 1 &&
+                            user.GroupID != 16 &&
+                            user.GroupID != 15
+                          "
                         />
                       </div>
 
@@ -421,11 +430,16 @@
                           :filter="true"
                           v-model="form.AnimalMotherID"
                           :blur="callCheckNew()"
+                          :disabled="
+                            user.GroupID != 1 &&
+                            user.GroupID != 16 &&
+                            user.GroupID != 15
+                          "
                         />
                       </div>
                     </div>
                   </div>
-                  <div class="col-12">
+                  <div class="col-12" v-if="checkFirst == '1'">
                     <div class="formgrid grid">
                       <div
                         class="field col-12 sm:col-6"
@@ -1066,19 +1080,19 @@ export default {
       });
 
     if (this.animal_id == 1) {
-      this.apiAnimalFatherID += "&AnimalTypeID=[1,2]&isActive=1";
+      this.apiAnimalFatherID += "&AnimalTypeID=[1,2,41,42]&isActive=1";
     } else if (this.animal_id == 2) {
-      this.apiAnimalFatherID += "&AnimalTypeID=[3,4,42]&isActive=1";
+      this.apiAnimalFatherID += "&AnimalTypeID=[3,4,43,44]&isActive=1";
     } else if (this.animal_id == 3) {
-      this.apiAnimalFatherID += "&AnimalTypeID=[17,18]&isActive=1";
+      this.apiAnimalFatherID += "&AnimalTypeID=[17,18,45,46]&isActive=1";
     }
 
     if (this.animal_id == 1) {
-      this.apiProject += "&ProjectLevel=ANIMAL&AnimalTypeID=[1,2]";
+      this.apiProject += "&ProjectLevel=ANIMAL&AnimalTypeID=[1,2,41,42]";
     } else if (this.animal_id == 2) {
-      this.apiProject += "&ProjectLevel=ANIMAL&AnimalTypeID=[3,4]";
+      this.apiProject += "&ProjectLevel=ANIMAL&AnimalTypeID=[3,4,43,44]";
     } else if (this.animal_id == 3) {
-      this.apiProject += "&ProjectLevel=ANIMAL&AnimalTypeID=[17,18]";
+      this.apiProject += "&ProjectLevel=ANIMAL&AnimalTypeID=[17,18,45,46]";
     }
     await axios
       .get(this.apiProject, { signal: this.controller.signal })
@@ -1156,6 +1170,9 @@ export default {
     // },
     "form.AnimalFirstBreed"(val) {
       this.checkFirst = val.id;
+      //   if (this.checkFirst == 0) {
+
+      //   }
     },
 
     "form.AnimalBirthDate"(val) {
@@ -1647,6 +1664,19 @@ export default {
             }
           }
         });
+
+      axios
+        .get(this.apiAnimalMotherID, { signal: this.controller.signal })
+        .then((response) => {
+          //   console.log(response.data.rows);
+          this.animalmother = response.data.rows.filter(
+            (item) => item.AnimalSexID === 2
+          );
+          this.animalfather = response.data.rows.filter(
+            (item) => item.AnimalSexID === 1
+          );
+        })
+        .finally(() => {});
     },
     project_check() {
       const setUrl = "/animal/" + this.params;

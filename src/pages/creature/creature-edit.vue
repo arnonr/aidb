@@ -446,7 +446,12 @@
                           :showClear="true"
                           :filter="true"
                           v-model="form.AnimalBreedID1"
-                          :disabled="checkFirst == '0'"
+                          :disabled="
+                            checkFirst == '0' ||
+                            (user.GroupID != 1 &&
+                              user.GroupID != 16 &&
+                              user.GroupID != 15)
+                          "
                         />
                       </div>
                       <div
@@ -479,7 +484,12 @@
                           :class="{
                             'p-invalid': !form.AnimalBreedPercent1 && valid,
                           }"
-                          :readonly="checkFirst == '0'"
+                          :readonly="
+                            checkFirst == '0' ||
+                            (user.GroupID != 1 &&
+                              user.GroupID != 16 &&
+                              user.GroupID != 15)
+                          "
                         >
                         </Dropdown>
                       </div>
@@ -500,7 +510,12 @@
                           :showClear="true"
                           :filter="true"
                           v-model="form.AnimalBreedID2"
-                          :disabled="checkFirst == '0'"
+                          :disabled="
+                            checkFirst == '0' ||
+                            (user.GroupID != 1 &&
+                              user.GroupID != 16 &&
+                              user.GroupID != 15)
+                          "
                         />
                       </div>
                       <div
@@ -518,7 +533,12 @@
                           :minFractionDigits="2"
                           :min="0"
                           :max="100"
-                          :readonly="checkFirst == '0'"
+                          :readonly="
+                            checkFirst == '0' ||
+                            (user.GroupID != 1 &&
+                              user.GroupID != 16 &&
+                              user.GroupID != 15)
+                          "
                         />
                       </div>
                       <div
@@ -538,7 +558,12 @@
                           :showClear="true"
                           :filter="true"
                           v-model="form.AnimalBreedID3"
-                          :disabled="checkFirst == '0'"
+                          :disabled="
+                            checkFirst == '0' ||
+                            (user.GroupID != 1 &&
+                              user.GroupID != 16 &&
+                              user.GroupID != 15)
+                          "
                         />
                       </div>
                       <div
@@ -556,7 +581,12 @@
                           :minFractionDigits="2"
                           :min="0"
                           :max="100"
-                          :readonly="checkFirst == '0'"
+                          :readonly="
+                            checkFirst == '0' ||
+                            (user.GroupID != 1 &&
+                              user.GroupID != 16 &&
+                              user.GroupID != 15)
+                          "
                         />
                       </div>
                       <div
@@ -576,7 +606,12 @@
                           :showClear="true"
                           :filter="true"
                           v-model="form.AnimalBreedID4"
-                          :disabled="checkFirst == '0'"
+                          :disabled="
+                            checkFirst == '0' ||
+                            (user.GroupID != 1 &&
+                              user.GroupID != 16 &&
+                              user.GroupID != 15)
+                          "
                         />
                       </div>
                       <div
@@ -594,7 +629,12 @@
                           :minFractionDigits="2"
                           :min="0"
                           :max="100"
-                          :readonly="checkFirst == '0'"
+                          :readonly="
+                            checkFirst == '0' ||
+                            (user.GroupID != 1 &&
+                              user.GroupID != 16 &&
+                              user.GroupID != 15)
+                          "
                         />
                       </div>
                       <div
@@ -614,7 +654,12 @@
                           :showClear="true"
                           :filter="true"
                           v-model="form.AnimalBreedID5"
-                          :disabled="checkFirst == '0'"
+                          :disabled="
+                            checkFirst == '0' ||
+                            (user.GroupID != 1 &&
+                              user.GroupID != 16 &&
+                              user.GroupID != 15)
+                          "
                         />
                       </div>
                       <div
@@ -632,7 +677,12 @@
                           :minFractionDigits="2"
                           :min="0"
                           :max="100"
-                          :readonly="checkFirst == '0'"
+                          :readonly="
+                            checkFirst == '0' ||
+                            (user.GroupID != 1 &&
+                              user.GroupID != 16 &&
+                              user.GroupID != 15)
+                          "
                         />
                       </div>
                       <div
@@ -950,7 +1000,7 @@ export default {
           this.animalbreed = response.data.rows
             .filter(
               (item) =>
-                item.AnimalTypeID === 1  ||
+                item.AnimalTypeID === 1 ||
                 item.AnimalTypeID === 2 ||
                 item.AnimalTypeID === 41 ||
                 item.AnimalTypeID === 42
@@ -1542,8 +1592,6 @@ export default {
                 );
 
                 if (checkProject21 != null) {
-                  // console.log("FREEDOM");
-                  // console.log(this.user);
                   if (this.user.GroupID != 1) {
                     // console.log("FREEDOM1");
 

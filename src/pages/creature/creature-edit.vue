@@ -1378,11 +1378,6 @@ export default {
                   response.data[i].AnimalBreedPercent;
               }
             }
-
-            console.log(this.form.AnimalBreedPercent1)
-            console.log(this.form.AnimalBreedPercent2)
-
-            // console.log(this.form);
           })
           .catch((err) => {
             this.$toast.add({

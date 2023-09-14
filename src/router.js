@@ -680,6 +680,11 @@ const routes = [
 
       //  ระบบโครงการ=============================================================
       {
+        path: "/project/detail",
+        name: "ติดตามโครงการ",
+        component: () => import("./pages/project/project-detail.vue"),
+      },    
+      {
         path: "/project/thaiblack",
         name: "thaiblack",
         component: () => import("./pages/project/thaiblack.vue"),

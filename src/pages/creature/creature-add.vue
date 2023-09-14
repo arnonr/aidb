@@ -688,10 +688,10 @@
 
                         <InputNumber
                           v-if="
-                            form.AnimalSexID == 2 && (
-                            user.GroupID == 1 ||
-                            user.GroupID == 16 ||
-                            user.GroupID == 15)
+                            form.AnimalSexID == 2 &&
+                            (user.GroupID == 1 ||
+                              user.GroupID == 16 ||
+                              user.GroupID == 15)
                           "
                           inputId="minmax"
                           class="w-full"
@@ -1811,7 +1811,7 @@ export default {
           } else if (total >= 12 && this.form.AnimalSexID == 2) {
             // โคสาว
             this.form.AnimalStatusID = 3;
-          } else if (total >= 4) {
+          } else if (total > 4) {
             // โครุ่น
             this.form.AnimalStatusID = 2;
           }
@@ -1921,6 +1921,10 @@ export default {
             this.animalstatus = this.animalstatusDefault.filter((x) => {
               return x.AnimalStatusName === "ลูกโค";
             });
+          } else if (totalday < 30 * 24) {
+            this.animalstatus = this.animalstatusDefault.filter((x) => {
+              return x.AnimalStatusName === "โครุ่น";
+            });
           } else {
             this.animalstatus = this.animalstatusDefault.filter((x) => {
               return (
@@ -1931,9 +1935,13 @@ export default {
             });
           }
         } else {
-          if (totalday < 30 * 12) {
+          if (totalday < 30 * 4) {
             this.animalstatus = this.animalstatusDefault.filter((x) => {
               return x.AnimalStatusName === "ลูกโค";
+            });
+          } else if (totalday < 30 * 12) {
+            this.animalstatus = this.animalstatusDefault.filter((x) => {
+              return x.AnimalStatusName === "โครุ่น";
             });
           } else {
             this.animalstatus = this.animalstatusDefault.filter((x) => {
@@ -1952,6 +1960,10 @@ export default {
             this.animalstatus = this.animalstatusDefault.filter((x) => {
               return x.AnimalStatusName === "ลูกกระบือ";
             });
+          } else if (totalday < 30 * 36) {
+            this.animalstatus = this.animalstatusDefault.filter((x) => {
+              return x.AnimalStatusName === "กระบือรุ่น";
+            });
           } else {
             this.animalstatus = this.animalstatusDefault.filter((x) => {
               return (
@@ -1962,9 +1974,14 @@ export default {
             });
           }
         } else {
-          if (totalday < 30 * 13) {
+            console.log(totalday)
+          if (totalday < 30 * 6) {
             this.animalstatus = this.animalstatusDefault.filter((x) => {
               return x.AnimalStatusName === "ลูกกระบือ";
+            });
+          } else if (totalday < 30 * 13) {
+            this.animalstatus = this.animalstatusDefault.filter((x) => {
+              return x.AnimalStatusName === "กระบือรุ่น";
             });
           } else {
             this.animalstatus = this.animalstatusDefault.filter((x) => {
@@ -1983,6 +2000,10 @@ export default {
             this.animalstatus = this.animalstatusDefault.filter((x) => {
               return x.AnimalStatusName === "ลูกแพะ";
             });
+          } else if (totalday < 30 * 12) {
+            this.animalstatus = this.animalstatusDefault.filter((x) => {
+              return x.AnimalStatusName === "แพะรุ่น";
+            });
           } else {
             this.animalstatus = this.animalstatusDefault.filter((x) => {
               return (
@@ -1994,9 +2015,13 @@ export default {
           }
           //
         } else {
-          if (totalday < 30 * 6) {
+          if (totalday < 30 * 4) {
             this.animalstatus = this.animalstatusDefault.filter((x) => {
               return x.AnimalStatusName === "ลูกแพะ";
+            });
+          } else if (totalday < 30 * 6) {
+            this.animalstatus = this.animalstatusDefault.filter((x) => {
+              return x.AnimalStatusName === "แพะรุ่น";
             });
           } else {
             this.animalstatus = this.animalstatusDefault.filter((x) => {

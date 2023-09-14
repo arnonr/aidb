@@ -882,6 +882,8 @@ export default {
       this.params.ProjectID = pj.map((e) => {
         return parseInt(e);
       });
+
+      //   this.params.ProjectID
     }
 
     this.load();
@@ -1348,11 +1350,15 @@ export default {
       this.setParam();
 
       // console.log(this.params.ProjectID);
-      this.params.ProjectID = JSON.stringify(this.params.ProjectID);
+      console.log(typeof this.params.ProjectID);
+
+      if (typeof this.params.ProjectID !== "string") {
+        this.params.ProjectID = JSON.stringify(this.params.ProjectID);
+      }
       //   console.log(this.params+"FREEDOM5");
 
       // console.log(this.params.Project);
-
+      console.log("FREEDOM");
       await axios
         .get(this.url, { params: this.params, signal: this.controller.signal })
         .then((response) => {

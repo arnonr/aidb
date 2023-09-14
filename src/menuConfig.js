@@ -142,9 +142,9 @@ export default [
         category: "tropical_holstein",
         items: [
           {
-            label: "โครงการ ThaiBlack",
+            label: "ติดตามโครงการ",
             icon: "pi pi-fw pi-circle",
-            to: "/project/thaiblack",
+            to: "/project/detail",
           },
           {
             label: "โครงการ RedGoat",

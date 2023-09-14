@@ -1112,7 +1112,7 @@ export default {
       apiAnimalFatherID: "/animal?isActive=1",
       apiPersonal: "/staff?isActive=1",
       breadcrumb: [
-        { label: "ระบบโครงการ", to: "/project/all" },
+        { label: "ระบบโครงการ", to: "/project/detail" },
         { label: "ข้อมูลพื้นฐานโครงการ RedGoat", to: "" },
       ],
 

@@ -187,16 +187,16 @@ export default {
                     })
                     .then(() => {
                       themeColors("#7E5F45", "#fff");
-                      this.$router.push({ name: "project-all" });
+                      this.$router.push({ name: "project-detail" });
                     });
                 } else {
                   themeColors(this.color.color_primary, this.color.color_text);
-                  this.$router.push({ name: "project-all" });
+                  this.$router.push({ name: "project-detail" });
                 }
               });
           }
           themeColors(this.color.color_primary, this.color.color_text);
-          this.$router.push({ name: "project-all" });
+          this.$router.push({ name: "project-detail" });
         } else if (id === 5) {
           if (this.adminTheme.color_primary && this.adminTheme.color_primary) {
             store

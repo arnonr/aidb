@@ -38,7 +38,7 @@
         >
           <Button severity="secondary" label="ทะเบียนสัตว์" class="ml-2" />
         </router-link>
-        <router-link to="/project/project-detail-animal">
+        <router-link :to="'/project/detail-diary?projects=' + filtered.Project">
           <Button severity="secondary" label="กิจกรรมแจ้งเตือน" class="ml-2" />
         </router-link>
       </div>

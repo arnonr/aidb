@@ -477,16 +477,6 @@
                             *</span
                           ></label
                         >
-                        <!-- <InputNumber
-                          inputId="minmax"
-                          class="w-full"
-                          v-model="form.AnimalBreedPercent1"
-                          mode="decimal"
-                          :min="0"
-                          :max="100"
-                          :readonly="checkFirst == '0'"
-                        /> -->
-
                         <Dropdown
                           class="w-full"
                           :options="Percent"
@@ -504,8 +494,41 @@
                               user.GroupID != 16 &&
                               user.GroupID != 15)
                           "
+                          v-if="
+                            form.AnimalSexID == 2 &&
+                            user.GroupID != 1 &&
+                            user.GroupID != 16 &&
+                            user.GroupID != 15
+                          "
                         >
                         </Dropdown>
+
+                        <InputNumber
+                          v-if="
+                            form.AnimalSexID == 2 &&
+                            (user.GroupID == 1 ||
+                              user.GroupID == 16 ||
+                              user.GroupID == 15)
+                          "
+                          inputId="minmax"
+                          class="w-full"
+                          v-model="form.AnimalBreedPercent1"
+                          mode="decimal"
+                          :minFractionDigits="2"
+                          :min="0"
+                          :max="100"
+                        />
+
+                        <InputNumber
+                          v-if="form.AnimalSexID == 1"
+                          inputId="minmax"
+                          class="w-full"
+                          v-model="form.AnimalBreedPercent1"
+                          mode="decimal"
+                          :minFractionDigits="2"
+                          :min="0"
+                          :max="100"
+                        />
                       </div>
                       <div
                         class="field col-12 sm:col-6"
@@ -1488,11 +1511,26 @@ export default {
             id.AnimalBornType = this.BornType[2];
           }
 
-          if (id.AnimalBreedPercent1 == 50) {
+          if (
+            id.AnimalBreedPercent1 == 50 &&
+            this.user.GroupID != 1 &&
+            this.user.GroupID != 15 &&
+            this.user.GroupID != 16
+          ) {
             id.AnimalBreedPercent1 = this.Percent[0];
-          } else if (id.AnimalBreedPercent1 == 75) {
+          } else if (
+            id.AnimalBreedPercent1 == 75 &&
+            this.user.GroupID != 1 &&
+            this.user.GroupID != 15 &&
+            this.user.GroupID != 16
+          ) {
             id.AnimalBreedPercent1 = this.Percent[1];
-          } else if (id.AnimalBreedPercent1 == 100) {
+          } else if (
+            id.AnimalBreedPercent1 == 100 &&
+            this.user.GroupID != 1 &&
+            this.user.GroupID != 15 &&
+            this.user.GroupID != 16
+          ) {
             id.AnimalBreedPercent1 = this.Percent[2];
           }
 
@@ -1747,8 +1785,15 @@ export default {
       // console.log(total);
       // console.log(this.form.AnimalBreedPercent1.id);
 
-      if (this.form.AnimalBreedPercent1) {
+      if (
+        this.form.AnimalBreedPercent1 &&
+        this.user.GroupID != 1 &&
+        this.user.GroupID != 15 &&
+        this.user.GroupID != 16
+      ) {
         total = Number(total) + Number(this.form.AnimalBreedPercent1.id);
+      } else {
+        total = Number(total) + Number(this.form.AnimalBreedPercent1);
       }
 
       // ใส่เครื่องหมายบวกข้างหน้าคือ แปลงเป็น int
@@ -1800,7 +1845,12 @@ export default {
       if (this.form.AnimalSource) {
         this.form.AnimalSource = this.form.AnimalSource.id;
       }
-      if (this.form.AnimalBreedPercent1) {
+      if (
+        this.form.AnimalBreedPercent1 &&
+        this.user.GroupID != 1 &&
+        this.user.GroupID != 15 &&
+        this.user.GroupID != 16
+      ) {
         this.form.AnimalBreedPercent1 = this.form.AnimalBreedPercent1.id;
       }
 

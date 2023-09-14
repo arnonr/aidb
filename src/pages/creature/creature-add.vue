@@ -666,7 +666,12 @@
                         >
 
                         <Dropdown
-                          v-if="form.AnimalSexID == 2"
+                          v-if="
+                            form.AnimalSexID == 2 &&
+                            user.GroupID != 1 &&
+                            user.GroupID != 16 &&
+                            user.GroupID != 15
+                          "
                           class="w-full"
                           :options="Percent"
                           optionLabel="name"
@@ -680,6 +685,23 @@
                           }"
                         >
                         </Dropdown>
+
+                        <InputNumber
+                          v-if="
+                            form.AnimalSexID == 2 && (
+                            user.GroupID == 1 ||
+                            user.GroupID == 16 ||
+                            user.GroupID == 15)
+                          "
+                          inputId="minmax"
+                          class="w-full"
+                          v-model="form.AnimalBreedPercent1"
+                          mode="decimal"
+                          :minFractionDigits="2"
+                          :min="0"
+                          :max="100"
+                        />
+
                         <InputNumber
                           v-if="form.AnimalSexID == 1"
                           inputId="minmax"
@@ -933,6 +955,7 @@ export default {
     ...mapGetters({
       animal_id: "animal_id",
       bornItem: "bornItem",
+      user: "user",
     }),
   },
   data() {

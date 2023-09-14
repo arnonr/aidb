@@ -242,7 +242,6 @@
                       placeholder="เลือกชนิดสัตว์"
                       :showClear="true"
                       :filter="true"
-                      disabled
                       v-model="form.AnimalTypeID"
                       :class="{ 'p-invalid': !form.AnimalTypeID && valid }"
                     >
@@ -1158,22 +1157,38 @@ export default {
       .get(this.apiAnimalTypeID, { signal: this.controller.signal })
       .then((response) => {
         this.animaltype = response.data.rows.filter(
-          (item) => item.AnimalTypeID === 1 || item.AnimalTypeID === 2
-        );
+            (item) =>
+              item.AnimalTypeID === 1 ||
+              //   item.AnimalTypeID === 2 ||
+              //   item.AnimalTypeID === 41 ||
+              item.AnimalTypeID === 42
+          );
 
-        if (this.animal_id == 1) {
-          this.animaltype = response.data.rows.filter(
-            (item) => item.AnimalTypeID === 1 || item.AnimalTypeID === 2
-          );
-        } else if (this.animal_id == 2) {
-          this.animaltype = response.data.rows.filter(
-            (item) => item.AnimalTypeID === 3 || item.AnimalTypeID === 4
-          );
-        } else if (this.animal_id == 3) {
-          this.animaltype = response.data.rows.filter(
-            (item) => item.AnimalTypeID === 17 || item.AnimalTypeID === 18
-          );
-        }
+          if (this.animal_id == 1) {
+            this.animaltype = response.data.rows.filter(
+              (item) =>
+                item.AnimalTypeID === 1 ||
+                // item.AnimalTypeID === 2 ||
+                // item.AnimalTypeID === 41 ||
+                item.AnimalTypeID === 42
+            );
+          } else if (this.animal_id == 2) {
+            this.animaltype = response.data.rows.filter(
+              (item) =>
+                item.AnimalTypeID === 3 ||
+                item.AnimalTypeID === 4 ||
+                item.AnimalTypeID === 43 ||
+                item.AnimalTypeID === 44
+            );
+          } else if (this.animal_id == 3) {
+            this.animaltype = response.data.rows.filter(
+              (item) =>
+                item.AnimalTypeID === 17 ||
+                item.AnimalTypeID === 18 ||
+                item.AnimalTypeID === 45 ||
+                item.AnimalTypeID === 46
+            );
+          }
       });
   },
   watch: {

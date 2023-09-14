@@ -766,13 +766,6 @@ export default {
         AnimalEarID: earid,
       };
       const items = [
-        // {
-        //   label: "แก้ไข",
-        //   icon: "pi pi-pencil",
-        //   command: () => {
-        //     this.$router.push("/creature/edit/" + id);
-        //   },
-        // },
         {
           label: "พิมพ์ประวัติ",
           icon: "pi pi-print",

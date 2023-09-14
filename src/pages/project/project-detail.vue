@@ -30,9 +30,17 @@
       </div>
 
       <div class="field col-12 sm:col-12 md:col-12">
-        <Button severity="primary" label="ทะเบียนฟาร์ม" />
-        <Button severity="secondary" label="ทะเบียนสัตว์" class="ml-2" />
-        <Button severity="secondary" label="กิจกรรมแจ้งเตือน" class="ml-2" />
+        <router-link :to="'/project/detail?projects=' + filtered.ProjectID">
+          <Button severity="primary" label="ทะเบียนฟาร์ม" />
+        </router-link>
+        <router-link
+          :to="'/project/detail-animal?projects=' + filtered.ProjectID"
+        >
+          <Button severity="secondary" label="ทะเบียนสัตว์" class="ml-2" />
+        </router-link>
+        <router-link to="/project/project-detail-animal">
+          <Button severity="secondary" label="กิจกรรมแจ้งเตือน" class="ml-2" />
+        </router-link>
       </div>
 
       <div class="card mb-5">
@@ -283,6 +291,7 @@
           </div>
         </div>
       </div>
+
       <div class="card">
         <div>
           <div class="grid flex align-items-center mb-5">
@@ -1152,8 +1161,10 @@
       :style="{ width: '70vw' }"
       :modal="true"
     >
-      <ProjectDialogAnimal 
-      :FarmID="SendFarmID" :projectID="filtered.ProjectID" />
+      <ProjectDialogAnimal
+        :FarmID="SendFarmID"
+        :projectID="filtered.ProjectID"
+      />
     </Dialog>
   </div>
 </template>
@@ -1176,7 +1187,7 @@ import ProjectDialogAnimal from "@/components/dialog/ProjectDialogAnimal";
 export default {
   components: {
     PageTitle,
-    ProjectDialogAnimal
+    ProjectDialogAnimal,
     // Paginate,
     // JsonExcel,
   },
@@ -1199,7 +1210,7 @@ export default {
       id: "FarmID",
       name: "ทะเบียนฟาร์ม (ผท.3)",
       SendFarmID: null,
-      
+
       columns: [
         {
           field: "FarmName",
@@ -1320,6 +1331,17 @@ export default {
     }),
   },
   mounted() {
+    if (this.$route.query.projects) {
+      let pj = this.$route.query.projects.split(",");
+      this.filtered.ProjectID = pj.map((e) => {
+        return parseInt(e);
+      });
+
+    //   this.params.ProjectID = pj.map((e) => {
+    //     return parseInt(e);
+    //   });
+    }
+
     this.load();
     this.load_selection();
     this.load_selectionAdvance();
@@ -1356,8 +1378,6 @@ export default {
     },
     "filtered.ProjectID"(val) {
       this.filtered.ProjectID = val;
-
-      console.log(this.filtered.ProjectID);
       this.load();
     },
     "search.dateRange"(val) {
@@ -1424,27 +1444,27 @@ export default {
       return `${formatStart} - ${formatEnd}`;
     },
     async edit(id) {
-        // console.log(id)
-        this.SendFarmID = id;
-        this.displayView = true;
+      // console.log(id)
+      this.SendFarmID = id;
+      this.displayView = true;
 
-    //   if (this.permit[0].IsUpdate == 0) {
-    //     this.$toast.add({
-    //       severity: "error",
-    //       summary: "ล้มเหลว",
-    //       detail: "ไม่มีสิทธิ์แก้ไข",
-    //       life: 5000,
-    //     });
-    //     return;
-    //   }
-    //   // let getID = this.data.find((item) => item.FarmID == id);
-    //   // await router.push({
-    //   //   path: `/farm/edit/${getID.FarmID}`,
-    //   // });
-    //   // console.log(getID);
-    //   if (this.project_check(id)) {
-    //     await this.$router.push("/farm/edit/" + id);
-    //   }
+      //   if (this.permit[0].IsUpdate == 0) {
+      //     this.$toast.add({
+      //       severity: "error",
+      //       summary: "ล้มเหลว",
+      //       detail: "ไม่มีสิทธิ์แก้ไข",
+      //       life: 5000,
+      //     });
+      //     return;
+      //   }
+      //   // let getID = this.data.find((item) => item.FarmID == id);
+      //   // await router.push({
+      //   //   path: `/farm/edit/${getID.FarmID}`,
+      //   // });
+      //   // console.log(getID);
+      //   if (this.project_check(id)) {
+      //     await this.$router.push("/farm/edit/" + id);
+      //   }
     },
     project_check(id) {
       let prepare_data = this.data.find(function (item) {

@@ -683,6 +683,11 @@ const routes = [
         path: "/project/detail",
         name: "project-detail",
         component: () => import("./pages/project/project-detail.vue"),
+      }, 
+      {
+        path: "/project/detail-animal",
+        name: "project-detail-animal",
+        component: () => import("./pages/project/project-detail-animal.vue"),
       },    
       {
         path: "/project/thaiblack",

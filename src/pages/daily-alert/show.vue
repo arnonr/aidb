@@ -50,18 +50,38 @@
             >
               <template #body="slotProps" v-if="col.header == 'แจ้งเตือน'">
                 <span :class="'text-red-500'">{{
-                  slotProps.data.Notification
+                  slotProps.data.Notifications
                 }}</span>
               </template>
             </Column>
             <Column header="จัดการ" class="text-center">
               <template #body="slotProps">
-                <Button
+                <!-- <Button
                   icon="pi pi-pencil"
                   iconPos="right"
                   class="p-button-raised p-button-rounded"
                   @click="edit(slotProps.data.AnimalEarID)"
-                />
+                /> -->
+                <!--  -->
+                <SplitButton
+                  label="กิจกรรม"
+                  @click="
+                    openAnimal(
+                      slotProps.data.AnimalID,
+                      slotProps.data.AnimalEarID
+                    )
+                  "
+                  class="p-button-sm p-button-outlined p-button-warning"
+                  :model="
+                    getItems(
+                      slotProps.data.AnimalID,
+                      slotProps.data.AnimalSecretStatus,
+                      slotProps.data.AnimalEarID
+                    )
+                  "
+                >
+                </SplitButton>
+                <!--  -->
               </template>
             </Column>
             <template #empty> ไม่พบข้อมูล </template>
@@ -72,6 +92,16 @@
         </div>
       </div>
     </div>
+    <Dialog
+      header="กิจกรรม"
+      v-model:visible="displaytab"
+      :draggable="false"
+      :style="{ width: '75vw' }"
+      :modal="false"
+      :dismissableMask="true"
+    >
+      <VueCreatureInfo :display="true" v-if="displaytab" />
+    </Dialog>
   </div>
 </template>
 
@@ -83,9 +113,11 @@ import router from "../../router";
 import axios from "axios";
 import { mapGetters } from "vuex";
 import { FilterMatchMode } from "primevue/api";
+import VueCreatureInfo from "@/pages/farm_info/creature_info.vue";
 export default {
   components: {
     PageTitle,
+    VueCreatureInfo,
   },
   setup() {
     const breadcrumb = ref([
@@ -108,6 +140,7 @@ export default {
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
       },
       data: null,
+      displaytab: false,
       columns: [
         {
           field: "show_id",
@@ -126,15 +159,15 @@ export default {
           header: "อายุ",
         },
         {
-          field: "AnimalStatus",
+          field: "AnimalStatus.AnimalStatusName",
           header: "สถานะ",
         },
         {
-          field: "FarmName",
+          field: "AnimalFarm.FarmName",
           header: "ฟาร์ม",
         },
         {
-          field: "Notification.0",
+          field: "Notifications",
           header: "แจ้งเตือน",
         },
       ],
@@ -162,29 +195,229 @@ export default {
       // ป้องกันค้นหาเลขสัตว์อื่นแล้วเจอ
       let search = null;
       if (this.animal_id == 1) {
-        search = [1, 2];
+        search = [1, 2, 41, 42];
       } else if (this.animal_id == 2) {
-        search = [3, 4];
+        search = [3, 4, 43, 44];
       } else if (this.animal_id == 3) {
-        search = [17, 18];
+        search = [17, 18, 45, 46];
       }
-      await axios
-        .get(`/animal/get-by-farm-id?AnimalTypeID=[${search}]`, {
-          signal: this.controller.signal,
-        })
-        .then((response) => {
-          //ตรวจสอบ animal id ให้ตรงกับ noti
-          this.data = response.data.rows.filter((val) => {
-            for (let i in this.Alert_AnimalID.id) {
-              if (val.AnimalID == this.Alert_AnimalID.id[i]) {
-                return val;
-              }
+
+      if (this.Alert_AnimalID) {
+        await axios
+          .get(
+            `/animal/get-by-farm-id-1?AnimalTypeID=[${search}]&AnimalIDArray=[${this.Alert_AnimalID.id}]`,
+            {
+              signal: this.controller.signal,
+            }
+          )
+          .then((response) => {
+            //ตรวจสอบ animal id ให้ตรงกับ noti
+
+            console.log(response.data.rows);
+            this.data = response.data.rows;
+            // this.data = response.data.rows.filter((val) => {
+            //   for (let i in this.Alert_AnimalID.id) {
+            //     if (val.AnimalID == this.Alert_AnimalID.id[i]) {
+            //       return val;
+            //     }
+            //   }
+            // });
+            for (let i = 0; i < this.data.length; i++) {
+              this.data[i].show_id = i + 1;
             }
           });
-          for (let i = 0; i < this.data.length; i++) {
-            this.data[i].show_id = i + 1;
-          }
+      }
+    },
+    openAnimal(id, earid) {
+      let data = {
+        AnimalEarID: earid,
+      };
+      store.dispatch("animalInfo", data);
+      // this.displaytab = true;
+
+      this.$router.push("/activity/creature_info_detail");
+      // setTimeout(() => {
+      // }, 1000);
+    },
+
+    getItems(id, menu, earid) {
+      let data = {
+        AnimalEarID: earid,
+      };
+      const items = [
+        // {
+        //   label: "แก้ไข",
+        //   icon: "pi pi-pencil",
+        //   command: () => {
+        //     this.$router.push("/creature/edit/" + id);
+        //   },
+        // },
+        // {
+        //   label: "พิมพ์ประวัติ",
+        //   icon: "pi pi-print",
+        //   command: async () => {
+        //     // window.open("../../pdf/Animal.pdf", "_blank");
+        //     await ArtificialReport();
+        //   },
+        // },
+      ];
+
+      if (menu.includes(2)) {
+        items.push({
+          label: "ผสมเทียม",
+          icon: "pi pi-search",
+          command: () => {
+            let tab = {
+              id: 0,
+              animal_id: this.animal_id,
+            };
+
+            store.dispatch("tabAnimal", tab);
+
+            store.dispatch("animalInfo", data);
+            this.displaytab = true;
+          },
         });
+      }
+      if (menu.includes(3)) {
+        items.push({
+          label: "ย้ายฝากตัวอ่อน",
+          icon: "pi pi-search",
+          command: () => {
+            let tab = {
+              id: 1,
+              animal_id: this.animal_id,
+            };
+
+            store.dispatch("tabAnimal", tab);
+
+            store.dispatch("animalInfo", data);
+            this.displaytab = true;
+          },
+        });
+      }
+      if (menu.includes(4)) {
+        items.push({
+          label: "ตรวจการตั้งท้อง",
+          icon: "pi pi-search",
+          command: () => {
+            let tab = {
+              id: 2,
+              animal_id: this.animal_id,
+            };
+
+            store.dispatch("tabAnimal", tab);
+
+            store.dispatch("animalInfo", data);
+            this.displaytab = true;
+          },
+        });
+      }
+      if (menu.includes(5)) {
+        items.push({
+          label: "แท้ง",
+          icon: "pi pi-search",
+          command: () => {
+            let tab = {
+              id: 3,
+              animal_id: this.animal_id,
+            };
+
+            store.dispatch("tabAnimal", tab);
+
+            store.dispatch("animalInfo", data);
+            this.displaytab = true;
+          },
+        });
+      }
+      if (menu.includes(6)) {
+        items.push({
+          label: "คลอด",
+          icon: "pi pi-search",
+          command: () => {
+            let tab = {
+              id: 4,
+              animal_id: this.animal_id,
+            };
+
+            store.dispatch("tabAnimal", tab);
+
+            store.dispatch("animalInfo", data);
+            this.displaytab = true;
+          },
+        });
+      }
+      if (menu.includes(7) && this.animal_id != 3) {
+        items.push({
+          label: "ตรวจระบบสืบพันธุ์",
+          icon: "pi pi-search",
+          command: () => {
+            let tab = {
+              id: 11,
+              animal_id: this.animal_id,
+            };
+
+            store.dispatch("tabAnimal", tab);
+
+            store.dispatch("animalInfo", data);
+            this.displaytab = true;
+          },
+        });
+      }
+      if (menu.includes(8)) {
+        items.push({
+          label: "ติดตามลูกหลังคลอด",
+          icon: "pi pi-search",
+          command: () => {
+            let tab = {
+              id: 5,
+              animal_id: this.animal_id,
+            };
+
+            store.dispatch("tabAnimal", tab);
+
+            store.dispatch("animalInfo", data);
+            this.displaytab = true;
+          },
+        });
+      }
+      if (menu.includes(9)) {
+        items.push({
+          label: "หย่านม",
+          icon: "pi pi-search",
+          command: () => {
+            let tab = {
+              id: 6,
+              animal_id: this.animal_id,
+            };
+
+            store.dispatch("tabAnimal", tab);
+
+            store.dispatch("animalInfo", data);
+            this.displaytab = true;
+          },
+        });
+      }
+      if (menu.includes(1)) {
+        items.push({
+          label: "คัดจำหน่าย",
+          icon: "pi pi-search",
+          command: () => {
+            let tab = {
+              id: 9,
+              animal_id: this.animal_id,
+            };
+
+            store.dispatch("tabAnimal", tab);
+
+            store.dispatch("animalInfo", data);
+            this.displaytab = true;
+
+            // this.$router.push("/creature/edit/" + id);
+          },
+        });
+      }
+      return items;
     },
   },
 };

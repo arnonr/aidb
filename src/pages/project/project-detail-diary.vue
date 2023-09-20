@@ -43,6 +43,203 @@
         </router-link>
       </div>
 
+      <div class="card mb-5">
+        <div v-if="!loader" class="grid">
+          <div class="col-12">
+            <h1 class="text-xl mb-4 text-500">เครื่องมือช่วยค้นหา</h1>
+          </div>
+          <!-- <div class="col-12 sm:col-6 lg:col-4">
+            <label
+              for="codeNumber"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              หมายเลขทะเบียนฟาร์ม</label
+            >
+            <span class="p-input-icon-right w-full">
+              <i class="pi pi-search" />
+              <InputText
+                type="number"
+                class="w-full"
+                v-model="search.FarmIdentificationNumber"
+              />
+            </span>
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <label for="farmName" class="block text-600 text-sm font-bold mb-2">
+              ชื่อฟาร์ม</label
+            >
+            <span class="p-input-icon-right w-full">
+              <i class="pi pi-search" />
+              <InputText type="text" class="w-full" v-model="search.FarmName" />
+            </span>
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <label
+              for="FarmerFullName"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              ชื่อนามสกุลเกษตรกร
+            </label>
+            <span class="p-input-icon-right w-full">
+              <i class="pi pi-search" />
+              <InputText
+                type="text"
+                class="w-full"
+                v-model="search.FarmerFullName"
+              />
+            </span>
+          </div> -->
+
+          <div class="col-12 sm:col-6 lg:col-4">
+            <label
+              for="selectedScheme"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              ศูนย์วิจัย</label
+            >
+            <Dropdown
+              :showClear="true"
+              emptyMessage="ไม่มีข้อมูล"
+              emptyFilterMessage="ไม่พบข้อมูล"
+              class="w-full"
+              placeholder="ทั้งหมด"
+              :options="selection.AIZone.data"
+              optionLabel="AIZoneName"
+              optionValue="AIZoneID"
+              v-model="search.AIZone"
+              @change="filterProvince($event)"
+            />
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <label
+              for="selectedScheme"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              เขตพื้นที่ปศุสัตว์</label
+            >
+            <Dropdown
+              :showClear="true"
+              emptyMessage="ไม่มีข้อมูล"
+              emptyFilterMessage="ไม่พบข้อมูล"
+              class="w-full"
+              placeholder="ทั้งหมด"
+              :options="selection.OrganizationZone.data"
+              optionLabel="OrganizationZoneName"
+              optionValue="OrganizationZoneID"
+              v-model="search.OrganizationZone"
+              @change="filterProvince($event)"
+            />
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <label
+              for="searchProvince"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              จังหวัด</label
+            >
+            <Dropdown
+              :showClear="true"
+              class="w-full"
+              id="selectedFarm"
+              placeholder="ทั้งหมด"
+              :options="selection.Province.data"
+              optionLabel="ProvinceName"
+              optionValue="ProvinceID"
+              :filter="true"
+              v-model="search.FarmProvinceID"
+              :virtualScrollerOptions="{ itemSize: 38 }"
+              @change="filterAmphur($event)"
+            />
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <label
+              for="searchDistrict"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              อำเภอ</label
+            >
+            <Dropdown
+              :showClear="true"
+              class="w-full"
+              id="selectedFarm"
+              placeholder="ทั้งหมด"
+              :options="selection.Amphur.data"
+              optionLabel="AmphurName"
+              optionValue="AmphurID"
+              :filter="true"
+              v-model="search.FarmAmphurID"
+              :virtualScrollerOptions="{ itemSize: 38 }"
+              @change="filterTumbol($event)"
+            />
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <label
+              for="searchSubDistrict"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              ตำบล</label
+            >
+            <Dropdown
+              :showClear="true"
+              class="w-full"
+              id="selectedFarm"
+              placeholder="ทั้งหมด"
+              :options="selection.Tumbol.data"
+              optionLabel="TumbolName"
+              optionValue="TumbolID"
+              :filter="true"
+              v-model="search.FarmTumbolID"
+              :virtualScrollerOptions="{ itemSize: 38 }"
+            />
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <label
+              for="selectedScheme"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              หน่วยงาน
+            </label>
+            <Dropdown
+              :showClear="true"
+              emptyMessage="ไม่มีข้อมูล"
+              emptyFilterMessage="ไม่พบข้อมูล"
+              class="w-full"
+              placeholder="ทั้งหมด"
+              :options="selection.Organization.data"
+              optionLabel="OrganizationName"
+              optionValue="OrganizationID"
+              v-model="search.Organization"
+              :filter="true"
+              :virtualScrollerOptions="{ itemSize: 38 }"
+            />
+          </div>
+        </div>
+        <div v-else class="grid">
+          <div class="col-12">
+            <Skeleton width="20rem" height="2rem" class="mb-4"></Skeleton>
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <Skeleton width="5rem" class="mb-2"></Skeleton>
+            <Skeleton height="2rem"></Skeleton>
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <Skeleton width="5rem" class="mb-2"></Skeleton>
+            <Skeleton height="2rem"></Skeleton>
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <Skeleton width="5rem" class="mb-2"></Skeleton>
+            <Skeleton height="2rem"></Skeleton>
+          </div>
+          <div class="col-12">
+            <Skeleton width="5rem" class="mb-2"></Skeleton>
+            <Skeleton height="2rem"></Skeleton>
+          </div>
+          <div class="col-12">
+            <Skeleton height="2rem" class="mb-2"></Skeleton>
+          </div>
+        </div>
+      </div>
+
       <div class="card">
         <div class="grid align-items-center mb-6 xl:px-8">
           <div class="col-12 md:col-6 xl:col-8">
@@ -126,11 +323,37 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
       urlProject: "/project?includeAll=false&isActive=1",
+      url: "/farm",
+      getFarm: "/farmer",
+      getOrganization: "/organization?includeAll=false",
+      getOrganizationZone: "/organization-zone",
+      getOrganizationType: "/organization-type",
+      getProvince: "/province?includeAll=false",
+      getAmphur: "/amphur?includeAll=false",
+      getTumbol: "/tumbol?includeAll=false",
+      getTitle: "/title?isActive=1",
+      getAIZone: "/ai-zone?isActive=1",
+      getGender: "/gender",
+      urlFarmStatus: "/farm-status",
       sortby: null,
       Projects: [],
+      loader: false,
       search: {
         Project: [],
+        FarmIdentificationNumber: "",
+        FarmName: "",
+        FarmerFullName: "",
+        dateRange: null,
+      },
+      filtered: {
+        FarmIdentificationNumber: "",
+        FarmName: "",
+        FarmStatusID: null,
+        FarmOrganizationID: null,
+        ProjectID: null,
+        FarmOrganizationZoneID: null,
       },
       sort: [
         {
@@ -225,6 +448,19 @@ export default {
           image: "/images/daily-alert/13.png",
         },
       ],
+      selection: {
+        Organization: [],
+        OrganizationZone: [],
+        OrganizationType: [],
+        AIZone: [],
+        Province: [],
+        Amphur: [],
+        Tumbol: [],
+        Projects: [],
+        farmStatus: [],
+        TitleName: [],
+        Gender: [],
+      },
       controller: new AbortController(),
     };
   },
@@ -239,17 +475,174 @@ export default {
         }
       });
     },
+    "search.FarmIdentificationNumber"(val) {
+      this.filtered.FarmIdentificationNumber = val;
+      this.load();
+    },
+    "search.FarmName"(val) {
+      this.filtered.FarmName = val;
+      this.load();
+    },
+    "search.FarmerFullName"(val) {
+      this["search.FarmerFullName"] = val;
+      this.load();
+    },
+    "search.Organization"(val) {
+      this.filtered.FarmOrganizationID = val;
+      this.load();
+    },
+    "search.OrganizationZone"(val) {
+      this.filtered.FarmOrganizationZoneID = val;
+      this.load();
+    },
+    "filtered.FarmStatusID"(val) {
+      this.filtered.FarmStatusID = val;
+      this.load();
+    },
+    "filtered.ProjectID"(val) {
+      this.filtered.ProjectID = val;
+      this.load();
+    },
+    "search.Project"() {
+      this.load();
+      //   if (val) {
+      //     this.params.ProjectID = val;
+      //   } else {
+      //     this.params.ProjectID = null;
+      //   }
+      //   if (this.isLoading == false) {
+      //     this.isLoading = true;
+      //     setTimeout(() => {
+      //       this.load();
+      //       this.isLoading = false;
+      //     }, 1000);
+      //   }
+    },
+    "search.AIZone"() {
+      this.load();
+    },
+    "search.dateRange"(val) {
+      this["search.dateRange"] = val;
+      this.load();
+    },
+    "search.FarmProvinceID"(val) {
+      this.filtered.FarmProvinceID = val;
+      this.load();
+      //   if (this.isLoading == false) {
+      //     this.isLoading = true;
+      //     setTimeout(() => {
+      //       this.load();
+      //       this.isLoading = false;
+      //     }, 1000);
+      //   }
+    },
+    "search.FarmAmphurID"(val) {
+      this.filtered.FarmAmphurID = val;
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.load();
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+    "search.FarmTumbolID"(val) {
+      this.filtered.FarmTumbolID = val;
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.load();
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
   },
   mounted() {
+    if (this.$route.query.projects) {
+      let pj = this.$route.query.projects.split(",");
+      this.search.Project = pj.map((e) => {
+        return parseInt(e);
+      });
+    }
+
+    this.search.Organization = this.user.Staff.StaffOrganizationID;
+    this.filtered.FarmOrganizationID = this.user.Staff.StaffOrganizationID;
+    this.load_selectionAdvance();
     this.load();
   },
   computed: {
     ...mapGetters({
       animal_id: "animal_id",
+      user: "user",
     }),
   },
   methods: {
+    load_selectionAdvance() {
+      axios
+        .get(this.getOrganization, {
+          signal: this.controller.signal,
+        })
+        .then((res) => (this.selection.Organization.data = res.data.rows));
+      axios
+        .get(this.getAIZone, {
+          signal: this.controller.signal,
+        })
+        .then((res) => (this.selection.AIZone.data = res.data.rows));
+      axios
+        .get(this.getOrganizationZone, {
+          signal: this.controller.signal,
+        })
+        .then((res) => (this.selection.OrganizationZone.data = res.data.rows));
+
+      axios
+        .get(this.getOrganizationType, {
+          signal: this.controller.signal,
+        })
+        .then((res) => (this.selection.OrganizationType.data = res.data.rows));
+
+      axios
+        .get(this.getProvince, {
+          signal: this.controller.signal,
+        })
+        .then((res) => {
+          this.selection.Province.temp = this.selection.Province.data =
+            res.data.rows;
+        });
+
+      axios
+        .get(this.getAmphur, {
+          signal: this.controller.signal,
+        })
+        .then((res) => {
+          this.selection.Amphur.temp = this.selection.Amphur.data =
+            res.data.rows;
+        });
+
+      axios
+        .get(this.getTumbol, {
+          signal: this.controller.signal,
+        })
+        .then((res) => {
+          this.selection.Tumbol.temp = this.selection.Tumbol.data =
+            res.data.rows;
+        });
+
+      axios
+        .get(this.urlFarmStatus, {
+          signal: this.controller.signal,
+        })
+        .then((res) => (this.selection.farmStatus = res.data.rows));
+
+      axios
+        .get(this.getGender, {
+          signal: this.controller.signal,
+        })
+        .then((res) => (this.selection.Gender.data = res.data.rows));
+
+      // Promise.all()
+    },
     async load() {
+      this.isLoading = true;
       let search = null;
       if (this.animal_id == 1) {
         search = [1, 2];
@@ -265,11 +658,45 @@ export default {
         })
         .then((res) => {
           this.Projects = res.data.rows;
-          console.log(this.Projects)
+          console.log(this.Projects);
         });
 
+      let url = "";
+
+      if (this.search.AIZone) {
+        url += "&FarmAIZoneID=" + this.search.AIZone;
+      }
+
+      if (this.filtered.FarmProvinceID) {
+        url += "&FarmProvinceID=" + this.filtered.FarmProvinceID;
+      }
+
+      if (this.filtered.FarmAmphurID) {
+        url += "&FarmAmphurID=" + this.filtered.FarmAmphurID;
+      }
+
+      if (this.filtered.FarmTumbolID) {
+        url += "&FarmTumbolID=" + this.filtered.FarmTumbolID;
+      }
+      
+      if (this.filtered.FarmOrganizationID) {
+        url += "&FarmOrganizationID=" + this.filtered.FarmOrganizationID;
+      }
+
+      if (this.filtered.FarmOrganizationZoneID) {
+        url += "&FarmOrganizationZoneID=" + this.filtered.FarmOrganizationZoneID;
+      }
+
+
+      if (this.search.Project) {
+        if (typeof this.search.Project !== "string") {
+          let projects = JSON.stringify(this.search.Project);
+          url += "&ProjectID=" + projects;
+        }
+      }
+
       await axios
-        .get(`/animal/get-by-farm-id?AnimalTypeID=[${search}]`, {
+        .get(`/animal/get-by-farm-id-1?AnimalTypeID=[${search}]${url}`, {
           signal: this.controller.signal,
         })
         .then((response) => {
@@ -295,6 +722,8 @@ export default {
             }
           }
           this.sortby = "desc";
+
+          this.isLoading = false;
         });
     },
     setAlert_AnimalID(id, title, name) {
@@ -304,6 +733,39 @@ export default {
         name: name,
       };
       store.dispatch("Alert_AnimalID", data);
+    },
+    filterProvince($event) {
+      let val = $event.value;
+      if (val) {
+        this.selection.Province.data = this.selection.Province.temp;
+        this.selection.Province.data = this.selection.Province.data.filter(
+          (item) => item.AIZoneID == val
+        );
+      } else {
+        this.selection.Province.data = this.selection.Province.temp;
+      }
+    },
+    filterAmphur($event) {
+      let val = $event.value;
+      if (val) {
+        this.selection.Amphur.data = this.selection.Amphur.temp;
+        this.selection.Amphur.data = this.selection.Amphur.data.filter(
+          (item) => item.ProvinceID == val
+        );
+      } else {
+        this.selection.Amphur.data = this.selection.Amphur.temp;
+      }
+    },
+    filterTumbol($event) {
+      let val = $event.value;
+      if (val) {
+        this.selection.Tumbol.data = this.selection.Tumbol.temp;
+        this.selection.Tumbol.data = this.selection.Tumbol.data.filter(
+          (item) => item.AmphurID == val
+        );
+      } else {
+        this.selection.Tumbol.data = this.selection.Tumbol.temp;
+      }
     },
   },
 };

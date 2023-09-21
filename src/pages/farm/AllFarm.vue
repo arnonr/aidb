@@ -1335,14 +1335,20 @@ export default {
       permission: "get_permission",
       user: "user",
       AnimalID: "AnimalID",
-      animal_id: "animal_id"
+      animal_id: "animal_id",
     }),
   },
   mounted() {
-
     if (this.filtered.FarmAnimalType == null) {
       this.filtered.FarmAnimalType = parseInt(this.animal_id);
     }
+
+    this.selection.FarmAnimalTypes = this.selection.FarmAnimalTypes.filter(
+      (x) => {
+        return x.id == this.animal_id || x.id == 98 || x.id == 99;
+      }
+    );
+
     this.load();
     this.load_selection();
     this.load_selectionAdvance();
@@ -1378,7 +1384,7 @@ export default {
       this.load();
     },
     "filtered.FarmAnimalType"() {
-    //   this.filtered.FarmAnimalType = val;
+      //   this.filtered.FarmAnimalType = val;
       this.load();
     },
     "filtered.ProjectID"(val) {
@@ -1647,9 +1653,9 @@ export default {
       if (event) {
         this.curpage = event.page + 1;
       }
-    //   if (this.filtered.FarmAnimalType == null) {
-    //     this.filtered.FarmAnimalType = parseInt(this.AnimalID);
-    //   }
+      //   if (this.filtered.FarmAnimalType == null) {
+      //     this.filtered.FarmAnimalType = parseInt(this.AnimalID);
+      //   }
       url += "&FarmAnimalType=" + this.filtered.FarmAnimalType;
 
       if (this.filtered.FarmIdentificationNumber || this.filtered.FarmName) {

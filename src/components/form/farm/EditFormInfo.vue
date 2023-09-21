@@ -351,6 +351,21 @@
             mask="999-999-9999"
           />
         </div>
+
+        <div class="field col-12 sm:col-6">
+          <label class="block text-600 text-sm font-bold mb-2">
+            ชนิดสัตว์</label
+          >
+          <MultiSelect
+            v-model="form.selectAnimalType"
+            class="w-full"
+            :options="animalTypes"
+            optionLabel="label"
+            optionValue="id"
+            placeholder="เลือกชนิดสัตว์"
+            display="chip"
+          />
+        </div>
       </div>
     </div>
     <div class="col-12 text-center mt-5 flex justify-content-between">
@@ -396,6 +411,11 @@ export default {
       urlFarm: "/farm",
       organization: [],
       organizationZone: [],
+      animalTypes: [
+        { id: 1, label: "โค" },
+        { id: 2, label: "กระบือ" },
+        { id: 3, label: "แพะ" },
+      ],
 
       aizone: [],
       project: [],
@@ -438,6 +458,7 @@ export default {
       loading: false,
       form: [
         {
+          selectAnimalType: null,
           FarmRegisterDate: null,
           selectProject: null,
         },
@@ -564,16 +585,16 @@ export default {
       // project
 
       if (this.animal_id == 1) {
-        if (!this.urlProject.includes("&AnimalTypeID=[1,2]")) {
-          this.urlProject += "&ProjectLevel=FARM&AnimalTypeID=[1,2]";
+        if (!this.urlProject.includes("&AnimalTypeID=[1,2,41,42]")) {
+          this.urlProject += "&ProjectLevel=FARM&AnimalTypeID=[1,2,41,42]";
         }
       } else if (this.animal_id == 2) {
-        if (!this.urlProject.includes("&AnimalTypeID=[3,4]")) {
-        this.urlProject += "&ProjectLevel=FARM&AnimalTypeID=[3,4]";
+        if (!this.urlProject.includes("&AnimalTypeID=[3,4,43,44]")) {
+          this.urlProject += "&ProjectLevel=FARM&AnimalTypeID=[3,4,43,44]";
         }
       } else if (this.animal_id == 3) {
-        if (!this.urlProject.includes("&AnimalTypeID=[17,18]")) {
-        this.urlProject += "&ProjectLevel=FARM&AnimalTypeID=[17,18]";
+        if (!this.urlProject.includes("&AnimalTypeID=[17,18,45,46]")) {
+          this.urlProject += "&ProjectLevel=FARM&AnimalTypeID=[17,18,45,46]";
         }
       }
       axios
@@ -700,6 +721,10 @@ export default {
             ProjectID: this.data.ProjectID,
           };
           this.form.selectProject = this.data.ProjectID;
+          if (this.data.FarmAnimalType != null) {
+            console.log(typeof this.data.FarmAnimalType);
+            this.form.selectAnimalType = JSON.parse(this.data.FarmAnimalType);
+          }
 
           axios
             .get("/organization/" + this.form.OrganizationID, {
@@ -748,6 +773,7 @@ export default {
             FarmMobilePhoneNumber: this.form.FarmMobilePhoneNumber,
             FarmRegisterDate: this.form.FarmRegisterDate,
             ProjectID: this.form.selectProject,
+            FarmAnimalType: this.form.selectAnimalType,
             IsActive: "1",
           },
           {

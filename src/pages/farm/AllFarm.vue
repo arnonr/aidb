@@ -287,14 +287,18 @@
                 icon="pi pi-plus"
                 class="md:w-auto mr-2 mb-3"
               />
-              <json-excel :data="json_data" style="display:inline-block"  class="mb-3">
+              <json-excel
+                :data="json_data"
+                style="display: inline-block"
+                class="mb-3"
+              >
                 <Button
                   label="ดาวน์โหลด"
                   icon="pi pi-download"
                   class="p-button-raised p-button-raised p-button-success"
                 />
               </json-excel>
-<!-- 
+              <!-- 
               <Button
                 label="ดาวน์โหลด"
                 icon="pi pi-download"
@@ -1302,6 +1306,7 @@ export default {
     ...mapGetters({
       permission: "get_permission",
       user: "user",
+      AnimalID: "AnimalID",
     }),
   },
   mounted() {
@@ -1606,6 +1611,8 @@ export default {
         this.curpage = event.page + 1;
       }
 
+      url += "&FarmAnimalType=" + this.AnimalID;
+
       if (this.filtered.FarmIdentificationNumber || this.filtered.FarmName) {
         url +=
           "&FarmIdentificationNumber=" +
@@ -1703,7 +1710,7 @@ export default {
             return {
               หมายเลขฟาร์ม: e.FarmIdentificationNumber,
               ชื่อฟาร์ม: e.FarmName,
-              ชื่อนามสกุลเกษตรกร: e.Farmer ? e.Farmer.FullName : '-',
+              ชื่อนามสกุลเกษตรกร: e.Farmer ? e.Farmer.FullName : "-",
               จังหวัด: e.Province.ProvinceName,
               อำเภอ: e.Amphur.AmphurName,
               ตำบล: e.Tumbol.TumbolName,

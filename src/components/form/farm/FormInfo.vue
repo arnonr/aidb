@@ -239,6 +239,7 @@
           >
           <Dropdown
             class="w-full"
+            v-if="farm_type.length != 0"
             v-model="form.FarmType"
             :options="farm_type"
             optionLabel="name"
@@ -338,12 +339,10 @@
             placeholder="กรอกลิงก์จาก Google Map เช่น https://www.google.co.th/maps/@13.87487,100........"
           />
         </div>
-        <div
-          class="field col-12 sm:col-6"
-          v-if="form.FarmType == 'ฟาร์มในโครงการกรมปศุสัตว์'"
-        >
+        <div class="field col-12 sm:col-6">
           <label class="block text-600 text-sm font-bold mb-2"> โครงการ</label>
           <MultiSelect
+          v-if="project.length != 0"
             v-model="form.selectProject"
             class="w-full"
             :options="project"
@@ -364,6 +363,21 @@
             class="w-full"
             placeholder="เบอร์โทรศัพท์มือถือที่ติดต่อได้"
             mask="999-999-9999"
+          />
+        </div>
+
+        <div class="field col-12 sm:col-6">
+          <label class="block text-600 text-sm font-bold mb-2">
+            ชนิดสัตว์</label
+          >
+          <MultiSelect
+            v-model="form.selectAnimalType"
+            class="w-full"
+            :options="animalTypes"
+            optionLabel="label"
+            optionValue="id"
+            placeholder="เลือกชนิดสัตว์"
+            display="chip"
           />
         </div>
       </div>
@@ -413,6 +427,11 @@ export default {
       organization_tmp: [],
       organizationZone: [],
 
+      animalTypes: [
+        { id: 1, label: "โค" },
+        { id: 2, label: "กระบือ" },
+        { id: 3, label: "แพะ" },
+      ],
       aizone: [],
       project: [],
       farm_type: [
@@ -460,6 +479,7 @@ export default {
       valid: false,
       loading: false,
       form: {
+        selectAnimalType: null,
         // FarmRegisterDate: null,
         // selectProject: null,
       },
@@ -477,20 +497,23 @@ export default {
       console.log(val);
     },
     "form.FarmProvinceID"(val) {
-      let getAIZone = this.province_tmp.filter((item) => {
-        return item.ProvinceID == val;
-      });
-      if (getAIZone[0]) {
-        this.form.AIZoneID = getAIZone[0].AIZoneID;
-        this.form.OrganizationZoneID = getAIZone[0].OrganizationZoneID;
-      }
+      if (this.province_tmp.filter) {
+        let getAIZone = this.province_tmp.filter((item) => {
+          return item.ProvinceID == val;
+        });
 
-      this.organization_tmp = this.organization.filter((item) => {
-        return (
-          item.OrganizationProvinceID == val &&
-          (item.OrganizationTypeID == "2" || item.OrganizationTypeID == "11")
-        );
-      });
+        if (getAIZone[0]) {
+          this.form.AIZoneID = getAIZone[0].AIZoneID;
+          this.form.OrganizationZoneID = getAIZone[0].OrganizationZoneID;
+        }
+
+        this.organization_tmp = this.organization.filter((item) => {
+          return (
+            item.OrganizationProvinceID == val &&
+            (item.OrganizationTypeID == "2" || item.OrganizationTypeID == "11")
+          );
+        });
+      }
       // OrganizationProvinceID
     },
     "form.FarmAmphurID"(val) {
@@ -774,6 +797,7 @@ export default {
       }
       // console.log(this.form);
 
+      this.form.FarmAnimalType = this.form.selectAnimalType,
       axios
         .post("/farm", this.form)
         .then(() => {

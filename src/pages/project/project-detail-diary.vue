@@ -559,10 +559,26 @@ export default {
   },
   mounted() {
     if (this.$route.query.projects) {
-      let pj = this.$route.query.projects.split(",");
-      this.search.Project = pj.map((e) => {
-        return parseInt(e);
-      });
+      if (
+        this.$route.query.projects != null &&
+        this.$route.query.projects != "null" &&
+        this.$route.query.projects != "undefined" &&
+        this.$route.query.projects != ""
+      ) {
+        console.log(this.$route.query.projects + "FREEDOM1");
+        let pj = this.$route.query.projects.split(",");
+        this.search.Project = pj.map((e) => {
+          return parseInt(e);
+        });
+
+      } else if (
+        this.$route.query.projects == "null" ||
+        this.$route.query.projects == ""
+      ) {
+        this.search.Project = [];
+      } else {
+        this.search.Project = [];
+      }
     }
 
     this.search.Organization = this.user.Staff.StaffOrganizationID;
@@ -678,15 +694,15 @@ export default {
       if (this.filtered.FarmTumbolID) {
         url += "&FarmTumbolID=" + this.filtered.FarmTumbolID;
       }
-      
+
       if (this.filtered.FarmOrganizationID) {
         url += "&FarmOrganizationID=" + this.filtered.FarmOrganizationID;
       }
 
       if (this.filtered.FarmOrganizationZoneID) {
-        url += "&FarmOrganizationZoneID=" + this.filtered.FarmOrganizationZoneID;
+        url +=
+          "&FarmOrganizationZoneID=" + this.filtered.FarmOrganizationZoneID;
       }
-
 
       if (this.search.Project) {
         if (typeof this.search.Project !== "string") {

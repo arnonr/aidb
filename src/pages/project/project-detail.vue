@@ -38,7 +38,9 @@
         >
           <Button severity="secondary" label="ทะเบียนสัตว์" class="ml-2" />
         </router-link>
-        <router-link :to="'/project/detail-diary?projects=' + filtered.Project">
+        <router-link
+          :to="'/project/detail-diary?projects=' + filtered.ProjectID"
+        >
           <Button severity="secondary" label="กิจกรรมแจ้งเตือน" class="ml-2" />
         </router-link>
       </div>
@@ -1332,14 +1334,25 @@ export default {
   },
   mounted() {
     if (this.$route.query.projects) {
-      let pj = this.$route.query.projects.split(",");
-      this.filtered.ProjectID = pj.map((e) => {
-        return parseInt(e);
-      });
-
-    //   this.params.ProjectID = pj.map((e) => {
-    //     return parseInt(e);
-    //   });
+      if (
+        this.$route.query.projects != null &&
+        this.$route.query.projects != "null" &&
+        this.$route.query.projects != "undefined" &&
+        this.$route.query.projects != ""
+      ) {
+        console.log(this.$route.query.projects + "FREEDOM1");
+        let pj = this.$route.query.projects.split(",");
+        this.filtered.ProjectID = pj.map((e) => {
+          return parseInt(e);
+        });
+      } else if (
+        this.$route.query.projects == "null" ||
+        this.$route.query.projects == ""
+      ) {
+        this.filtered.ProjectID = [];
+      } else {
+        this.filtered.ProjectID = [];
+      }
     }
 
     this.load();

@@ -368,7 +368,7 @@
 
         <div class="field col-12 sm:col-6">
           <label class="block text-600 text-sm font-bold mb-2">
-            ชนิดสัตว์</label
+            ชนิดสัตว์<span class="text-red-500"> *</span></label
           >
           <MultiSelect
             v-model="form.selectAnimalType"
@@ -632,7 +632,8 @@ export default {
         !this.form.OrganizationZoneID ||
         !this.form.AIZoneID ||
         !this.form.FarmStatusID ||
-        !this.form.FarmRegisterDate
+        !this.form.FarmRegisterDate||
+        !this.form.selectAnimalType
       ) {
         this.valid = true;
         this.$toast.add({

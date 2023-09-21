@@ -73,6 +73,26 @@
             />
           </div>
 
+          <div class="col-12 sm:col-6 lg:col-4">
+            <label
+              for="selectedStatus"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              ชนิดสัตว์</label
+            >
+            <Dropdown
+              :showClear="true"
+              emptyMessage="ไม่มีข้อมูล"
+              emptyFilterMessage="ไม่พบข้อมูล"
+              class="w-full"
+              placeholder="ทั้งหมด"
+              :options="selection.FarmAnimalTypes"
+              optionLabel="name"
+              optionValue="id"
+              v-model="filtered.FarmAnimalType"
+            />
+          </div>
+
           <Accordion class="col-12 sm:col-12 lg:col-12">
             <AccordionTab header="ค้นหาขั้นสูง">
               <div class="grid">
@@ -1236,6 +1256,7 @@ export default {
         FarmName: "",
         FarmStatusID: null,
         ProjectID: null,
+        FarmAnimalType: null,
       },
       // END Search
 
@@ -1252,6 +1273,13 @@ export default {
         farmStatus: [],
         TitleName: [],
         Gender: [],
+        FarmAnimalTypes: [
+          { name: "โค", id: 1 },
+          { name: "กระบือ", id: 2 },
+          { name: "แพะ", id: 3 },
+          { name: "ทั้งหมด", id: 99 },
+          { name: "ยังไม่ได้เลือกชนิดสัตว์", id: 98 },
+        ],
       },
       // END Search
 
@@ -1307,9 +1335,14 @@ export default {
       permission: "get_permission",
       user: "user",
       AnimalID: "AnimalID",
+      animal_id: "animal_id"
     }),
   },
   mounted() {
+
+    if (this.filtered.FarmAnimalType == null) {
+      this.filtered.FarmAnimalType = parseInt(this.animal_id);
+    }
     this.load();
     this.load_selection();
     this.load_selectionAdvance();
@@ -1342,6 +1375,10 @@ export default {
     },
     "filtered.FarmStatusID"(val) {
       this.filtered.FarmStatusID = val;
+      this.load();
+    },
+    "filtered.FarmAnimalType"() {
+    //   this.filtered.FarmAnimalType = val;
       this.load();
     },
     "filtered.ProjectID"(val) {
@@ -1610,8 +1647,10 @@ export default {
       if (event) {
         this.curpage = event.page + 1;
       }
-
-      url += "&FarmAnimalType=" + this.AnimalID;
+    //   if (this.filtered.FarmAnimalType == null) {
+    //     this.filtered.FarmAnimalType = parseInt(this.AnimalID);
+    //   }
+      url += "&FarmAnimalType=" + this.filtered.FarmAnimalType;
 
       if (this.filtered.FarmIdentificationNumber || this.filtered.FarmName) {
         url +=

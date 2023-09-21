@@ -409,6 +409,7 @@ export default {
     ...mapGetters({
       user: "user",
       animal_id: "animal_id",
+      AnimalID: "AnimalID",
       farmItem: "farmItem",
     }),
   },
@@ -530,6 +531,8 @@ export default {
     this.load();
     // console.log(this.farmItem);
     this.form.FarmType = "ฟาร์มมาตรฐาน";
+    console.log(this.animal_id);
+    this.form.selectAnimalType = [parseInt(this.animal_id)]
   },
 
   methods: {
@@ -663,11 +666,11 @@ export default {
       // project
 
       if (this.animal_id == 1) {
-        this.urlProject += "&ProjectLevel=FARM&AnimalTypeID=[1,2]";
+        this.urlProject += "&ProjectLevel=FARM&AnimalTypeID=[1,2,41,42]";
       } else if (this.animal_id == 2) {
-        this.urlProject += "&ProjectLevel=FARM&AnimalTypeID=[3,4]";
+        this.urlProject += "&ProjectLevel=FARM&AnimalTypeID=[3,4,43,44]";
       } else if (this.animal_id == 3) {
-        this.urlProject += "&ProjectLevel=FARM&AnimalTypeID=[17,18]";
+        this.urlProject += "&ProjectLevel=FARM&AnimalTypeID=[17,18,45,46]";
       }
 
       axios

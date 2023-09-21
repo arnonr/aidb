@@ -1287,42 +1287,6 @@ export default {
       }
       return items;
     },
-    // getItems(id, earid) {
-    //   const items = [
-    //     {
-    //       label: "บันทึกกิจกรรม",
-    //       icon: "pi pi-eye",
-    //       command: async () => {
-    //         let data = {
-    //           AnimalEarID: earid,
-    //         };
-    //         store.dispatch("animalInfo", data);
-    //         this.$router.push("/activity/creature_info_detail");
-    //       },
-    //     },
-    //     //   {
-    //     //     label: "พิมพ์ประวัติ",
-    //     //     icon: "pi pi-eye",
-    //     //     command: async () => {
-    //     //       await RegisteredAnimalReport(id);
-    //     //     },
-    //     //   },
-    //     {
-    //       label: "ลบ",
-    //       icon: "pi pi-trash",
-    //       command: () => {
-    //         this.open_delete(id);
-    //       },
-    //     },
-    //   ];
-    //   return items;
-    // },
-    // clear() {
-    //   this.form = {
-    //     isActive: this.status[0],
-    //   };
-    //   this.valid = false;
-    // },
     validation() {
       if (
         !this.form.StaffNumber ||
@@ -1362,16 +1326,10 @@ export default {
       // กำหนด parameter
       this.setParam();
 
-      // console.log(this.params.ProjectID);
-      console.log(typeof this.params.ProjectID);
-
       if (typeof this.params.ProjectID !== "string") {
         this.params.ProjectID = JSON.stringify(this.params.ProjectID);
       }
-      //   console.log(this.params+"FREEDOM5");
 
-      // console.log(this.params.Project);
-      console.log("FREEDOM");
       await axios
         .get(this.url, { params: this.params, signal: this.controller.signal })
         .then((response) => {
@@ -1384,42 +1342,6 @@ export default {
         .finally(() => {
           this.isLoading = false;
         });
-
-      // Excel
-      //   axios
-      //     .get(this.url, {
-      //       params: {
-      //         ...this.params,
-      //         size: 100000,
-      //         noEventLatest: true,
-      //         includeEventLatest: false,
-      //       },
-      //       signal: this.controller.signal,
-      //     })
-      //     .then((response) => {
-      //       console.log(response.data);
-      //       this.json_data = response.data.rows.map((x) => {
-      //         let e = {
-      //           EarID: "'" + x.AnimalEarID,
-      //           Name: x.AnimalName,
-      //           Age: "'" + x.AnimalAge,
-      //           Status: x.AnimalStatus.AnimalStatusName,
-      //           BreedAll: x.AnimalBreedAll,
-      //           ThaiBirthDate: x.ThaiAnimalBirthDate,
-      //           Gender: x.AnimalSex.AnimalSexName,
-      //           FarmIdentificationNumber: x.AnimalFarm.FarmIdentificationNumber,
-      //           FarmName: x.AnimalFarm.FarmName,
-      //           Organization: x.Organization
-      //             ? x.Organization.OrganizationName
-      //             : "-",
-      //         };
-      //         return e;
-      //       });
-      //       console.log(this.json_data);
-      //     })
-      //     .finally(() => {
-      //       this.isLoading = false;
-      //     });
 
       axios
         .get(this.urlAnimalBreedID, { signal: this.controller.signal })
@@ -1495,9 +1417,21 @@ export default {
       const getProject = axios.get(this.urlProject, {
         signal: this.controller.signal,
       });
-      const getFarm = axios.get(this.urlFarm, {
-        signal: this.controller.signal,
-      });
+      const getFarm = axios
+        .get(this.urlFarm, {
+          signal: this.controller.signal,
+        })
+        .then((data) => {
+          this.Farm = data.data.rows;
+          console.log(this.Farm)
+          for (let i = 0; i < this.Farm.length; i++) {
+            this.Farm[i].show_id = i + 1;
+            this.Farm[i].FarmFull =
+              this.Farm[i].FarmIdentificationNumber +
+              ", " +
+              this.Farm[i].FarmName;
+          }
+        });
 
       const getAnimalSex = axios.get(this.urlAnimalSex, {
         signal: this.controller.signal,
@@ -1512,10 +1446,12 @@ export default {
         signal: this.controller.signal,
       });
 
+      getFarm;
+
       Promise.all([
         getOrganization,
         getOrganizationZone,
-        getFarm,
+        // getFarm,
         getAnimalSex,
         getTumbol,
         getAmphur,
@@ -1542,17 +1478,17 @@ export default {
               this.OrganizationZone[i].OrganizationZoneName;
           }
 
-          this.Farm = values[2].data.rows;
-          for (let i = 0; i < this.Farm.length; i++) {
-            this.Farm[i].show_id = i + 1;
-            this.Farm[i].FarmFull =
-              this.Farm[i].FarmIdentificationNumber +
-              ", " +
-              this.Farm[i].FarmName;
-          }
-          this.AnimalSex = values[3].data.rows;
+          //   this.Farm = values[2].data.rows;
+          //   for (let i = 0; i < this.Farm.length; i++) {
+          //     this.Farm[i].show_id = i + 1;
+          //     this.Farm[i].FarmFull =
+          //       this.Farm[i].FarmIdentificationNumber +
+          //       ", " +
+          //       this.Farm[i].FarmName;
+          //   }
+          this.AnimalSex = values[2].data.rows;
 
-          this.Tumbol = values[4].data.rows.map((item) => {
+          this.Tumbol = values[3].data.rows.map((item) => {
             return {
               TumbolID: item.TumbolID,
               AmphurID: item.AmphurID,
@@ -1565,7 +1501,7 @@ export default {
           });
           this.TempTumbol = this.Tumbol;
 
-          this.Amphur = values[5].data.rows.map((item) => {
+          this.Amphur = values[4].data.rows.map((item) => {
             return {
               AmphurID: item.AmphurID,
               ProvinceID: item.ProvinceID,
@@ -1577,10 +1513,10 @@ export default {
           });
           this.TempAmphur = this.Amphur;
 
-          this.Province = values[6].data.rows;
+          this.Province = values[5].data.rows;
 
-          this.AIZone = values[7].data.rows;
-          this.Projects = values[8].data.rows;
+          this.AIZone = values[6].data.rows;
+          this.Projects = values[7].data.rows;
 
           // console.log(this.Projects);
         })

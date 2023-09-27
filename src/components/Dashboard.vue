@@ -7,7 +7,7 @@
             <span class="block text-500 font-medium mb-3"
               >จำนวน{{ localAnimal }}</span
             >
-            <div class="text-900 font-medium text-xl">230,000 ตัว</div>
+            <div class="text-900 font-medium text-xl">{{ data.Total }} ตัว</div>
           </div>
           <div
             class="flex align-items-center justify-content-center bg-blue-100 border-round"
@@ -23,9 +23,9 @@
         <div class="flex justify-content-between mb-3">
           <div>
             <span class="block text-500 font-medium mb-3"
-              >แม่{{ localAnimal }}</span
+              >{{ localAnimal }}แม่พันธุ์</span
             >
-            <div class="text-900 font-medium text-xl">100,000 ตัว</div>
+            <div class="text-900 font-medium text-xl">{{ data.Mom }} ตัว</div>
           </div>
           <div
             class="flex align-items-center justify-content-center bg-orange-100 border-round"
@@ -36,14 +36,15 @@
         </div>
       </div>
     </div>
+
     <div class="col-12 lg:col-6 xl:col-2">
       <div class="card mb-0">
         <div class="flex justify-content-between mb-3">
           <div>
             <span class="block text-500 font-medium mb-3"
-              >{{ localAnimal }}รุ่น</span
+              >{{ localAnimal }}สาว</span
             >
-            <div class="text-900 font-medium text-xl">100,000 ตัว</div>
+            <div class="text-900 font-medium text-xl">{{ data.Young }} ตัว</div>
           </div>
           <div
             class="flex align-items-center justify-content-center bg-cyan-100 border-round"
@@ -59,9 +60,11 @@
         <div class="flex justify-content-between mb-3">
           <div>
             <span class="block text-500 font-medium mb-3"
-              >{{ localAnimal }}สาว</span
+              >{{ localAnimal }}รุ่น</span
             >
-            <div class="text-900 font-medium text-xl">100,000 ตัว</div>
+            <div class="text-900 font-medium text-xl">
+              {{ data.Child2 }} ตัว
+            </div>
           </div>
           <div
             class="flex align-items-center justify-content-center bg-cyan-100 border-round"
@@ -79,7 +82,7 @@
             <span class="block text-500 font-medium mb-3"
               >ลูก{{ localAnimal }}</span
             >
-            <div class="text-900 font-medium text-xl">30,000 ตัว</div>
+            <div class="text-900 font-medium text-xl">{{data.Child}} ตัว</div>
           </div>
           <div
             class="flex align-items-center justify-content-center bg-purple-100 border-round"
@@ -472,6 +475,7 @@ export default {
         .then((response) => {
           let item = response.data;
           console.log(item);
+          this.data = response.data;
           this.data.main = response.data.AiZone;
           //   this.data.main = response.data.Farms;
           //   this.data.sub = [

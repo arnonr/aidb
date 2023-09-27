@@ -77,7 +77,7 @@
               ></Column>
               <Column
                 field="PAR"
-                header="รอบนม"
+                header="รอบที่"
                 class="text-center"
                 exportFooter="&#8203;"
               ></Column>
@@ -311,27 +311,23 @@ export default {
       let url = "/report/report2";
 
       if (this.animal_id == 1) {
-        url += "?AnimalTypeID=[1,2]";
+        url += "?AnimalTypeID=[1,2,41,42]";
         this.localAnimal = "โค";
-        this.mom = "แม่" + this.localAnimal;
-        this.young = "สาว" + this.localAnimal;
-        this.child = "ลูก" + this.localAnimal;
       } else if (this.animal_id == 2) {
-        url += "?AnimalTypeID=[3,4]";
+        url += "?AnimalTypeID=[3,4,43,44]";
         this.localAnimal = "กระบือ";
-        this.mom = "แม่" + this.localAnimal;
-        this.young = "สาว" + this.localAnimal;
-        this.child = "ลูก" + this.localAnimal;
       } else if (this.animal_id == 3) {
-        url += "?AnimalTypeID=[17,18]";
+        url += "?AnimalTypeID=[17,18,45,46]";
         this.localAnimal = "แพะ";
-        this.mom = "แม่" + this.localAnimal;
-        this.young = "สาว" + this.localAnimal;
-        this.child = "ลูก" + this.localAnimal;
       }
 
+      this.mom = "แม่" + this.localAnimal;
+      this.young = this.localAnimal + "สาว";
+      this.child2 = this.localAnimal + "รุ่น";
+      this.child = "ลูก" + this.localAnimal;
+
       axios
-        .get(url + "?AnimalEarID=" + this.search, {
+        .get(url + "&AnimalEarID=" + this.search, {
           signal: this.controller.signal,
         })
         .then((res) => {
@@ -340,9 +336,13 @@ export default {
             if (res.data != null) {
               let i = 1;
               let item = res.data;
+
               this.data.ai = res.data.ai.map((key) => {
+                if (key.PAR == null) {
+                  key.PAR = "-";
+                }
                 return {
-                  PAR: key.PAR || "-",
+                  PAR: key.PAR,
                   TimeNo: key.TimeNo || "-",
                   ThaiAIDate: key.ThaiAIDate || "-",
                   SemenNumber: key.SemenNumber || "-",
@@ -355,6 +355,8 @@ export default {
                   no: i++,
                 };
               });
+              console.log(this.data.ai);
+
               this.data.general = [
                 {
                   key: "หมายเลข" + this.localAnimal,
@@ -381,13 +383,13 @@ export default {
                   value: item.ProductionStatus || "-",
                 },
                 {
-                  key: "สถานะให้นม",
+                  key: "รอบที่ปัจจุบัน",
                   value: item.AnimalPar || "-",
                 },
-                {
-                  key: "รอบการให้นมปัจจุบัน",
-                  value: item.AnimalSource || "-",
-                },
+                // {
+                //   key: "รอบการให้นมปัจจุบัน",
+                //   value: item.AnimalSource || "-",
+                // },
                 {
                   key: "แหล่งที่มา",
                   value: item.AnimalSource || "-",
@@ -405,6 +407,7 @@ export default {
                   value: item.FarmIdentificationNumber || "-",
                 },
               ];
+
               this.data.breed = [
                 {
                   key: "สายพันธุ์",

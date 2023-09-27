@@ -13,14 +13,14 @@
             <DataTable :value="data.sub" :rows="10" responsiveLayout="scroll">
               <Column
                 field="key"
-                header="#"
+                header="สถานะสัตว์"
                 class="text-center"
                 style="width: 35%"
               >
               </Column>
               <Column
                 field="value"
-                header="ชื่อฟาร์ม"
+                header="จำนวน (ตัว)"
                 class="text-center"
                 style="width: 35%"
               >
@@ -54,9 +54,8 @@
               </div>
               <div class="col-12 md:col-12">
                 <h5 class="text-center">
-                  สรุปภาพรวมของรายงานประวัติโคเพศเมีย (จำนวนฟาร์ม :{{
-                    data.FarmCount
-                  }})
+                  สรุปภาพรวมของรายงานประวัติโคเพศเมีย (จำนวนฟาร์ม :
+                  {{ data.FarmCount }})
                 </h5>
                 <!-- <h6 class="text-center">วันที่ 01/01/2565 - 05/30/2565</h6> -->
               </div>
@@ -103,6 +102,13 @@
               <Column
                 field="young"
                 :header="young"
+                :sortable="true"
+                class="text-center"
+                exportFooter="&#8203;"
+              ></Column>
+              <Column
+                field="child2"
+                :header="child2"
                 :sortable="true"
                 class="text-center"
                 exportFooter="&#8203;"
@@ -172,6 +178,7 @@ export default {
       mom: null,
       young: null,
       child: null,
+      child2: null,
       // Params
       params: {
         page: 1,
@@ -202,27 +209,23 @@ export default {
       // this.setParam();
       let url = "/report/report1";
       if (this.animal_id == 1) {
-        url += "?AnimalTypeID=[1,2]";
+        url += "?AnimalTypeID=[1,2,41,42]";
         this.localAnimal = "โค";
-        this.mom = "แม่" + this.localAnimal;
-        this.young = "สาว" + this.localAnimal;
-        this.child = "ลูก" + this.localAnimal;
-        this.Chart.labels = ["แม่โค", "โคสาว", "ลูกโค"];
+        this.Chart.labels = ["แม่โค", "โคสาว", "โครุ่น", "ลูกโค"];
       } else if (this.animal_id == 2) {
-        url += "?AnimalTypeID=[3,4]";
+        url += "?AnimalTypeID=[3,4,43,44]";
         this.localAnimal = "กระบือ";
-        this.mom = "แม่" + this.localAnimal;
-        this.young = "สาว" + this.localAnimal;
-        this.child = "ลูก" + this.localAnimal;
         this.Chart.labels = ["แม่กระบือ", "กระบือสาว", "ลูกกระบือ"];
       } else if (this.animal_id == 3) {
-        url += "?AnimalTypeID=[17,18]";
+        url += "?AnimalTypeID=[17,18,45,46]";
         this.localAnimal = "แพะ";
-        this.mom = "แม่" + this.localAnimal;
-        this.young = "สาว" + this.localAnimal;
-        this.child = "ลูก" + this.localAnimal;
         this.Chart.labels = ["แม่แพะ", "แพะสาว", "ลูกแพะ"];
       }
+
+      this.mom = "แม่" + this.localAnimal;
+      this.young = this.localAnimal + "สาว";
+      this.child2 = this.localAnimal + "รุ่น";
+      this.child = "ลูก" + this.localAnimal;
 
       axios
         .get(url, {
@@ -231,7 +234,6 @@ export default {
         .then((response) => {
           let item = response.data;
           this.data.main = response.data.Farms;
-
           this.data.sub = [
             {
               key: this.mom,
@@ -240,6 +242,10 @@ export default {
             {
               key: this.young,
               value: item.Young,
+            },
+            {
+              key: this.child2,
+              value: item.Child2,
             },
             {
               key: this.child,
@@ -258,6 +264,7 @@ export default {
               FarmName: key.FarmName,
               mom: key.mom,
               young: key.young,
+              child2: key.child2,
               child: key.child,
               total: key.total,
               no: i++,

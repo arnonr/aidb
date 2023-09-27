@@ -208,7 +208,6 @@
             class="text-center"
             exportFooter="&#8203;"
             :sortable="true"
-            style="width: 10%"
           >
           </Column>
           <Column
@@ -217,7 +216,6 @@
             class="text-center"
             exportFooter="&#8203;"
             :sortable="true"
-            style="width: 20%"
           >
           </Column>
           <Column
@@ -226,7 +224,6 @@
             class="text-center"
             exportFooter="&#8203;"
             :sortable="true"
-            style="width: 20%"
           >
           </Column>
           <Column
@@ -235,28 +232,26 @@
             class="text-center"
             exportFooter="&#8203;"
             :sortable="true"
-            style="width: 20%"
           >
           </Column>
-          <Column
+          <!-- <Column
             field="ThaiAnimalBirthDate"
             header="วันเกิด"
             class="text-center"
             exportFooter="&#8203;"
             :sortable="true"
             style="width: 10%"
-          >
-          </Column>
+          > -->
+          <!-- </Column> -->
           <Column
             field="AnimalStatusName"
             header="สถานะ"
             class="text-center"
             exportFooter="&#8203;"
             :sortable="true"
-            style="width: 20%"
           >
           </Column>
-          <Column
+          <!-- <Column
             field="AnimalFather"
             header="พ่อ"
             class="text-center"
@@ -273,14 +268,13 @@
             :sortable="true"
             style="width: 20%"
           >
-          </Column>
+          </Column> -->
           <Column
             field="Par"
-            header="รอบนม"
+            header="รอบที่"
             class="text-center"
             exportFooter="&#8203;"
             :sortable="true"
-            style="width: 20%"
           >
           </Column>
           <Column
@@ -289,7 +283,6 @@
             class="text-center"
             exportFooter="&#8203;"
             :sortable="true"
-            style="width: 20%"
           >
           </Column>
           <Column
@@ -298,7 +291,6 @@
             class="text-center"
             exportFooter="&#8203;"
             :sortable="true"
-            style="width: 20%"
           >
           </Column>
           <Column
@@ -307,7 +299,6 @@
             class="text-center"
             exportFooter="&#8203;"
             :sortable="true"
-            style="width: 20%"
           >
           </Column>
           <Column
@@ -316,7 +307,6 @@
             class="text-center"
             exportFooter="&#8203;"
             :sortable="true"
-            style="width: 20%"
           >
           </Column>
           <Column
@@ -325,7 +315,6 @@
             class="text-center"
             exportFooter="&#8203;"
             :sortable="true"
-            style="width: 20%"
           >
           </Column>
         </DataTable>
@@ -510,11 +499,11 @@ export default {
       let url = "/report/report5";
 
       if (this.animal_id == 1) {
-        url += "?AnimalTypeID=[1,2]";
+        url += "?AnimalTypeID=[1,2,41,42]";
       } else if (this.animal_id == 2) {
-        url += "?AnimalTypeID=[3,4]";
+        url += "?AnimalTypeID=[3,4,43,44]";
       } else if (this.animal_id == 3) {
-        url += "?AnimalTypeID=[17,18]";
+        url += "?AnimalTypeID=[17,18,45,46]";
       }
       if (this.filtered.ProvinceID) {
         url += "&ProvinceID=" + this.filtered.ProvinceID;

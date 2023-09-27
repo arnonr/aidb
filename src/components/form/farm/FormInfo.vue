@@ -342,7 +342,7 @@
         <div class="field col-12 sm:col-6">
           <label class="block text-600 text-sm font-bold mb-2"> โครงการ</label>
           <MultiSelect
-          v-if="project.length != 0"
+            v-if="project.length != 0"
             v-model="form.selectProject"
             class="w-full"
             :options="project"
@@ -532,7 +532,7 @@ export default {
     // console.log(this.farmItem);
     this.form.FarmType = "ฟาร์มมาตรฐาน";
     console.log(this.animal_id);
-    this.form.selectAnimalType = [parseInt(this.animal_id)]
+    this.form.selectAnimalType = [parseInt(this.animal_id)];
   },
 
   methods: {
@@ -635,7 +635,7 @@ export default {
         !this.form.OrganizationZoneID ||
         !this.form.AIZoneID ||
         !this.form.FarmStatusID ||
-        !this.form.FarmRegisterDate||
+        !this.form.FarmRegisterDate ||
         !this.form.selectAnimalType
       ) {
         this.valid = true;
@@ -801,67 +801,67 @@ export default {
       }
       // console.log(this.form);
 
-      this.form.FarmAnimalType = this.form.selectAnimalType,
-      axios
-        .post("/farm", this.form)
-        .then(() => {
-          this.$toast.add({
-            severity: "success",
-            summary: "สำเร็จ",
-            detail: "ข้อมูลฟาร์มถูกบันทึก",
-            // detail: "เพิ่มข้อมูลเสร็จสิ้น",
-            life: 5000,
-          });
+      (this.form.FarmAnimalType = this.form.selectAnimalType),
+        axios
+          .post("/farm", { ...this.form, ProjectID: this.form.selectProject })
+          .then(() => {
+            this.$toast.add({
+              severity: "success",
+              summary: "สำเร็จ",
+              detail: "ข้อมูลฟาร์มถูกบันทึก",
+              // detail: "เพิ่มข้อมูลเสร็จสิ้น",
+              life: 5000,
+            });
 
-          setTimeout(() => {
-            this.$router.push("/agency/farm");
-          }, 2500);
-          // axios
-          //   .post(
-          //     "/farm",
-          //     {},
-          //     {
-          //       signal: this.controller.signal,
-          //     }
-          //   )
-          //   .then(() => {
-          //     this.load();
-          //     this.$toast.add({
-          //       severity: "success",
-          //       summary: "สำเร็จ",
-          //       detail: "ข้อมูลฟาร์มถูกบันทึก",
-          //       // detail: "เพิ่มข้อมูลเสร็จสิ้น",
-          //       life: 5000,
-          //     });
-          //     this.$emit("next-page", {
-          //       pageIndex: 0,
-          //     });
-          //   })
-          //   // error
-          //   .catch((err) => {
-          //     this.$toast.add({
-          //       severity: "error",
-          //       summary: "ล้มเหลว",
-          //       detail: err.response.data.error.message,
-          //       life: 5000,
-          //     });
-          //   })
-          //   .finally(() => {
-          //     this.isLoading = false;
-          //   });
-        })
-        // error
-        .catch((err) => {
-          this.$toast.add({
-            severity: "error",
-            summary: "ล้มเหลว",
-            detail: err.response.data.error.message,
-            life: 5000,
+            setTimeout(() => {
+              this.$router.push("/agency/farm");
+            }, 2500);
+            // axios
+            //   .post(
+            //     "/farm",
+            //     {},
+            //     {
+            //       signal: this.controller.signal,
+            //     }
+            //   )
+            //   .then(() => {
+            //     this.load();
+            //     this.$toast.add({
+            //       severity: "success",
+            //       summary: "สำเร็จ",
+            //       detail: "ข้อมูลฟาร์มถูกบันทึก",
+            //       // detail: "เพิ่มข้อมูลเสร็จสิ้น",
+            //       life: 5000,
+            //     });
+            //     this.$emit("next-page", {
+            //       pageIndex: 0,
+            //     });
+            //   })
+            //   // error
+            //   .catch((err) => {
+            //     this.$toast.add({
+            //       severity: "error",
+            //       summary: "ล้มเหลว",
+            //       detail: err.response.data.error.message,
+            //       life: 5000,
+            //     });
+            //   })
+            //   .finally(() => {
+            //     this.isLoading = false;
+            //   });
+          })
+          // error
+          .catch((err) => {
+            this.$toast.add({
+              severity: "error",
+              summary: "ล้มเหลว",
+              detail: err.response.data.error.message,
+              life: 5000,
+            });
+          })
+          .finally(() => {
+            this.isLoading = false;
           });
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
     },
     emits: ["next-page", "prev-page"],
     onLazyLoad() {

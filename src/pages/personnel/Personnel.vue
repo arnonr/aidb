@@ -304,7 +304,11 @@
               class="mb-3 p-button-raised p-button-raised p-button-success"
               @click="exportCSV($event)"
             /> -->
-            <json-excel :data="json_data" style="display: inline-block" class="mb-3">
+            <json-excel
+              :data="json_data"
+              style="display: inline-block"
+              class="mb-3"
+            >
               <Button
                 label="ดาวน์โหลด"
                 icon="pi pi-download"
@@ -2741,12 +2745,22 @@ export default {
 
     "search.StaffProvinceID"(val) {
       this.filtered.StaffProvinceID = val;
+
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
           this.load();
           this.isLoading = false;
         }, 1000);
+      }
+
+      if (val) {
+        this.Amphur = this.TempAmphur;
+        this.Amphur = this.Amphur.filter(
+          (item) => item.ProvinceID == this.filtered.StaffProvinceID
+        );
+      } else {
+        this.Amphur = this.TempAmphur;
       }
     },
 
@@ -2758,6 +2772,15 @@ export default {
           this.load();
           this.isLoading = false;
         }, 1000);
+      }
+
+      if (val) {
+        this.Tumbol = this.TempTumbol;
+        this.Tumbol = this.Tumbol.filter(
+          (item) => item.AmphurID == this.filtered.StaffAmphurID
+        );
+      } else {
+        this.Amphur = this.TempAmphur;
       }
     },
 
@@ -2977,7 +3000,6 @@ export default {
                 .format("DD/MM/YYYY");
             }
           }
-
 
           this.json_data = this.data;
         })

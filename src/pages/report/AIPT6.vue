@@ -1422,7 +1422,7 @@ export default {
 
       if (this.search.ProjectIDArray) {
         //
-        params["Projects"] = this.search.ProjectIDArray;
+        params["Projects"] = JSON.stringify(this.search.ProjectIDArray);
       }
 
       axios

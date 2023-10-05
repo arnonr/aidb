@@ -1426,9 +1426,9 @@ export default {
             this.txtCheck = "เพิ่มข้อมูลการคลอด โดยไม่มีการผสม";
             this.btnSubmit = true;
             this.displayViewConfirmBirth = true;
-          } else if (res < 180) {
+          } else if (res < 140) {
             this.txtCon =
-              "ระยะเวลาครั้งผสมครั้งล่าสุด ถึงวันคลอดน้อยกว่า 180 วัน ไม่สามารถบันทึกคลอดได้";
+              "ระยะเวลาครั้งผสมครั้งล่าสุด ถึงวันคลอดน้อยกว่า 140 วัน ไม่สามารถบันทึกคลอดได้";
             // this.btnSubmit = true;
             // this.displayViewConfirmBirth = true;
             this.displayViewConfirmBirth = true;

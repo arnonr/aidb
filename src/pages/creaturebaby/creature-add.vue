@@ -324,6 +324,7 @@
                       v-model="form.ProjectID"
                     />
                   </div>
+                  
                   <div class="field col-12 sm:col-6">
                     <label class="block text-600 text-sm font-bold mb-2"
                       >ตั้งต้นสายเลือด</label
@@ -638,7 +639,7 @@ export default {
       apiAnimalBreedID: "/animal-breed?isActive=1",
       apiOrganizationID: "/organization?isActive=1",
       apiOrganizationZoneID: "/organization-zone?isActive=1",
-      apiProject: "/project",
+      apiProject: "/project?includeAll=false&isActive=1",
       apiAnimalStatusID: "/animal-status?isActive=1",
       apiAnimalTypeID: "/animal-type?isActive=1",
       apiCheckBreed: "/animal/generate-breed",
@@ -1107,12 +1108,12 @@ export default {
           this.organizationzone = response.data.rows;
         });
 
-      if (this.animal_id == 1) {
-        this.apiProject += "?ProjectLevel=ANIMAL&AnimalTypeID=[1,2]";
+        if (this.animal_id == 1) {
+        this.apiProject += "&ProjectLevel=ANIMAL&AnimalTypeID=[1,2,41,42]";
       } else if (this.animal_id == 2) {
-        this.apiProject += "?ProjectLevel=ANIMAL&AnimalTypeID=[3,4]";
+        this.apiProject += "&ProjectLevel=ANIMAL&AnimalTypeID=[3,4,43,44]";
       } else if (this.animal_id == 3) {
-        this.apiProject += "?ProjectLevel=ANIMAL&AnimalTypeID=[17,18]";
+        this.apiProject += "&ProjectLevel=ANIMAL&AnimalTypeID=[17,18,45,46]";
       }
       axios
         .get(this.apiProject, { signal: this.controller.signal })

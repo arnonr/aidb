@@ -581,7 +581,6 @@ export default {
       selection: false,
       loading: false,
       curpage: 0,
-      chart1Label: ["กรุงเทพ", "นนทบุรี", "สมุทรปราการ"],
       Chart1: {
         labels: [],
         datasets: [
@@ -592,7 +591,6 @@ export default {
           },
         ],
       },
-      chart2Label: ["กรุงเทพ", "นนทบุรี", "สมุทรปราการ"],
       Chart2: {
         labels: [],
         datasets: [
@@ -1346,6 +1344,10 @@ export default {
           this.data.farm = res.data.Farm;
           this.data.main = res.data.ai;
 
+          this.provinceAITime = [];
+          this.provinceAICount = [];
+
+            
           res.data.ai.forEach((x) => {
             let isProvince1 = this.provinceAITime.findIndex((e) => {
               return e.ProvinceName == x.ProvinceName;

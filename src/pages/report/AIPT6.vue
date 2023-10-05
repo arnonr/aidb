@@ -145,7 +145,7 @@
             />
           </div>
 
-          <div class="col-12 sm:col-12 lg:col-12">
+          <div class="col-12 sm:col-6 lg:col-6">
             <label
               for="searchSubDistrict"
               class="block text-600 text-sm font-bold mb-2"
@@ -164,6 +164,52 @@
               placeholder="เลือกหมายเลขฟาร์ม"
             >
             </Dropdown>
+          </div>
+
+          <div class="col-12 sm:col-6 lg:col-6">
+            <label
+              for="dateRange"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              ช่วงวันที่รายงาน</label
+            >
+            <Datepicker
+              v-model="search.day"
+              range
+              id="dateRange"
+              locale="th"
+              :format="format"
+              utc
+              :enableTimePicker="false"
+              cancelText="ยกเลิก"
+              selectText="ยืนยัน"
+              placeholder="ตั้งแต่วันที่ - จนถึงวันที่"
+            >
+              <template #year-overlay-value="{ text }">
+                {{ parseInt(text) + 543 }}
+              </template>
+              <template #year="{ year }">
+                {{ year + 543 }}
+              </template>
+            </Datepicker>
+          </div>
+
+          <div class="col-12 sm:col-12 lg:col-12">
+            <label
+              for="searchSubDistrict"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              โครงการ</label
+            >
+            <MultiSelect
+              v-model="search.ProjectIDArray"
+              class="w-full"
+              :options="dropdown.Projects"
+              optionLabel="ProjectName"
+              optionValue="ProjectID"
+              placeholder="เลือกโครงการ"
+              display="chip"
+            />
           </div>
         </div>
       </div>
@@ -552,6 +598,7 @@ export default {
         Organization: "/organization",
         Farm: "/farm",
         Report: "/report/report13",
+        Project: "/project",
       },
       dropdown: {
         AIZones: [],
@@ -562,6 +609,7 @@ export default {
         OrganizationTypes: [],
         Organizations: [],
         Farms: [],
+        Projects: [],
       },
       search: {
         AIZoneID: null,
@@ -613,6 +661,8 @@ export default {
   watch: {
     // ค้นหา
     "search.day"() {
+      this.fetchReport();
+
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -759,6 +809,16 @@ export default {
         }, 1000);
       }
     },
+
+    "search.ProjectIDArray"() {
+      this.fetchReport();
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
   },
 
   methods: {
@@ -770,6 +830,7 @@ export default {
       this.isLoading = true;
       this.fetchAIZone();
       this.fetchOrganizationZone();
+      this.fetchProject();
       this.fetchProvince();
       this.fetchAmphur();
       this.fetchTumbol();
@@ -1025,6 +1086,30 @@ export default {
         })
         .finally(() => {
           this.isLoading = false;
+        });
+    },
+    fetchProject() {
+      let params = { includeAll: false };
+
+      if (this.animal_id == 1) {
+        params["AnimalTypeID"] = "[1,2,41,42]";
+      } else if (this.animal_id == 2) {
+        params["AnimalTypeID"] = "[3,4,43,44]";
+      } else if (this.animal_id == 3) {
+        params["AnimalTypeID"] = "[17,18,45,46]";
+      }
+
+      axios
+        .get(this.url.Project, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          this.dropdown.Projects = res.data.rows;
+        })
+        .finally(() => {
+          this.isLoading = false;
+          this.loader = true;
         });
     },
     fetchProvince() {
@@ -1323,11 +1408,21 @@ export default {
         params["OrganizationID"] = this.search.OrganizationID;
       }
 
-      if (this.search.dateStart) {
-        params["StartDate"] = this.search.dateStart;
+      if (this.search.day) {
+        params["AIStartDate"] = this.search.day[0];
+        params["AIEndDate"] = this.search.day[1];
       }
-      if (this.search.dateEnd) {
-        params["EndDate"] = this.search.dateEnd;
+
+      //   if (this.search.dateStart) {
+      //     params["StartDate"] = this.search.dateStart;
+      //   }
+      //   if (this.search.dateEnd) {
+      //     params["EndDate"] = this.search.dateEnd;
+      //   }
+
+      if (this.search.ProjectIDArray) {
+        //
+        params["Projects"] = this.search.ProjectIDArray;
       }
 
       axios
@@ -1347,7 +1442,6 @@ export default {
           this.provinceAITime = [];
           this.provinceAICount = [];
 
-            
           res.data.ai.forEach((x) => {
             let isProvince1 = this.provinceAITime.findIndex((e) => {
               return e.ProvinceName == x.ProvinceName;
@@ -1368,8 +1462,7 @@ export default {
                 this.provinceAITime[isProvince1].count + 1;
             }
 
-
-            this.provinceAICount = [...this.provinceAITime]
+            this.provinceAICount = [...this.provinceAITime];
 
             let isProvince2 = this.provinceAICount.findIndex((e) => {
               return e.ProvinceName == x.ProvinceName;

@@ -78,7 +78,7 @@
               for="selectedStatus"
               class="block text-600 text-sm font-bold mb-2"
             >
-              ชนิดสัตว์</label
+              ชนิดของสัตว์ที่อยู่ในฟาร์ม</label
             >
             <Dropdown
               :showClear="true"

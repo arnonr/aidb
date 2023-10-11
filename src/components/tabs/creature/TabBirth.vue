@@ -47,7 +47,17 @@
           <Button
             icon="pi pi-eye p-1"
             class="p-button-success p-button-sm mr-3"
-            @click="openViewBaby(slotProps.index)"
+            @click="
+              () => {
+                openRegister(
+                  slotProps.data.GiveBirthID,
+                  slotProps.data.GiveBirthDate,
+                  slotProps.index
+                );
+
+                openViewBaby(slotProps.index);
+              }
+            "
           />
         </div>
       </template>
@@ -765,15 +775,17 @@ export default {
     data: {
       handler(val) {
         if (val[0]) {
-          if (this.data[this.index].GiveBirthDate) {
-            let date_1 = new Date(this.lastInformation.AIDate);
-            let dateDiff = dayjs(this.data[this.index].GiveBirthDate).diff(
-              date_1,
-              "day"
-            );
-            let res = dateDiff;
+          if (this.data[this.index] !== undefined) {
+            if (this.data[this.index].GiveBirthDate !== undefined) {
+              let date_1 = new Date(this.lastInformation.AIDate);
+              let dateDiff = dayjs(this.data[this.index].GiveBirthDate).diff(
+                date_1,
+                "day"
+              );
+              let res = dateDiff;
 
-            this.textBirth = "ระยะห่างจากวันผสม " + res + " วัน";
+              this.textBirth = "ระยะห่างจากวันผสม " + res + " วัน";
+            }
           }
         }
 
@@ -1514,6 +1526,7 @@ export default {
       };
 
       store.dispatch("bornItem", item);
+      console.log(item);
       this.$router.push("/creaturebaby/add");
     },
     editAnimal(id) {

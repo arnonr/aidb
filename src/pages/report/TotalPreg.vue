@@ -2,13 +2,52 @@
   <div class="grid">
     <div class="col-12">
       <PageTitle :title="title" />
-      
+
       <div v-if="loader" class="card mb-5">
         <h1 class="text-xl mb-4 text-500">เครื่องมือช่วยค้นหา</h1>
         <div class="grid">
+          <div class="col-12 sm:col-6 lg:col-6">
+            <label for="AIZoneID" class="block text-600 text-sm font-bold mb-2">
+              ศูนย์วิจัย</label
+            >
+            <Dropdown
+              class="w-full"
+              v-model="search.AIZoneID"
+              :options="dropdown.AIZones"
+              optionLabel="AIZoneName"
+              optionValue="AIZoneID"
+              :disabled="isSelectAIZoneDisabled"
+              :filter="true"
+              :showClear="true"
+              placeholder="ทั้งหมด"
+            >
+            </Dropdown>
+          </div>
+
+          <div class="col-12 sm:col-6 lg:col-6">
+            <label
+              for="searchOrganizationZoneID"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              เขตพื้นที่ปศุสัตว์</label
+            >
+            <Dropdown
+              class="w-full"
+              v-model="search.OrganizationZoneID"
+              :options="dropdown.OrganizationZones"
+              optionLabel="OrganizationZoneName"
+              optionValue="OrganizationZoneID"
+              :disabled="isSelectOrganizationZoneDisabled"
+              :filter="true"
+              :showClear="true"
+              placeholder="ทั้งหมด"
+            >
+            </Dropdown>
+          </div>
+
           <div class="col-12 sm:col-6 lg:col-4">
             <label
-              for="searchProvince"
+              for="searchProvinceID"
               class="block text-600 text-sm font-bold mb-2"
             >
               จังหวัด</label
@@ -16,19 +55,19 @@
             <Dropdown
               class="w-full"
               v-model="search.ProvinceID"
-              :options="dropdown.province"
+              :options="dropdown.Provinces"
               optionLabel="ProvinceName"
               optionValue="ProvinceID"
               :filter="true"
               :showClear="true"
               placeholder="ทั้งหมด"
-              @change="filterResidenceAmphur($event)"
             >
             </Dropdown>
           </div>
+
           <div class="col-12 sm:col-6 lg:col-4">
             <label
-              for="searchDistrict"
+              for="searchAmphurID"
               class="block text-600 text-sm font-bold mb-2"
             >
               อำเภอ</label
@@ -36,19 +75,19 @@
             <Dropdown
               class="w-full"
               v-model="search.AmphurID"
-              :options="amphur.data"
+              :options="dropdown.Amphurs"
               optionLabel="AmphurName"
               optionValue="AmphurID"
               :filter="true"
               :showClear="true"
               placeholder="ทั้งหมด"
-              @change="filterResidenceTumbol($event)"
             >
             </Dropdown>
           </div>
+
           <div class="col-12 sm:col-6 lg:col-4">
             <label
-              for="searchSubDistrict"
+              for="searchTumbolID"
               class="block text-600 text-sm font-bold mb-2"
             >
               ตำบล</label
@@ -56,7 +95,7 @@
             <Dropdown
               class="w-full"
               v-model="search.TumbolID"
-              :options="tumbol.data"
+              :options="dropdown.Tumbols"
               optionLabel="TumbolName"
               optionValue="TumbolID"
               :filter="true"
@@ -66,25 +105,46 @@
             </Dropdown>
           </div>
 
-          <!-- <div class="col-12 sm:col-6 lg:col-4">
+          <div class="col-12 sm:col-12 lg:col-6">
             <label
-              for="searchSubDistrict"
+              for="searchOrganizationID"
               class="block text-600 text-sm font-bold mb-2"
             >
-              หน่วยผสมเทียม</label
+              ประเภทหน่วยงาน</label
             >
             <Dropdown
-              class="w-full"
-              v-model="search.tumbol"
-              :options="tumbol.data"
-              optionLabel="TumbolName"
-              optionValue="TumbolID"
-              :filter="true"
               :showClear="true"
+              class="w-full"
               placeholder="ทั้งหมด"
+              optionLabel="OrganizationTypeName"
+              optionValue="OrganizationTypeID"
+              :virtualScrollerOptions="{ itemSize: 38 }"
+              :options="dropdown.OrganizationTypes"
+              :filter="true"
+              v-model="search.OrganizationTypeID"
+            />
+          </div>
+
+          <div class="col-12 sm:col-12 lg:col-6">
+            <label
+              for="searchOrganizationID"
+              class="block text-600 text-sm font-bold mb-2"
             >
-            </Dropdown>
-          </div> -->
+              หน่วยงาน</label
+            >
+            <Dropdown
+              :showClear="true"
+              class="w-full"
+              placeholder="ทั้งหมด"
+              optionLabel="OrganizationFull"
+              optionValue="OrganizationID"
+              :virtualScrollerOptions="{ itemSize: 38 }"
+              :options="dropdown.Organizations"
+              :filter="true"
+              v-model="search.OrganizationID"
+            />
+          </div>
+
           <div class="col-12 sm:col-6 lg:col-6">
             <label
               for="searchSubDistrict"
@@ -95,7 +155,7 @@
             <Dropdown
               class="w-full"
               v-model="search.FarmID"
-              :options="Farm.data"
+              :options="dropdown.Farms"
               optionLabel="Fullname"
               optionValue="FarmID"
               :filter="true"
@@ -105,24 +165,50 @@
             >
             </Dropdown>
           </div>
-          <div class="col-12 sm:col-12 lg:col-6">
+
+          <div class="col-12 sm:col-6 lg:col-6">
             <label
-              for="selectedUnit"
+              for="dateRange"
               class="block text-600 text-sm font-bold mb-2"
             >
-              หมายเลขหน่วยงาน</label
+              ช่วงวันที่รายงาน</label
             >
-            <Dropdown
-              :showClear="true"
+            <Datepicker
+              v-model="search.day"
+              range
+              id="dateRange"
+              locale="th"
+              :format="format"
+              utc
+              :enableTimePicker="false"
+              cancelText="ยกเลิก"
+              selectText="ยืนยัน"
+              placeholder="ตั้งแต่วันที่ - จนถึงวันที่"
+            >
+              <template #year-overlay-value="{ text }">
+                {{ parseInt(text) + 543 }}
+              </template>
+              <template #year="{ year }">
+                {{ year + 543 }}
+              </template>
+            </Datepicker>
+          </div>
+
+          <div class="col-12 sm:col-12 lg:col-12">
+            <label
+              for="searchSubDistrict"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              โครงการ</label
+            >
+            <MultiSelect
+              v-model="search.ProjectIDArray"
               class="w-full"
-              id="selectedFarm"
-              placeholder="ทั้งหมด"
-              optionLabel="OrganizationFull"
-              optionValue="OrganizationID"
-              :virtualScrollerOptions="{ itemSize: 38 }"
-              :options="Organization.data"
-              :filter="true"
-              v-model="search.OrganizationID"
+              :options="dropdown.Projects"
+              optionLabel="ProjectName"
+              optionValue="ProjectID"
+              placeholder="เลือกโครงการ"
+              display="chip"
             />
           </div>
         </div>
@@ -185,12 +271,10 @@
         </div>
       </div>
     </div>
-    
 
     <div class="col-12 xl:col-12">
       <div class="card">
         <div class="col-12 text-right">
-            
           <Button
             label="Export To Excel"
             @click="exportCSV($event)"
@@ -198,7 +282,7 @@
           />
         </div>
         <h5 class="text-center">{{ title }}</h5>
-     
+
         <DataTable
           class="text-sm"
           :value="data.main"
@@ -302,7 +386,7 @@
             exportFooter="&#8203;"
             :sortable="true"
           ></Column>
-           <Column
+          <Column
             field="total"
             header="วันที่ตรวจท้อง"
             class="text-center"

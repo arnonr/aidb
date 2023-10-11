@@ -7,12 +7,25 @@
         <h1 class="text-center text-white">หมายเลขประจำตัวสัตว์</h1>
         <span class="p-input-icon-right w-full px-5">
           <i class="pi pi-search px-5" />
-          <InputText
+          <Dropdown
+            class="w-full"
+            :options="animals"
+            optionLabel="AnimalFullname"
+            optionValue="AnimalID"
+            placeholder="เลือกสัตว์"
+            v-model="search.AnimalID"
+            :filter="true"
+            :virtualScrollerOptions="{ itemSize: 38 }"
+            emptyMessage="ไม่มีข้อมูล"
+            emptyFilterMessage="ไม่พบข้อมูล"
+          />
+
+          <!-- <InputText
             class="w-full"
             type="text"
             v-model="search"
             placeholder="ค้นหา"
-          />
+          /> -->
         </span>
       </div>
 
@@ -279,7 +292,11 @@ export default {
   data() {
     return {
       data: [],
-      search: "",
+      animals: [],
+
+      search: {
+        AnimalID: null,
+      },
       url: {
         report2: "/report/report2",
       },
@@ -296,12 +313,25 @@ export default {
   loadLazyTimeout: null,
 
   mounted() {
+    this.fetchAnimal();
     this.load();
   },
   watch: {
     search: _.debounce(function () {
       this.load();
     }, 500),
+    "search.AnimalID"(val) {
+      if (val) {
+        this.load();
+      }
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.load();
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
   },
   methods: {
     exportCSV() {
@@ -309,6 +339,8 @@ export default {
     },
     load() {
       let url = "/report/report2";
+
+      console.log(this.search.AnimalID);
 
       if (this.animal_id == 1) {
         url += "?AnimalTypeID=[1,2,41,42]";
@@ -327,7 +359,10 @@ export default {
       this.child = "ลูก" + this.localAnimal;
 
       axios
-        .get(url + "&AnimalEarID=" + this.search, {
+        .get(url, {
+          params: {
+            AnimalID: this.search.AnimalID,
+          },
           signal: this.controller.signal,
         })
         .then((res) => {
@@ -434,6 +469,48 @@ export default {
           } else {
             this.data = [];
           }
+        })
+        .catch(() => {
+          this.data = [];
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+
+    fetchAnimal() {
+      //   AnimalAll
+      let urlAnimal = "/animal";
+      let AnimalTypeID = "";
+
+      if (this.animal_id == 1) {
+        AnimalTypeID = "[1,2,41,42]";
+        this.localAnimal = "โค";
+      } else if (this.animal_id == 2) {
+        AnimalTypeID = "[3,4,43,44]";
+        this.localAnimal = "กระบือ";
+      } else if (this.animal_id == 3) {
+        AnimalTypeID = "[17,18,45,46]";
+        this.localAnimal = "แพะ";
+      }
+
+      axios
+        .get(urlAnimal, {
+          params: {
+            includeAll: false,
+            AnimalSexID: 2,
+            AnimalTypeID: AnimalTypeID,
+          },
+          signal: this.controller.signal,
+        })
+        .then((res) => {
+          console.log(res.data.rows);
+          this.animals = res.data.rows.map((x) => {
+            return {
+              AnimalID: x.AnimalID,
+              AnimalFullname: x.AnimalEarID + ", " + x.AnimalName,
+            };
+          });
         })
         .catch(() => {
           this.data = [];

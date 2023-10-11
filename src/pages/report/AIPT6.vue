@@ -1074,7 +1074,7 @@ export default {
         });
     },
     fetchOrganizationZone() {
-      let params = { includeAll: false };
+      let params = { includeAll: false,isActive: 1 };
       //  Fetch OrganizationZone
       axios
         .get(this.url.OrganizationZone, {

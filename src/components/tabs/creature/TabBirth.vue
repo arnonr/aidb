@@ -52,7 +52,8 @@
                 openRegister(
                   slotProps.data.GiveBirthID,
                   slotProps.data.GiveBirthDate,
-                  slotProps.index
+                  slotProps.index,
+                  'edit'
                 );
 
                 openViewBaby(slotProps.index);
@@ -80,7 +81,8 @@
               openRegister(
                 slotProps.data.GiveBirthID,
                 slotProps.data.GiveBirthDate,
-                slotProps.index
+                slotProps.index,
+                'add'
               )
             "
           />
@@ -1489,7 +1491,7 @@ export default {
     closeViewBaby() {
       this.displayViewBaby = false;
     },
-    openRegister(id, day, index) {
+    openRegister(id, day, index, type) {
       this.index = index;
       // console.log(id + day);
 
@@ -1526,8 +1528,10 @@ export default {
       };
 
       store.dispatch("bornItem", item);
-      console.log(item);
-      this.$router.push("/creaturebaby/add");
+
+      if (type == "add") {
+        this.$router.push("/creaturebaby/add");
+      }
     },
     editAnimal(id) {
       this.$router.push("/creaturebaby/edit/" + id);

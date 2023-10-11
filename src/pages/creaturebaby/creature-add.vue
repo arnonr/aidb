@@ -324,7 +324,7 @@
                       v-model="form.ProjectID"
                     />
                   </div>
-                  
+
                   <div class="field col-12 sm:col-6">
                     <label class="block text-600 text-sm font-bold mb-2"
                       >ตั้งต้นสายเลือด</label
@@ -789,8 +789,8 @@ export default {
       this.form.AnimalBirthDate = this.bornItem.AnimalBirthDate;
       //
       this.showAnimalBirthDate = dayjs(this.bornItem.AnimalBirthDate).format(
-          "DD/MM/BBBB"
-        );
+        "DD/MM/BBBB"
+      );
       this.form.FarmID = this.bornItem.FarmID;
       this.form.OrganizationZoneID = this.bornItem.OrganizationZoneID;
       this.form.OrganizationID = this.bornItem.OrganizationID;
@@ -1108,7 +1108,7 @@ export default {
           this.organizationzone = response.data.rows;
         });
 
-        if (this.animal_id == 1) {
+      if (this.animal_id == 1) {
         this.apiProject += "&ProjectLevel=ANIMAL&AnimalTypeID=[1,2,41,42]";
       } else if (this.animal_id == 2) {
         this.apiProject += "&ProjectLevel=ANIMAL&AnimalTypeID=[3,4,43,44]";

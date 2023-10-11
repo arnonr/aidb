@@ -206,11 +206,11 @@ export default {
     async load() {
       let search = null;
       if (this.animal_id == 1) {
-        search = [1, 2];
+        search = [1, 2, 41, 42];
       } else if (this.animal_id == 2) {
-        search = [3, 4];
+        search = [3, 4, 43, 44];
       } else if (this.animal_id == 3) {
-        search = [17, 18];
+        search = [17, 18, 45, 46];
       }
 
       await axios

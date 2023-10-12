@@ -9,7 +9,7 @@
         <div class="grid">
           <div class="col-12 sm:col-6 lg:col-4">
             <label
-              for="codeNumber"
+              for="codeNumber"  
               class="block text-600 text-sm font-bold mb-2"
             >
               รหัสโครงการ</label

@@ -809,7 +809,6 @@ export default {
         }, 1000);
       }
     },
-
     "search.ProjectIDArray"() {
       this.fetchReport();
       if (this.isLoading == false) {

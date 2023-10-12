@@ -27,7 +27,7 @@
                 :disabled="isSelectAIZoneDisabled"
                 :filter="true"
                 :showClear="true"
-                placeholder="ทั้งหมด"
+                placeholder="-- โปรดเลือกศูนย์วิจัย --"
               >
               </Dropdown>
             </div>
@@ -48,7 +48,7 @@
                 :disabled="isSelectOrganizationZoneDisabled"
                 :filter="true"
                 :showClear="true"
-                placeholder="ทั้งหมด"
+                placeholder="-- เลือกเขตพื้นที่ปศุสัตว์ --"
               >
               </Dropdown>
             </div>
@@ -1254,14 +1254,20 @@ export default {
         this.isSelectAIZoneDisabled = false;
         this.isSelectOrganizationZoneDisabled = false;
       }
+
+      this.dropdown.Provinces = [];
+      this.dropdown.Amphurs = [];
+      this.dropdown.Tumbols = [];
+      this.dropdown.Organizations = [];
+      this.dropdown.Farms = [];
+      this.data = [];
+
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
           this.fetchProvince();
           this.fetchOrganization();
           this.fetchFarm();
-          this.dropdown.Amphurs = [];
-          this.dropdown.Tumbols = [];
           this.search.AmphurID = null;
           this.search.TumbolID = null;
           this.search.OrganizationID = null;
@@ -1279,6 +1285,14 @@ export default {
         this.isSelectAIZoneDisabled = false;
         this.isSelectOrganizationZoneDisabled = false;
       }
+
+      this.dropdown.Provinces = [];
+      this.dropdown.Amphurs = [];
+      this.dropdown.Tumbols = [];
+      this.dropdown.Organizations = [];
+      this.dropdown.Farms = [];
+      this.data = [];
+
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -1497,6 +1511,13 @@ export default {
         })
         .then((res) => {
           this.dropdown.AIZones = res.data.rows;
+
+          this.dropdown.AIZones.push({
+            AIZoneID: 99,
+            AIZoneName: "ทั้งหมด",
+          });
+
+          console.log(this.dropdown.AIZones);
         })
         .finally(() => {
           this.isLoading = false;
@@ -1512,6 +1533,10 @@ export default {
         })
         .then((res) => {
           this.dropdown.OrganizationZones = res.data.rows;
+          this.dropdown.OrganizationZones.push({
+            OrganizationZoneID: 99,
+            OrganizationZoneName: "ทั้งหมด",
+          });
         })
         .finally(() => {
           this.isLoading = false;
@@ -1713,11 +1738,15 @@ export default {
 
       // Province IN AIZOne
       if (this.search.AIZoneID != null) {
-        params["AIZoneID"] = this.search.AIZoneID;
+        if (this.search.AIZoneID != 99) {
+          params["AIZoneID"] = this.search.AIZoneID;
+        }
       }
 
       if (this.search.OrganizationZoneID != null) {
-        params["OrganizationZoneID"] = this.search.OrganizationZoneID;
+        if (this.search.OrganizationZoneID != 99) {
+          params["OrganizationZoneID"] = this.search.OrganizationZoneID;
+        }
       }
 
       if (this.search.ProvinceID != null) {

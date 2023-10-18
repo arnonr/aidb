@@ -616,6 +616,36 @@
                   />
                 </div>
 
+                <div class="col-12 sm:col-6 lg:col-3">
+                  <label
+                    for="selectedFarm"
+                    class="block text-600 text-sm font-bold mb-2"
+                  >
+                    หมายเลขใบหูพ่อ</label
+                  >
+
+                  <InputText
+                    class="w-full"
+                    type="text"
+                    v-model="parents.AnimalFatherEarID"
+                  />
+                </div>
+
+                <div class="col-12 sm:col-6 lg:col-3">
+                  <label
+                    for="selectedFarm"
+                    class="block text-600 text-sm font-bold mb-2"
+                  >
+                    หมายเลขใบหูแม่</label
+                  >
+
+                  <InputText
+                    class="w-full"
+                    type="text"
+                    v-model="parents.AnimalMotherEarID"
+                  />
+                </div>
+
                 <!-- <div class="col-12 sm:col-6 lg:col-4">
                   <label
                     for="dateBirthRange"
@@ -1382,6 +1412,10 @@ export default {
         Organization: "/organization",
         Project: "/project",
       },
+      parents: {
+        AnimalFatherEarID: null,
+        AnimalMotherEarID: null,
+      },
 
       breadcrumb: [
         { label: "หน้าหลัก", to: "/" },
@@ -1598,6 +1632,19 @@ export default {
     //     }, 1000);
     //   }
     // },
+    "parents.AnimalFatherEarID"() {
+      this.fetchParents();
+    },
+    "parents.AnimalMotherEarID"() {
+      this.fetchParents();
+    },
+
+    "params.AnimalFatherID"() {
+      this.fetchAnimal();
+    },
+    "params.AnimalMotherID"() {
+      this.fetchAnimal();
+    },
     "search.AIZone"(val) {
       if (val) {
         this.params.AIZone = val;
@@ -1615,7 +1662,6 @@ export default {
     "search.Project"(val) {
       if (val) {
         this.params.ProjectID = val;
-
       } else {
         this.params.ProjectID = null;
       }
@@ -2027,7 +2073,6 @@ export default {
             AIZoneID: 99,
             AIZoneName: "ทั้งหมด",
           });
-
         })
         .finally(() => {
           this.isLoading = false;
@@ -2495,7 +2540,6 @@ export default {
           signal: this.controller.signal,
         })
         .then((response) => {
-
           this.json_data = response.data.rows.map((x) => {
             let e = {
               EarID: "'" + x.AnimalEarID,
@@ -2513,7 +2557,6 @@ export default {
             };
             return e;
           });
-
         })
         .finally(() => {
           this.isLoading = false;
@@ -2540,7 +2583,6 @@ export default {
                   Fullname: item.AnimalBreedCode + ", " + item.AnimalBreedName,
                 };
               });
-
           } else if (this.animal_id == 2) {
             this.AnimalBreed = response.data.rows
               .filter(
@@ -2575,6 +2617,52 @@ export default {
               });
           }
         });
+    },
+
+    fetchParents() {
+      if (
+        this.parents.AnimalFatherEarID != null &&
+        this.parents.AnimalFatherEarID != ""
+      ) {
+        axios
+          .get("/animal?includeAll=false", {
+            signal: this.controller.signal,
+            params: {
+              AnimalEarID: this.parents.AnimalFatherEarID,
+            },
+          })
+          .then((res) => {
+            if (res.data.rows.length != 0) {
+              this.params.AnimalFatherID = res.data.rows[0].AnimalID;
+            } else {
+              this.params.AnimalFatherID = 0;
+            }
+          });
+      } else {
+        this.params.AnimalFatherID = null;
+      }
+
+      if (
+        this.parents.AnimalMotherEarID != null &&
+        this.parents.AnimalMotherEarID != ""
+      ) {
+        axios
+          .get("/animal?includeAll=false", {
+            signal: this.controller.signal,
+            params: {
+              AnimalEarID: this.parents.AnimalMotherEarID,
+            },
+          })
+          .then((res) => {
+            if (res.data.rows.length != 0) {
+              this.params.AnimalMotherID = res.data.rows[0].AnimalID;
+            } else {
+              this.params.AnimalMotherID = 0;
+            }
+          });
+      } else {
+        this.params.AnimalMotherID = null;
+      }
     },
 
     setParam() {
@@ -2695,13 +2783,11 @@ export default {
 
           this.AIZone = values[7].data.rows;
           this.Projects = values[8].data.rows;
-
         })
         .finally(() => (this.loader = true));
     },
     // sort table
     sort($event) {
-
       if ($event.sortField !== "show_id") {
         if ($event.sortOrder == 1) {
           this.params.orderBy = "asc";
@@ -2768,7 +2854,6 @@ export default {
       }
     },
     async open_detail(id) {
-
       this.form = null;
       if (this.permit[0].IsPreview == 0) {
         this.$toast.add({

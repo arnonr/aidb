@@ -107,6 +107,36 @@
             :readonly="checkSelect == 1"
           />
         </div>
+
+        <div
+          class="field col-12 sm:col-6"
+          v-if="checkSelect == 1 || checkSelect == 2"
+        >
+          <label class="block text-600 text-sm font-bold mb-2"
+            >เพศ<span class="text-red-500"> *</span></label
+          >
+          <Dropdown
+            class="w-full"
+            v-model="form.GenderID"
+            :options="data.gender"
+            optionLabel="GenderName"
+            optionValue="GenderID"
+            :virtualScrollerOptions="{
+              itemSize: 38,
+            }"
+            :filter="true"
+            :showClear="true"
+            placeholder="เลือกเพศ"
+            :class="{ 'p-invalid': !form.GenderID && valid }"
+          >
+            <template v-slot:loader="{ options }">
+              <div class="flex align-items-center p-2" style="height: 38px">
+                <Skeleton :width="options.even ? '60%' : '50%'" height="1rem" />
+              </div>
+            </template>
+          </Dropdown>
+        </div>
+
         <div
           class="field col-12 sm:col-6 lg:col-6"
           v-if="checkSelect == 1 || checkSelect == 2"
@@ -178,34 +208,6 @@
             :class="{ 'p-invalid': !form.Surname && valid }"
             :readonly="checkSelect == 1"
           />
-        </div>
-        <div
-          class="field col-12 sm:col-6"
-          v-if="checkSelect == 1 || checkSelect == 2"
-        >
-          <label class="block text-600 text-sm font-bold mb-2"
-            >เพศ<span class="text-red-500"> *</span></label
-          >
-          <Dropdown
-            class="w-full"
-            v-model="form.GenderID"
-            :options="data.gender"
-            optionLabel="GenderName"
-            optionValue="GenderID"
-            :virtualScrollerOptions="{
-              itemSize: 38,
-            }"
-            :filter="true"
-            :showClear="true"
-            placeholder="เลือกเพศ"
-            :class="{ 'p-invalid': !form.GenderID && valid }"
-          >
-            <template v-slot:loader="{ options }">
-              <div class="flex align-items-center p-2" style="height: 38px">
-                <Skeleton :width="options.even ? '60%' : '50%'" height="1rem" />
-              </div>
-            </template>
-          </Dropdown>
         </div>
         <div
           class="field col-12 sm:col-6"
@@ -987,19 +989,32 @@ export default {
       this.getFarmer();
     }, 2000),
 
-    "form.TitleID"(val) {
-      // console.log(val);
+    // "form.TitleID"(val) {
+    //   // console.log(val);
 
-      // ชาย 1 หญิง 2
-      // นาย
-      if (val == 3) {
-        this.form.GenderID = 1;
-        // console.log(11);
-      } else if (val == 4) {
-        this.form.GenderID = 2;
-      } else if (val == 5) {
-        this.form.GenderID = 2;
+    //   // ชาย 1 หญิง 2
+    //   // นาย
+    //   if (val == 3) {
+    //     this.form.GenderID = 1;
+    //     // console.log(11);
+    //   } else if (val == 4) {
+    //     this.form.GenderID = 2;
+    //   } else if (val == 5) {
+    //     this.form.GenderID = 2;
+    //   }
+    // },
+
+    "form.GenderID"(val) {
+      if (val == 1) {
+        this.data.title = this.data.title_all.filter((x) => {
+          return x.TitleID == 3;
+        });
+      } else {
+        this.data.title = this.data.title_all.filter((x) => {
+          return x.TitleID == 4 || x.TitleID == 5;
+        });
       }
+
     },
   },
 
@@ -1215,19 +1230,20 @@ export default {
       // url list
       this.url.farmer = "/farmer";
       this.url.title = "/title?isActive=1";
-      this.url.gender = "/gender";
-      this.url.education = "/education";
-      this.url.occupation = "/occupation";
+      this.url.gender = "/gender?isActive=1";
+      this.url.education = "/education?isActive=1";
+      this.url.occupation = "/occupation?isActive=1";
       this.url.province = "/province?includeAll=false";
-      this.url.tumbol = "/tumbol";
-      this.url.amphur = "/amphur";
-      this.url.farm = "/farm";
+      this.url.tumbol = "/tumbol?isActive=1";
+      this.url.amphur = "/amphur?isActive=1";
+      this.url.farm = "/farm?isActive=1";
 
       axios
         .get(this.url.title, {
           signal: this.controller.signal,
         })
         .then((res) => {
+          this.data.title_all = res.data.rows;
           this.data.title = res.data.rows;
         })
         .finally(() => {

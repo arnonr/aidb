@@ -1088,12 +1088,12 @@ export default {
       // url list
       this.url.farmer = "/farmer";
       this.url.title = "/title?isActive=1";
-      this.url.gender = "/gender";
-      this.url.education = "/education";
-      this.url.occupation = "/occupation";
-      this.url.province = "/province";
-      this.url.tumbol = "/tumbol";
-      this.url.amphur = "/amphur";
+      this.url.gender = "/gender?isActive=1";
+      this.url.education = "/education?isActive=1";
+      this.url.occupation = "/occupation?isActive=1";
+      this.url.province = "/province?isActive=1";
+      this.url.tumbol = "/tumbol?isActive=1";
+      this.url.amphur = "/amphur?isActive=1";
       this.url.farm = "/farm";
 
       axios

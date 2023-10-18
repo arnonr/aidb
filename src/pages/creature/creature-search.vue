@@ -1616,7 +1616,6 @@ export default {
       if (val) {
         this.params.ProjectID = val;
 
-        // console.log(this.params.Project);
       } else {
         this.params.ProjectID = null;
       }
@@ -1714,7 +1713,6 @@ export default {
     },
 
     "params.AnimalName": _.debounce(function () {
-      console.log("FREEDOM");
       this.load();
     }, 500),
     "params.AnimalAgeStart": _.debounce(function () {
@@ -1992,6 +1990,7 @@ export default {
     loadDefault() {
       this.isLoading = true;
       this.fetchAIZone();
+      this.fetchAnialBreed();
       this.fetchOrganizationZone();
       this.fetchProject();
       this.fetchProvince();
@@ -2029,7 +2028,6 @@ export default {
             AIZoneName: "ทั้งหมด",
           });
 
-          console.log(this.dropdown.AIZones);
         })
         .finally(() => {
           this.isLoading = false;
@@ -2386,7 +2384,7 @@ export default {
         this.isLoading = false;
         return;
       }
-      console.log(this.params);
+
       let params = {
         ...this.params,
         size: this.rowPerPage,
@@ -2497,7 +2495,7 @@ export default {
           signal: this.controller.signal,
         })
         .then((response) => {
-          console.log(response.data);
+
           this.json_data = response.data.rows.map((x) => {
             let e = {
               EarID: "'" + x.AnimalEarID,
@@ -2515,12 +2513,14 @@ export default {
             };
             return e;
           });
-          console.log(this.json_data);
+
         })
         .finally(() => {
           this.isLoading = false;
         });
+    },
 
+    fetchAnialBreed() {
       axios
         .get(this.urlAnimalBreedID, { signal: this.controller.signal })
         .then((response) => {
@@ -2540,6 +2540,7 @@ export default {
                   Fullname: item.AnimalBreedCode + ", " + item.AnimalBreedName,
                 };
               });
+
           } else if (this.animal_id == 2) {
             this.AnimalBreed = response.data.rows
               .filter(
@@ -2695,13 +2696,12 @@ export default {
           this.AIZone = values[7].data.rows;
           this.Projects = values[8].data.rows;
 
-          // console.log(this.Projects);
         })
         .finally(() => (this.loader = true));
     },
     // sort table
     sort($event) {
-      // console.log($event);
+
       if ($event.sortField !== "show_id") {
         if ($event.sortOrder == 1) {
           this.params.orderBy = "asc";
@@ -2768,7 +2768,6 @@ export default {
       }
     },
     async open_detail(id) {
-      // console.log(id);
 
       this.form = null;
       if (this.permit[0].IsPreview == 0) {

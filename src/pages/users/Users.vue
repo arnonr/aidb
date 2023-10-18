@@ -265,12 +265,13 @@
 
               <!-- @click="display_view = true" -->
             </div>
-            <div class="col-12 sm:col-12 lg:col-6" v-if="global_admin == 1">
+            <div class="col-12 sm:col-12 lg:col-6">
               <label for="farm" class="block text-600 text-sm font-bold mb-2">
                 อีเมล
               </label>
               <InputText
                 autocomplete="username"
+                :disabled="global_admin == 1 ? false : true"
                 v-model="data[index].Username"
                 class="w-full"
                 :class="{ 'p-invalid': !data[index].Username && valid }"
@@ -278,13 +279,13 @@
             </div>
             <div
               class="col-2 sm:col-12 lg:col-6 field p-fluid"
-              v-if="global_admin == 1"
             >
               <label class="block text-600 text-sm font-bold mb-2">
                 รหัสผ่าน
               </label>
               <Password
                 autocomplete="current-password"
+                :disabled="global_admin == 1 ? false : true"
                 :feedback="false"
                 v-model="data[index].Password"
                 toggleMask
@@ -398,7 +399,10 @@
 
           <!--  -->
           <Button
-            v-if="global_admin == 1 && data[index].Staff.isCard"
+            v-if="
+              global_admin == 0 ||
+              (global_admin == 1 && data[index].Staff.isCard)
+            "
             label="บันทึกข้อมูล"
             class="ml-3 p-button-info w-full"
             @click="add()"
@@ -1354,7 +1358,9 @@ export default {
     async loadstaff() {
       let url = this.getstaff;
       if (this.selection.Staff.Search) {
-        url += "?size=15&includeAll=false&StaffNumber=" + this.selection.Staff.Search;
+        url +=
+          "?size=15&includeAll=false&StaffNumber=" +
+          this.selection.Staff.Search;
       }
       await axios
         .get(url, {

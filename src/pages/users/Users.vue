@@ -265,7 +265,7 @@
 
               <!-- @click="display_view = true" -->
             </div>
-            <div class="col-12 sm:col-12 lg:col-6">
+            <div class="col-12 sm:col-12 lg:col-6" v-if="global_admin == 1">
               <label for="farm" class="block text-600 text-sm font-bold mb-2">
                 อีเมล
               </label>
@@ -276,7 +276,10 @@
                 :class="{ 'p-invalid': !data[index].Username && valid }"
               />
             </div>
-            <div class="col-2 sm:col-12 lg:col-6 field p-fluid">
+            <div
+              class="col-2 sm:col-12 lg:col-6 field p-fluid"
+              v-if="global_admin == 1"
+            >
               <label class="block text-600 text-sm font-bold mb-2">
                 รหัสผ่าน
               </label>
@@ -393,8 +396,9 @@
             @click="close()"
           />
 
-          <!-- v-if="data[index].Staff.isCard" -->
+          <!--  -->
           <Button
+            v-if="global_admin == 1 && data[index].Staff.isCard"
             label="บันทึกข้อมูล"
             class="ml-3 p-button-info w-full"
             @click="add()"
@@ -1056,6 +1060,7 @@ export default {
   data() {
     return {
       // API
+      global_admin: 0,
       url: "/user",
       getstaff: "/staff",
       getgroup: "/group",
@@ -1263,6 +1268,12 @@ export default {
     };
   },
   mounted() {
+    if (this.$route.name == "manage_users") {
+      this.global_admin = 0;
+    } else {
+      this.global_admin = 1;
+    }
+
     this.load();
     this.load_selection();
     this.loadsection();
@@ -1343,17 +1354,20 @@ export default {
     async loadstaff() {
       let url = this.getstaff;
       if (this.selection.Staff.Search) {
-        url += "?size=15&StaffNumber=" + this.selection.Staff.Search;
+        url += "?size=15&includeAll=false&StaffNumber=" + this.selection.Staff.Search;
       }
       await axios
-        .get(url, { signal: this.controller.signal })
+        .get(url, {
+          signal: this.controller.signal,
+        })
         .then((response) => {
           this.selection.Staff.data = response.data.data;
         });
+
       if (!this.selection.Staff.data) {
         await axios
           .get(
-            `${this.getstaff}?size=15&StaffGivenName=${this.selection.Staff.Search}`,
+            `${this.getstaff}?size=15&includeAll=false&StaffGivenName=${this.selection.Staff.Search}`,
             {
               signal: this.controller.signal,
             }
@@ -1536,7 +1550,7 @@ export default {
       axios
         .get(this.getgroup, { signal: this.controller.signal })
         .then((response) => {
-          if (this.user.GroupID != 1) {
+          if (this.user.GroupID != 1 || this.global_admin == 0) {
             this.selection.Group.form = response.data.rows.filter(
               (item) => item.GroupCode != "01"
             );

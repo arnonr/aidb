@@ -106,16 +106,18 @@ export default {
                     })
                     .then(() => {
                       themeColors("#7E5F45", "#fff");
-                      this.$router.push({  name: "creature-search" });
+                      this.$router.push({ name: "creature-search" });
                     });
                 } else {
                   themeColors(this.color.color_primary, this.color.color_text);
-                  this.$({ name: "creature-search" });
+                  //   this.$({ name: "creature-search" });
+                  this.$router.push({ name: "creature-search" });
                 }
               });
           }
           themeColors(this.color.color_primary, this.color.color_text);
-          this.$({ name: "creature-search" });
+          //   this.$({ name: "creature-search" });
+          this.$router.push({ name: "creature-search" });
         } else if (id === 2) {
           if (this.adminTheme.color_primary && this.adminTheme.color_primary) {
             store

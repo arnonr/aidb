@@ -36,8 +36,10 @@
         <label for="Email"
           ><span class="font-bold">ตำแหน่ง</span>
           {{ staff.Position.PositionName }}
-          <span class="font-bold">หน่วยงาน</span>
-          {{ staff.Organization.OrganizationName }}</label
+          <span class="font-bold" v-if=" staff.Organization">หน่วยงาน</span>
+          <span v-if=" staff.Organization">{{ staff.Organization.OrganizationName }}</span>
+         
+        </label
         >
       </div>
     </div>
@@ -83,6 +85,7 @@ export default {
   },
 
   mounted() {
+    console.log(this.staff)
     // console.log(this.staff.StaffIdentificationNumber);
 
     if (this.staff.StaffIdentificationNumber) {

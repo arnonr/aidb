@@ -11,7 +11,10 @@
       </template>
       <template #content>
         <form @submit.prevent="submit">
-          <label for="username" class="block text-700 text-sm uppercase font-bold mb-2">
+          <label
+            for="username"
+            class="block text-700 text-sm uppercase font-bold mb-2"
+          >
             อีเมล หรือเบอร์โทรศัพท์ (มือถือ)</label
           >
           <InputText
@@ -23,7 +26,9 @@
             style="padding: 1rem"
           />
 
-          <label for="password" class="block text-700 font-bold text-sm uppercase mb-2"
+          <label
+            for="password"
+            class="block text-700 font-bold text-sm uppercase mb-2"
             >รหัสผ่าน</label
           >
           <Password
@@ -73,14 +78,20 @@
             </Button>
           </div>
         </form>
+
+        <div
+          class="text-lg text-center mt-5 relative z-1 text-900 lg:text-black"
+        >
+          คุณยังไม่มีบัญชีเข้าใช้งาน?
+          <router-link
+            to="/register"
+            class="text-900 lg:text-black underline cursor-pointer"
+          >
+            สมัครบัญชี
+          </router-link>
+        </div>
       </template>
     </Card>
-    <div class="text-lg text-center mt-5 relative z-1 text-900 lg:text-white">
-      คุณยังไม่มีบัญชีเข้าใช้งาน?
-      <router-link to="/register" class="text-900 lg:text-white underline cursor-pointer">
-        สมัครบัญชี
-      </router-link>
-    </div>
   </div>
 </template>
 

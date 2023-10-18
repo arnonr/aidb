@@ -2,11 +2,16 @@
   <form>
     <div class="grid flex align-items-end">
       <div class="col-12">
-        <Message severity="error" v-if="error" class="w-full">{{ error }}</Message>
+        <Message severity="error" v-if="error" class="w-full">{{
+          error
+        }}</Message>
       </div>
 
       <div class="col-9">
-        <label for="idcard" class="block text-700 text-sm uppercase font-bold mb-2">
+        <label
+          for="idcard"
+          class="block text-700 text-sm uppercase font-bold mb-2"
+        >
           กรอกรหัสบุคลากร
         </label>
         <!-- <router-link :to="{ name: 'gateway' }"> สมัครสมาชิก </router-link> -->
@@ -34,7 +39,14 @@
 
 <script>
 import store from "@/service/Vuex";
+import { mapGetters } from "vuex";
+
 export default {
+  computed: {
+    ...mapGetters({
+      staff: "staff",
+    }),
+  },
   data() {
     return {
       error: null,
@@ -51,7 +63,13 @@ export default {
         await store
           .dispatch("registercheck", this.idcard)
           .then(() => {
-            this.nextPage();
+            // this.nextPage();
+            console.log(this.staff)
+            if (this.staff.StaffOrganizationID == null) {
+              this.error = "ข้อมูลหน่วยงานไม่ถูกต้อง กรุณาแก้ไขข้อมูลส่วนตัวที่ระบบทะเบียนกลาง";
+            }else{
+                this.nextPage();
+            }
           })
           .catch((errors) => {
             this.error = errors;

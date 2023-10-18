@@ -30,14 +30,19 @@
   <div
     class="flex align-items-center justify-content-center min-h-screen max-h-screen overflow-hidden relative"
   >
-    <div class="grid justify-content-center p-2 lg:p-0 mt-6" style="min-width: 100%">
+    <div
+      class="grid justify-content-center p-2 lg:p-0 mt-6"
+      style="min-width: 100%"
+    >
       <div class="col-12 lg:col-8 xl:col-6">
         <Card
           class="pt-4 pb-4 pl-2 pr-2 sm:pt-4 sm:pb-4 sm:pl-7 sm:pr-7 border-round-2xl mx-auto relative z-1"
           style="max-width: 5000px"
         >
           <template #title>
-            <div class="text-center text-3xl sm:text-4xl mb-5 text-black-alpha-90">
+            <div
+              class="text-center text-3xl sm:text-4xl mb-5 text-black-alpha-90"
+            >
               สมัครสมาชิกระบบ AIDM
             </div>
             <Steps :model="steps" :readonly="true" />
@@ -52,18 +57,20 @@
                 <component :is="Component" />
               </keep-alive>
             </router-view>
+
+            <div
+              class="text-lg text-center mt-5 relative z-1 text-900 xl:text-black"
+            >
+              กรณีที่ไม่มีรหัสบุคลากร
+              <router-link
+                to="/register-personnel"
+                class="text-900 xl:text-black underline cursor-pointer"
+              >
+                สมัครบัญชี
+              </router-link>
+            </div>
           </template>
         </Card>
-
-        <div class="text-lg text-center mt-5 relative z-1 text-900 xl:text-white">
-          กรณีที่ไม่มีรหัสบุคลากร
-          <router-link
-            to="/register-personnel"
-            class="text-900 xl:text-white underline cursor-pointer"
-          >
-            สมัครบัญชี
-          </router-link>
-        </div>
       </div>
     </div>
     <img class="bg-login" src="/images/bg/bg-login.png" alt="bg" />

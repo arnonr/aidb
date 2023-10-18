@@ -392,8 +392,9 @@
             class="p-button-secondary w-full mr-3"
             @click="close()"
           />
+
+          <!-- v-if="data[index].Staff.isCard" -->
           <Button
-            v-if="data[index].Staff.isCard"
             label="บันทึกข้อมูล"
             class="ml-3 p-button-info w-full"
             @click="add()"

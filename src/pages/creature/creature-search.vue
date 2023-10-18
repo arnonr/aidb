@@ -1714,7 +1714,7 @@ export default {
     },
 
     "params.AnimalName": _.debounce(function () {
-    console.log("FREEDOM")
+      console.log("FREEDOM");
       this.load();
     }, 500),
     "params.AnimalAgeStart": _.debounce(function () {
@@ -2386,9 +2386,8 @@ export default {
         this.isLoading = false;
         return;
       }
-      console.log(this.params)
+      console.log(this.params);
       let params = {
-
         ...this.params,
         size: this.rowPerPage,
         page: this.currentPage,
@@ -2528,7 +2527,11 @@ export default {
           if (this.animal_id == 1) {
             this.AnimalBreed = response.data.rows
               .filter(
-                (item) => item.AnimalTypeID === 1 || item.AnimalTypeID === 2
+                (item) =>
+                  item.AnimalTypeID === 1 ||
+                  item.AnimalTypeID === 2 ||
+                  item.AnimalTypeID === 41 ||
+                  item.AnimalTypeID === 42
               )
               .map((item) => {
                 return {
@@ -2540,7 +2543,11 @@ export default {
           } else if (this.animal_id == 2) {
             this.AnimalBreed = response.data.rows
               .filter(
-                (item) => item.AnimalTypeID === 3 || item.AnimalTypeID === 4
+                (item) =>
+                  item.AnimalTypeID === 3 ||
+                  item.AnimalTypeID === 4 ||
+                  item.AnimalTypeID === 43 ||
+                  item.AnimalTypeID === 44
               )
               .map((item) => {
                 return {
@@ -2552,7 +2559,11 @@ export default {
           } else if (this.animal_id == 3) {
             this.AnimalBreed = response.data.rows
               .filter(
-                (item) => item.AnimalTypeID === 17 || item.AnimalTypeID === 18
+                (item) =>
+                  item.AnimalTypeID === 17 ||
+                  item.AnimalTypeID === 18 ||
+                  item.AnimalTypeID === 45 ||
+                  item.AnimalTypeID === 46
               )
               .map((item) => {
                 return {

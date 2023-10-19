@@ -2052,6 +2052,7 @@ export default {
       this.fetchAnimal();
       // สำหรับเปลี่ยนหน้า
       if (event) {
+        this.currentPage = event.page + 1;
         this.params.page = event.page + 1;
       }
 
@@ -2421,6 +2422,8 @@ export default {
     },
 
     fetchAnimal() {
+      
+
       this.isLoading = true;
       if (
         this.search.AIZoneID == null &&

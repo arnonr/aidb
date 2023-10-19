@@ -784,6 +784,11 @@ const routes = [
             component: () => import("./pages/report/Pregnancy.vue"),
           },
           {
+            path: "pregnancy1",
+            name: "pregnancy1",
+            component: () => import("./pages/report/Pregnancy1.vue"),
+          },
+          {
             path: "preg30",
             name: "preg30",
             component: () => import("./pages/report/Preg30.vue"),

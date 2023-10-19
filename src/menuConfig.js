@@ -261,6 +261,11 @@ export default [
                 to: "/report/pregnancy",
               },
               {
+                label: "รายงานสรุปตรวจท้อง",
+                icon: "pi pi-minus",
+                to: "/report/pregnancy1",
+              },
+              {
                 label: "รายงานครบกำหนดตรวจท้อง",
                 icon: "pi pi-minus",
                 to: "/report/CheckupDue",

@@ -989,6 +989,12 @@ export default {
       this.getFarmer();
     }, 2000),
 
+    "form.IdentificationNumber": (function () {
+      this.getFarmer();
+    }, 2000),
+
+    // search.FarmerPID
+
     // "form.TitleID"(val) {
     //   // console.log(val);
 
@@ -1014,7 +1020,6 @@ export default {
           return x.TitleID == 4 || x.TitleID == 5;
         });
       }
-
     },
   },
 

@@ -2545,9 +2545,11 @@ export default {
         .then((response) => {
           this.json_data = response.data.rows.map((x) => {
             let e = {
-              EarID: "'" + x.AnimalEarID,
+            //   EarID: "'" + x.AnimalEarID,
+              EarID: x.AnimalEarID,
               Name: x.AnimalName,
-              Age: "'" + x.AnimalAge,
+            //   Age: "'" + x.AnimalAge,
+              Age: x.AnimalAge+" ",
               Status: x.AnimalStatus.AnimalStatusName,
               BreedAll: x.AnimalBreedAll,
               ThaiBirthDate: x.ThaiAnimalBirthDate,
@@ -2807,7 +2809,7 @@ export default {
       this.load();
     },
     remove() {
-      axios.delete(this.url + "/" + this.form.id).then(() => {
+      axios.delete(this.url.Animal + "/" + this.form.id).then(() => {
         this.close_delete();
         this.load();
         this.$toast.add({

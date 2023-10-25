@@ -184,12 +184,12 @@
               :showClear="true"
               class="w-full"
               placeholder="ทั้งหมด"
-              optionLabel="OrganizationFull"
+              optionLabel="StaffFullName"
               optionValue="StaffID"
               :virtualScrollerOptions="{ itemSize: 38 }"
-              :options="dropdown.Organizations"
+              :options="dropdown.Staffs"
               :filter="true"
-              v-model="search.OrganizationID"
+              v-model="search.StaffID"
             />
           </div>
 
@@ -370,6 +370,7 @@ export default {
         Farm: "/farm",
         Report: "/report/report15",
         Project: "/project",
+        Staff: "/staff",
       },
       dropdown: {
         AIZones: [],
@@ -435,6 +436,7 @@ export default {
         setTimeout(() => {
           this.fetchProvince();
           this.fetchOrganization();
+          //   this.fetchStaff();
           this.fetchReport();
           this.dropdown.Amphurs = [];
           this.dropdown.Tumbols = [];
@@ -461,6 +463,7 @@ export default {
         setTimeout(() => {
           this.fetchProvince();
           this.fetchOrganization();
+          //   this.fetchStaff();
           this.fetchReport();
           this.search.AmphurID = null;
           this.search.TumbolID = null;
@@ -474,6 +477,7 @@ export default {
     "search.ProvinceID"() {
       this.fetchAmphur();
       this.fetchOrganization();
+      this.fetchStaff();
       this.fetchReport();
 
       if (this.isLoading == false) {
@@ -491,6 +495,7 @@ export default {
     "search.AmphurID"() {
       this.fetchTumbol();
       this.fetchOrganization();
+      this.fetchStaff();
       this.fetchReport();
 
       if (this.isLoading == false) {
@@ -506,6 +511,7 @@ export default {
     },
     "search.TumbolID"() {
       this.fetchOrganization();
+      this.fetchStaff();
       this.fetchReport();
 
       if (this.isLoading == false) {
@@ -532,12 +538,13 @@ export default {
     },
     "search.OrganizationID"() {
       //   this.fetchReport();
+      this.fetchStaff();
       this.fetchReport();
 
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
-        //   this.search.OrganizationID = null;
+          //   this.search.OrganizationID = null;
           this.search.FarmID = null;
           this.isLoading = false;
         }, 1000);
@@ -579,6 +586,7 @@ export default {
       this.fetchTumbol();
       this.fetchOrganizationType();
       this.fetchOrganization();
+      this.fetchStaff();
       this.fetchReport();
     },
 
@@ -1010,6 +1018,60 @@ export default {
           this.loader = true;
         });
     },
+    fetchStaff() {
+      // Staffs
+      if (
+        this.search.AIZoneID == null &&
+        this.search.OrganizationZoneID == null
+      ) {
+        return;
+      }
+
+      let params = { includeAll: false, includeOrganization: true };
+
+      // Province IN AIZOne
+      //   if (this.search.AIZoneID != null) {
+      //     params["OrganizationAiZoneID"] = this.search.AIZoneID;
+      //   }
+
+      //   if (this.search.OrganizationZoneID != null) {
+      //     params["OrganizationZoneID"] = this.search.OrganizationZoneID;
+      //   }
+
+      if (this.search.ProvinceID != null) {
+        params["StaffProvinceID"] = this.search.ProvinceID;
+      }
+
+      if (this.search.AmphurID != null) {
+        params["StaffAmphurID"] = this.search.AmphurID;
+      }
+
+      if (this.search.TumbolID != null) {
+        params["StaffTumbolID"] = this.search.TumbolID;
+      }
+
+      if (this.search.OrganizationID != null) {
+        params["OrganizationID"] = this.search.OrganizationID;
+      }
+
+      axios
+        .get(this.url.Staff, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          this.dropdown.Staffs = res.data.rows.map((item) => {
+            return {
+              StaffID: item.StaffID,
+              StaffFullName: item.StaffFullName,
+            };
+          });
+        })
+        .finally(() => {
+          this.isLoading = false;
+          this.loader = true;
+        });
+    },
 
     fetchReport() {
       //  Fetch Report
@@ -1088,7 +1150,7 @@ export default {
           params: params,
         })
         .then((res) => {
-          this.data.main = res.data.data
+          this.data.main = res.data.data;
         })
         .finally(() => {
           this.isLoading = false;

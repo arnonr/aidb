@@ -1381,6 +1381,7 @@ export default {
       }
     },
     "search.FarmID"() {
+      this.fetchFarm();
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -1777,10 +1778,45 @@ export default {
         params["FullName"] = this.search.FarmerFullName;
       }
 
+
+      if (this.search.FarmID) {
+        params["FarmID"] = this.search.FarmID;
+      }
+
       axios
         .get(this.url.Farm, {
           signal: this.controller.signal,
           params: params,
+        })
+        .then((res) => {
+          this.data = res.data.rows
+            .sort((a, b) =>
+              a.Province.ProvinceName.localeCompare(b.Province.ProvinceName)
+            )
+            .map((item) => {
+              item.FarmRegisterDate = dayjs(item.FarmRegisterDate)
+                .locale(locale)
+                .format("DD/MM/YYYY");
+              return item;
+            });
+          this.totalPage = res.data.totalPage;
+          this.totalItems = res.data.totalData;
+          this.total = res.data.total;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+
+      //
+      axios
+        .get(this.url.Farm, {
+          signal: this.controller.signal,
+          params: {
+            ...params,
+            size: 10000,
+            page: 1,
+            FarmID: undefined,
+          },
         })
         .then((res) => {
           this.dropdown.Farms = res.data.rows
@@ -1816,19 +1852,7 @@ export default {
                 OrganizationZoneName: Organization,
               };
             });
-          this.data = res.data.rows
-            .sort((a, b) =>
-              a.Province.ProvinceName.localeCompare(b.Province.ProvinceName)
-            )
-            .map((item) => {
-              item.FarmRegisterDate = dayjs(item.FarmRegisterDate)
-                .locale(locale)
-                .format("DD/MM/YYYY");
-              return item;
-            });
-          this.totalPage = res.data.totalPage;
-          this.totalItems = res.data.totalData;
-          this.total = res.data.total;
+          //
         })
         .finally(() => {
           this.isLoading = false;

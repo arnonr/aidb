@@ -224,6 +224,87 @@
             />
           </div>
 
+          <div class="col-12 sm:col-6 lg:col-4">
+            <label for="Province" class="block text-600 text-sm font-bold mb-2">
+              สายพันธุ์ที่ 1</label
+            >
+            <Dropdown
+              :showClear="true"
+              class="w-full"
+              id="selectedFarm"
+              placeholder="ทั้งหมด"
+              optionLabel="Fullname"
+              optionValue="AnimalBreedID"
+              :options="AnimalBreed"
+              :filter="true"
+              v-model="search.AnimalBreedID1"
+            />
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <label for="Province" class="block text-600 text-sm font-bold mb-2">
+              สายพันธุ์ที่ 2</label
+            >
+            <Dropdown
+              :showClear="true"
+              class="w-full"
+              id="selectedFarm"
+              placeholder="ทั้งหมด"
+              optionLabel="Fullname"
+              optionValue="AnimalBreedID"
+              :options="AnimalBreed"
+              :filter="true"
+              v-model="search.AnimalBreedID2"
+            />
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <label for="Province" class="block text-600 text-sm font-bold mb-2">
+              สายพันธุ์ที่ 3</label
+            >
+            <Dropdown
+              :showClear="true"
+              class="w-full"
+              id="selectedFarm"
+              placeholder="ทั้งหมด"
+              optionLabel="Fullname"
+              optionValue="AnimalBreedID"
+              :options="AnimalBreed"
+              :filter="true"
+              v-model="search.AnimalBreedID3"
+            />
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <label for="Province" class="block text-600 text-sm font-bold mb-2">
+              สายพันธุ์ที่ 4</label
+            >
+            <Dropdown
+              :showClear="true"
+              class="w-full"
+              id="selectedFarm"
+              placeholder="ทั้งหมด"
+              optionLabel="Fullname"
+              optionValue="AnimalBreedID"
+              :options="AnimalBreed"
+              :filter="true"
+              v-model="search.AnimalBreedID4"
+            />
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <label for="Province" class="block text-600 text-sm font-bold mb-2">
+              สายพันธุ์ที่ 5</label
+            >
+            <Dropdown
+              :showClear="true"
+              class="w-full"
+              id="selectedFarm"
+              placeholder="ทั้งหมด"
+              optionLabel="Fullname"
+              optionValue="AnimalBreedID"
+              :options="AnimalBreed"
+              :filter="true"
+              v-model="search.AnimalBreedID5"
+            />
+          </div>
+
           <!-- <div class="col-12 sm:col-6 lg:col-6">
             <label
               for="dateRange"
@@ -257,8 +338,7 @@
             responsiveLayout="scroll"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
           >
-
-          <!-- class="text-sm"
+            <!-- class="text-sm"
           :value="data"
           :exportable="true"
           ref="dt"
@@ -711,6 +791,7 @@ export default {
         { label: "สืบค้นทะเบียนน้ำเชื้อ", to: "" },
       ],
       url: [],
+      urlAnimalBreedID: "/animal-breed?includeAll=false&isActive=1",
       data: [],
       semen: [
         { label: "สด", value: "FRESH" },

@@ -2545,11 +2545,11 @@ export default {
         .then((response) => {
           this.json_data = response.data.rows.map((x) => {
             let e = {
-            //   EarID: "'" + x.AnimalEarID,
-              EarID: x.AnimalEarID,
+              EarID: "'" + x.AnimalEarID,
+            //   EarID: x.AnimalEarID,
               Name: x.AnimalName,
-            //   Age: "'" + x.AnimalAge,
-              Age: x.AnimalAge+" ",
+              Age: "'" + x.AnimalAge,
+            //   Age: x.AnimalAge+" ",
               Status: x.AnimalStatus.AnimalStatusName,
               BreedAll: x.AnimalBreedAll,
               ThaiBirthDate: x.ThaiAnimalBirthDate,

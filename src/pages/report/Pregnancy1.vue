@@ -236,8 +236,7 @@
 
           <div
             v-if="
-              data.head_detail &&
-              data.head_detail.organization_zone_name != ''
+              data.head_detail && data.head_detail.organization_zone_name != ''
             "
             class="col-4"
           >
@@ -275,9 +274,7 @@
           </div>
 
           <div
-            v-if="
-              data.head_detail && data.head_detail.organization_name != ''
-            "
+            v-if="data.head_detail && data.head_detail.organization_name != ''"
             class="col-4"
           >
             <span class="font-bold"
@@ -427,6 +424,9 @@
 import axios from "axios";
 import { mapGetters } from "vuex";
 import PageTitle from "@/components/PageTitle.vue";
+
+import dayjs from "dayjs";
+// import { format } from "date-fns";
 
 import { ref } from "vue";
 export default {
@@ -1252,15 +1252,52 @@ export default {
         })
         .then((res) => {
           this.data.main = res.data.data;
+
+          let e = this.dropdown.AIZones.find((x) => {
+            return x.AIZoneID == this.search.AIZoneID;
+          });
+
+          let z = this.dropdown.OrganizationZones.find((x) => {
+            return x.OrganizationZoneID == this.search.OrganizationZoneID;
+          });
+
+          let p = this.dropdown.Provinces.find((x) => {
+            return x.ProvinceID == this.search.ProvinceID;
+          });
+
+          let a = this.dropdown.Amphurs.find((x) => {
+            return x.AmphurID == this.search.AmphurID;
+          });
+
+          let t = this.dropdown.Tumbols.find((x) => {
+            return x.TumbolID == this.search.TumbolID;
+          });
+
+          let o = this.dropdown.Organizations.find((x) => {
+            return x.OrganizationID == this.search.OrganizationID;
+          });
+
+          let s = null;
+          if (this.dropdown.Staffs) {
+            s = this.dropdown.Staffs.find((x) => {
+              return x.StaffID == this.search.StaffID;
+            });
+          }
+          console.log(this.search)
+          
           this.data.head_detail = {
-            ai_zone_name: this.search.AIZoneID,
-            organization_zone_name: this.search.OrganizationZoneID,
-            province_name: this.search.ProvinceID,
-            amphur_name:  this.search.AmphurID,
-            tumbol_name: "",
-            organization_name: "",
-            date: "",
-            staff_name: "",
+            ai_zone_name: e ? e.AIZoneName : "", //this.search.AIZoneID,
+            organization_zone_name: z ? z.OrganizationZoneName : "",
+            province_name: p ? p.ProvinceName : "",
+            amphur_name: a ? a.AmphurName : "",
+            tumbol_name: t ? t.TumbolName : "",
+            organization_name: o ? o.OrganizationFull : "",
+            date: this.search.day
+              ? dayjs(this.search.day[0]).locale("th").format("DD/MM/YYYY") +
+                " - " +
+                dayjs(this.search.day[1]).locale("th").format("DD/MM/YYYY")
+              : "",
+            staff_name: s ? s.StaffFullName : "",
             projects: "",
           };
         })

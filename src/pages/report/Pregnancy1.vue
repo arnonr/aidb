@@ -224,6 +224,94 @@
           />
         </div>
         <h5 class="text-center">{{ title }}</h5>
+        <div class="grid flex" style="margin-bottom: 2em; margin-top: 2em">
+          <div
+            v-if="data.head_detail && data.head_detail.ai_zone_name != ''"
+            class="col-4"
+          >
+            <span class="font-bold"
+              >ศูนย์วิจัย : {{ data.head_detail.ai_zone_name }}</span
+            >
+          </div>
+
+          <div
+            v-if="
+              data.head_detail &&
+              data.head_detail.organization_zone_name != ''
+            "
+            class="col-4"
+          >
+            <span class="font-bold"
+              >เขตพื้นที่ปศุสัตว์ :
+              {{ data.head_detail.organization_zone_name }}</span
+            >
+          </div>
+
+          <div
+            v-if="data.head_detail && data.head_detail.province_name != ''"
+            class="col-4"
+          >
+            <span class="font-bold"
+              >จังหวัด : {{ data.head_detail.province_name }}</span
+            >
+          </div>
+
+          <div
+            v-if="data.head_detail && data.head_detail.amphur_name != ''"
+            class="col-4"
+          >
+            <span class="font-bold"
+              >อำเภอ : {{ data.head_detail.amphur_name }}</span
+            >
+          </div>
+
+          <div
+            v-if="data.head_detail && data.head_detail.tumbol_name != ''"
+            class="col-4"
+          >
+            <span class="font-bold"
+              >ตำบล : {{ data.head_detail.tumbol_name }}</span
+            >
+          </div>
+
+          <div
+            v-if="
+              data.head_detail && data.head_detail.organization_name != ''
+            "
+            class="col-4"
+          >
+            <span class="font-bold"
+              >หน่วยงาน : {{ data.head_detail.organization_name }}</span
+            >
+          </div>
+
+          <div
+            v-if="data.head_detail && data.head_detail.staff_name != ''"
+            class="col-4"
+          >
+            <span class="font-bold"
+              >เจ้าหน้าที่ : {{ data.head_detail.staff_name }}</span
+            >
+          </div>
+
+          <div
+            v-if="data.head_detail && data.head_detail.projects != ''"
+            class="col-4"
+          >
+            <span class="font-bold"
+              >โครงการ : {{ data.head_detail.projects }}</span
+            >
+          </div>
+
+          <div
+            v-if="data.head_detail && data.head_detail.date != ''"
+            class="col-4"
+          >
+            <span class="font-bold"
+              >ช่วงวันที่ : {{ data.head_detail.date }}</span
+            >
+          </div>
+        </div>
 
         <DataTable
           class="text-sm"
@@ -561,6 +649,15 @@ export default {
       }
     },
     "search.ProjectIDArray"() {
+      this.fetchReport();
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+    "search.StaffID"() {
       this.fetchReport();
       if (this.isLoading == false) {
         this.isLoading = true;
@@ -1127,6 +1224,10 @@ export default {
         params["OrganizationID"] = this.search.OrganizationID;
       }
 
+      if (this.search.StaffID) {
+        params["StaffID"] = this.search.StaffID;
+      }
+
       if (this.search.day) {
         params["StartDate"] = this.search.day[0];
         params["EndDate"] = this.search.day[1];
@@ -1151,6 +1252,17 @@ export default {
         })
         .then((res) => {
           this.data.main = res.data.data;
+          this.data.head_detail = {
+            ai_zone_name: this.search.AIZoneID,
+            organization_zone_name: this.search.OrganizationZoneID,
+            province_name: this.search.ProvinceID,
+            amphur_name:  this.search.AmphurID,
+            tumbol_name: "",
+            organization_name: "",
+            date: "",
+            staff_name: "",
+            projects: "",
+          };
         })
         .finally(() => {
           this.isLoading = false;

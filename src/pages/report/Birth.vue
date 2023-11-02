@@ -236,7 +236,8 @@
 
           <div
             v-if="
-              data.head_detail && data.head_detail.organization_zone_name != ''
+              data.head_detail &&
+              data.head_detail.organization_zone_name != ''
             "
             class="col-4"
           >
@@ -274,7 +275,9 @@
           </div>
 
           <div
-            v-if="data.head_detail && data.head_detail.organization_name != ''"
+            v-if="
+              data.head_detail && data.head_detail.organization_name != ''
+            "
             class="col-4"
           >
             <span class="font-bold"
@@ -337,20 +340,22 @@
           ></Column>
           <Column
             field="FarmCount"
-            header="จำนวนฟาร์ม"
+            header="เมีย"
             class="text-center"
             exportFooter="&#8203;"
           ></Column>
-          <Column header="จัดการ" class="text-center">
-            <template #body>
-              <Button
-                label="ดูข้อมูล"
-                class="w-full md:w-auto"
-                @click="onLoadAnimalList"
-              />
-              <!-- {{ slotProps.data. }} -->
-            </template>
-          </Column>
+          <Column
+            field="FarmCount"
+            header="ผู้"
+            class="text-center"
+            exportFooter="&#8203;"
+          ></Column>
+          <Column
+            field="FarmCount"
+            header="ฟาร์ม"
+            class="text-center"
+            exportFooter="&#8203;"
+          ></Column>
           <!--  <Column
               field="AnimalName"
               header="ชื่อโค"
@@ -427,111 +432,6 @@
         </DataTable>
       </div>
     </div>
-
-    <div class="col-12 xl:col-12">
-      <div class="card">
-        <div class="col-12 text-right">
-          <Button
-            label="Export To Excel"
-            @click="exportCSV($event)"
-            class="p-button-success mr-3"
-          />
-        </div>
-        <h5 class="text-center">รายการสัตว์</h5>
-
-        <DataTable
-          class="text-sm"
-          :value="data.animal_main"
-          :paginator="true"
-          :exportable="true"
-          ref="dt"
-          :rows="10"
-          :loading="isLoading"
-          paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
-          :rowsPerPageOptions="[10, 20, 50]"
-          responsiveLayout="scroll"
-          currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
-        >
-          <Column
-            field="FarmIdentityNumber"
-            header="ทะเบียนฟาร์ม"
-            class="text-center"
-            exportFooter="&#8203;"
-          ></Column>
-          <Column
-            field="FarmName"
-            header="เจ้าของฟาร์ม"
-            class="text-center"
-            exportFooter="&#8203;"
-          ></Column>
-          <Column
-            field="AnimalEarID"
-            header="หมายเลขโค"
-            class="text-center"
-            exportFooter="&#8203;"
-          ></Column>
-          <Column
-            field="AnimalName"
-            header="ชื่อโค"
-            class="text-center"
-            exportFooter="&#8203;"
-          ></Column>
-          <Column
-            field="AnimalStatus"
-            header="สถานะโค"
-            class="text-center"
-            exportFooter="&#8203;"
-          ></Column>
-          <Column
-            field="AnimalPar"
-            header="ท้องที่"
-            class="text-center"
-            exportFooter="&#8203;"
-          ></Column>
-          <Column
-            field="AnimalDateAI"
-            header="วันผสม"
-            class="text-center"
-            exportFooter="&#8203;"
-          ></Column>
-          <Column
-            field="SemenID"
-            header="น้ำเชื้อ"
-            class="text-center"
-            exportFooter="&#8203;"
-          ></Column>
-          <Column
-            field="PregnancyID"
-            header="วันที่ตรวจท้อง"
-            class="text-center"
-            exportFooter="&#8203;"
-          ></Column>
-          <Column
-            field="PregnancyID"
-            header="ผลการตรวจท้อง"
-            class="text-center"
-            exportFooter="&#8203;"
-          ></Column>
-          <Column
-            field="PregnancyID"
-            header="จำนวนวัน"
-            class="text-center"
-            exportFooter="&#8203;"
-          ></Column>
-          <Column
-            field="PregnancyID"
-            header="เจ้าหน้าที่"
-            class="text-center"
-            exportFooter="&#8203;"
-          ></Column>
-
-          <template #empty> ไม่พบข้อมูล </template>
-          <template #loading>
-            <h1 class="text-white text-center">กรุณารอสักครู่...</h1>
-          </template>
-        </DataTable>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -539,9 +439,6 @@
 import axios from "axios";
 import { mapGetters } from "vuex";
 import PageTitle from "@/components/PageTitle.vue";
-
-import dayjs from "dayjs";
-// import { format } from "date-fns";
 
 import { ref } from "vue";
 export default {
@@ -558,7 +455,7 @@ export default {
   },
   data() {
     return {
-      title: "รายงานสรุปตรวจท้อง",
+      title: "รายงานสรุปลูกเกิด",
       data: [],
       provinceAITime: [],
       provinceAICount: [],
@@ -1239,7 +1136,8 @@ export default {
         return;
       }
 
-      let params = { includeAll: false, includeOrganization: true };
+    //   let params = { includeAll: false, includeOrganization: true };
+      let params = {  };
 
       // Province IN AIZOne
       //   if (this.search.AIZoneID != null) {
@@ -1367,52 +1265,16 @@ export default {
         })
         .then((res) => {
           this.data.main = res.data.data;
-
-          let e = this.dropdown.AIZones.find((x) => {
-            return x.AIZoneID == this.search.AIZoneID;
-          });
-
-          let z = this.dropdown.OrganizationZones.find((x) => {
-            return x.OrganizationZoneID == this.search.OrganizationZoneID;
-          });
-
-          let p = this.dropdown.Provinces.find((x) => {
-            return x.ProvinceID == this.search.ProvinceID;
-          });
-
-          let a = this.dropdown.Amphurs.find((x) => {
-            return x.AmphurID == this.search.AmphurID;
-          });
-
-          let t = this.dropdown.Tumbols.find((x) => {
-            return x.TumbolID == this.search.TumbolID;
-          });
-
-          let o = this.dropdown.Organizations.find((x) => {
-            return x.OrganizationID == this.search.OrganizationID;
-          });
-
-          let s = null;
-          if (this.dropdown.Staffs) {
-            s = this.dropdown.Staffs.find((x) => {
-              return x.StaffID == this.search.StaffID;
-            });
-          }
-          console.log(this.data.main);
-
+          console.log(this.search.ai_zone+"FREEDOM5")
           this.data.head_detail = {
-            ai_zone_name: e ? e.AIZoneName : "", //this.search.AIZoneID,
-            organization_zone_name: z ? z.OrganizationZoneName : "",
-            province_name: p ? p.ProvinceName : "",
-            amphur_name: a ? a.AmphurName : "",
-            tumbol_name: t ? t.TumbolName : "",
-            organization_name: o ? o.OrganizationFull : "",
-            date: this.search.day
-              ? dayjs(this.search.day[0]).locale("th").format("DD/MM/YYYY") +
-                " - " +
-                dayjs(this.search.day[1]).locale("th").format("DD/MM/YYYY")
-              : "",
-            staff_name: s ? s.StaffFullName : "",
+            ai_zone_name: this.search.AIZoneID,
+            organization_zone_name: this.search.OrganizationZoneID,
+            province_name: this.search.ProvinceID,
+            amphur_name:  this.search.AmphurID,
+            tumbol_name: "",
+            organization_name: "",
+            date: "",
+            staff_name: "",
             projects: "",
           };
         })
@@ -1432,24 +1294,6 @@ export default {
       this.loadLazyTimeout = setTimeout(() => {
         this.loading = false;
       }, Math.random() * 1000 + 250);
-    },
-
-    fetchReportAnimal() {
-      axios
-        .get("/report/report9?day=" + this.search.day, {
-          signal: this.controller.signal,
-        })
-        .then((res) => {
-          this.data.animal_main = res.data.Total;
-          this.data.farm = res.data.Farm;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-
-    onLoadAnimalList() {
-      console.log("FREEDOM");
     },
   },
 

@@ -1600,6 +1600,10 @@ export default {
     this.permit = this.permission.filter((item) => {
       return item.MenuID == 3;
     });
+
+    if (this.$route.query.AIZoneID) {
+      this.search.AIZoneID = Number(this.$route.query.AIZoneID);
+    }
   },
   watch: {
     // ค้นหา
@@ -2422,8 +2426,6 @@ export default {
     },
 
     fetchAnimal() {
-      
-
       this.isLoading = true;
       if (
         this.search.AIZoneID == null &&
@@ -2546,10 +2548,10 @@ export default {
           this.json_data = response.data.rows.map((x) => {
             let e = {
               EarID: "'" + x.AnimalEarID,
-            //   EarID: x.AnimalEarID,
+              //   EarID: x.AnimalEarID,
               Name: x.AnimalName,
               Age: "'" + x.AnimalAge,
-            //   Age: x.AnimalAge+" ",
+              //   Age: x.AnimalAge+" ",
               Status: x.AnimalStatus.AnimalStatusName,
               BreedAll: x.AnimalBreedAll,
               ThaiBirthDate: x.ThaiAnimalBirthDate,

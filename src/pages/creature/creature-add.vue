@@ -1139,17 +1139,20 @@ export default {
   },
   watch: {
     "form.FarmID"(val) {
+      //  console.log(this.farm)
       if (Array.isArray(this.farm) && this.farm.length) {
         // console.log(this.farm);
         let temp = this.farm.filter((item) => item.FarmID == val);
         this.form.OrganizationZoneID = temp[0].OrganizationZoneID;
         this.form.OrganizationID = temp[0].OrganizationID;
+        this.form.AIZoneID = temp[0].AIZoneID;
         this.filtered.FarmID = temp[0].FarmID;
 
         // console.log(this.form.OrganizationZoneID);
         this.callGennumber();
       }
     },
+    
 
     "form.AnimalFirstBreed"(val) {
       this.checkFirst = val.id;
@@ -1460,6 +1463,7 @@ export default {
               FarmName: item.FarmName,
               OrganizationID: item.OrganizationID,
               OrganizationZoneID: item.OrganizationZoneID,
+              AIZoneID: item.AIZoneID,
               Fullname: item.FarmIdentificationNumber + ", " + item.FarmName,
               // OrganizationZoneName: item.OrganizationZone.OrganizationZoneName,
             };
@@ -1799,7 +1803,6 @@ export default {
         // let totalday = date1.diff(date2, "day");
         // เงื่อนไขการกำหนดสถานะสัตว์
         // โคเนื้อ
-        console.log(this.animal_id);
         if (this.animal_id == 1) {
           if (total < 4) {
             // ลูกโค
@@ -1884,10 +1887,10 @@ export default {
           } else if (total >= 12 && this.form.AnimalSexID == 1) {
             // แพะพ่อพันธุ์
             this.form.AnimalStatusID = 14;
-          }  else if (total >= 6 && this.form.AnimalSexID == 1) {
+          } else if (total >= 6 && this.form.AnimalSexID == 1) {
             // แพะหนุ่ม
             this.form.AnimalStatusID = 19;
-          }else if (total >= 12 && this.form.AnimalSexID == 2) {
+          } else if (total >= 12 && this.form.AnimalSexID == 2) {
             // แพะแม่พันธุ์
             this.form.AnimalStatusID = 15;
           } else if (total >= 6 && this.form.AnimalSexID == 2) {
@@ -2071,7 +2074,6 @@ export default {
       // if (this.validation() == false) {
       //   return;
       // }
-
       let total = 0.0;
 
       if (this.form.AnimalBreedPercent1) {
@@ -2225,7 +2227,10 @@ export default {
           if (this.bornItem) {
             this.$router.push("/activity/creature_info");
           } else {
-            this.$router.push("/agency/creature");
+            // this.$router.push("/agency/creature?AIZoneID"+aizoneID);
+            this.$router.push(
+              "/agency/creature?AIZoneID=" + this.form.AIZoneID
+            );
           }
         })
         // error

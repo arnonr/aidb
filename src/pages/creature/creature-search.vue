@@ -2570,7 +2570,7 @@ export default {
         });
     },
 
-    fetchAnialBreed() {
+    fetchAnimalBreed() {
       axios
         .get(this.urlAnimalBreedID, { signal: this.controller.signal })
         .then((response) => {

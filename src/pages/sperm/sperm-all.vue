@@ -771,6 +771,7 @@
 <script>
 import axios from "axios";
 import dayjs from "dayjs";
+import _ from "lodash";
 import locale from "dayjs/locale/th";
 import buddhistEra from "dayjs/plugin/buddhistEra";
 import PageTitle from "@/components/PageTitle.vue";
@@ -837,8 +838,12 @@ export default {
       this.filtered.semenType = val;
       this.load();
     },
+    "search.AnimalBreedID1": _.debounce(function () {
+      this.load();
+    }, 500),
   },
   mounted() {
+    this.loadDefault();
     this.load();
     dayjs.extend(buddhistEra);
   },
@@ -860,6 +865,9 @@ export default {
     page($event) {
       this.curpage = $event.page + 1;
       this.load();
+    },
+    loadDefault(){
+        this.fetchAnimalBreed();
     },
     load() {
       this.url.main = "/semen";
@@ -897,6 +905,10 @@ export default {
       }
       if (this.filtered.semenType) {
         url += "&SemenType=" + this.filtered.semenType;
+      }
+
+      if (this.search.AnimalBreedID1) {
+        url += "&AnimalBreedID1=" + this.search.AnimalBreedID1;
       }
 
       axios
@@ -981,6 +993,61 @@ export default {
         })
         .finally(() => {
           this.isLoading = false;
+        });
+    },
+    fetchAnimalBreed() {
+      axios
+        .get(this.urlAnimalBreedID, { signal: this.controller.signal })
+        .then((response) => {
+          if (this.animal_id == 1) {
+            this.AnimalBreed = response.data.rows
+              .filter(
+                (item) =>
+                  item.AnimalTypeID === 1 ||
+                  item.AnimalTypeID === 2 ||
+                  item.AnimalTypeID === 41 ||
+                  item.AnimalTypeID === 42
+              )
+              .map((item) => {
+                return {
+                  AnimalBreedID: item.AnimalBreedID,
+                  AnimalBreedCode: item.AnimalBreedCode,
+                  Fullname: item.AnimalBreedCode + ", " + item.AnimalBreedName,
+                };
+              });
+          } else if (this.animal_id == 2) {
+            this.AnimalBreed = response.data.rows
+              .filter(
+                (item) =>
+                  item.AnimalTypeID === 3 ||
+                  item.AnimalTypeID === 4 ||
+                  item.AnimalTypeID === 43 ||
+                  item.AnimalTypeID === 44
+              )
+              .map((item) => {
+                return {
+                  AnimalBreedID: item.AnimalBreedID,
+                  AnimalBreedCode: item.AnimalBreedCode,
+                  Fullname: item.AnimalBreedCode + ", " + item.AnimalBreedName,
+                };
+              });
+          } else if (this.animal_id == 3) {
+            this.AnimalBreed = response.data.rows
+              .filter(
+                (item) =>
+                  item.AnimalTypeID === 17 ||
+                  item.AnimalTypeID === 18 ||
+                  item.AnimalTypeID === 45 ||
+                  item.AnimalTypeID === 46
+              )
+              .map((item) => {
+                return {
+                  AnimalBreedID: item.AnimalBreedID,
+                  AnimalBreedCode: item.AnimalBreedCode,
+                  Fullname: item.AnimalBreedCode + ", " + item.AnimalBreedName,
+                };
+              });
+          }
         });
     },
     openShowModal(id) {

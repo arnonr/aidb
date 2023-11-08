@@ -58,7 +58,7 @@
               </keep-alive>
             </router-view>
 
-            <div
+            <!-- <div
               class="text-lg text-center mt-5 relative z-1 text-900 xl:text-black"
             >
               กรณีที่ไม่มีรหัสบุคลากร
@@ -68,7 +68,7 @@
               >
                 สมัครบัญชี
               </router-link>
-            </div>
+            </div> -->
           </template>
         </Card>
       </div>

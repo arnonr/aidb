@@ -2722,7 +2722,8 @@ export default {
     },
 
     "search.StaffOrganizationID"(val) {
-      this.filtered.StaffOrganizationID = val;
+    //   this.filtered.StaffOrganizationID = val;
+      this.filtered.OrganizationID = val;
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -2957,6 +2958,9 @@ export default {
       }
       if (this.filtered.StaffOrganizationID) {
         url += "&StaffOrganizationID=" + this.filtered.StaffOrganizationID;
+      }
+      if (this.filtered.OrganizationID) {
+        url += "&OrganizationID=" + this.filtered.OrganizationID;
       }
       if (this.filtered.StaffPositionID) {
         url += "&StaffPositionID=" + this.filtered.StaffPositionID;

@@ -2040,7 +2040,7 @@ export default {
     loadDefault() {
       this.isLoading = true;
       this.fetchAIZone();
-      this.fetchAnialBreed();
+    //   this.fetchAnialBreed();
       this.fetchOrganizationZone();
       this.fetchProject();
       this.fetchProvince();

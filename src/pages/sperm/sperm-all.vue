@@ -403,6 +403,11 @@
               class="text-center"
             ></Column>
             <Column
+              field="Organization.OrganizationName"
+              header="หน่วยงานที่ผลิต"
+              class="text-center"
+            ></Column>
+            <Column
               field="StaffFullName"
               header="ผู้รับผิดชอบ"
               class="text-center"
@@ -839,6 +844,18 @@ export default {
       this.load();
     },
     "search.AnimalBreedID1": _.debounce(function () {
+      this.load();
+    }, 500),
+    "search.AnimalBreedID2": _.debounce(function () {
+      this.load();
+    }, 500),
+    "search.AnimalBreedID3": _.debounce(function () {
+      this.load();
+    }, 500),
+    "search.AnimalBreedID4": _.debounce(function () {
+      this.load();
+    }, 500),
+    "search.AnimalBreedID5": _.debounce(function () {
       this.load();
     }, 500),
   },

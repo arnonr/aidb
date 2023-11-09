@@ -910,6 +910,18 @@ export default {
       if (this.search.AnimalBreedID1) {
         url += "&AnimalBreedID1=" + this.search.AnimalBreedID1;
       }
+      if (this.search.AnimalBreedID2) {
+        url += "&AnimalBreedID2=" + this.search.AnimalBreedID2;
+      }
+      if (this.search.AnimalBreedID3) {
+        url += "&AnimalBreedID3=" + this.search.AnimalBreedID3;
+      }
+      if (this.search.AnimalBreedID4) {
+        url += "&AnimalBreedID4=" + this.search.AnimalBreedID4;
+      }
+      if (this.search.AnimalBreedID5) {
+        url += "&AnimalBreedID5=" + this.search.AnimalBreedID5;
+      }
 
       axios
         .get(this.url.organization, {

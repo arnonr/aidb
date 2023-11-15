@@ -248,6 +248,27 @@
                 display="chip"
               />
             </div>
+
+            <div class="col-12 sm:col-6 lg:col-6">
+              <label
+                for="searchFarmStatus"
+                class="block text-600 text-sm font-bold mb-2"
+              >
+                สถานะฟาร์ม</label
+              >
+              <Dropdown
+                class="w-full"
+                v-model="search.FarmStatusID"
+                :options="dropdown.FarmStatuses"
+                optionLabel="FarmStatusName"
+                optionValue="FarmStatusID"
+                :filter="true"
+                :showClear="true"
+                :virtualScrollerOptions="{ itemSize: 38 }"
+                placeholder="เลือกสถานะฟาร์ม"
+              >
+              </Dropdown>
+            </div>
           </div>
         </div>
 
@@ -1128,6 +1149,7 @@ export default {
       ],
       url: {
         Farm: "/farm",
+        FarmStatus: "/farm-status",
         AIZone: "/ai-zone",
         OrganizationZone: "/organization-zone",
         Province: "/province",
@@ -1154,6 +1176,7 @@ export default {
           { name: "ทุกประเภทสัตว์", id: 99 },
           { name: "ยังไม่ได้เลือกชนิดสัตว์", id: 98 },
         ],
+        FarmStatuses: [],
       },
       search: {
         FarmIdentificationNumber: "",
@@ -1418,6 +1441,15 @@ export default {
         }, 1000);
       }
     },
+    "search.FarmStatusID"() {
+      this.fetchFarm();
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
   },
   methods: {
     async edit(id) {
@@ -1500,6 +1532,7 @@ export default {
       this.fetchTumbol();
       this.fetchOrganizationType();
       this.fetchOrganization();
+      this.fetchFarmStatus();
       this.fetchFarm();
     },
     fetchAIZone() {
@@ -1712,6 +1745,22 @@ export default {
         });
     },
 
+    fetchFarmStatus() {
+      //  Fetch Province
+      let params = { includeAll: false };
+      axios
+        .get(this.url.FarmStatus, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          this.dropdown.FarmStatuses = res.data.rows;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+
     fetchFarm() {
       this.isLoading = true;
       if (
@@ -1778,9 +1827,12 @@ export default {
         params["FullName"] = this.search.FarmerFullName;
       }
 
-
       if (this.search.FarmID) {
         params["FarmID"] = this.search.FarmID;
+      }
+
+      if (this.search.FarmStatusID) {
+        params["FarmStatusID"] = this.search.FarmStatusID;
       }
 
       axios

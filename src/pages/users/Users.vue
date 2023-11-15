@@ -5,6 +5,151 @@
       <div>
         <div class="card">
           <h1 class="text-xl mb-4 text-500">เครื่องมือช่วยค้นหาผู้ใช้งาน</h1>
+
+          <div class="grid">
+            <div class="col-12 sm:col-6 lg:col-6">
+              <label
+                for="AIZoneID"
+                class="block text-600 text-sm font-bold mb-2"
+              >
+                ศูนย์วิจัย</label
+              >
+              <Dropdown
+                class="w-full"
+                v-model="search.AIZoneID"
+                :options="dropdown.AIZones"
+                optionLabel="AIZoneName"
+                optionValue="AIZoneID"
+                :disabled="isSelectAIZoneDisabled"
+                :filter="true"
+                :showClear="true"
+                placeholder="-- โปรดเลือกศูนย์วิจัย --"
+              >
+              </Dropdown>
+            </div>
+
+            <div class="col-12 sm:col-6 lg:col-6">
+              <label
+                for="searchOrganizationZoneID"
+                class="block text-600 text-sm font-bold mb-2"
+              >
+                เขตพื้นที่ปศุสัตว์</label
+              >
+              <Dropdown
+                class="w-full"
+                v-model="search.OrganizationZoneID"
+                :options="dropdown.OrganizationZones"
+                optionLabel="OrganizationZoneName"
+                optionValue="OrganizationZoneID"
+                :disabled="isSelectOrganizationZoneDisabled"
+                :filter="true"
+                :showClear="true"
+                placeholder="-- เลือกเขตพื้นที่ปศุสัตว์ --"
+              >
+              </Dropdown>
+            </div>
+
+            <div class="col-12 sm:col-6 lg:col-4">
+              <label
+                for="searchProvinceID"
+                class="block text-600 text-sm font-bold mb-2"
+              >
+                จังหวัด</label
+              >
+              <Dropdown
+                class="w-full"
+                v-model="search.ProvinceID"
+                :options="dropdown.Provinces"
+                optionLabel="ProvinceName"
+                optionValue="ProvinceID"
+                :filter="true"
+                :showClear="true"
+                placeholder="ทั้งหมด"
+              >
+              </Dropdown>
+            </div>
+
+            <div class="col-12 sm:col-6 lg:col-4">
+              <label
+                for="searchAmphurID"
+                class="block text-600 text-sm font-bold mb-2"
+              >
+                อำเภอ</label
+              >
+              <Dropdown
+                class="w-full"
+                v-model="search.AmphurID"
+                :options="dropdown.Amphurs"
+                optionLabel="AmphurName"
+                optionValue="AmphurID"
+                :filter="true"
+                :showClear="true"
+                placeholder="ทั้งหมด"
+              >
+              </Dropdown>
+            </div>
+
+            <div class="col-12 sm:col-6 lg:col-4">
+              <label
+                for="searchTumbolID"
+                class="block text-600 text-sm font-bold mb-2"
+              >
+                ตำบล</label
+              >
+              <Dropdown
+                class="w-full"
+                v-model="search.TumbolID"
+                :options="dropdown.Tumbols"
+                optionLabel="TumbolName"
+                optionValue="TumbolID"
+                :filter="true"
+                :showClear="true"
+                placeholder="ทั้งหมด"
+              >
+              </Dropdown>
+            </div>
+
+            <div class="col-12 sm:col-12 lg:col-6">
+              <label
+                for="searchOrganizationID"
+                class="block text-600 text-sm font-bold mb-2"
+              >
+                ประเภทหน่วยงาน</label
+              >
+              <Dropdown
+                :showClear="true"
+                class="w-full"
+                placeholder="ทั้งหมด"
+                optionLabel="OrganizationTypeName"
+                optionValue="OrganizationTypeID"
+                :virtualScrollerOptions="{ itemSize: 38 }"
+                :options="dropdown.OrganizationTypes"
+                :filter="true"
+                v-model="search.OrganizationTypeID"
+              />
+            </div>
+
+            <div class="col-12 sm:col-12 lg:col-6">
+              <label
+                for="searchOrganizationID"
+                class="block text-600 text-sm font-bold mb-2"
+              >
+                หน่วยงาน</label
+              >
+              <Dropdown
+                :showClear="true"
+                class="w-full"
+                placeholder="ทั้งหมด"
+                optionLabel="OrganizationFull"
+                optionValue="OrganizationID"
+                :virtualScrollerOptions="{ itemSize: 38 }"
+                :options="dropdown.Organizations"
+                :filter="true"
+                v-model="search.OrganizationID"
+              />
+            </div>
+          </div>
+
           <div class="grid">
             <div class="col-12 sm:col-6 lg:col-3">
               <label
@@ -277,9 +422,7 @@
                 :class="{ 'p-invalid': !data[index].Username && valid }"
               />
             </div>
-            <div
-              class="col-2 sm:col-12 lg:col-6 field p-fluid"
-            >
+            <div class="col-2 sm:col-12 lg:col-6 field p-fluid">
               <label class="block text-600 text-sm font-bold mb-2">
                 รหัสผ่าน
               </label>
@@ -1065,7 +1208,6 @@ export default {
     return {
       // API
       global_admin: 0,
-      url: "/user",
       getstaff: "/staff",
       getgroup: "/group",
       // ID
@@ -1073,6 +1215,18 @@ export default {
       // Name
       name: "ผู้ใช้งาน",
       display_view: false,
+      url: {
+        user: "/user",
+        Farm: "/farm",
+        AIZone: "/ai-zone",
+        OrganizationZone: "/organization-zone",
+        Province: "/province",
+        Amphur: "/amphur",
+        Tumbol: "/tumbol",
+        OrganizationType: "/organization-type",
+        Organization: "/organization",
+        Project: "/project",
+      },
       // Table Field
       urlTitle: "/title?isActive=1",
       urlGender: "/gender?isActive=1",
@@ -1171,7 +1325,17 @@ export default {
         Group: "",
         isActive: "",
         IsApprove: "",
+        AIZoneID: null,
+        OrganizationZoneID: null,
+        ProvinceID: null,
+        AmphurID: null,
+        TumbolID: null,
+        OrganizationTypeID: null,
+        OrganizationID: null,
       },
+      isSelectAIZoneDisabled: false,
+      isSelectOrganizationZoneDisabled: false,
+
       filtered: {
         User: "",
         Username: "",
@@ -1181,7 +1345,15 @@ export default {
         IsApprove: "",
         StaffID: "",
       },
-
+      dropdown: {
+        AIZones: [],
+        OrganizationZones: [],
+        Provinces: [],
+        Amphurs: [],
+        Tumbols: [],
+        OrganizationTypes: [],
+        Organizations: [],
+      },
       // Static Data
 
       isLoading: false,
@@ -1278,12 +1450,138 @@ export default {
       this.global_admin = 1;
     }
 
+    this.loadDefault();
     this.load();
     this.load_selection();
     this.loadsection();
     this.breadcrumb[1].label = "จัดการ" + this.name;
   },
   watch: {
+    "search.AIZoneID"(val) {
+      if (val) {
+        this.search.OrganizationZoneID = null;
+        this.isSelectAIZoneDisabled = false;
+        this.isSelectOrganizationZoneDisabled = true;
+      } else {
+        this.isSelectAIZoneDisabled = false;
+        this.isSelectOrganizationZoneDisabled = false;
+      }
+
+      this.dropdown.Provinces = [];
+      this.dropdown.Amphurs = [];
+      this.dropdown.Tumbols = [];
+      this.dropdown.Organizations = [];
+      this.data = [];
+
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.fetchProvince();
+          this.fetchOrganization();
+          this.search.AmphurID = null;
+          this.search.TumbolID = null;
+          this.search.OrganizationID = null;
+          this.fetchUser();
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+    "search.OrganizationZoneID"(val) {
+      if (val) {
+        this.search.AIZoneID = null;
+        this.isSelectAIZoneDisabled = true;
+        this.isSelectOrganizationZoneDisabled = false;
+      } else {
+        this.isSelectAIZoneDisabled = false;
+        this.isSelectOrganizationZoneDisabled = false;
+      }
+
+      this.dropdown.Provinces = [];
+      this.dropdown.Amphurs = [];
+      this.dropdown.Tumbols = [];
+      this.dropdown.Organizations = [];
+      this.data = [];
+
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.fetchProvince();
+          this.fetchOrganization();
+          this.fetchUser();
+          this.search.AmphurID = null;
+          this.search.TumbolID = null;
+          this.search.OrganizationID = null;
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+    "search.ProvinceID"() {
+      this.fetchAmphur();
+      this.fetchOrganization();
+      this.dropdown.Amphurs = [];
+      this.dropdown.Tumbols = [];
+
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.fetchUser();
+          this.search.AmphurID = null;
+          this.search.TumbolID = null;
+          //   this.search.OrganizationTypeID = null;
+          this.search.OrganizationID = null;
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+    "search.AmphurID"() {
+      this.fetchTumbol();
+      this.fetchOrganization();
+      this.dropdown.Tumbols = [];
+
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.fetchUser();
+          this.search.TumbolID = null;
+          //   this.search.OrganizationTypeID = null;
+          this.search.OrganizationID = null;
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+    "search.TumbolID"() {
+      this.fetchOrganization();
+
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.fetchUser();
+          this.search.OrganizationID = null;
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+    "search.OrganizationTypeID"() {
+      this.fetchOrganization();
+
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.search.OrganizationID = null;
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+    "search.OrganizationID"() {
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.fetchUser();
+        //   this.search.OrganizationID = null;
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
     // ค้นหา
     "search.Group"(val) {
       this.filtered.Group = val;
@@ -1320,8 +1618,331 @@ export default {
       }
     },
   },
-
   methods: {
+    // New
+    loadDefault() {
+      this.fetchAIZone();
+      this.fetchOrganizationZone();
+      this.fetchProvince();
+      this.fetchAmphur();
+      this.fetchTumbol();
+      this.fetchOrganizationType();
+      this.fetchOrganization();
+    },
+    fetchAIZone() {
+      let params = { includeAll: false };
+      //  Fetch AIZone
+      axios
+        .get(this.url.AIZone, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          this.dropdown.AIZones = res.data.rows;
+
+          this.dropdown.AIZones.push({
+            AIZoneID: 99,
+            AIZoneName: "ทั้งหมด",
+          });
+
+          console.log(this.dropdown.AIZones);
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+    fetchOrganizationZone() {
+      let params = { includeAll: false, isActive: 1 };
+      //  Fetch OrganizationZone
+      axios
+        .get(this.url.OrganizationZone, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          this.dropdown.OrganizationZones = res.data.rows;
+          this.dropdown.OrganizationZones.push({
+            OrganizationZoneID: 99,
+            OrganizationZoneName: "ทั้งหมด",
+          });
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+    fetchProvince() {
+      //  Fetch Province
+      let params = { includeAll: false };
+
+      if (this.search.AIZoneID != null) {
+        params["AIZoneID"] = this.search.AIZoneID;
+      }
+
+      if (this.search.OrganizationZoneID != null) {
+        params["OrganizationZoneID"] = this.search.OrganizationZoneID;
+      }
+      axios
+        .get(this.url.Province, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          this.dropdown.Provinces = res.data.rows;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+    fetchAmphur() {
+      if (
+        this.search.AIZoneID == null &&
+        this.search.OrganizationZoneID == null &&
+        this.search.ProvinceID == null
+      ) {
+        return;
+      }
+
+      let params = { includeAll: false };
+
+      if (this.search.ProvinceID != null) {
+        params["ProvinceID"] = this.search.ProvinceID;
+      }
+
+      axios
+        .get(this.url.Amphur, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          this.dropdown.Amphurs = res.data.rows;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+    fetchTumbol() {
+      if (
+        this.search.AIZoneID == null &&
+        this.search.OrganizationZoneID == null &&
+        this.search.AmphurID == null
+      ) {
+        return;
+      }
+
+      let params = { includeAll: false };
+
+      if (this.search.AmphurID != null) {
+        params["AmphurID"] = this.search.AmphurID;
+      }
+
+      axios
+        .get(this.url.Tumbol, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          this.dropdown.Tumbols = res.data.rows;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+    fetchOrganizationType() {
+      let params = { includeAll: false };
+
+      axios
+        .get(this.url.OrganizationType, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          this.dropdown.OrganizationTypes = res.data.rows;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+    fetchOrganization() {
+      if (
+        this.search.AIZoneID == null &&
+        this.search.OrganizationZoneID == null
+      ) {
+        return;
+      }
+
+      let params = { includeAll: false };
+
+      if (this.search.OrganizationTypeID != null) {
+        params["OrganizationTypeID"] = this.search.OrganizationTypeID;
+      }
+
+      // Province IN AIZOne
+      if (this.search.AIZoneID != null) {
+        params["OrganizationAiZoneID"] = this.search.AIZoneID;
+      }
+
+      if (this.search.OrganizationZoneID != null) {
+        params["OrganizationZoneID"] = this.search.OrganizationZoneID;
+      }
+
+      if (this.search.ProvinceID != null) {
+        params["ProvinceID"] = this.search.ProvinceID;
+      }
+
+      if (this.search.AmphurID != null) {
+        params["FarmAmphurID"] = this.search.AmphurID;
+      }
+
+      if (this.search.TumbolID != null) {
+        params["FarmTumbolID"] = this.search.TumbolID;
+      }
+
+      axios
+        .get(this.url.Organization, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          this.dropdown.Organizations = res.data.rows.map((item) => {
+            return {
+              OrganizationID: item.OrganizationID,
+              OrganizationFull:
+                item.OrganizationCode + ", " + item.OrganizationName,
+            };
+          });
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+    async fetchUser() {
+      this.isLoading = true;
+      if (
+        this.search.AIZoneID == null &&
+        this.search.OrganizationZoneID == null
+      ) {
+        this.isLoading = false;
+        return;
+      }
+
+      let params = {
+        size: this.rowPerPage,
+        page: this.currentPage,
+        orderByField: "userID",
+        orderBy: "desc",
+        // includeAll: false,
+      };
+
+      // Province IN AIZOne
+      if (this.search.AIZoneID != null) {
+        if (this.search.AIZoneID != 99) {
+          params["OrganizationAiZoneID"] = this.search.AIZoneID;
+        }
+      }
+
+      if (this.search.OrganizationZoneID != null) {
+        if (this.search.OrganizationZoneID != 99) {
+          params["OrganizationZoneID"] = this.search.OrganizationZoneID;
+        }
+      }
+
+      if (this.search.ProvinceID != null) {
+        params["OrganizationProvinceID"] = this.search.ProvinceID;
+      }
+
+      if (this.search.AmphurID != null) {
+        params["OrganizationAmphurID"] = this.search.AmphurID;
+      }
+
+      if (this.search.TumbolID != null) {
+        params["OrganizationTumbolID"] = this.search.TumbolID;
+      }
+
+      if (this.search.OrganizationID != null) {
+        params["OrganizationID"] = this.search.OrganizationID;
+      }
+
+      if (this.filtered.User && this.filtered.StaffID == "") {
+        params["Username"] = this.filtered.User;
+      }
+      if (this.filtered.Group) {
+        params["GroupID"] = this.filtered.Group;
+      }
+      if (this.filtered.StaffID) {
+        params["StaffID"] = this.filtered.StaffID;
+      }
+      if (this.filtered.IsApprove) {
+        params["IsApprove"] = this.filtered.IsApprove;
+      }
+      if (this.filtered.isActive) {
+        params["isActive"] = this.filtered.isActive;
+      }
+      //   if (this.sortField && this.sortOrder) {
+      //     url += "&sortField=" + this.sortField + "&sortOrder=" + this.sortOrder;
+      //   }
+      do {
+        await axios
+          .get(this.url.user, {
+            signal: this.controller.signal,
+            params: params,
+          })
+          .then((response) => {
+            this.total = response.data.total;
+            this.data = response.data.rows;
+
+            var c = false;
+            if (this.filtered.StaffID) {
+              c = true;
+            }
+
+            // function search user
+            if (response.data.rows.length == 0 && c == false) {
+              if (this.filtered.User) {
+                axios
+                  .get(
+                    this.getstaff + "&StaffGivenName=" + this.filtered.User,
+                    {
+                      signal: this.controller.signal,
+                    }
+                  )
+                  .then((response) => {
+                    if (response.data.rows.length > 0) {
+                      this.filtered.StaffID = response.data.rows[0].StaffID;
+                      this.load();
+                    } else {
+                      axios
+                        .get(
+                          this.getstaff + "&StaffSurname=" + this.filtered.User,
+                          {
+                            signal: this.controller.signal,
+                          }
+                        )
+                        .then((response) => {
+                          if (response.data.rows.length > 0) {
+                            this.filtered.StaffID =
+                              response.data.rows[0].StaffID;
+                            this.load();
+                          }
+                        });
+                    }
+                  });
+              }
+            }
+            // end function search user
+            if (this.curpage == 0 || this.curpage == 1) {
+              for (let i = 0; i < this.data.length; i++) {
+                this.data[i].show_id = i + 1;
+              }
+            } else {
+              let start = (this.curpage - 1) * 15;
+              for (let i = 0; i < this.data.length; i++) {
+                this.data[i].show_id = i + 1 + start;
+              }
+            }
+          });
+      } while (!this.data);
+      this.isLoading = false;
+    },
     // แสดงปุ่ม
     gotoPersonal() {
       console.log(this.data[this.index].StaffID);
@@ -1567,91 +2188,7 @@ export default {
     },
     // main load
     async load() {
-      this.isLoading = true;
-      let url = this.url + "?size=";
-      // url += "&page=";
-      // if (this.curpage) {
-      //   url += this.curpage;
-      // }
-      if (this.filtered.User && this.filtered.StaffID == "") {
-        url += "&Username=" + this.filtered.User;
-      }
-      if (this.filtered.Group) {
-        url += "&GroupID=" + this.filtered.Group;
-      }
-      if (this.filtered.StaffID) {
-        url += "&StaffID=" + this.filtered.StaffID;
-      }
-      if (this.filtered.IsApprove) {
-        url += "&IsApprove=" + this.filtered.IsApprove;
-      }
-      if (this.filtered.isActive) {
-        url += "&isActive=" + this.filtered.isActive;
-      }
-      if (this.sortField && this.sortOrder) {
-        url += "&sortField=" + this.sortField + "&sortOrder=" + this.sortOrder;
-      }
-      do {
-        await axios
-          .get(url, { signal: this.controller.signal })
-          .then((response) => {
-            this.total = response.data.total;
-            this.data = response.data.rows;
-
-            // console.log(this.data);
-
-            var c = false;
-            if (this.filtered.StaffID) {
-              c = true;
-            }
-
-            // function search user
-            if (response.data.rows.length == 0 && c == false) {
-              if (this.filtered.User) {
-                axios
-                  .get(
-                    this.getstaff + "&StaffGivenName=" + this.filtered.User,
-                    {
-                      signal: this.controller.signal,
-                    }
-                  )
-                  .then((response) => {
-                    if (response.data.rows.length > 0) {
-                      this.filtered.StaffID = response.data.rows[0].StaffID;
-                      this.load();
-                    } else {
-                      axios
-                        .get(
-                          this.getstaff + "&StaffSurname=" + this.filtered.User,
-                          {
-                            signal: this.controller.signal,
-                          }
-                        )
-                        .then((response) => {
-                          if (response.data.rows.length > 0) {
-                            this.filtered.StaffID =
-                              response.data.rows[0].StaffID;
-                            this.load();
-                          }
-                        });
-                    }
-                  });
-              }
-            }
-            // end function search user
-            if (this.curpage == 0 || this.curpage == 1) {
-              for (let i = 0; i < this.data.length; i++) {
-                this.data[i].show_id = i + 1;
-              }
-            } else {
-              let start = (this.curpage - 1) * 15;
-              for (let i = 0; i < this.data.length; i++) {
-                this.data[i].show_id = i + 1 + start;
-              }
-            }
-          });
-      } while (!this.data);
-      this.isLoading = false;
+      this.fetchUser();
     },
     // create or update data
     add() {
@@ -1685,7 +2222,7 @@ export default {
         //create data
 
         axios
-          .post(this.url, form)
+          .post(this.url.user, form)
           .then(() => {
             this.close();
             this.load();
@@ -1737,7 +2274,7 @@ export default {
         }
 
         axios
-          .put(this.url + "/" + this.data[this.index][this.id], form)
+          .put(this.url.user + "/" + this.data[this.index][this.id], form)
           .then(() => {
             this.close();
             this.load();
@@ -1760,16 +2297,18 @@ export default {
     },
     // remove data
     remove() {
-      axios.delete(this.url + "/" + this.data[this.index][this.id]).then(() => {
-        this.close_delete();
-        this.load();
-        this.$toast.add({
-          severity: "success",
-          summary: "สำเร็จ",
-          detail: "ลบข้อมูลเสร็จสิ้น",
-          life: 5000,
+      axios
+        .delete(this.url.user + "/" + this.data[this.index][this.id])
+        .then(() => {
+          this.close_delete();
+          this.load();
+          this.$toast.add({
+            severity: "success",
+            summary: "สำเร็จ",
+            detail: "ลบข้อมูลเสร็จสิ้น",
+            life: 5000,
+          });
         });
-      });
     },
     // form open add
     async open() {

@@ -858,10 +858,10 @@
                   slotProps.data.AnimalAlive == status[0]
                 "
               >
-                <Tag class="w-full" severity="success">Active</Tag>
+                <Tag class="w-full" severity="success">เปิดใช้งาน</Tag>
               </div>
               <div v-else>
-                <Tag class="w-full bg-gray-500">inActive</Tag>
+                <Tag class="w-full bg-gray-500">ปิดใช้งาน</Tag>
               </div>
             </template>
           </Column>
@@ -1450,11 +1450,11 @@ export default {
           StatusID: "",
         },
         {
-          StatusName: "Active",
+          StatusName: "เปิดใช้งาน",
           StatusID: "1",
         },
         {
-          StatusName: "InActive",
+          StatusName: "ปิดใช้งาน",
           StatusID: "0",
         },
       ],

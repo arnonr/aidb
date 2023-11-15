@@ -868,7 +868,7 @@
                     </div>
                   </div>
 
-                  <div class="field col-12 sm:col-12 lg:col-12">
+                  <!-- <div class="field col-12 sm:col-12 lg:col-12">
                     <div class="text-xl">Status</div>
                     <div
                       v-for="isAlive of alive"
@@ -884,7 +884,7 @@
                       />
                       <label :for="isAlive.key">{{ isAlive.name }}</label>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="field col-12 sm:col-12 lg:col-12">
                     <div class="text-xl">สถานะ</div>
                     <div

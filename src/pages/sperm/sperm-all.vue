@@ -481,10 +481,10 @@
               <InputText
                 type="text"
                 class="w-full"
-                v-model="data.detail.Animal.AnimalEarID" 
+                v-model="data.detail.Animal.AnimalEarID"
                 readonly
               />
-                <!-- v-model="data.detail.FatherAnimalNumber" -->
+              <!-- v-model="data.detail.FatherAnimalNumber" -->
             </div>
 
             <div class="field col-12 sm:col-6">
@@ -494,7 +494,7 @@
               <InputText
                 type="text"
                 class="w-full"
-                v-model="data.detail.Animal.AnimalName" 
+                v-model="data.detail.Animal.AnimalName"
                 readonly
               />
             </div>
@@ -884,8 +884,8 @@ export default {
       this.curpage = $event.page + 1;
       this.load();
     },
-    loadDefault(){
-        this.fetchAnimalBreed();
+    loadDefault() {
+      this.fetchAnimalBreed();
     },
     load() {
       this.url.main = "/semen";
@@ -1102,8 +1102,10 @@ export default {
             signal: this.controller.signal,
           })
           .then((res) => {
+            console.log(this.data.detail.Animal);
 
-            console.log(this.data.detail.Animal)
+            // data.detail.Animal.AnimalEarID
+
             fatherStatus = res.data.AnimalStatus.AnimalStatusName;
             this.data.detail.FatherAnimalStatus = fatherStatus;
             // console.log(fatherStatus);
@@ -1111,6 +1113,16 @@ export default {
           .finally(() => {
             this.isLoading = false;
           });
+      } else {
+        if (this.data.detail.Animal == null) {
+          this.data.detail.Animal = {
+            AnimalEarID: "",
+            AnimmalName: "",
+            SourceType: {
+              SourceTypeName: "",
+            },
+          };
+        }
       }
 
       this.displayShowModal = true;

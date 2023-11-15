@@ -203,7 +203,7 @@
               :filter="true"
             />
           </div>
-          <div class="col-12 sm:col-6 lg:col-8">
+          <div class="col-12 sm:col-4 lg:col-4">
             <label
               for="animal_id"
               class="block text-600 text-sm font-bold mb-2"
@@ -220,6 +220,28 @@
               optionLabel="OrganizationName"
               optionValue="OrganizationID"
               v-model="search.StaffOrganizationID"
+              :filter="true"
+              :virtualScrollerOptions="{ itemSize: 38 }"
+            />
+          </div>
+
+          <div class="col-12 sm:col-4 lg:col-4">
+            <label
+              for="animal_id"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              สถานะบุคลากร</label
+            >
+            <Dropdown
+              :showClear="true"
+              emptyMessage="ไม่มีข้อมูล"
+              emptyFilterMessage="ไม่พบข้อมูล"
+              class="w-full"
+              placeholder="ทั้งหมด"
+              :options="StatusAlive"
+              optionLabel="name"
+              optionValue="id"
+              v-model="search.StaffStatus"
               :filter="true"
               :virtualScrollerOptions="{ itemSize: 38 }"
             />
@@ -1886,7 +1908,7 @@
                   class="w-full"
                   placeholder="เลือกสถานะบุคลากร"
                   optionLabel="name"
-                  optionValue="id"
+                  optionValue="name"
                   v-model="form.StaffStatus"
                   :class="{ 'p-invalid': !form.StaffStatus && valid }"
                   :options="StatusAlive"
@@ -2722,7 +2744,7 @@ export default {
     },
 
     "search.StaffOrganizationID"(val) {
-    //   this.filtered.StaffOrganizationID = val;
+      //   this.filtered.StaffOrganizationID = val;
       this.filtered.OrganizationID = val;
       if (this.isLoading == false) {
         this.isLoading = true;
@@ -2735,6 +2757,17 @@ export default {
 
     "search.StaffPositionID"(val) {
       this.filtered.StaffPositionID = val;
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.load();
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+
+    "search.StaffStatus"(val) {
+      this.filtered.StaffStatus = val;
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -2979,6 +3012,10 @@ export default {
       }
       if (this.filtered.StaffEndDate) {
         url += "&StaffEndDate=" + this.filtered.StaffEndDate;
+      }
+
+      if(this.filtered.StaffStatus){
+        url += "&StaffStatus=" + this.filtered.StaffStatus;
       }
       axios
         .get(url, { signal: this.controller.signal })

@@ -481,9 +481,10 @@
               <InputText
                 type="text"
                 class="w-full"
-                v-model="data.detail.FatherAnimalNumber"
+                v-model="data.detail.Animal.AnimalEarID" 
                 readonly
               />
+                <!-- v-model="data.detail.FatherAnimalNumber" -->
             </div>
 
             <div class="field col-12 sm:col-6">
@@ -493,7 +494,7 @@
               <InputText
                 type="text"
                 class="w-full"
-                v-model="data.detail.FatherAnimalName"
+                v-model="data.detail.Animal.AnimalName" 
                 readonly
               />
             </div>
@@ -504,7 +505,7 @@
               <InputText
                 type="text"
                 class="w-full"
-                v-model="data.detail.FatherAnimalBreed"
+                v-model="data.detail.AnimalBreedAll"
                 readonly
               />
             </div>
@@ -525,7 +526,7 @@
                 แหล่งที่มาของน้ำเชื้อ
               </label>
               <InputText
-                v-model="data.detail.SourceName"
+                v-model="data.detail.SourceType.SourceTypeName"
                 type="text"
                 class="w-full"
                 readonly
@@ -1101,6 +1102,8 @@ export default {
             signal: this.controller.signal,
           })
           .then((res) => {
+
+            console.log(this.data.detail.Animal)
             fatherStatus = res.data.AnimalStatus.AnimalStatusName;
             this.data.detail.FatherAnimalStatus = fatherStatus;
             // console.log(fatherStatus);

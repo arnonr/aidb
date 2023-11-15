@@ -9,7 +9,7 @@
         <div class="grid">
           <div class="col-12 sm:col-6 lg:col-4">
             <label
-              for="codeNumber"  
+              for="codeNumber"
               class="block text-600 text-sm font-bold mb-2"
             >
               รหัสโครงการ</label
@@ -167,11 +167,11 @@
             header="วันที่สิ้นสุดโครงการ"
             :sortable="true"
           ></Column>
-          <Column
+          <!-- <Column
             field="Organization.OrganizationName"
             header="หน่วยงานเจ้าภาพ"
             :sortable="true"
-          ></Column>
+          ></Column> -->
           <Column header="ชนิดสัตว์" class="text-center">
             <template #body="slotProp">
               <span v-for="item in slotProp.data.AnimalTypes" :key="item.id">
@@ -812,6 +812,10 @@ export default {
           id: "FARM",
           name: "ฟาร์ม",
         },
+        {
+          id: "ALL",
+          name: "ทั้งหมด",
+        },
       ],
       extend: [
         {
@@ -1080,8 +1084,10 @@ export default {
               this.data[i].level = "สัตว์";
             } else if (this.data[i].ProjectLevel == "FARM") {
               this.data[i].level = "ฟาร์ม";
-            } else {
+            } else if (this.data[i].ProjectLevel == "AI") {
               this.data[i].level = "ผสมเทียม";
+            } else {
+              this.data[i].level = "ทั้งหมด";
             }
           }
         })

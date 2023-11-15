@@ -465,7 +465,7 @@
             </div>
             <div class="field col-12 sm:col-6">
               <label class="block text-600 text-sm font-bold mb-2">
-                ชุดน้ำเชื้อ*
+                รหัสน้ำเชื้อ*
               </label>
               <InputText
                 v-model="data.detail.SemenCode"
@@ -476,7 +476,7 @@
             </div>
             <div class="field col-12 sm:col-6">
               <label class="block text-600 text-sm font-bold mb-2">
-                หมายเลขพ่อพันธุ์</label
+                หมายเลขใบหูพ่อพันธุ์</label
               >
               <InputText
                 type="text"
@@ -489,7 +489,7 @@
 
             <div class="field col-12 sm:col-6">
               <label class="block text-600 text-sm font-bold mb-2">
-                ชื่อ
+                ชื่อพ่อพันธุ์
               </label>
               <InputText
                 type="text"
@@ -500,7 +500,7 @@
             </div>
             <div class="field col-12 sm:col-6">
               <label class="block text-600 text-sm font-bold mb-2">
-                พันธุ์น้ำเชื้อ*
+                สายพันธุ์*
               </label>
               <InputText
                 type="text"
@@ -560,7 +560,7 @@
                 readonly
               />
             </div>
-            <div class="field col-12 sm:col-6">
+            <!-- <div class="field col-12 sm:col-6">
               <label class="block text-600 text-sm font-bold mb-2">
                 หน่วยงานที่ผลิต
               </label>
@@ -579,7 +579,7 @@
                 placeholder="-"
                 readonly
               />
-            </div>
+            </div> -->
             <div class="field col-12 sm:col-6">
               <label class="block text-600 text-sm font-bold mb-2">
                 ชื่อหน่วยงาน

@@ -995,7 +995,9 @@ export default {
     }
 
     await axios
-      .get(this.apiFarm, { signal: this.controller.signal })
+      .get(this.apiFarm + "&FarmAnimalType=[" + this.animal_id + "]", {
+        signal: this.controller.signal,
+      })
       .then((response) => {
         this.farm = response.data.rows.map((item) => {
           return {
@@ -1948,6 +1950,7 @@ export default {
       }
 
       let formData = new FormData();
+
       formData.append("photo_url", this.form.AnimalImagePathGen);
       // post
       axios

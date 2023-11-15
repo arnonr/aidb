@@ -1152,7 +1152,6 @@ export default {
         this.callGennumber();
       }
     },
-    
 
     "form.AnimalFirstBreed"(val) {
       this.checkFirst = val.id;
@@ -1455,7 +1454,9 @@ export default {
     load() {
       this.isLoading = true;
       axios
-        .get(this.apiFarm, { signal: this.controller.signal })
+        .get(this.apiFarm + "&FarmAnimalType=[" + this.animal_id + "]", {
+          signal: this.controller.signal,
+        })
         .then((response) => {
           this.farm = response.data.rows.map((item) => {
             return {

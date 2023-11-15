@@ -833,7 +833,7 @@
             exportFooter="&#8203;"
           ></Column>
           <Column
-            field="Organization.OrganizationName"
+            field="AnimalFarm.Organization.OrganizationName"
             header="หน่วยงาน"
             class="text-center"
             exportFooter="&#8203;"

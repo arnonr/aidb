@@ -429,16 +429,17 @@ export default {
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
+          this.search.OrganizationID = null;
+          this.search.FarmID = null;
           this.fetchProvince();
           this.fetchOrganization();
           this.fetchAnimal();
+          this.fetchFarm();
           this.dropdown.Amphurs = [];
           this.dropdown.Tumbols = [];
           this.search.AmphurID = null;
           this.search.TumbolID = null;
           //   this.search.OrganizationTypeID = null;
-          this.search.OrganizationID = null;
-          this.search.FarmID = null;
           this.isLoading = false;
         }, 1000);
       }
@@ -536,7 +537,6 @@ export default {
         }, 1000);
       }
     },
-
     "search.FarmID"() {
       this.fetchAnimal();
       if (this.isLoading == false) {
@@ -562,13 +562,15 @@ export default {
           store.state.user.Staff.Organization.OrganizationProvinceID
         );
       });
+      if (p) {
+        this.search.AIZoneID = p.AIZoneID;
+      }
 
-      this.search.AIZoneID = p.AIZoneID;
-      this.search.ProvinceID =
-        store.state.user.Staff.Organization.OrganizationProvinceID;
+    //   this.search.ProvinceID =
+    //     store.state.user.Staff.Organization.OrganizationProvinceID;
 
-      this.search.OrganizationID =
-        store.state.user.Staff.Organization.OrganizationID;
+    //   this.search.OrganizationID =
+    //     store.state.user.Staff.Organization.OrganizationID;
     },
   },
   mounted() {
@@ -593,6 +595,7 @@ export default {
       this.fetchTumbol();
       this.fetchOrganizationType();
       this.fetchOrganization();
+      this.fetchFarm();
     },
 
     async load() {
@@ -809,6 +812,82 @@ export default {
           this.loader = true;
         });
     },
+    fetchFarm() {
+      if (
+        this.search.AIZoneID == null &&
+        this.search.OrganizationZoneID == null
+      ) {
+        return;
+      }
+
+      let params = {
+        orderByField: "FarmID",
+        orderBy: "desc",
+        includeAll: false,
+      };
+
+      if (this.search.FarmAnimalType == null) {
+        this.search.FarmAnimalType = parseInt(this.animal_id);
+        params["FarmAnimalType"] = this.search.FarmAnimalType;
+      } else {
+        params["FarmAnimalType"] = this.search.FarmAnimalType;
+      }
+
+      if (this.search.AIZoneID != null) {
+        if (this.search.AIZoneID != 99) {
+          params["AIZoneID"] = this.search.AIZoneID;
+        }
+      }
+
+      if (this.search.OrganizationZoneID != null) {
+        if (this.search.OrganizationZoneID != 99) {
+          params["OrganizationZoneID"] = this.search.OrganizationZoneID;
+        }
+      }
+
+      if (this.search.ProvinceID != null) {
+        params["FarmProvinceID"] = this.search.ProvinceID;
+      }
+
+      if (this.search.AmphurID != null) {
+        params["FarmAmphurID"] = this.search.AmphurID;
+      }
+
+      if (this.search.TumbolID != null) {
+        params["FarmTumbolID"] = this.search.TumbolID;
+      }
+
+      if (this.search.OrganizationID != null) {
+        params["OrganizationID"] = this.search.OrganizationID;
+      }
+
+      if (this.search.ProjectIDArray) {
+        params["ProjectID"] = JSON.stringify(this.search.ProjectIDArray);
+      }
+
+      axios
+        .get(this.url.Farm, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          this.dropdown.Farms = res.data.rows.map((item) => {
+            return {
+              FarmID: item.FarmID,
+              Fullname:
+                "ฟาร์ม " +
+                item.FarmName +
+                " (" +
+                item.FarmIdentificationNumber +
+                ")",
+            };
+          });
+        })
+        .finally(() => {
+          this.isLoading = false;
+          this.loader = true;
+        });
+    },
     async fetchAnimal() {
       if (
         this.search.AIZoneID == null &&
@@ -856,6 +935,11 @@ export default {
 
       if (this.search.ProjectIDArray) {
         params["ProjectID"] = JSON.stringify(this.search.ProjectIDArray);
+      }
+
+
+      if (this.search.FarmID != null) {
+        params["FarmID"] = this.search.FarmID;
       }
 
       await axios

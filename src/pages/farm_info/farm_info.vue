@@ -1401,12 +1401,15 @@ export default {
         // includeAll: false,
       };
 
-      if (this.search.FarmAnimalType == null) {
-        this.search.FarmAnimalType = parseInt(this.AnimalID);
-        params["FarmAnimalType"] = this.search.FarmAnimalType;
-      } else {
-        params["FarmAnimalType"] = this.search.FarmAnimalType;
-      }
+    //   if (this.search.FarmAnimalType == null) {
+    //     this.search.FarmAnimalType = parseInt(this.animal_id);
+    //     params["FarmAnimalType"] = this.search.FarmAnimalType;
+    //   } else {
+    //     params["FarmAnimalType"] = this.search.FarmAnimalType;
+    //   }
+
+
+      this.search.FarmAnimalType = parseInt(this.animal_id);
 
       // Province IN AIZOne
       if (this.search.AIZoneID != null) {

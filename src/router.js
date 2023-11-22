@@ -786,6 +786,11 @@ const routes = [
           {
             path: "pregnancy1",
             name: "pregnancy1",
+            component: () => import("./pages/report/Pregnancy2.vue"),
+          },
+          {
+            path: "pregnancy2",
+            name: "pregnancy2",
             component: () => import("./pages/report/Pregnancy1.vue"),
           },
           {

@@ -330,6 +330,12 @@
             exportFooter="&#8203;"
           ></Column>
           <Column
+            field="AnimalRealCount"
+            header="จำนวนครั้ง"
+            class="text-center"
+            exportFooter="&#8203;"
+          ></Column>
+          <Column
             field="AnimalCount"
             header="จำนวนตัว"
             class="text-center"
@@ -356,7 +362,7 @@
               <Button
                 label="ดูข้อมูล"
                 class="w-full md:w-auto"
-                @click="onLoadAnimalList(slotProps.data.AnimalID)"
+                @click="fetchReportAnimal(slotProps.data.AnimalID)"
               />
             </template>
           </Column>
@@ -463,7 +469,7 @@
           currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
         >
           <Column
-            field="FarmIdentityNumber"
+            field="FarmIdentificationNumber"
             header="ทะเบียนฟาร์ม"
             class="text-center"
             exportFooter="&#8203;"
@@ -487,7 +493,7 @@
             exportFooter="&#8203;"
           ></Column>
           <Column
-            field="AnimalStatus"
+            field="AnimalStatusName"
             header="สถานะโค"
             class="text-center"
             exportFooter="&#8203;"
@@ -499,37 +505,37 @@
             exportFooter="&#8203;"
           ></Column>
           <Column
-            field="AnimalDateAI"
+            field="AIDate"
             header="วันผสม"
             class="text-center"
             exportFooter="&#8203;"
           ></Column>
           <Column
-            field="SemenID"
+            field="SemenNumber"
             header="น้ำเชื้อ"
             class="text-center"
             exportFooter="&#8203;"
           ></Column>
           <Column
-            field="PregnancyID"
+            field="CheckupDate"
             header="วันที่ตรวจท้อง"
             class="text-center"
             exportFooter="&#8203;"
           ></Column>
           <Column
-            field="PregnancyID"
+            field="PregnancyCheckStatusName"
             header="ผลการตรวจท้อง"
             class="text-center"
             exportFooter="&#8203;"
           ></Column>
           <Column
-            field="PregnancyID"
+            field="BetweenDate"
             header="จำนวนวัน"
             class="text-center"
             exportFooter="&#8203;"
           ></Column>
           <Column
-            field="PregnancyID"
+            field="ResponsibilityStaffName"
             header="เจ้าหน้าที่"
             class="text-center"
             exportFooter="&#8203;"
@@ -549,11 +555,9 @@
 import axios from "axios";
 import { mapGetters } from "vuex";
 import PageTitle from "@/components/PageTitle.vue";
-
 import dayjs from "dayjs";
-// import { format } from "date-fns";
-
 import { ref } from "vue";
+
 export default {
   themeChangeListener: null,
   components: {
@@ -818,9 +822,9 @@ export default {
       let ai = this.user.Staff.Organization.OrganizationAiZoneID || 1;
 
       axios
-        .get(this.url.organization_zone, { signal: this.controller.signal })
+        .get(this.url.OrganizationZone, { signal: this.controller.signal })
         .then((res) => {
-          this.dropdown.organization_zone = res.data.rows;
+          this.dropdown.OrganizationZones = res.data.rows;
           this.dropdown.organization_zone_total = res.data.total;
         })
         .finally(() => {
@@ -828,9 +832,9 @@ export default {
         });
 
       axios
-        .get(this.url.ai_zone, { signal: this.controller.signal })
+        .get(this.url.AIZone, { signal: this.controller.signal })
         .then((res) => {
-          this.dropdown.ai_zone = res.data.rows;
+          this.dropdown.AIZones = res.data.rows;
           this.dropdown.ai_zone_total = res.data.total;
         })
         .finally(() => {
@@ -838,19 +842,18 @@ export default {
         });
 
       axios
-        .get(this.url.province, { signal: this.controller.signal })
+        .get(this.url.Province, { signal: this.controller.signal })
         .then((res) => {
           this.dropdown.provinceTemp = res.data.rows;
 
           if (this.search.AIZoneID != null) {
-            this.dropdown.province = res.data.rows.filter((x) => {
+            this.dropdown.Provinces = res.data.rows.filter((x) => {
               return x.AIZoneID == this.search.AIZoneID;
             });
           }
 
           if (this.search.OrganizationZoneID != null) {
-            console.log(this.dropdown.province);
-            this.dropdown.province = res.data.rows.filter((x) => {
+            this.dropdown.Provinces = res.data.rows.filter((x) => {
               return x.OrganizationZoneID == this.search.OrganizationZoneID;
             });
           }
@@ -942,7 +945,7 @@ export default {
         });
 
       axios
-        .get(this.url.amphur, {
+        .get(this.url.Amphur, {
           signal: this.controller.signal,
         })
         .then((res) => {
@@ -954,7 +957,7 @@ export default {
           this.loader = true;
         });
       axios
-        .get(this.url.tumbol, {
+        .get(this.url.Tumbol, {
           signal: this.controller.signal,
         })
         .then((res) => {
@@ -1408,7 +1411,6 @@ export default {
               return x.StaffID == this.search.StaffID;
             });
           }
-          console.log(this.data.main);
 
           this.data.head_detail = {
             ai_zone_name: e ? e.AIZoneName : "", //this.search.AIZoneID,
@@ -1444,38 +1446,8 @@ export default {
       }, Math.random() * 1000 + 250);
     },
 
-    fetchReportAnimal() {
-      axios
-        .get("/report/report9?day=" + this.search.day, {
-          signal: this.controller.signal,
-        })
-        .then((res) => {
-          this.data.animal_main = res.data.Total;
-          this.data.farm = res.data.Farm;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-
-    fetchReportSubAnimal(AnimalID) {
-      axios
-        .get("/report/report9-1?day=" + this.search.day, {
-          aninmal_id: AnimalID,
-          signal: this.controller.signal,
-        })
-        .then((res) => {
-          this.data.animal_main = res.data.Total;
-          this.data.farm = res.data.Farm;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-
-    onLoadAnimalList(AnimalID) {
-      console.log(AnimalID);
-      //
+    fetchReportAnimal(AnimalID) {
+      this.data.animal_main = AnimalID;
     },
   },
 

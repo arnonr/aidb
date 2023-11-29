@@ -323,6 +323,27 @@ export default [
           //   icon: "pi pi-fw pi-circle",
           //   to: "/report/conceive",
           // },
+          {
+            label: "รายงานผลปฏิบัติการ",
+            icon: "pi pi-fw pi-circle",
+            items: [
+              {
+                label: "รายงานสรุปตรวจท้อง",
+                icon: "pi pi-minus",
+                to: "/report/pregnancy2",
+              },
+              {
+                label: "รายงานสรุปผลติดตามลูกเกิด",
+                icon: "pi pi-minus",
+                to: "/report/pregnancy3",
+              },
+              {
+                label: "รายงานสรุปจำนวนโคตั้งท้อง",
+                icon: "pi pi-minus",
+                to: "/report/TotalPreg",
+              },
+            ],
+          },
         ],
       },
       {
@@ -799,27 +820,7 @@ export default [
           },
         ],
       },
-      {
-        label: "รายงานผลการปฏิบัติงาน",
-        icon: "pi pi-fw pi-circle",
-        items: [
-          {
-            label: "รายงานสรุปตรวจท้อง",
-            icon: "pi pi-minus",
-            to: "/report/pregnancy2",
-          },
-          {
-            label: "รายงานผลติดตามลูกเกิด",
-            icon: "pi pi-minus",
-            to: "/report/pregnancy3",
-          },
-          {
-            label: "รายงานสรุปจำนวนโคตั้งท้อง",
-            icon: "pi pi-minus",
-            to: "/report/TotalPreg",
-          },
-        ],
-      },
+     
     ],
   },
 ];

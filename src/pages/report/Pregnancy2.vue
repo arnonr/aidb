@@ -1437,14 +1437,46 @@ export default {
             let status2 = 0;
             let status3 = 0;
 
+            let check_duplicate = [];
+
             x.AnimalID.forEach((e) => {
-              if (e.PregnancyCheckStatusName == "ท้อง") {
-                status1 = status1 + 1;
-              } else if (e.PregnancyCheckStatusName == "ไม่ท้อง") {
-                status2 = status2 + 1;
+              let check = check_duplicate.find((x) => {
+                return x.AnimalID == e.AnimalID;
+              });
+
+              if (check) {
+                if (check.PregnancyCheckStatusName != "ท้อง") {
+                  if (check.PregnancyCheckStatusName == "ไม่ท้อง") {
+                    status2 = status2 - 1;
+                  }
+                  if (check.PregnancyCheckStatusName == "รอตรวจซ้ำ") {
+                    status3 = status3 - 1;
+                  }
+
+                  if (e.PregnancyCheckStatusName == "ท้อง") {
+                    status1 = status1 + 1;
+                  } else if (e.PregnancyCheckStatusName == "ไม่ท้อง") {
+                    status2 = status2 + 1;
+                  } else {
+                    status3 = status3 + 1;
+                  }
+                }
               } else {
-                status3 = status3 + 1;
+                if (e.PregnancyCheckStatusName == "ท้อง") {
+                  status1 = status1 + 1;
+                } else if (e.PregnancyCheckStatusName == "ไม่ท้อง") {
+                  status2 = status2 + 1;
+                } else {
+                  status3 = status3 + 1;
+                }
+                check_duplicate.push(e);
               }
+
+              //   if (check_duplicate.includes(e.AnimalID)) {
+              //     //
+              //   } else {
+              //     check_duplicate.push(e.AnimalID);
+              //   }
             });
 
             x.status1 = status1;

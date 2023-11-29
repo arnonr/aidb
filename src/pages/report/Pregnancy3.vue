@@ -1389,6 +1389,7 @@ export default {
       ) {
         params["AIZoneID"] =
           this.user.Staff.Organization.OrganizationAiZoneID || undefined;
+          return;
       }
 
       if (this.search.AIZoneID != null) {

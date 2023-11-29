@@ -325,7 +325,6 @@ export default [
           // },
         ],
       },
-
       {
         label: "ผู้ดูแลระบบ",
         icon: "pi pi-fw pi-cog",
@@ -797,6 +796,27 @@ export default [
               //   to: "/user_center/culling_cause",
               // },
             ],
+          },
+        ],
+      },
+      {
+        label: "รายงานผลการปฏิบัติงาน",
+        icon: "pi pi-fw pi-circle",
+        items: [
+          {
+            label: "รายงานสรุปตรวจท้อง",
+            icon: "pi pi-minus",
+            to: "/report/pregnancy2",
+          },
+          {
+            label: "รายงานผลติดตามลูกเกิด",
+            icon: "pi pi-minus",
+            to: "/report/pregnancy3",
+          },
+          {
+            label: "รายงานสรุปจำนวนโคตั้งท้อง",
+            icon: "pi pi-minus",
+            to: "/report/TotalPreg",
           },
         ],
       },

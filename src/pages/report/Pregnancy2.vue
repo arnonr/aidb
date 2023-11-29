@@ -353,8 +353,20 @@
             exportFooter="&#8203;"
           ></Column>
           <Column
-            field="FarmCount"
-            header="จำนวนฟาร์ม"
+            field="status1"
+            header="ท้อง"
+            class="text-center"
+            exportFooter="&#8203;"
+          ></Column>
+          <Column
+            field="status2"
+            header="ไม่ท้อง"
+            class="text-center"
+            exportFooter="&#8203;"
+          ></Column>
+          <Column
+            field="status3"
+            header="รอตรวจซ้ำ"
             class="text-center"
             exportFooter="&#8203;"
           ></Column>
@@ -1420,7 +1432,26 @@ export default {
           params: params,
         })
         .then((res) => {
-          this.data.main = res.data.data;
+          this.data.main = res.data.data.map((x) => {
+            let status1 = 0;
+            let status2 = 0;
+            let status3 = 0;
+
+            x.AnimalID.forEach((e) => {
+              if (e.PregnancyCheckStatusName == "ท้อง") {
+                status1 = status1 + 1;
+              } else if (e.PregnancyCheckStatusName == "ไม่ท้อง") {
+                status2 = status2 + 1;
+              } else {
+                status3 = status3 + 1;
+              }
+            });
+
+            x.status1 = status1;
+            x.status2 = status2;
+            x.status3 = status3;
+            return x;
+          });
 
           let e = this.dropdown.AIZones.find((x) => {
             return x.AIZoneID == this.search.AIZoneID;

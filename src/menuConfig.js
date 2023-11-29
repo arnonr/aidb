@@ -330,7 +330,7 @@ export default [
               {
                 label: "รายงานสรุปตรวจท้อง",
                 icon: "pi pi-minus",
-                to: "/report/pregnancy2",
+                to: "/report/pregnancy1",
               },
               {
                 label: "รายงานสรุปผลติดตามลูกเกิด",

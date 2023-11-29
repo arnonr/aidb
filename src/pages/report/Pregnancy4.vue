@@ -356,7 +356,11 @@
             class="text-center"
             exportFooter="&#8203;"
           ></Column>
-          <Column header="ที่อยู่ฟาร์ม" class="text-center">
+          <Column
+            header="ที่อยู่ฟาร์ม"
+            class="text-center"
+            field="AnimalFarm.FarmAddress"
+          >
             <template #body="slotProps">
               <!-- {{ slotProps }} -->
               {{
@@ -371,7 +375,11 @@
             </template>
           </Column>
 
-          <Column header="เจ้าหน้าที่" class="text-center">
+          <Column
+            header="เจ้าหน้าที่"
+            class="text-center"
+            field="AnimalFarm.Staff.StaffGivenName"
+          >
             <template #body="slotProps">
               <!-- {{ slotProps }} -->
               {{

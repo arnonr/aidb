@@ -352,6 +352,24 @@
             exportFooter="&#8203;"
           ></Column>
           <Column
+            field="Child"
+            header="จำนวนลูก"
+            class="text-center"
+            exportFooter="&#8203;"
+          ></Column>
+          <Column
+            field="Male"
+            header="เพศชาย"
+            class="text-center"
+            exportFooter="&#8203;"
+          ></Column>
+          <Column
+            field="Female"
+            header="เพศหญิง"
+            class="text-center"
+            exportFooter="&#8203;"
+          ></Column>
+          <Column
             field="FarmCount"
             header="จำนวนฟาร์ม"
             class="text-center"
@@ -459,7 +477,7 @@
         <div class="col-12 text-right">
           <Button
             label="Export To Excel"
-            @click="exportCSV($event)"
+            @click="exportCSV2($event)"
             class="p-button-success mr-3"
           />
         </div>
@@ -470,7 +488,7 @@
           :value="data.animal_main"
           :paginator="true"
           :exportable="true"
-          ref="dt"
+          ref="dt2"
           :rows="10"
           :loading="isLoading"
           paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
@@ -650,6 +668,28 @@ export default {
         this.totalStatus.child = 0;
         this.totalStatus.male = 0;
         this.totalStatus.female = 0;
+
+        this.data.main = this.data.main.map((x) => {
+          let child = 0;
+          let male = 0;
+          let female = 0;
+
+          x.AnimalID.forEach((e) => {
+            child = child + e.Amount;
+            if (e.ChildGender.includes("M")) {
+              male = male + 1;
+            }
+            if (e.ChildGender.includes("F")) {
+              female = female + 1;
+            }
+          });
+
+          x.Child = child;
+          x.Male = male;
+          x.Female = female;
+          return x;
+        });
+
         this.data.main.forEach((x) => {
           x.AnimalID.forEach((e) => {
             this.totalStatus.all = this.totalStatus.all + 1;
@@ -838,6 +878,9 @@ export default {
   methods: {
     exportCSV() {
       this.$refs.dt.exportCSV();
+    },
+    exportCSV2() {
+      this.$refs.dt2.exportCSV();
     },
 
     loadDefault() {

@@ -444,7 +444,7 @@
         <div class="col-12 text-right">
           <Button
             label="Export To Excel"
-            @click="exportCSV($event)"
+            @click="exportCSV2($event)"
             class="p-button-success mr-3"
           />
         </div>
@@ -455,7 +455,7 @@
           :value="data.animal_main"
           :paginator="true"
           :exportable="true"
-          ref="dt"
+          ref="dt2"
           :rows="10"
           :loading="isLoading"
           paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
@@ -803,6 +803,9 @@ export default {
   methods: {
     exportCSV() {
       this.$refs.dt.exportCSV();
+    },
+    exportCSV2() {
+      this.$refs.dt2.exportCSV();
     },
 
     loadDefault() {

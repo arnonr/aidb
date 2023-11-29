@@ -314,8 +314,8 @@
             >,
             <span class="font-bold">จำนวนลูก : {{ totalStatus.child }} ตัว</span
             >,
-            <span class="font-bold">เพศชาย : {{ totalStatus.male }} ตัว</span>,
-            <span class="font-bold">เพศหญิง : {{ totalStatus.female }} ตัว</span
+            <span class="font-bold">เพศผู้ : {{ totalStatus.male }} ตัว</span>,
+            <span class="font-bold">เพศเมีย : {{ totalStatus.female }} ตัว</span
             >,
           </div>
         </div>
@@ -359,13 +359,13 @@
           ></Column>
           <Column
             field="Male"
-            header="เพศชาย"
+            header="เพศผู้"
             class="text-center"
             exportFooter="&#8203;"
           ></Column>
           <Column
             field="Female"
-            header="เพศหญิง"
+            header="เพศเมีย"
             class="text-center"
             exportFooter="&#8203;"
           ></Column>

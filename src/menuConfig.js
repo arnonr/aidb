@@ -162,6 +162,11 @@ export default [
             label: "ด้านทะเบียนประวัติ",
             icon: "pi pi-fw pi-circle",
             items: [
+              {
+                label: "รายงานประชากรสัตว์",
+                icon: "pi pi-minus",
+                to: "/report/pregnancy4",
+              },
               // {
               //   label: "สรุปโคแยกตามสายพันธุ์",
               //   icon: "pi pi-minus",
@@ -236,7 +241,7 @@ export default [
             icon: "pi pi-fw pi-circle",
             items: [
               {
-                label: "รายงานการผสมเทียม ผท.6", 
+                label: "รายงานการผสมเทียม ผท.6",
                 icon: "pi pi-minus",
                 to: "/report/aipt6",
               },

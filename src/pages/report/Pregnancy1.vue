@@ -308,6 +308,7 @@
               >ช่วงวันที่ : {{ data.head_detail.date }}</span
             >
           </div>
+
         </div>
 
         <DataTable
@@ -570,6 +571,12 @@ export default {
     return {
       title: "รายงานสรุปตรวจท้อง",
       data: [],
+      totalStatus: {
+        all: 0,
+        status1: 0,
+        status2: 0,
+        status3: 0,
+      },
       provinceAITime: [],
       provinceAICount: [],
       url: {

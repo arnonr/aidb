@@ -308,6 +308,16 @@
               >ช่วงวันที่ : {{ data.head_detail.date }}</span
             >
           </div>
+          <div class="col-12">
+            <span class="font-bold"
+              >จำนวนแม่ที่คลอด : {{ totalStatus.all }} ตัว</span
+            >,
+            <span class="font-bold">จำนวนลูก : {{ totalStatus.child }} ตัว</span
+            >,
+            <span class="font-bold">เพศชาย : {{ totalStatus.male }} ตัว</span>,
+            <span class="font-bold">เพศหญิง : {{ totalStatus.female }} ตัว</span
+            >,
+          </div>
         </div>
 
         <DataTable
@@ -572,6 +582,12 @@ export default {
   },
   data() {
     return {
+      totalStatus: {
+        all: 0,
+        status1: 0,
+        status2: 0,
+        status3: 0,
+      },
       title: "รายงานสรุปผลการติดตามลูกเกิด",
       data: [],
       provinceAITime: [],
@@ -627,6 +643,28 @@ export default {
   },
 
   watch: {
+    "data.main"() {
+      if (this.data.main.length != 0) {
+        console.log(this.data.main);
+        this.totalStatus.all = 0;
+        this.totalStatus.child = 0;
+        this.totalStatus.male = 0;
+        this.totalStatus.female = 0;
+        this.data.main.forEach((x) => {
+          x.AnimalID.forEach((e) => {
+            this.totalStatus.all = this.totalStatus.all + 1;
+            this.totalStatus.child = this.totalStatus.child + e.Amount;
+
+            if (e.ChildGender.includes("M")) {
+              this.totalStatus.male = this.totalStatus.male + 1;
+            }
+            if (e.ChildGender.includes("F")) {
+              this.totalStatus.female = this.totalStatus.female + 1;
+            }
+          });
+        });
+      }
+    },
     // ค้นหา
     "search.day"() {
       this.fetchReport();

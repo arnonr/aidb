@@ -145,34 +145,6 @@
             />
           </div>
 
-          <div class="col-12 sm:col-6 lg:col-6">
-            <label
-              for="dateRange"
-              class="block text-600 text-sm font-bold mb-2"
-            >
-              ช่วงวันที่รายงาน</label
-            >
-            <Datepicker
-              v-model="search.day"
-              range
-              id="dateRange"
-              locale="th"
-              :format="format"
-              utc
-              :enableTimePicker="false"
-              cancelText="ยกเลิก"
-              selectText="ยืนยัน"
-              placeholder="ตั้งแต่วันที่ - จนถึงวันที่"
-            >
-              <template #year-overlay-value="{ text }">
-                {{ parseInt(text) + 543 }}
-              </template>
-              <template #year="{ year }">
-                {{ year + 543 }}
-              </template>
-            </Datepicker>
-          </div>
-
           <div class="col-12 sm:col-12 lg:col-6">
             <label
               for="searchStaffID"
@@ -193,7 +165,7 @@
             />
           </div>
 
-          <div class="col-12 sm:col-12 lg:col-12">
+          <div class="col-12 sm:col-6 lg:col-6">
             <label
               for="searchSubDistrict"
               class="block text-600 text-sm font-bold mb-2"
@@ -209,6 +181,66 @@
               placeholder="เลือกโครงการ"
               display="chip"
             />
+          </div>
+
+          <div class="col-12 sm:col-12 lg:col-12">
+            <hr />
+          </div>
+
+          <div class="col-12 sm:col-6 lg:col-6">
+            <label
+              for="dateRange"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              ช่วงวันที่บันทึกข้อมูล</label
+            >
+            <Datepicker
+              v-model="search.created_day"
+              range
+              id="dateRange"
+              locale="th"
+              :format="format"
+              utc
+              :enableTimePicker="false"
+              cancelText="ยกเลิก"
+              selectText="ยืนยัน"
+              placeholder="ตั้งแต่วันที่ - จนถึงวันที่"
+            >
+              <template #year-overlay-value="{ text }">
+                {{ parseInt(text) + 543 }}
+              </template>
+              <template #year="{ year }">
+                {{ year + 543 }}
+              </template>
+            </Datepicker>
+          </div>
+
+          <div class="col-12 sm:col-6 lg:col-6">
+            <label
+              for="dateRange"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              ช่วงวันที่ตรวจท้อง</label
+            >
+            <Datepicker
+              v-model="search.day"
+              range
+              id="dateRange"
+              locale="th"
+              :format="format"
+              utc
+              :enableTimePicker="false"
+              cancelText="ยกเลิก"
+              selectText="ยืนยัน"
+              placeholder="ตั้งแต่วันที่ - จนถึงวันที่"
+            >
+              <template #year-overlay-value="{ text }">
+                {{ parseInt(text) + 543 }}
+              </template>
+              <template #year="{ year }">
+                {{ year + 543 }}
+              </template>
+            </Datepicker>
           </div>
         </div>
       </div>
@@ -309,7 +341,7 @@
             >
           </div>
 
-          <div class="col-12">
+          <!-- <div class="col-12">
             <span class="font-bold">ตรวจท้อง : {{ totalStatus.all }} ตัว</span>,
             <span class="font-bold">ท้อง : {{ totalStatus.status1 }} ตัว</span>,
             <span class="font-bold"
@@ -318,12 +350,13 @@
             <span class="font-bold"
               >รอตรวจซ้ำ : {{ totalStatus.status3 }} ตัว</span
             >,
-          </div>
+          </div> -->
         </div>
 
         <DataTable
           class="text-sm"
           :value="data.main"
+          :frozenValue="locked1"
           :paginator="true"
           :exportable="true"
           ref="dt"
@@ -601,6 +634,7 @@ export default {
         status2: 0,
         status3: 0,
       },
+      locked1: [],
       title: "รายงานสรุปตรวจท้อง",
       data: [],
       provinceAITime: [],
@@ -658,26 +692,7 @@ export default {
   watch: {
     // ค้นหา
 
-    "data.main"() {
-      if (this.data.main.length != 0) {
-        this.totalStatus.all = 0;
-        this.totalStatus.status1 = 0;
-        this.totalStatus.status2 = 0;
-        this.totalStatus.status3 = 0;
-        this.data.main.forEach((x) => {
-          x.AnimalID.forEach((e) => {
-            this.totalStatus.all = this.totalStatus.all + 1;
-            if (e.PregnancyCheckStatusName == "ท้อง") {
-              this.totalStatus.status1 = this.totalStatus.status1 + 1;
-            } else if (e.PregnancyCheckStatusName == "ไม่ท้อง") {
-              this.totalStatus.status2 = this.totalStatus.status2 + 1;
-            } else {
-              this.totalStatus.status3 = this.totalStatus.status3 + 1;
-            }
-          });
-        });
-      }
-    },
+    "data.main"() {},
     "search.day"() {
       this.fetchReport();
 
@@ -848,6 +863,9 @@ export default {
   },
 
   methods: {
+    toggleLock(data) {
+      this.locked1.push(data);
+    },
     exportCSV() {
       this.$refs.dt.exportCSV();
     },
@@ -1482,8 +1500,44 @@ export default {
             x.status1 = status1;
             x.status2 = status2;
             x.status3 = status3;
+
             return x;
           });
+
+          let AnimalIDAll = [];
+          let AnimalRealCountAll = 0;
+          if (this.data.main.length != 0) {
+            this.totalStatus.all = 0;
+            this.totalStatus.status1 = 0;
+            this.totalStatus.status2 = 0;
+            this.totalStatus.status3 = 0;
+            this.data.main.forEach((x) => {
+              AnimalRealCountAll = AnimalRealCountAll + x.AnimalRealCount;
+              x.AnimalID.forEach((e) => {
+                AnimalIDAll.push(e);
+                this.totalStatus.all = this.totalStatus.all + 1;
+                if (e.PregnancyCheckStatusName == "ท้อง") {
+                  this.totalStatus.status1 = this.totalStatus.status1 + 1;
+                } else if (e.PregnancyCheckStatusName == "ไม่ท้อง") {
+                  this.totalStatus.status2 = this.totalStatus.status2 + 1;
+                } else {
+                  this.totalStatus.status3 = this.totalStatus.status3 + 1;
+                }
+              });
+            });
+
+            this.locked1 = [];
+            this.toggleLock({
+              id: 0,
+              AnimalBreedName: "สายพันธุ์ทั้งหมด",
+              AnimalRealCount: AnimalRealCountAll,
+              AnimalCount: this.totalStatus.all,
+              status1: this.totalStatus.status1,
+              status2: this.totalStatus.status2,
+              status3: this.totalStatus.status3,
+              AnimalID: AnimalIDAll,
+            });
+          }
 
           let e = this.dropdown.AIZones.find((x) => {
             return x.AIZoneID == this.search.AIZoneID;
@@ -1575,3 +1629,10 @@ export default {
   },
 };
 </script>
+
+<style lang="css">
+.p-datatable-frozen-tbody > tr {
+  background-color: #aaa !important;
+  font-weight: bold;
+}
+</style>

@@ -308,7 +308,7 @@
               >ช่วงวันที่ : {{ data.head_detail.date }}</span
             >
           </div>
-          <div class="col-12">
+          <!-- <div class="col-12">
             <span class="font-bold"
               >จำนวนแม่ที่คลอด : {{ totalStatus.all }} ตัว</span
             >,
@@ -317,19 +317,20 @@
             <span class="font-bold">เพศผู้ : {{ totalStatus.male }} ตัว</span>,
             <span class="font-bold">เพศเมีย : {{ totalStatus.female }} ตัว</span
             >,
-          </div>
+          </div> -->
         </div>
 
         <DataTable
           class="text-sm"
           :value="data.main"
+          :frozenValue="locked1"
           :paginator="true"
           :exportable="true"
           ref="dt"
           :rows="10"
           :loading="isLoading"
           paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
-          :rowsPerPageOptions="[10, 20, 50]"
+          :rowsPerPageOptions="[5, 10, 20, 50]"
           responsiveLayout="scroll"
           currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
         >
@@ -347,10 +348,12 @@
           ></Column> -->
           <Column
             field="AnimalCount"
-            header="จำนวนตัว"
+            :header="'จำนวนตัว'"
             class="text-center"
             exportFooter="&#8203;"
-          ></Column>
+          >
+            <template #header="slotProps"> {{ slotProps.data }}</template>
+          </Column>
           <Column
             field="Child"
             header="จำนวนลูก"
@@ -606,6 +609,7 @@ export default {
         status2: 0,
         status3: 0,
       },
+      locked1: [],
       title: "รายงานสรุปผลการติดตามลูกเกิด",
       data: [],
       provinceAITime: [],
@@ -662,26 +666,24 @@ export default {
 
   watch: {
     "data.main"() {
-      if (this.data.main.length != 0) {
-        this.totalStatus.all = 0;
-        this.totalStatus.child = 0;
-        this.totalStatus.male = 0;
-        this.totalStatus.female = 0;
-
-        this.data.main.forEach((x) => {
-          x.AnimalID.forEach((e) => {
-            this.totalStatus.all = this.totalStatus.all + 1;
-            this.totalStatus.child = this.totalStatus.child + e.Amount;
-
-            if (e.ChildGender.includes("M")) {
-              this.totalStatus.male = this.totalStatus.male + 1;
-            }
-            if (e.ChildGender.includes("F")) {
-              this.totalStatus.female = this.totalStatus.female + 1;
-            }
-          });
-        });
-      }
+      //   if (this.data.main.length != 0) {
+      //     this.totalStatus.all = 0;
+      //     this.totalStatus.child = 0;
+      //     this.totalStatus.male = 0;
+      //     this.totalStatus.female = 0;
+      //     this.data.main.forEach((x) => {
+      //       x.AnimalID.forEach((e) => {
+      //         this.totalStatus.all = this.totalStatus.all + 1;
+      //         this.totalStatus.child = this.totalStatus.child + e.Amount;
+      //         if (e.ChildGender.includes("M")) {
+      //           this.totalStatus.male = this.totalStatus.male + 1;
+      //         }
+      //         if (e.ChildGender.includes("F")) {
+      //           this.totalStatus.female = this.totalStatus.female + 1;
+      //         }
+      //       });
+      //     });
+      //   }
     },
     // ค้นหา
     "search.day"() {
@@ -854,6 +856,9 @@ export default {
   },
 
   methods: {
+    toggleLock(data) {
+      this.locked1.push(data);
+    },
     exportCSV() {
       this.$refs.dt.exportCSV();
     },
@@ -1439,7 +1444,6 @@ export default {
           params: params,
         })
         .then((res) => {
-
           this.data.main = res.data.data.map((x) => {
             let child = 0;
             let male = 0;
@@ -1460,6 +1464,45 @@ export default {
             x.Female = female;
             return x;
           });
+
+          if (this.data.main.length != 0) {
+            this.totalStatus.all = 0;
+            this.totalStatus.child = 0;
+            this.totalStatus.male = 0;
+            this.totalStatus.female = 0;
+            this.totalStatus.farm = 0;
+            let AnimalIDAll = [];
+
+            this.data.main.forEach((x) => {
+              this.totalStatus.farm = this.totalStatus.farm + x.FarmCount;
+              x.AnimalID.forEach((e) => {
+                AnimalIDAll.push(e)
+                this.totalStatus.all = this.totalStatus.all + 1;
+                this.totalStatus.child = this.totalStatus.child + e.Amount;
+
+                if (e.ChildGender.includes("M")) {
+                  this.totalStatus.male = this.totalStatus.male + 1;
+                }
+                if (e.ChildGender.includes("F")) {
+                  this.totalStatus.female = this.totalStatus.female + 1;
+                }
+              });
+            });
+
+            this.toggleLock({
+              id: 0,
+              AnimalBreedName: "สายพันธุ์ทั้งหมด",
+              AnimalCount: this.totalStatus.all,
+              Child: this.totalStatus.child,
+              Male: this.totalStatus.male,
+              Female: this.totalStatus.female,
+              FarmCount: this.totalStatus.farm,
+              AnimalID: AnimalIDAll,
+            });
+            // this.locked1 = {
+
+            // };
+          }
 
           let e = this.dropdown.AIZones.find((x) => {
             return x.AIZoneID == this.search.AIZoneID;
@@ -1551,3 +1594,10 @@ export default {
   },
 };
 </script>
+
+<style lang="css">
+.p-datatable-frozen-tbody > tr {
+  background-color: #aaa !important;
+  font-weight: bold;
+}
+</style>

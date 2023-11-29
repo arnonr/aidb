@@ -197,6 +197,7 @@
             <Datepicker
               v-model="search.created_day"
               range
+              :disabled="isSelectCreatedDayDisabled"
               id="dateRange"
               locale="th"
               :format="format"
@@ -225,6 +226,7 @@
             <Datepicker
               v-model="search.day"
               range
+              :disabled="isSelectDayDisabled"
               id="dateRange"
               locale="th"
               :format="format"
@@ -675,6 +677,8 @@ export default {
       },
       isSelectAIZoneDisabled: false,
       isSelectOrganizationZoneDisabled: false,
+      isSelectDayDisabled: false,
+      isSelectCreatedDayDisabled: false,
       isLoading: false,
       loader: false,
       total: null,
@@ -693,7 +697,37 @@ export default {
     // ค้นหา
 
     "data.main"() {},
-    "search.day"() {
+    "search.created_day"(val) {
+      if (val) {
+        // this.search.day = null;
+        this.isSelectDayDisabled = true;
+        this.isSelectCreatedDayDisabled = false;
+      } else {
+        this.isSelectDayDisabled = false;
+        this.isSelectCreatedDayDisabled = false;
+      }
+
+      this.fetchReport();
+
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.loadDefault();
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+    "search.day"(val) {
+      if (val) {
+        // this.search.created_day = null;
+        this.isSelectDayDisabled = false;
+        this.isSelectCreatedDayDisabled = true;
+      } else {
+        this.isSelectDayDisabled = false;
+        this.isSelectCreatedDayDisabled = false;
+        
+      }
+
       this.fetchReport();
 
       if (this.isLoading == false) {
@@ -1432,6 +1466,11 @@ export default {
         params["EndDate"] = this.search.day[1];
       }
 
+      if (this.search.created_day) {
+        params["StartDate_Created"] = dayjs(this.search.created_day[0]).format('YYYY-MM-DD');
+        params["EndDate_Created"] = dayjs(this.search.created_day[1]).format('YYYY-MM-DD');
+      }
+
       //   if (this.search.dateStart) {
       //     params["StartDate"] = this.search.dateStart;
       //   }
@@ -1581,6 +1620,15 @@ export default {
               ? dayjs(this.search.day[0]).locale("th").format("DD/MM/YYYY") +
                 " - " +
                 dayjs(this.search.day[1]).locale("th").format("DD/MM/YYYY")
+              : "",
+            cerated_date: this.search.created_day
+              ? dayjs(this.search.created_day[0])
+                  .locale("th")
+                  .format("DD/MM/YYYY") +
+                " - " +
+                dayjs(this.search.created_day[1])
+                  .locale("th")
+                  .format("DD/MM/YYYY")
               : "",
             staff_name: s ? s.StaffFullName : "",
             projects: "",

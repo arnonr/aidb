@@ -661,50 +661,49 @@ export default {
   },
 
   watch: {
-    "data.main"() {
-      if (this.data.main.length != 0) {
-        console.log(this.data.main);
-        this.totalStatus.all = 0;
-        this.totalStatus.child = 0;
-        this.totalStatus.male = 0;
-        this.totalStatus.female = 0;
+    // "data.main"() {
+    //   if (this.data.main.length != 0) {
+    //     this.totalStatus.all = 0;
+    //     this.totalStatus.child = 0;
+    //     this.totalStatus.male = 0;
+    //     this.totalStatus.female = 0;
 
-        this.data.main = this.data.main.map((x) => {
-          let child = 0;
-          let male = 0;
-          let female = 0;
+    //     this.data.main = this.data.main.map((x) => {
+    //       let child = 0;
+    //       let male = 0;
+    //       let female = 0;
 
-          x.AnimalID.forEach((e) => {
-            child = child + e.Amount;
-            if (e.ChildGender.includes("M")) {
-              male = male + 1;
-            }
-            if (e.ChildGender.includes("F")) {
-              female = female + 1;
-            }
-          });
+    //       x.AnimalID.forEach((e) => {
+    //         child = child + e.Amount;
+    //         if (e.ChildGender.includes("M")) {
+    //           male = male + 1;
+    //         }
+    //         if (e.ChildGender.includes("F")) {
+    //           female = female + 1;
+    //         }
+    //       });
 
-          x.Child = child;
-          x.Male = male;
-          x.Female = female;
-          return x;
-        });
+    //       x.Child = child;
+    //       x.Male = male;
+    //       x.Female = female;
+    //       return x;
+    //     });
 
-        this.data.main.forEach((x) => {
-          x.AnimalID.forEach((e) => {
-            this.totalStatus.all = this.totalStatus.all + 1;
-            this.totalStatus.child = this.totalStatus.child + e.Amount;
+    //     this.data.main.forEach((x) => {
+    //       x.AnimalID.forEach((e) => {
+    //         this.totalStatus.all = this.totalStatus.all + 1;
+    //         this.totalStatus.child = this.totalStatus.child + e.Amount;
 
-            if (e.ChildGender.includes("M")) {
-              this.totalStatus.male = this.totalStatus.male + 1;
-            }
-            if (e.ChildGender.includes("F")) {
-              this.totalStatus.female = this.totalStatus.female + 1;
-            }
-          });
-        });
-      }
-    },
+    //         if (e.ChildGender.includes("M")) {
+    //           this.totalStatus.male = this.totalStatus.male + 1;
+    //         }
+    //         if (e.ChildGender.includes("F")) {
+    //           this.totalStatus.female = this.totalStatus.female + 1;
+    //         }
+    //       });
+    //     });
+    //   }
+    // },
     // ค้นหา
     "search.day"() {
       this.fetchReport();

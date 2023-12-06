@@ -323,7 +323,7 @@ export default [
                 to: "/report/TotalPreg",
               },
               {
-                label: "รายงานการปฏิบัติงาน",
+                label: "รายงานการปฏิบัติงานเจ้าหน้าที่",
                 icon: "pi pi-minus",
                 to: "/report/work",
               },

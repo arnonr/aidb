@@ -1,7 +1,7 @@
 <template>
   <div class="grid">
     <div class="col-12">
-      <PageTitle title="รายงานผลการปฏิบัติงาน" />
+      <PageTitle title="รายงานการปฏิบัติงานเจ้าหน้าที่" />
       <div class="card">
         <h1 class="text-xl mb-5">เครื่องมือกรองรายงาน</h1>
         <div class="grid">
@@ -194,7 +194,7 @@
             class="p-button-success mr-3"
           />
         </div>
-        <h5 class="text-center">รายงานผลการปฏิบัติงาน</h5>
+        <h5 class="text-center">รายงานการปฏิบัติงานเจ้าหน้าที่</h5>
         <h6 class="text-center">วันที่ 01/01/2565 - 05/30/2565</h6>
         <DataTable
           :value="data.main"

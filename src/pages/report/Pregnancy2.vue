@@ -1652,7 +1652,7 @@ export default {
             this.data.head_detail.date_label = "ช่วงวันที่ตรวจท้อง";
           }
 
-          if (this.search.cerated_date) {
+          if (this.search.created_date) {
             this.data.head_detail.date_label = "ช่วงวันที่บันทึกข้อมูล";
           }
         })

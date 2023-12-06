@@ -324,7 +324,7 @@ export default [
               },
               {
                 label: "รายงานการปฏิบัติงาน",
-                icon: "pi pi-fw pi-circle",
+                icon: "pi pi-minus",
                 to: "/report/work",
               },
             ],

@@ -1415,7 +1415,19 @@ export default {
 
     fetchReport() {
       //  Fetch Report
+
       this.locked1 = [];
+      this.toggleLock({
+        id: 0,
+        AnimalBreedName: "สายพันธุ์ทั้งหมด",
+        AnimalRealCount: 0,
+        AnimalCount: 0,
+        status1: 0,
+        status2: 0,
+        status3: 0,
+        AnimalID: 0,
+      });
+
       let params = {};
 
       if (

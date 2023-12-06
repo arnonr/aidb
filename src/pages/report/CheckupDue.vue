@@ -390,6 +390,14 @@
             exportFooter="&#8203;"
           ></Column>
 
+          <Column
+            field="ResponsibilityStaffName"
+            header="เจ้าหน้าที่"
+            class="text-center"
+            exportFooter="&#8203;"
+            :sortable="true"
+          ></Column>
+
           <Column header="จัดการ" class="text-center">
             <template #body="slotProps">
               <SplitButton
@@ -516,7 +524,7 @@ export default {
   themeChangeListener: null,
   components: {
     PageTitle,
-    VueCreatureInfo
+    VueCreatureInfo,
   },
   computed: {
     ...mapGetters({
@@ -527,7 +535,6 @@ export default {
   },
   data() {
     return {
-
       displaytab: false,
       totalStatus: {
         all: 0,

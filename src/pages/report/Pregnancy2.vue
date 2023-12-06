@@ -1415,6 +1415,7 @@ export default {
 
     fetchReport() {
       //  Fetch Report
+      this.locked1 = [];
       let params = {};
 
       if (

@@ -339,7 +339,7 @@
             class="col-4"
           >
             <span class="font-bold"
-              >ช่วงวันที่{{ data.head_detail.date_label }} :
+              >{{ data.head_detail.date_label }} :
               {{ data.head_detail.date }}</span
             >
           </div>
@@ -349,7 +349,7 @@
             class="col-4"
           >
             <span class="font-bold"
-              >ช่วงวันที่{{ data.head_detail.date_label }} :
+              >{{ data.head_detail.date_label }} :
               {{ data.head_detail.created_date }}</span
             >
           </div>
@@ -1652,7 +1652,7 @@ export default {
             this.data.head_detail.date_label = "ช่วงวันที่ตรวจท้อง";
           }
 
-          if (this.search.created_date) {
+          if (this.search.created_day) {
             this.data.head_detail.date_label = "ช่วงวันที่บันทึกข้อมูล";
           }
         })

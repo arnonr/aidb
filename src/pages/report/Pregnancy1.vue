@@ -305,7 +305,7 @@
             class="col-4"
           >
             <span class="font-bold"
-              >ช่วงวันที่ : {{ data.head_detail.date }}</span
+              >ช่วงวันที่{{ label_date_show }} : {{ data.head_detail.date }}</span
             >
           </div>
 
@@ -569,7 +569,7 @@ export default {
   },
   data() {
     return {
-      title: "รายงานสรุปตรวจท้อง",
+      title: "รายงานสรุปตรวจท้องๅ",
       data: [],
       totalStatus: {
         all: 0,

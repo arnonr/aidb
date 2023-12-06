@@ -339,7 +339,18 @@
             class="col-4"
           >
             <span class="font-bold"
-              >ช่วงวันที่ : {{ data.head_detail.date }}</span
+              >ช่วงวันที่{{ data.head_detail.date_label }} :
+              {{ data.head_detail.date }}</span
+            >
+          </div>
+
+          <div
+            v-if="data.head_detail && data.head_detail.created_date != ''"
+            class="col-4"
+          >
+            <span class="font-bold"
+              >ช่วงวันที่{{ data.head_detail.date_label }} :
+              {{ data.head_detail.created_date }}</span
             >
           </div>
 
@@ -725,7 +736,6 @@ export default {
       } else {
         this.isSelectDayDisabled = false;
         this.isSelectCreatedDayDisabled = false;
-        
       }
 
       this.fetchReport();
@@ -1467,8 +1477,12 @@ export default {
       }
 
       if (this.search.created_day) {
-        params["StartDate_Created"] = dayjs(this.search.created_day[0]).format('YYYY-MM-DD');
-        params["EndDate_Created"] = dayjs(this.search.created_day[1]).format('YYYY-MM-DD');
+        params["StartDate_Created"] = dayjs(this.search.created_day[0]).format(
+          "YYYY-MM-DD"
+        );
+        params["EndDate_Created"] = dayjs(this.search.created_day[1]).format(
+          "YYYY-MM-DD"
+        );
       }
 
       //   if (this.search.dateStart) {
@@ -1621,7 +1635,7 @@ export default {
                 " - " +
                 dayjs(this.search.day[1]).locale("th").format("DD/MM/YYYY")
               : "",
-            cerated_date: this.search.created_day
+            created_date: this.search.created_day
               ? dayjs(this.search.created_day[0])
                   .locale("th")
                   .format("DD/MM/YYYY") +
@@ -1633,6 +1647,14 @@ export default {
             staff_name: s ? s.StaffFullName : "",
             projects: "",
           };
+
+          if (this.search.day) {
+            this.data.head_detail.date_label = "ช่วงวันที่ตรวจท้อง";
+          }
+
+          if (this.search.cerated_date) {
+            this.data.head_detail.date_label = "ช่วงวันที่บันทึกข้อมูล";
+          }
         })
         .finally(() => {
           this.isLoading = false;
@@ -1680,7 +1702,11 @@ export default {
 
 <style lang="css">
 .p-datatable-frozen-tbody > tr {
-  background-color: #aaa !important;
+  /* background-color: hsla(var(--primary-color), 50%) !important; */
+
+  background-color: var(--primary-color) !important;
+  /* background-color: fade(var(--primary-color), 50%) !important; */
+  /* background-opacity: 0.8; */
   font-weight: bold;
 }
 </style>

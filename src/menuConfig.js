@@ -266,24 +266,9 @@ export default [
                 to: "/report/pregnancy",
               },
               {
-                label: "รายงานสรุปตรวจท้อง",
-                icon: "pi pi-minus",
-                to: "/report/pregnancy1",
-              },
-              {
-                label: "รายงานสรุปผลการติดตามลูกเกิด",
-                icon: "pi pi-minus",
-                to: "/report/pregnancy3",
-              },
-              {
                 label: "รายงานครบกำหนดตรวจท้อง",
                 icon: "pi pi-minus",
                 to: "/report/CheckupDue",
-              },
-              {
-                label: "รายงานสรุปจำนวนโคตั้งท้อง",
-                icon: "pi pi-minus",
-                to: "/report/TotalPreg",
               },
               {
                 label: "รายงานโคสาวที่ยังไม่ได้รับการผสม",
@@ -307,11 +292,6 @@ export default [
                 to: "/report/preg30",
               },
             ],
-          },
-          {
-            label: "รายงานการปฏิบัติงาน",
-            icon: "pi pi-fw pi-circle",
-            to: "/report/work",
           },
           {
             label: "รายงานการเจริญเติบโต",
@@ -341,6 +321,11 @@ export default [
                 label: "รายงานสรุปจำนวนโคตั้งท้อง",
                 icon: "pi pi-minus",
                 to: "/report/TotalPreg",
+              },
+              {
+                label: "รายงานการปฏิบัติงาน",
+                icon: "pi pi-fw pi-circle",
+                to: "/report/work",
               },
             ],
           },
@@ -820,7 +805,6 @@ export default [
           },
         ],
       },
-     
     ],
   },
 ];

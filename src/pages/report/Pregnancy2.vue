@@ -1717,6 +1717,7 @@ export default {
 .p-datatable-frozen-tbody > tr {
   /* background-color: hsla(var(--primary-color), 50%) !important; */
 
+  color: #fff !important;
   background-color: var(--primary-color) !important;
   /* background-color: fade(var(--primary-color), 50%) !important; */
   /* background-opacity: 0.8; */

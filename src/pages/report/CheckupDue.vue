@@ -147,6 +147,26 @@
 
           <div class="col-12 sm:col-12 lg:col-6">
             <label
+              for="searchFarmID"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              ฟาร์ม</label
+            >
+            <Dropdown
+              :showClear="true"
+              class="w-full"
+              placeholder="ทั้งหมด"
+              optionLabel="Fullname"
+              optionValue="FarmID"
+              :virtualScrollerOptions="{ itemSize: 38 }"
+              :options="dropdown.Farms"
+              :filter="true"
+              v-model="search.FarmID"
+            />
+          </div>
+
+          <div class="col-12 sm:col-12 lg:col-6">
+            <label
               for="searchStaffID"
               class="block text-600 text-sm font-bold mb-2"
             >
@@ -342,6 +362,43 @@
           currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
         >
           <Column
+            field="FarmIdentificationNumber"
+            header="ทะเบียนฟาร์ม"
+            class="text-center"
+            exportFooter="&#8203;"
+          ></Column>
+          <Column
+            field="FarmName"
+            header="ชื่อฟาร์ม"
+            class="text-center"
+            exportFooter="&#8203;"
+          ></Column>
+          <Column
+            field="FarmAddress"
+            header="ที่ตั้ง"
+            class="text-center hidden"
+            exportFooter="&#8203;"
+          ></Column>
+          <Column
+            field="FarmProvince"
+            header="จังหวัด"
+            class="text-center hidden"
+            exportFooter="&#8203;"
+          ></Column>
+          <Column
+            field="FarmAmphur"
+            header="อำเภอ"
+            class="text-center hidden"
+            exportFooter="&#8203;"
+          ></Column>
+          <Column
+            field="FarmTumbol"
+            header="ตำบล"
+            class="text-center hidden"
+            exportFooter="&#8203;"
+          ></Column>
+
+          <Column
             field="AnimalEarID"
             header="หมายเลขใบหู"
             class="text-center"
@@ -362,6 +419,12 @@
           <Column
             field="TimeNo"
             header="ผสมครั้งที่"
+            class="text-center"
+            exportFooter="&#8203;"
+          ></Column>
+          <Column
+            field="SemenNumber"
+            header="น้ำเชื้อ"
             class="text-center"
             exportFooter="&#8203;"
           ></Column>
@@ -673,6 +736,7 @@ export default {
         setTimeout(() => {
           this.fetchProvince();
           this.fetchOrganization();
+          this.fetchFarm();
           //   this.fetchStaff();
           this.fetchReport();
           this.dropdown.Amphurs = [];
@@ -700,6 +764,7 @@ export default {
         setTimeout(() => {
           this.fetchProvince();
           this.fetchOrganization();
+          this.fetchFarm();
           //   this.fetchStaff();
           this.fetchReport();
           this.search.AmphurID = null;
@@ -716,6 +781,7 @@ export default {
       this.fetchOrganization();
       this.fetchStaff();
       this.fetchReport();
+      this.fetchFarm();
 
       if (this.isLoading == false) {
         this.isLoading = true;
@@ -734,6 +800,7 @@ export default {
       this.fetchOrganization();
       this.fetchStaff();
       this.fetchReport();
+      this.fetchFarm();
 
       if (this.isLoading == false) {
         this.isLoading = true;
@@ -750,6 +817,7 @@ export default {
       this.fetchOrganization();
       this.fetchStaff();
       this.fetchReport();
+      this.fetchFarm();
 
       if (this.isLoading == false) {
         this.isLoading = true;
@@ -777,6 +845,7 @@ export default {
       //   this.fetchReport();
       this.fetchStaff();
       this.fetchReport();
+      this.fetchFarm();
 
       if (this.isLoading == false) {
         this.isLoading = true;
@@ -1500,6 +1569,90 @@ export default {
           this.loader = true;
         });
     },
+    fetchFarm() {
+      if (
+        this.search.AIZoneID == null &&
+        this.search.OrganizationZoneID == null
+      ) {
+        return;
+      }
+
+      let params = {
+        // includeAll: false,
+      };
+
+      params["FarmAnimalType"] = this.animal_id;
+
+      // Province IN AIZOne
+      if (this.search.AIZoneID != null) {
+        params["AIZoneID"] = this.search.AIZoneID;
+      }
+
+      if (this.search.OrganizationZoneID != null) {
+        params["OrganizationZoneID"] = this.search.OrganizationZoneID;
+      }
+
+      if (this.search.ProvinceID != null) {
+        params["ProvinceID"] = this.search.ProvinceID;
+      }
+
+      if (this.search.AmphurID != null) {
+        params["AmphurID"] = this.search.AmphurID;
+      }
+
+      if (this.search.TumbolID != null) {
+        params["TumbolID"] = this.search.TumbolID;
+      }
+
+      if (this.search.OrganizationID != null) {
+        params["OrganizationID"] = this.search.OrganizationID;
+      }
+
+      axios
+        .get(this.url.Farm, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          this.dropdown.Farms = res.data.rows
+            .sort((a, b) =>
+              a.Province.ProvinceName.localeCompare(b.Province.ProvinceName)
+            )
+            .map((item) => {
+              let name = item.Farmer ? item.Farmer.FullName : "- ";
+              let number = item.FarmIdentificationNumber
+                ? item.FarmIdentificationNumber
+                : "- ";
+              let province = item.Province ? item.Province.ProvinceName : "- ";
+              let Organization = item.OrganizationZone
+                ? item.OrganizationZone.OrganizationZoneName
+                : "- ";
+
+              return {
+                FarmID: item.FarmID,
+                FarmName: item.FarmName,
+                FarmIdentificationNumber: item.FarmIdentificationNumber,
+                Fullname:
+                  "ฟาร์ม " +
+                  item.FarmName +
+                  " (" +
+                  number +
+                  ")" +
+                  " | เจ้าของฟาร์ม " +
+                  name +
+                  " | จังหวัด " +
+                  province +
+                  " | " +
+                  Organization,
+                OrganizationZoneName: Organization,
+              };
+            });
+        })
+        .finally(() => {
+          this.isLoading = false;
+          this.loader = true;
+        });
+    },
 
     fetchReport() {
       //  Fetch Report
@@ -1555,6 +1708,10 @@ export default {
 
       if (this.search.OrganizationID) {
         params["OrganizationID"] = this.search.OrganizationID;
+      }
+
+      if (this.search.FarmID) {
+        params["FarmID"] = this.search.FarmID;
       }
 
       if (this.search.StaffID) {

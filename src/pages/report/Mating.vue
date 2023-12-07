@@ -442,6 +442,24 @@
             :sortable="true"
           ></Column>
 
+
+          <Column
+            field="Birthdate"
+            header="วันคลอด"
+            class="text-center hidden"
+            exportFooter="&#8203;"
+            :sortable="true"
+          ></Column>
+
+
+          <Column
+            field="ChildGender"
+            header="เพศลูก"
+            class="text-center hidden"
+            exportFooter="&#8203;"
+            :sortable="true"
+          ></Column>
+
           <Column header="จัดการ" class="text-center">
             <template #body="slotProps">
               <SplitButton

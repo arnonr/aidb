@@ -461,6 +461,22 @@
             :sortable="true"
           ></Column>
 
+          <Column
+            field="PregnancyCheckupDate"
+            header="วันตรวจ"
+            class="text-center hidden"
+            exportFooter="&#8203;"
+            :sortable="true"
+          ></Column>
+
+          <Column
+            field="PregnancyCheckupStatus"
+            header="ผลตรวจ"
+            class="text-center hidden"
+            exportFooter="&#8203;"
+            :sortable="true"
+          ></Column>
+
           <Column header="จัดการ" class="text-center">
             <template #body="slotProps">
               <SplitButton

@@ -422,13 +422,13 @@
             exportFooter="&#8203;"
           ></Column>
           <Column
-            field="PregnancyCheckup.CheckUpDate"
+            field="PregnancyCheckup.CheckUpdateThai"
             header="วันที่ตรวจ"
             class="text-center"
             exportFooter="&#8203;"
           ></Column>
           <Column
-            field="PregnancyCheckup.CheckUpStatus"
+            field="PregnancyCheckup.CheckUpStatusText"
             header="ผล"
             class="text-center"
             exportFooter="&#8203;"

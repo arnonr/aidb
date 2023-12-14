@@ -1835,13 +1835,13 @@ export default {
             if (this.LoadSelection[i] == "/semen") {
               if (this.animal_id == 1) {
                 this.LoadSelection.Semen +=
-                  "?AnimalTypeID=[1,2,41,42]&includeAll=false&isActive=1";
+                  "?AnimalTypeID=[1,2,41,42]&includeAll=false&isActive=1&orderByField=SemenNumber&orderBy=asc";
               } else if (this.animal_id == 2) {
                 this.LoadSelection.Semen +=
-                  "?AnimalTypeID=[3,4,43,44]&includeAll=false&isActive=1";
+                  "?AnimalTypeID=[3,4,43,44]&includeAll=false&isActive=1&orderByField=SemenNumber&orderBy=asc";
               } else if (this.animal_id == 3) {
                 this.LoadSelection.Semen +=
-                  "?AnimalTypeID=[17,18,45,46]&includeAll=false&isActive=1";
+                  "?AnimalTypeID=[17,18,45,46]&includeAll=false&isActive=1&orderByField=SemenNumber&orderBy=asc";
               }
             }
 

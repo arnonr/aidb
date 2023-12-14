@@ -683,17 +683,17 @@ const routes = [
         path: "/project/detail",
         name: "project-detail",
         component: () => import("./pages/project/project-detail.vue"),
-      }, 
+      },
       {
         path: "/project/detail-animal",
         name: "project-detail-animal",
         component: () => import("./pages/project/project-detail-animal.vue"),
-      },    
+      },
       {
         path: "/project/detail-diary",
         name: "project-detail-diary",
         component: () => import("./pages/project/project-detail-diary.vue"),
-      },    
+      },
       {
         path: "/project/thaiblack",
         name: "thaiblack",
@@ -847,6 +847,11 @@ const routes = [
             path: "mating",
             name: "reportmating",
             component: () => import("./pages/report/Mating.vue"),
+          },
+          {
+            path: "checkbirth",
+            name: "reportcheckbirth",
+            component: () => import("./pages/report/CheckBirth.vue"),
           },
           {
             path: "young",

@@ -256,24 +256,30 @@ export default [
                 to: "/report/Total_Animal",
               },
               {
+                label: "รายงานโคสาวที่ยังไม่ได้รับการผสม",
+                icon: "pi pi-minus",
+                to: "/report/young",
+              },
+              //   {
+              //     label: "รายงานตรวจท้อง",
+              //     icon: "pi pi-minus",
+              //     to: "/report/pregnancy",
+              //   },
+              {
                 label: "รายงานครบกำหนดคลอด",
                 icon: "pi pi-minus",
                 to: "/report/mating",
-              },
-              {
-                label: "รายงานตรวจท้อง",
-                icon: "pi pi-minus",
-                to: "/report/pregnancy",
               },
               {
                 label: "รายงานครบกำหนดตรวจท้อง",
                 icon: "pi pi-minus",
                 to: "/report/CheckupDue",
               },
+
               {
-                label: "รายงานโคสาวที่ยังไม่ได้รับการผสม",
+                label: "รายงานครบกำหนดติดตามลูกเกิด",
                 icon: "pi pi-minus",
-                to: "/report/young",
+                to: "/report/CheckBirth",
               },
             ],
           },

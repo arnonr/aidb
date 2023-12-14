@@ -873,6 +873,11 @@ const routes = [
             name: "TotalPregReport",
             component: () => import("./pages/report/TotalPreg.vue"),
           },
+          {
+            path: "Analyze",
+            name: "AnalyzeReport",
+            component: () => import("./pages/report/Analyze.vue"),
+          },
         ],
       },
       //  ผู้ดูแล=================================================================

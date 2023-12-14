@@ -310,11 +310,6 @@ export default [
             icon: "pi pi-fw pi-circle",
             to: "/report/growup",
           },
-          // {
-          //   label: "รายงานการตั้งท้อง",
-          //   icon: "pi pi-fw pi-circle",
-          //   to: "/report/conceive",
-          // },
           {
             label: "รายงานผลปฏิบัติการ",
             icon: "pi pi-fw pi-circle",
@@ -333,6 +328,17 @@ export default [
                 label: "รายงานการปฏิบัติงานเจ้าหน้าที่",
                 icon: "pi pi-minus",
                 to: "/report/work",
+              },
+            ],
+          },
+          {
+            label: "รายงานด้านการวิเคราะห์ข้อมูล",
+            icon: "pi pi-fw pi-circle",
+            items: [
+              {
+                label: "วิเคราะห์ประสิทธิภาพระบบสืบพันธุ์",
+                icon: "pi pi-minus",
+                to: "/report/analyze",
               },
             ],
           },

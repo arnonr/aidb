@@ -145,46 +145,25 @@
             />
           </div>
 
-          <div class="col-12 sm:col-12 lg:col-6">
-            <label
-              for="searchStaffID"
-              class="block text-600 text-sm font-bold mb-2"
-            >
-              บุคลากร</label
-            >
-            <Dropdown
-              :showClear="true"
-              class="w-full"
-              placeholder="ทั้งหมด"
-              optionLabel="StaffFullName"
-              optionValue="StaffID"
-              :virtualScrollerOptions="{ itemSize: 38 }"
-              :options="dropdown.Staffs"
-              :filter="true"
-              v-model="search.StaffID"
-            />
-          </div>
-
           <div class="col-12 sm:col-6 lg:col-6">
             <label
               for="searchSubDistrict"
               class="block text-600 text-sm font-bold mb-2"
             >
-              ฟาร์มโครงการ</label
+              ฟาร์ม</label
             >
-            <MultiSelect
-              v-model="search.ProjectIDArray"
+            <Dropdown
               class="w-full"
-              :options="dropdown.Projects"
-              optionLabel="ProjectName"
-              optionValue="ProjectID"
-              placeholder="เลือกโครงการ"
-              display="chip"
-            />
-          </div>
-
-          <div class="col-12 sm:col-12 lg:col-12">
-            <hr />
+              v-model="search.FarmID"
+              :options="dropdown.Farms"
+              optionLabel="Fullname"
+              optionValue="FarmID"
+              :filter="true"
+              :showClear="true"
+              :virtualScrollerOptions="{ itemSize: 38 }"
+              placeholder="เลือกหมายเลขฟาร์ม"
+            >
+            </Dropdown>
           </div>
 
           <div class="col-12 sm:col-6 lg:col-6">
@@ -192,12 +171,11 @@
               for="dateRange"
               class="block text-600 text-sm font-bold mb-2"
             >
-              ช่วงวันที่บันทึกข้อมูล</label
+              ช่วงวันที่รายงาน</label
             >
             <Datepicker
-              v-model="search.created_day"
+              v-model="search.day"
               range
-              :disabled="isSelectCreatedDayDisabled"
               id="dateRange"
               locale="th"
               :format="format"
@@ -215,7 +193,265 @@
               </template>
             </Datepicker>
           </div>
+
+          <div class="col-12 sm:col-12 lg:col-12">
+            <label
+              for="searchSubDistrict"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              โครงการ</label
+            >
+            <MultiSelect
+              v-model="search.ProjectIDArray"
+              class="w-full"
+              :options="dropdown.Projects"
+              optionLabel="ProjectName"
+              optionValue="ProjectID"
+              placeholder="เลือกโครงการ"
+              display="chip"
+            />
+          </div>
         </div>
+      </div>
+      <div v-else class="grid">
+        <div class="col-12">
+          <Skeleton width="320px" height="32px" class="mb-4"></Skeleton>
+        </div>
+        <div class="col-12 sm:col-6 lg:col-4">
+          <Skeleton width="80px" class="mb-2"></Skeleton>
+          <Skeleton height="32px"></Skeleton>
+        </div>
+        <div class="col-12 sm:col-6 lg:col-4">
+          <Skeleton width="80px" class="mb-2"></Skeleton>
+          <Skeleton height="32px"></Skeleton>
+        </div>
+        <div class="col-12 sm:col-6 lg:col-4">
+          <Skeleton width="80px" class="mb-2"></Skeleton>
+          <Skeleton height="32px"></Skeleton>
+        </div>
+        <div class="col-12 sm:col-6 lg:col-4">
+          <Skeleton width="80px" class="mb-2"></Skeleton>
+          <Skeleton height="32px"></Skeleton>
+        </div>
+        <div class="col-12 sm:col-6 lg:col-4">
+          <Skeleton width="80px" class="mb-2"></Skeleton>
+          <Skeleton height="32px"></Skeleton>
+        </div>
+        <div class="col-12 sm:col-6 lg:col-4">
+          <Skeleton width="80px" class="mb-2"></Skeleton>
+          <Skeleton height="32px"></Skeleton>
+        </div>
+        <div class="col-12 sm:col-6 lg:col-4">
+          <Skeleton width="80px" class="mb-2"></Skeleton>
+          <Skeleton height="32px"></Skeleton>
+        </div>
+        <div class="col-12 sm:col-6 lg:col-4">
+          <Skeleton width="80px" class="mb-2"></Skeleton>
+          <Skeleton height="32px"></Skeleton>
+        </div>
+        <div class="col-12 sm:col-6 lg:col-4">
+          <Skeleton width="80px" class="mb-2"></Skeleton>
+          <Skeleton height="32px"></Skeleton>
+        </div>
+        <div class="col-12 sm:col-6 lg:col-4">
+          <Skeleton width="80px" class="mb-2"></Skeleton>
+          <Skeleton height="32px"></Skeleton>
+        </div>
+        <div class="col-12 sm:col-6 lg:col-4">
+          <Skeleton width="80px" class="mb-2"></Skeleton>
+          <Skeleton height="32px"></Skeleton>
+        </div>
+        <div class="col-12">
+          <div class="grid">
+            <div class="col-12">
+              <Skeleton width="80px" class="mb-2"></Skeleton>
+              <Skeleton height="32px" class="mb-2"></Skeleton>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="grid" style="width">
+        <div class="col-12 xl:col-6">
+          <div class="card">
+            <h5>จำนวนครั้ง</h5>
+            <Chart
+              type="pie"
+              :data="Chart1"
+              :options="pieOptions"
+              class="w-full"
+            />
+          </div>
+        </div>
+        <div class="col-12 xl:col-6">
+          <div class="card">
+            <h5>จำนวนตัว</h5>
+            <Chart
+              type="pie"
+              :data="Chart2"
+              :options="pieOptions"
+              class="w-full"
+            />
+          </div>
+        </div>
+        <div class="col-12 xl:col-6">
+          <div class="card">
+            <h5>กลุ่มพันธุ์ที่ได้รับการผสม Top3 (Leader Board)</h5>
+            <DataTable :value="data.sub2" :rows="10" responsiveLayout="scroll">
+              <Column
+                field="key"
+                header="#"
+                class="text-center"
+                style="width: 35%"
+              >
+              </Column>
+              <Column
+                field="value"
+                header="ชื่อพันธุ์"
+                class="text-center"
+                style="width: 35%"
+              >
+              </Column>
+            </DataTable>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="loader" class="col-12 grid">
+      <div class="col-12 lg:col-6 xl:col-6">
+        <div class="card mb-0">
+          <div class="flex justify-content-between mb-3">
+            <div>
+              <span class="block text-500 font-medium mb-3">ทั้งหมด</span>
+              <div class="text-900 font-medium text-xl">
+                {{ data.Total + " ตัว" }}
+              </div>
+            </div>
+            <!-- <div
+            class="
+              flex
+              align-items-center
+              justify-content-center
+              bg-blue-100
+              border-round
+            "
+            style="width: 40px; height: 40px"
+          ></div> -->
+          </div>
+        </div>
+      </div>
+      <div class="col-12 lg:col-6 xl:col-6">
+        <div class="card mb-0">
+          <div class="flex justify-content-between mb-3">
+            <div>
+              <span class="block text-500 font-medium mb-3">ไม่พบข้อมูล</span>
+              <div class="text-900 font-medium text-xl">
+                {{ data.preg4 + " ตัว" }}
+              </div>
+            </div>
+            <!-- <div
+            class="
+              flex
+              align-items-center
+              justify-content-center
+              bg-blue-100
+              border-round
+            "
+            style="width: 40px; height: 40px"
+          ></div> -->
+          </div>
+        </div>
+      </div>
+      <div class="col-12 lg:col-6 xl:col-4">
+        <div class="card mb-0">
+          <div class="flex justify-content-between mb-3">
+            <div>
+              <span class="block text-500 font-medium mb-3">ท้อง</span>
+              <div class="text-900 font-medium text-xl">
+                {{ data.preg1 + " ตัว" }}
+              </div>
+            </div>
+            <!-- <div
+            class="
+              flex
+              align-items-center
+              justify-content-center
+              bg-orange-100
+              border-round
+            "
+            style="width: 40px; height: 40px"
+          ></div> -->
+          </div>
+        </div>
+      </div>
+      <div class="col-12 lg:col-6 xl:col-4">
+        <div class="card mb-0">
+          <div class="flex justify-content-between mb-3">
+            <div>
+              <span class="block text-500 font-medium mb-3">ไม่ท้อง</span>
+              <div class="text-900 font-medium text-xl">
+                {{ data.preg2 + " ตัว" }}
+              </div>
+            </div>
+            <!-- <div
+            class="
+              flex
+              align-items-center
+              justify-content-center
+              bg-cyan-100
+              border-round
+            "
+            style="width: 40px; height: 40px"
+          ></div> -->
+          </div>
+        </div>
+      </div>
+      <div class="col-12 lg:col-6 xl:col-4">
+        <div class="card mb-0">
+          <div class="flex justify-content-between mb-3">
+            <div>
+              <span class="block text-500 font-medium mb-3">รอตรวจซ้ำ</span>
+              <div class="text-900 font-medium text-xl">
+                {{ data.preg3 + " ตัว" }}
+              </div>
+            </div>
+            <!-- <div
+            class="
+              flex
+              align-items-center
+              justify-content-center
+              bg-purple-100
+              border-round
+            "
+            style="width: 40px; height: 40px"
+          ></div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-else class="col-12 grid">
+      <div class="col-12">
+        <Skeleton width="320px" height="32px" class="mb-4"></Skeleton>
+      </div>
+      <div class="col-12 lg:col-6 xl:col-6">
+        <Skeleton width="80px" class="mb-2"></Skeleton>
+        <Skeleton height="32px"></Skeleton>
+      </div>
+      <div class="col-12 lg:col-6 xl:col-6">
+        <Skeleton width="80px" class="mb-2"></Skeleton>
+        <Skeleton height="32px"></Skeleton>
+      </div>
+      <div class="col-12 lg:col-6 xl:col-4">
+        <Skeleton width="80px" class="mb-2"></Skeleton>
+        <Skeleton height="32px"></Skeleton>
+      </div>
+      <div class="col-12 lg:col-6 xl:col-4">
+        <Skeleton width="80px" class="mb-2"></Skeleton>
+        <Skeleton height="32px"></Skeleton>
+      </div>
+      <div class="col-12 lg:col-6 xl:col-4">
+        <Skeleton width="80px" class="mb-2"></Skeleton>
+        <Skeleton height="32px"></Skeleton>
       </div>
     </div>
 
@@ -229,118 +465,10 @@
           />
         </div>
         <h5 class="text-center">{{ title }}</h5>
-        <div class="grid flex" style="margin-bottom: 2em; margin-top: 2em">
-          <div
-            v-if="data.head_detail && data.head_detail.ai_zone_name != ''"
-            class="col-4"
-          >
-            <span class="font-bold"
-              >ศูนย์วิจัย : {{ data.head_detail.ai_zone_name }}</span
-            >
-          </div>
-
-          <div
-            v-if="
-              data.head_detail && data.head_detail.organization_zone_name != ''
-            "
-            class="col-4"
-          >
-            <span class="font-bold"
-              >เขตพื้นที่ปศุสัตว์ :
-              {{ data.head_detail.organization_zone_name }}</span
-            >
-          </div>
-
-          <div
-            v-if="data.head_detail && data.head_detail.province_name != ''"
-            class="col-4"
-          >
-            <span class="font-bold"
-              >จังหวัด : {{ data.head_detail.province_name }}</span
-            >
-          </div>
-
-          <div
-            v-if="data.head_detail && data.head_detail.amphur_name != ''"
-            class="col-4"
-          >
-            <span class="font-bold"
-              >อำเภอ : {{ data.head_detail.amphur_name }}</span
-            >
-          </div>
-
-          <div
-            v-if="data.head_detail && data.head_detail.tumbol_name != ''"
-            class="col-4"
-          >
-            <span class="font-bold"
-              >ตำบล : {{ data.head_detail.tumbol_name }}</span
-            >
-          </div>
-
-          <div
-            v-if="data.head_detail && data.head_detail.organization_name != ''"
-            class="col-4"
-          >
-            <span class="font-bold"
-              >หน่วยงาน : {{ data.head_detail.organization_name }}</span
-            >
-          </div>
-
-          <div
-            v-if="data.head_detail && data.head_detail.staff_name != ''"
-            class="col-4"
-          >
-            <span class="font-bold"
-              >เจ้าหน้าที่ : {{ data.head_detail.staff_name }}</span
-            >
-          </div>
-
-          <div
-            v-if="data.head_detail && data.head_detail.projects != ''"
-            class="col-4"
-          >
-            <span class="font-bold"
-              >โครงการ : {{ data.head_detail.projects }}</span
-            >
-          </div>
-
-          <div
-            v-if="data.head_detail && data.head_detail.date != ''"
-            class="col-4"
-          >
-            <span class="font-bold"
-              >{{ data.head_detail.date_label }} :
-              {{ data.head_detail.date }}</span
-            >
-          </div>
-
-          <div
-            v-if="data.head_detail && data.head_detail.created_date != ''"
-            class="col-4"
-          >
-            <span class="font-bold"
-              >{{ data.head_detail.date_label }} :
-              {{ data.head_detail.created_date }}</span
-            >
-          </div>
-
-          <!-- <div class="col-12">
-              <span class="font-bold">ตรวจท้อง : {{ totalStatus.all }} ตัว</span>,
-              <span class="font-bold">ท้อง : {{ totalStatus.status1 }} ตัว</span>,
-              <span class="font-bold"
-                >ไม่ท้อง : {{ totalStatus.status2 }} ตัว</span
-              >,
-              <span class="font-bold"
-                >รอตรวจซ้ำ : {{ totalStatus.status3 }} ตัว</span
-              >,
-            </div> -->
-        </div>
 
         <DataTable
           class="text-sm"
           :value="data.main"
-          :frozenValue="locked1"
           :paginator="true"
           :exportable="true"
           ref="dt"
@@ -352,183 +480,8 @@
           currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
         >
           <Column
-            field="AnimalBreedName"
-            header="สายพันธุ์"
-            class="text-center"
-            exportFooter="&#8203;"
-          ></Column>
-          <Column
-            field="AnimalRealCount"
-            header="จำนวนครั้ง"
-            class="text-center"
-            exportFooter="&#8203;"
-          ></Column>
-          <Column
-            field="AnimalCount"
-            header="จำนวนตัว"
-            class="text-center"
-            exportFooter="&#8203;"
-          ></Column>
-          <Column
-            field="status1"
-            header="ท้อง"
-            class="text-center"
-            exportFooter="&#8203;"
-          ></Column>
-          <Column
-            field="status2"
-            header="ไม่ท้อง"
-            class="text-center"
-            exportFooter="&#8203;"
-          ></Column>
-          <Column
-            field="status3"
-            header="รอตรวจซ้ำ"
-            class="text-center"
-            exportFooter="&#8203;"
-          ></Column>
-          <Column
-            field="status4"
-            header="ไม่พบข้อมูล"
-            class="text-center"
-            exportFooter="&#8203;"
-          ></Column>
-
-          <Column header="จัดการ" class="text-center">
-            <template #body="slotProps">
-              <!-- <SplitButton
-                  v-if="slotProps.data.show_id == total || this.user.GroupID == 1"
-                  label="แก้ไข"
-                  icon="pi pi-pencil"
-                  @click="edit(slotProps.data.show_id - 1)"
-                  class="p-button-sm p-button-outlined p-button-warning"
-                  :model="getItems(slotProps.data.show_id - 1)"
-                >
-                </SplitButton> -->
-              <Button
-                label="ดูข้อมูล"
-                class="w-full md:w-auto"
-                @click="fetchReportAnimal(slotProps.data.AnimalID)"
-              />
-            </template>
-          </Column>
-
-          <!--  <Column
-                field="AnimalName"
-                header="ชื่อโค"
-                class="text-center"
-                exportFooter="&#8203;"
-              ></Column>
-              <Column
-                field="pregnancyCheckup"
-                header="สถานะ"
-                :sortable="true"
-                class="text-center"
-                exportFooter="&#8203;"
-              ></Column>
-              <Column
-                field="FarmName"
-                header="ชื่อฟาร์ม"
-                :sortable="true"
-                class="text-center"
-                exportFooter="&#8203;"
-              ></Column>
-              <Column
-                field="AmphurName"
-                header="อำเภอ"
-                class="text-center"
-                exportFooter="&#8203;"
-                :sortable="true"
-              ></Column>
-              <Column
-                field="ProvinceName"
-                header="จังหวัด"
-                class="text-center"
-                exportFooter="&#8203;"
-                :sortable="true"
-              ></Column>
-              <Column
-                field="Par"
-                header="ท้องที่"
-                class="text-center"
-                exportFooter="&#8203;"
-                :sortable="true"
-              ></Column>
-              <Column
-                field="TimeNo"
-                header="ครั้งที่ผสม"
-                class="text-center"
-                exportFooter="&#8203;"
-                :sortable="true"
-              ></Column>
-              <Column
-                field="ThaiAIDate"
-                header="วันที่ผสม"
-                class="text-center"
-                exportFooter="&#8203;"
-                :sortable="true"
-              ></Column>
-              <Column
-                field="SemenNumber"
-                header="น้ำเชื้อ"
-                class="text-center"
-                exportFooter="&#8203;"
-                :sortable="true"
-              ></Column>
-              <Column
-                field="ResponsibilityStaffName"
-                header="เจ้าหน้าที่"
-                class="text-center"
-                exportFooter="&#8203;"
-                :sortable="true"
-              ></Column> -->
-          <template #empty> ไม่พบข้อมูล </template>
-          <template #loading>
-            <h1 class="text-white text-center">กรุณารอสักครู่...</h1>
-          </template>
-        </DataTable>
-      </div>
-    </div>
-
-    <div class="col-12 xl:col-12">
-      <div class="card">
-        <div class="col-12 text-right">
-          <Button
-            label="Export To Excel"
-            @click="exportCSV2($event)"
-            class="p-button-success mr-3"
-          />
-        </div>
-        <h5 class="text-center">รายการสัตว์</h5>
-
-        <DataTable
-          class="text-sm"
-          :value="data.animal_main"
-          :paginator="true"
-          :exportable="true"
-          ref="dt2"
-          :rows="10"
-          :loading="isLoading"
-          paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
-          :rowsPerPageOptions="[10, 20, 50]"
-          responsiveLayout="scroll"
-          currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
-        >
-          <Column
-            field="FarmIdentificationNumber"
-            header="ทะเบียนฟาร์ม"
-            class="text-center"
-            exportFooter="&#8203;"
-          ></Column>
-          <Column
-            field="FarmName"
-            header="เจ้าของฟาร์ม"
-            class="text-center"
-            exportFooter="&#8203;"
-          ></Column>
-          <Column
             field="AnimalEarID"
-            header="หมายเลขโค"
+            header="หมายเลขเบอร์หู"
             class="text-center"
             exportFooter="&#8203;"
           ></Column>
@@ -539,54 +492,68 @@
             exportFooter="&#8203;"
           ></Column>
           <Column
-            field="AnimalStatusName"
-            header="สถานะโค"
+            field="pregnancyCheckup"
+            header="สถานะ"
+            :sortable="true"
             class="text-center"
             exportFooter="&#8203;"
           ></Column>
           <Column
-            field="AnimalPar"
+            field="FarmName"
+            header="ชื่อฟาร์ม"
+            :sortable="true"
+            class="text-center"
+            exportFooter="&#8203;"
+          ></Column>
+          <Column
+            field="AmphurName"
+            header="อำเภอ"
+            class="text-center"
+            exportFooter="&#8203;"
+            :sortable="true"
+          ></Column>
+          <Column
+            field="ProvinceName"
+            header="จังหวัด"
+            class="text-center"
+            exportFooter="&#8203;"
+            :sortable="true"
+          ></Column>
+          <Column
+            field="Par"
             header="ท้องที่"
             class="text-center"
             exportFooter="&#8203;"
+            :sortable="true"
           ></Column>
           <Column
-            field="AIDate"
-            header="วันผสม"
+            field="TimeNo"
+            header="ครั้งที่ผสม"
             class="text-center"
             exportFooter="&#8203;"
+            :sortable="true"
+          ></Column>
+          <Column
+            field="ThaiAIDate"
+            header="วันที่ผสม"
+            class="text-center"
+            exportFooter="&#8203;"
+            :sortable="true"
           ></Column>
           <Column
             field="SemenNumber"
             header="น้ำเชื้อ"
             class="text-center"
             exportFooter="&#8203;"
+            :sortable="true"
           ></Column>
-          <!-- <Column
-              field="CheckupDate"
-              header="วันที่ตรวจท้อง"
-              class="text-center"
-              exportFooter="&#8203;"
-            ></Column>
-            <Column
-              field="PregnancyCheckStatusName"
-              header="ผลการตรวจท้อง"
-              class="text-center"
-              exportFooter="&#8203;"
-            ></Column>
-            <Column
-              field="BetweenDate"
-              header="จำนวนวัน"
-              class="text-center"
-              exportFooter="&#8203;"
-            ></Column> -->
           <Column
             field="ResponsibilityStaffName"
             header="เจ้าหน้าที่"
             class="text-center"
             exportFooter="&#8203;"
+            :sortable="true"
           ></Column>
-
           <template #empty> ไม่พบข้อมูล </template>
           <template #loading>
             <h1 class="text-white text-center">กรุณารอสักครู่...</h1>
@@ -601,9 +568,8 @@
 import axios from "axios";
 import { mapGetters } from "vuex";
 import PageTitle from "@/components/PageTitle.vue";
-import dayjs from "dayjs";
+// import _ from "lodash";
 import { ref } from "vue";
-
 export default {
   themeChangeListener: null,
   components: {
@@ -618,14 +584,6 @@ export default {
   },
   data() {
     return {
-      totalStatus: {
-        all: 0,
-        status1: 0,
-        status2: 0,
-        status3: 0,
-        status4: 0,
-      },
-      locked1: [],
       title: "รายงานการผสมเทียม ผท.6",
       data: [],
       provinceAITime: [],
@@ -639,9 +597,8 @@ export default {
         OrganizationType: "/organization-type",
         Organization: "/organization",
         Farm: "/farm",
-        Report: "/report/report21",
+        Report: "/report/report13",
         Project: "/project",
-        Staff: "/staff",
       },
       dropdown: {
         AIZones: [],
@@ -666,56 +623,44 @@ export default {
       },
       isSelectAIZoneDisabled: false,
       isSelectOrganizationZoneDisabled: false,
-      isSelectDayDisabled: false,
-      isSelectCreatedDayDisabled: false,
       isLoading: false,
       loader: false,
       total: null,
       selection: false,
       loading: false,
       curpage: 0,
+      Chart1: {
+        labels: [],
+        datasets: [
+          {
+            data: [300, 50, 100],
+            backgroundColor: ["#42A5F5", "#66BB6A", "#FFA726"],
+            hoverBackgroundColor: ["#64B5F6", "#81C784", "#FFB74D"],
+          },
+        ],
+      },
+      Chart2: {
+        labels: [],
+        datasets: [
+          {
+            data: [300, 50, 100],
+            backgroundColor: ["#42A5F5", "#66BB6A", "#FFA726"],
+            hoverBackgroundColor: ["#64B5F6", "#81C784", "#FFB74D"],
+          },
+        ],
+      },
       controller: new AbortController(),
     };
   },
   loadLazyTimeout: null,
   mounted() {
     this.loadDefault();
+    // this.load();
   },
 
   watch: {
     // ค้นหา
-
-    "data.main"() {},
-    "search.created_day"(val) {
-      if (val) {
-        // this.search.day = null;
-        this.isSelectDayDisabled = true;
-        this.isSelectCreatedDayDisabled = false;
-      } else {
-        this.isSelectDayDisabled = false;
-        this.isSelectCreatedDayDisabled = false;
-      }
-
-      this.fetchReport();
-
-      if (this.isLoading == false) {
-        this.isLoading = true;
-        setTimeout(() => {
-          this.loadDefault();
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
-    "search.day"(val) {
-      if (val) {
-        // this.search.created_day = null;
-        this.isSelectDayDisabled = false;
-        this.isSelectCreatedDayDisabled = true;
-      } else {
-        this.isSelectDayDisabled = false;
-        this.isSelectCreatedDayDisabled = false;
-      }
-
+    "search.day"() {
       this.fetchReport();
 
       if (this.isLoading == false) {
@@ -740,7 +685,7 @@ export default {
         setTimeout(() => {
           this.fetchProvince();
           this.fetchOrganization();
-          //   this.fetchStaff();
+          this.fetchFarm();
           this.fetchReport();
           this.dropdown.Amphurs = [];
           this.dropdown.Tumbols = [];
@@ -767,7 +712,7 @@ export default {
         setTimeout(() => {
           this.fetchProvince();
           this.fetchOrganization();
-          //   this.fetchStaff();
+          this.fetchFarm();
           this.fetchReport();
           this.search.AmphurID = null;
           this.search.TumbolID = null;
@@ -781,7 +726,7 @@ export default {
     "search.ProvinceID"() {
       this.fetchAmphur();
       this.fetchOrganization();
-      this.fetchStaff();
+      this.fetchFarm();
       this.fetchReport();
 
       if (this.isLoading == false) {
@@ -799,7 +744,7 @@ export default {
     "search.AmphurID"() {
       this.fetchTumbol();
       this.fetchOrganization();
-      this.fetchStaff();
+      this.fetchFarm();
       this.fetchReport();
 
       if (this.isLoading == false) {
@@ -815,7 +760,7 @@ export default {
     },
     "search.TumbolID"() {
       this.fetchOrganization();
-      this.fetchStaff();
+      this.fetchFarm();
       this.fetchReport();
 
       if (this.isLoading == false) {
@@ -842,13 +787,13 @@ export default {
     },
     "search.OrganizationID"() {
       //   this.fetchReport();
-      this.fetchStaff();
+      this.fetchFarm();
       this.fetchReport();
 
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
-          //   this.search.OrganizationID = null;
+          this.search.OrganizationID = null;
           this.search.FarmID = null;
           this.isLoading = false;
         }, 1000);
@@ -873,26 +818,11 @@ export default {
         }, 1000);
       }
     },
-    "search.StaffID"() {
-      this.fetchReport();
-      if (this.isLoading == false) {
-        this.isLoading = true;
-        setTimeout(() => {
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
   },
 
   methods: {
-    toggleLock(data) {
-      this.locked1.push(data);
-    },
     exportCSV() {
       this.$refs.dt.exportCSV();
-    },
-    exportCSV2() {
-      this.$refs.dt2.exportCSV();
     },
 
     loadDefault() {
@@ -905,7 +835,7 @@ export default {
       this.fetchTumbol();
       this.fetchOrganizationType();
       this.fetchOrganization();
-      this.fetchStaff();
+      this.fetchFarm();
       this.fetchReport();
     },
 
@@ -915,9 +845,9 @@ export default {
       let ai = this.user.Staff.Organization.OrganizationAiZoneID || 1;
 
       axios
-        .get(this.url.OrganizationZone, { signal: this.controller.signal })
+        .get(this.url.organization_zone, { signal: this.controller.signal })
         .then((res) => {
-          this.dropdown.OrganizationZones = res.data.rows;
+          this.dropdown.organization_zone = res.data.rows;
           this.dropdown.organization_zone_total = res.data.total;
         })
         .finally(() => {
@@ -925,9 +855,9 @@ export default {
         });
 
       axios
-        .get(this.url.AIZone, { signal: this.controller.signal })
+        .get(this.url.ai_zone, { signal: this.controller.signal })
         .then((res) => {
-          this.dropdown.AIZones = res.data.rows;
+          this.dropdown.ai_zone = res.data.rows;
           this.dropdown.ai_zone_total = res.data.total;
         })
         .finally(() => {
@@ -935,18 +865,19 @@ export default {
         });
 
       axios
-        .get(this.url.Province, { signal: this.controller.signal })
+        .get(this.url.province, { signal: this.controller.signal })
         .then((res) => {
           this.dropdown.provinceTemp = res.data.rows;
 
           if (this.search.AIZoneID != null) {
-            this.dropdown.Provinces = res.data.rows.filter((x) => {
+            this.dropdown.province = res.data.rows.filter((x) => {
               return x.AIZoneID == this.search.AIZoneID;
             });
           }
 
           if (this.search.OrganizationZoneID != null) {
-            this.dropdown.Provinces = res.data.rows.filter((x) => {
+            console.log(this.dropdown.province);
+            this.dropdown.province = res.data.rows.filter((x) => {
               return x.OrganizationZoneID == this.search.OrganizationZoneID;
             });
           }
@@ -958,7 +889,7 @@ export default {
           this.loader = true;
         });
 
-      let url = "/report/report21";
+      let url = "/report/report13";
 
       if (this.animal_id == 1) {
         url += "?AnimalTypeID=[1,2,41,42]";
@@ -1009,7 +940,7 @@ export default {
           this.data.preg3 = res.data.preg3;
           this.data.preg4 = res.data.preg4;
           this.data.farm = res.data.Farm;
-          this.data.main = [];
+          this.data.main = res.data.ai;
 
           //   this.data.animal = res.data.ai.filter((value, index, array) => {
           //     return array.indexOf(value) === index;
@@ -1038,7 +969,7 @@ export default {
         });
 
       axios
-        .get(this.url.Amphur, {
+        .get(this.url.amphur, {
           signal: this.controller.signal,
         })
         .then((res) => {
@@ -1050,7 +981,7 @@ export default {
           this.loader = true;
         });
       axios
-        .get(this.url.Tumbol, {
+        .get(this.url.tumbol, {
           signal: this.controller.signal,
         })
         .then((res) => {
@@ -1142,7 +1073,7 @@ export default {
         });
     },
     fetchOrganizationZone() {
-      let params = { includeAll: false, isActive: 1 };
+      let params = { includeAll: false,isActive: 1 };
       //  Fetch OrganizationZone
       axios
         .get(this.url.OrganizationZone, {
@@ -1336,8 +1267,8 @@ export default {
           this.loader = true;
         });
     },
-    fetchStaff() {
-      // Staffs
+
+    fetchFarm() {
       if (
         this.search.AIZoneID == null &&
         this.search.OrganizationZoneID == null
@@ -1345,27 +1276,31 @@ export default {
         return;
       }
 
-      let params = { includeAll: false, includeOrganization: true };
+      let params = {
+        // includeAll: false,
+      };
+
+      params["FarmAnimalType"] = this.animal_id;
 
       // Province IN AIZOne
-      //   if (this.search.AIZoneID != null) {
-      //     params["OrganizationAiZoneID"] = this.search.AIZoneID;
-      //   }
+      if (this.search.AIZoneID != null) {
+        params["AIZoneID"] = this.search.AIZoneID;
+      }
 
-      //   if (this.search.OrganizationZoneID != null) {
-      //     params["OrganizationZoneID"] = this.search.OrganizationZoneID;
-      //   }
+      if (this.search.OrganizationZoneID != null) {
+        params["OrganizationZoneID"] = this.search.OrganizationZoneID;
+      }
 
       if (this.search.ProvinceID != null) {
-        params["StaffProvinceID"] = this.search.ProvinceID;
+        params["ProvinceID"] = this.search.ProvinceID;
       }
 
       if (this.search.AmphurID != null) {
-        params["StaffAmphurID"] = this.search.AmphurID;
+        params["AmphurID"] = this.search.AmphurID;
       }
 
       if (this.search.TumbolID != null) {
-        params["StaffTumbolID"] = this.search.TumbolID;
+        params["TumbolID"] = this.search.TumbolID;
       }
 
       if (this.search.OrganizationID != null) {
@@ -1373,17 +1308,44 @@ export default {
       }
 
       axios
-        .get(this.url.Staff, {
+        .get(this.url.Farm, {
           signal: this.controller.signal,
           params: params,
         })
         .then((res) => {
-          this.dropdown.Staffs = res.data.rows.map((item) => {
-            return {
-              StaffID: item.StaffID,
-              StaffFullName: item.StaffFullName,
-            };
-          });
+          this.dropdown.Farms = res.data.rows
+            .sort((a, b) =>
+              a.Province.ProvinceName.localeCompare(b.Province.ProvinceName)
+            )
+            .map((item) => {
+              let name = item.Farmer ? item.Farmer.FullName : "- ";
+              let number = item.FarmIdentificationNumber
+                ? item.FarmIdentificationNumber
+                : "- ";
+              let province = item.Province ? item.Province.ProvinceName : "- ";
+              let Organization = item.OrganizationZone
+                ? item.OrganizationZone.OrganizationZoneName
+                : "- ";
+
+              return {
+                FarmID: item.FarmID,
+                FarmName: item.FarmName,
+                FarmIdentificationNumber: item.FarmIdentificationNumber,
+                Fullname:
+                  "ฟาร์ม " +
+                  item.FarmName +
+                  " (" +
+                  number +
+                  ")" +
+                  " | เจ้าของฟาร์ม " +
+                  name +
+                  " | จังหวัด " +
+                  province +
+                  " | " +
+                  Organization,
+                OrganizationZoneName: Organization,
+              };
+            });
         })
         .finally(() => {
           this.isLoading = false;
@@ -1393,20 +1355,6 @@ export default {
 
     fetchReport() {
       //  Fetch Report
-
-      this.locked1 = [];
-      this.toggleLock({
-        id: 0,
-        AnimalBreedName: "สายพันธุ์ทั้งหมด",
-        AnimalRealCount: 0,
-        AnimalCount: 0,
-        status1: 0,
-        status2: 0,
-        status3: 0,
-        status4: 0,
-        AnimalID: 0,
-      });
-
       let params = {};
 
       if (
@@ -1414,8 +1362,7 @@ export default {
         this.search.OrganizationZoneID == null
       ) {
         params["AIZoneID"] =
-          this.user.Staff.Organization.OrganizationAiZoneID || undefined;
-        return;
+          this.user.Staff.Organization.OrganizationAiZoneID || 1;
       }
 
       if (this.search.AIZoneID != null) {
@@ -1460,22 +1407,9 @@ export default {
         params["OrganizationID"] = this.search.OrganizationID;
       }
 
-      if (this.search.StaffID) {
-        params["StaffID"] = this.search.StaffID;
-      }
-
       if (this.search.day) {
-        params["StartDate"] = this.search.day[0];
-        params["EndDate"] = this.search.day[1];
-      }
-
-      if (this.search.created_day) {
-        params["StartDate_Created"] = dayjs(this.search.created_day[0]).format(
-          "YYYY-MM-DD"
-        );
-        params["EndDate_Created"] = dayjs(this.search.created_day[1]).format(
-          "YYYY-MM-DD"
-        );
+        params["AIStartDate"] = this.search.day[0];
+        params["AIEndDate"] = this.search.day[1];
       }
 
       //   if (this.search.dateStart) {
@@ -1496,178 +1430,100 @@ export default {
           params: params,
         })
         .then((res) => {
-          this.data.main = res.data.data.map((x) => {
-            let status1 = 0;
-            let status2 = 0;
-            let status3 = 0;
-            let status4 = 0;
+          this.data.Total = res.data.Total;
+          this.data.preg1 = res.data.preg1;
+          this.data.preg2 = res.data.preg2;
+          this.data.preg3 = res.data.preg3;
+          this.data.preg4 = res.data.preg4;
+          this.data.farm = res.data.Farm;
+          this.data.main = res.data.ai;
 
-            let check_duplicate = [];
+          this.provinceAITime = [];
+          this.provinceAICount = [];
 
-            x.AnimalID.forEach((e) => {
-              let check = check_duplicate.find((x) => {
-                return x.AnimalID == e.AnimalID;
+          res.data.ai.forEach((x) => {
+            let isProvince1 = this.provinceAITime.findIndex((e) => {
+              return e.ProvinceName == x.ProvinceName;
+            });
+            if (isProvince1 == "-1") {
+              let randomColor = Math.floor(Math.random() * 16777215).toString(
+                16
+              );
+              let randomColor1 = "#" + randomColor;
+
+              this.provinceAITime.push({
+                ProvinceName: x.ProvinceName,
+                count: 1,
+                color: randomColor1,
               });
+            } else {
+              this.provinceAITime[isProvince1].count =
+                this.provinceAITime[isProvince1].count + 1;
+            }
 
-              if (check) {
-                if (check.PregnancyCheckStatusName != "ท้อง") {
-                  if (check.PregnancyCheckStatusName == "ไม่ท้อง") {
-                    status2 = status2 - 1;
-                  }
+            this.provinceAICount = [...this.provinceAITime];
 
-                  if (check.PregnancyCheckStatusName == "รอตรวจซ้ำ") {
-                    status3 = status3 - 1;
-                  }
-
-                  if (check.PregnancyCheckStatusName == "") {
-                    status4 = status4 - 1;
-                  }
-
-                  if (e.PregnancyCheckStatusName == "ท้อง") {
-                    status1 = status1 + 1;
-                  } else if (e.PregnancyCheckStatusName == "ไม่ท้อง") {
-                    status2 = status2 + 1;
-                  } else if (check.PregnancyCheckStatusName == "รอตรวจซ้ำ") {
-                    status3 = status3 + 1;
-                  } else {
-                    status4 = status4 + 1;
-                  }
-                }
-              } else {
-                if (e.PregnancyCheckStatusName == "ท้อง") {
-                  status1 = status1 + 1;
-                } else if (e.PregnancyCheckStatusName == "ไม่ท้อง") {
-                  status2 = status2 + 1;
-                } else if (e.PregnancyCheckStatusName == "รอตรวจซ้ำ") {
-                  status3 = status3 + 1;
-                } else {
-                  status4 = status4 + 1;
-                }
-                check_duplicate.push(e);
-              }
-
-              //   if (check_duplicate.includes(e.AnimalID)) {
-              //     //
-              //   } else {
-              //     check_duplicate.push(e.AnimalID);
-              //   }
+            let isProvince2 = this.provinceAICount.findIndex((e) => {
+              return e.ProvinceName == x.ProvinceName;
             });
 
-            x.status1 = status1;
-            x.status2 = status2;
-            x.status3 = status3;
-            x.status4 = status4;
+            if (isProvince2 == "-1") {
+              let randomColor = Math.floor(Math.random() * 16777215).toString(
+                16
+              );
+              let randomColor1 = "#" + randomColor;
 
-            return x;
-          });
-
-          let AnimalIDAll = [];
-          let AnimalRealCountAll = 0;
-          if (this.data.main.length != 0) {
-            this.totalStatus.all = 0;
-            this.totalStatus.status1 = 0;
-            this.totalStatus.status2 = 0;
-            this.totalStatus.status3 = 0;
-            this.totalStatus.status4 = 0;
-            this.data.main.forEach((x) => {
-              AnimalRealCountAll = AnimalRealCountAll + x.AnimalRealCount;
-
-              this.totalStatus.all = this.totalStatus.all + x.AnimalCount;
-
-              x.AnimalID.forEach((e) => {
-                AnimalIDAll.push(e);
-
-                // console.log(AnimalIDAll);
-                // let checkDuplicate = AnimalIDAll.find((e) => {
-                //   x.AnimalID == e.AnimalID;
-                // });
-                // console.log(checkDuplicate)
-
-                if (e.PregnancyCheckStatusName == "ท้อง") {
-                  this.totalStatus.status1 = this.totalStatus.status1 + 1;
-                } else if (e.PregnancyCheckStatusName == "ไม่ท้อง") {
-                  this.totalStatus.status2 = this.totalStatus.status2 + 1;
-                } else if (e.PregnancyCheckStatusName == "รอตรวจซ้ำ") {
-                  this.totalStatus.status3 = this.totalStatus.status3 + 1;
-                } else {
-                  this.totalStatus.status4 = this.totalStatus.status4 + 1;
-                }
+              this.provinceAICount.push({
+                ProvinceName: x.ProvinceName,
+                count: 1,
+                color: randomColor1,
               });
-            });
-
-            this.locked1 = [];
-            this.toggleLock({
-              id: 0,
-              AnimalBreedName: "สายพันธุ์ทั้งหมด",
-              AnimalRealCount: AnimalRealCountAll,
-              AnimalCount: this.totalStatus.all,
-              status1: this.totalStatus.status1,
-              status2: this.totalStatus.status2,
-              status3: this.totalStatus.status3,
-              status4: this.totalStatus.status4,
-              AnimalID: AnimalIDAll,
-            });
-          }
-
-          let e = this.dropdown.AIZones.find((x) => {
-            return x.AIZoneID == this.search.AIZoneID;
+            } else {
+              this.provinceAICount[isProvince2].count =
+                this.provinceAICount[isProvince2].count + 1;
+            }
           });
 
-          let z = this.dropdown.OrganizationZones.find((x) => {
-            return x.OrganizationZoneID == this.search.OrganizationZoneID;
+          let labels1 = [];
+          let datas1 = [];
+          let colors1 = [];
+
+          this.provinceAITime.forEach((x) => {
+            labels1.push(x.ProvinceName);
+            datas1.push(x.count);
+            colors1.push(x.color);
           });
 
-          let p = this.dropdown.Provinces.find((x) => {
-            return x.ProvinceID == this.search.ProvinceID;
-          });
-
-          let a = this.dropdown.Amphurs.find((x) => {
-            return x.AmphurID == this.search.AmphurID;
-          });
-
-          let t = this.dropdown.Tumbols.find((x) => {
-            return x.TumbolID == this.search.TumbolID;
-          });
-
-          let o = this.dropdown.Organizations.find((x) => {
-            return x.OrganizationID == this.search.OrganizationID;
-          });
-
-          let s = null;
-          if (this.dropdown.Staffs) {
-            s = this.dropdown.Staffs.find((x) => {
-              return x.StaffID == this.search.StaffID;
-            });
-          }
-
-          this.data.head_detail = {
-            ai_zone_name: e ? e.AIZoneName : "", //this.search.AIZoneID,
-            organization_zone_name: z ? z.OrganizationZoneName : "",
-            province_name: p ? p.ProvinceName : "",
-            amphur_name: a ? a.AmphurName : "",
-            tumbol_name: t ? t.TumbolName : "",
-            organization_name: o ? o.OrganizationFull : "",
-            date: this.search.day
-              ? dayjs(this.search.day[0]).locale("th").format("DD/MM/YYYY") +
-                " - " +
-                dayjs(this.search.day[1]).locale("th").format("DD/MM/YYYY")
-              : "",
-            created_date: this.search.created_day
-              ? dayjs(this.search.created_day[0])
-                  .locale("th")
-                  .format("DD/MM/YYYY") +
-                " - " +
-                dayjs(this.search.created_day[1])
-                  .locale("th")
-                  .format("DD/MM/YYYY")
-              : "",
-            staff_name: s ? s.StaffFullName : "",
-            projects: "",
+          this.Chart1 = {
+            labels: labels1,
+            datasets: [
+              {
+                data: datas1,
+                backgroundColor: colors1,
+              },
+            ],
           };
 
-          if (this.search.created_day) {
-            this.data.head_detail.date_label = "ช่วงวันที่บันทึกข้อมูล";
-          }
+          //
+          let labels2 = [];
+          let datas2 = [];
+          let colors2 = [];
+
+          this.provinceAICount.forEach((x) => {
+            labels2.push(x.ProvinceName);
+            datas2.push(x.count);
+            colors2.push(x.color);
+          });
+
+          this.Chart2 = {
+            labels: labels2,
+            datasets: [
+              {
+                data: datas2,
+                backgroundColor: colors2,
+              },
+            ],
+          };
         })
         .finally(() => {
           this.isLoading = false;
@@ -1685,10 +1541,6 @@ export default {
       this.loadLazyTimeout = setTimeout(() => {
         this.loading = false;
       }, Math.random() * 1000 + 250);
-    },
-
-    fetchReportAnimal(AnimalID) {
-      this.data.animal_main = AnimalID;
     },
   },
 
@@ -1712,15 +1564,3 @@ export default {
   },
 };
 </script>
-
-<style lang="css">
-.p-datatable-frozen-tbody > tr {
-  /* background-color: hsla(var(--primary-color), 50%) !important; */
-
-  color: #fff !important;
-  background-color: var(--primary-color) !important;
-  /* background-color: fade(var(--primary-color), 50%) !important; */
-  /* background-opacity: 0.8; */
-  font-weight: bold;
-}
-</style>

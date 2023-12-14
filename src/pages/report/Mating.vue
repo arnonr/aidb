@@ -422,6 +422,12 @@
             exportFooter="&#8203;"
           ></Column>
           <Column
+            field="GiveBirthDay"
+            header="วันครบกำหนดคลอด"
+            class="text-center"
+            exportFooter="&#8203;"
+          ></Column>
+          <Column
             field="PregnancyCheckup.CheckUpdateThai"
             header="วันที่ตรวจ"
             class="text-center"

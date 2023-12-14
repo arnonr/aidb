@@ -167,6 +167,17 @@ export default [
                 icon: "pi pi-minus",
                 to: "/report/pregnancy4",
               },
+
+              {
+                label: "รายงานด้านทะเบียนฟาร์ม",
+                icon: "pi pi-minus",
+                to: "/report/FarmReport",
+              },
+              {
+                label: "รายงานสรุปทะเบียนโค",
+                icon: "pi pi-minus",
+                to: "/report/Total_Animal",
+              },
               // {
               //   label: "สรุปโคแยกตามสายพันธุ์",
               //   icon: "pi pi-minus",
@@ -237,23 +248,13 @@ export default [
           //   ],
           // },
           {
-            label: "ด้านการผสมเทียม",
+            label: "ด้านการผสมเทียม (Workstep)",
             icon: "pi pi-fw pi-circle",
             items: [
               {
                 label: "รายงานการผสมเทียม ผท.6",
                 icon: "pi pi-minus",
                 to: "/report/aipt6",
-              },
-              {
-                label: "รายงานด้านทะเบียนฟาร์ม",
-                icon: "pi pi-minus",
-                to: "/report/FarmReport",
-              },
-              {
-                label: "รายงานสรุปทะเบียนโค",
-                icon: "pi pi-minus",
-                to: "/report/Total_Animal",
               },
               {
                 label: "รายงานโคสาวที่ยังไม่ได้รับการผสม",
@@ -266,16 +267,21 @@ export default [
               //     to: "/report/pregnancy",
               //   },
               {
-                label: "รายงานครบกำหนดคลอด",
-                icon: "pi pi-minus",
-                to: "/report/mating",
-              },
-              {
                 label: "รายงานครบกำหนดตรวจท้อง",
                 icon: "pi pi-minus",
                 to: "/report/CheckupDue",
               },
-
+              {
+                label: "รายงานครบกำหนดคลอด",
+                icon: "pi pi-minus",
+                to: "/report/mating",
+              },
+              //   รายงานสรุปจำนวนโคตั้งท้อง
+              {
+                label: "รายงานสรุปจำนวนโคตั้งท้อง",
+                icon: "pi pi-minus",
+                to: "/report/TotalPreg",
+              },
               {
                 label: "รายงานครบกำหนดติดตามลูกเกิด",
                 icon: "pi pi-minus",
@@ -322,11 +328,6 @@ export default [
                 label: "รายงานสรุปผลติดตามลูกเกิด",
                 icon: "pi pi-minus",
                 to: "/report/pregnancy3",
-              },
-              {
-                label: "รายงานสรุปจำนวนโคตั้งท้อง",
-                icon: "pi pi-minus",
-                to: "/report/TotalPreg",
               },
               {
                 label: "รายงานการปฏิบัติงานเจ้าหน้าที่",

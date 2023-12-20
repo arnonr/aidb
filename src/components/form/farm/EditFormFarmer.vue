@@ -1022,7 +1022,7 @@ export default {
                   res.data.rows[0].ResidenceVillageName;
                 this.form.ResidenceZipCode = res.data.rows[0].ResidenceZipCode;
 
-                this.checkSelect = 1;
+                // this.checkSelect = 1;
               }
             })
             .catch(() => {

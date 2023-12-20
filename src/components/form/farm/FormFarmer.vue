@@ -1052,7 +1052,7 @@ export default {
 
             // ถามว่าพบข้อมูล
             axios
-              .get(this.url.farm + "?FarmerID=" + this.form.FarmerID, {
+              .get(this.url.farm + "&FarmerID=" + this.form.FarmerID, {
                 signal: this.controller.signal,
               })
               .then((res1) => {

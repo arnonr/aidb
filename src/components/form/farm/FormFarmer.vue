@@ -989,9 +989,11 @@ export default {
       this.getFarmer();
     }, 2000),
 
-    "form.IdentificationNumber": (function () {
-      this.getFarmer();
-    }, 2000),
+    "form.IdentificationNumber":
+      (function () {
+        this.getFarmer();
+      },
+      2000),
 
     // search.FarmerPID
 
@@ -1057,17 +1059,35 @@ export default {
               })
               .then((res1) => {
                 if (res1) {
-                  let farmCheck = res1.data.rows[0];
+                  let farmCheck = res1.data.rows;
+
+                  let text =
+                    "";
+                  text =
+                    text +
+                    "<table style='margin-top:1em; border-collapse: collapse;width:100%'><tr><th style='border: 1px solid;'>เลขทะเบียนฟาร์ม</th><th  style='border: 1px solid;'>ชื่อฟาร์ม</th><th  style='border: 1px solid;'>สถานะ</th></tr>";
+
+                  farmCheck.forEach((el) => {
+                    text =
+                      text +
+                      "<tr><td style='border: 1px solid;'>" +
+                      el.FarmIdentificationNumber +
+                      "</td><td style='border: 1px solid;'>" +
+                      el.FarmName +
+                      "</td><td style='border: 1px solid;'>" +
+                      el.FarmStatus.FarmStatusName +
+                      "</td></tr>";
+                  });
+
+                  text = text + "</table>";
 
                   Swal.fire({
-                    title:
-                      "หมายเลขนี้เคยขึ้นทะเบียนด้วยหมายเลขฟาร์ม :" +
-                      farmCheck.FarmIdentificationNumber +
-                      "<br>ชื่อฟาร์ม : " +
-                      farmCheck.FarmName,
+                    title: "หมายเลขบัตรประชาชนนี้เคยขึ้นทะเบียนฟาร์มแล้ว ดังนี้",
+                    html: text,
                     showDenyButton: true,
                     showCancelButton: false,
                     confirmButtonText: "เพิ่มฟาร์มใหม่",
+                    customClass: "swal-wide",
                     denyButtonText: `ยกเลิก`,
                   }).then((result) => {
                     /* Read more about isConfirmed, isDenied below */
@@ -1547,4 +1567,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+.swal-wide {
+  width: 850px;
+}
+</style>

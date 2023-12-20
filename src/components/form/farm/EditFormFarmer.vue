@@ -27,13 +27,22 @@
           </label>
           <InputMask
             type="text"
-            class="w-full"
             mask="9-9999-99999-99-9"
+            class="w-full"
             unmask="true"
             v-model="form.IdentificationNumber"
-            :class="{ 'p-invalid': !form.IdentificationNumber && valid }"
             :readonly="checkSelect == 1"
+            :class="{ 'p-invalid': !form.IdentificationNumber && valid }"
           />
+          <!-- <InputText
+            type="text"
+            class="w-full"
+            v-model="form.IdentificationNumber"
+          /> -->
+
+          <!-- 
+
+            :class="{ 'p-invalid': !form.IdentificationNumber && valid }" -->
         </div>
         <div class="field col-12 sm:col-6 lg:col-6">
           <label class="block text-600 text-sm font-bold mb-2">
@@ -868,6 +877,7 @@
 import axios from "axios";
 import { format } from "date-fns";
 import { th } from "date-fns/locale";
+import _ from "lodash";
 export default {
   data() {
     return {
@@ -934,8 +944,107 @@ export default {
         this.form.GenderID = 2;
       }
     },
+
+    "form.IdentificationNumber": _.debounce(function () {
+      this.getFarmer();
+    }, 2000),
   },
   methods: {
+    getFarmer() {
+      if (this.form.IdentificationNumber) {
+        if (this.form.IdentificationNumber.length == 13) {
+          axios
+            .get(
+              this.url.farmer +
+                "?IdentificationNumber=" +
+                this.form.IdentificationNumber,
+              {
+                signal: this.controller.signal,
+              }
+            )
+            .then((res) => {
+              // this.form = res.data.rows[0];
+              if (res.data.rows.length != 0) {
+                this.form.FarmerID = res.data.rows[0].FarmerID;
+                this.form.FarmerNumber = res.data.rows[0].FarmerNumber;
+                this.form.GivenName = res.data.rows[0].GivenName;
+                this.form.GenderID = res.data.rows[0].GenderID;
+                this.form.Surname = res.data.rows[0].Surname;
+                this.form.Email = res.data.rows[0].Email;
+                this.form.BirthDate = res.data.rows[0].BirthDate;
+                this.form.TelephoneNumber = res.data.rows[0].TelephoneNumber;
+                this.form.MobilePhoneNumber =
+                  res.data.rows[0].MobilePhoneNumber;
+                this.form.MainOccupationID = res.data.rows[0].MainOccupationID;
+                this.form.EducationID = res.data.rows[0].EducationID;
+                this.form.SecondOccupationID =
+                  res.data.rows[0].SecondOccupationID;
+                this.form.FarmerRegisterStatus =
+                  res.data.rows[0].FarmerRegisterStatus;
+
+                this.form.HouseAddressIdentification =
+                  res.data.rows[0].HouseAddressIdentification;
+                this.form.HouseAmphurID = res.data.rows[0].HouseAmphurID;
+                this.form.HouseBuildingNumber =
+                  res.data.rows[0].HouseBuildingNumber;
+                this.form.HouseFloor = res.data.rows[0].HouseFloor;
+                this.form.HouseLane = res.data.rows[0].HouseLane;
+                this.form.HouseLatitude = res.data.rows[0].HouseLatitude;
+                this.form.HouseLongitude = res.data.rows[0].HouseLongitude;
+                this.form.HouseMoo = res.data.rows[0].HouseMoo;
+                this.form.HouseProvinceID = res.data.rows[0].HouseProvinceID;
+                this.form.HouseStreet = res.data.rows[0].HouseStreet;
+                this.form.HouseSubLane = res.data.rows[0].HouseSubLane;
+                this.form.HouseTumbolID = res.data.rows[0].HouseTumbolID;
+                this.form.HouseVillageName = res.data.rows[0].HouseVillageName;
+                this.form.HouseZipCode = res.data.rows[0].HouseZipCode;
+                //
+                this.form.ResidenceAddressIdentification =
+                  res.data.rows[0].ResidenceAddressIdentification;
+                this.form.ResidenceAmphurID =
+                  res.data.rows[0].ResidenceAmphurID;
+                this.form.ResidenceBuildingNumber =
+                  res.data.rows[0].ResidenceBuildingNumber;
+                this.form.ResidenceFloor = res.data.rows[0].ResidenceFloor;
+                this.form.ResidenceLane = res.data.rows[0].ResidenceLane;
+                this.form.ResidenceLatitude =
+                  res.data.rows[0].ResidenceLatitude;
+                this.form.ResidenceLongitude =
+                  res.data.rows[0].ResidenceLongitude;
+                this.form.ResidenceMoo = res.data.rows[0].ResidenceMoo;
+                this.form.ResidenceProvinceID =
+                  res.data.rows[0].ResidenceProvinceID;
+                this.form.ResidenceStreet = res.data.rows[0].ResidenceStreet;
+                this.form.ResidenceSubLane = res.data.rows[0].ResidenceSubLane;
+                this.form.ResidenceTumbolID =
+                  res.data.rows[0].ResidenceTumbolID;
+                this.form.ResidenceVillageName =
+                  res.data.rows[0].ResidenceVillageName;
+                this.form.ResidenceZipCode = res.data.rows[0].ResidenceZipCode;
+
+                this.checkSelect = 1;
+              }
+            })
+            .catch(() => {
+              this.checkSelect = 3;
+              this.valid = true;
+              this.$toast.add({
+                severity: "error",
+                summary: "ล้มเหลว",
+                detail: "ไม่พบข้อมูล",
+                life: 5000,
+              });
+              return false;
+            })
+            .finally(() => {
+              this.isLoading = false;
+            });
+        }
+      } else {
+        // this.form = {};
+        this.checkSelect = 3;
+      }
+    },
     format(date) {
       const dayStart = date.getDate();
       const monthStart = date.getMonth();

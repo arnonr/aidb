@@ -271,7 +271,7 @@
           </Column> -->
           <Column
             field="Par"
-            header="รอบที่"
+            header="ท้องที่"
             class="text-center"
             exportFooter="&#8203;"
             :sortable="true"

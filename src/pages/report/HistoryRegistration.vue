@@ -90,7 +90,7 @@
               ></Column>
               <Column
                 field="PAR"
-                header="รอบที่"
+                header="ท้องที่"
                 class="text-center"
                 exportFooter="&#8203;"
               ></Column>
@@ -418,7 +418,7 @@ export default {
                   value: item.ProductionStatus || "-",
                 },
                 {
-                  key: "รอบที่ปัจจุบัน",
+                  key: "ท้องที่ปัจจุบัน",
                   value: item.AnimalPar || "-",
                 },
                 // {

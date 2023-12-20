@@ -412,7 +412,7 @@
           ></Column>
           <Column
             field="AnimalPar"
-            header="รอบ"
+            header="ท้องที่"
             class="text-center"
             exportFooter="&#8203;"
           ></Column>

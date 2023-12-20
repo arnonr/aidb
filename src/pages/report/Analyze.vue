@@ -187,7 +187,7 @@
             <hr />
           </div>
 
-          <div class="col-12 sm:col-6 lg:col-6">
+          <!-- <div class="col-12 sm:col-6 lg:col-6">
             <label
               for="dateRange"
               class="block text-600 text-sm font-bold mb-2"
@@ -214,7 +214,7 @@
                 {{ year + 543 }}
               </template>
             </Datepicker>
-          </div>
+          </div> -->
           <!-- 
           <div class="col-12 sm:col-6 lg:col-6">
             <label
@@ -399,14 +399,20 @@
           ></Column>
           <Column header=">=" class="text-center">
             <template #body="slotProps">
-              <a @click="fetchReportAnimal(slotProps.data.animal_more)" style="cursor: pointer;color:#0000FF;font-weight: bold;">
+              <a
+                @click="fetchReportAnimal(slotProps.data.animal_more)"
+                style="cursor: pointer; color: #0000ff; font-weight: bold"
+              >
                 {{ slotProps.data.animal_more_count }}</a
               >
             </template>
           </Column>
           <Column header="<" class="text-center">
             <template #body="slotProps">
-              <a @click="fetchReportAnimal(slotProps.data.animal_less_more)" style="cursor: pointer;color:#0000FF;font-weight: bold;">
+              <a
+                @click="fetchReportAnimal(slotProps.data.animal_less_more)"
+                style="cursor: pointer; color: #0000ff; font-weight: bold"
+              >
                 {{ slotProps.data.animal_less_more_count }}</a
               >
             </template>
@@ -418,6 +424,7 @@
             class="text-center"
             exportFooter="&#8203;"
           ></Column>
+
           <template #empty> ไม่พบข้อมูล </template>
           <template #loading>
             <h1 class="text-white text-center">กรุณารอสักครู่...</h1>
@@ -563,6 +570,7 @@ export default {
         Organization: "/organization",
         Farm: "/farm",
         Report: "/report/report23",
+        Report24: "/report/report24",
         Project: "/project",
         Staff: "/staff",
       },
@@ -1376,8 +1384,7 @@ export default {
           params: params,
         })
         .then((res) => {
-          // 
-          console.log(res.data.data)
+          //
           this.data.main = res.data.data.map((x) => {
             return x;
           });
@@ -1441,6 +1448,20 @@ export default {
           if (this.search.created_day) {
             this.data.head_detail.date_label = "ช่วงวันที่บันทึกข้อมูล";
           }
+        })
+        .finally(() => {
+          this.isLoading = false;
+          this.loader = true;
+        });
+
+      axios
+        .get(this.url.Report24, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          //
+          this.data.main = [...this.data.main, ...res.data.data];
         })
         .finally(() => {
           this.isLoading = false;

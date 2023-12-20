@@ -1448,20 +1448,21 @@ export default {
           if (this.search.created_day) {
             this.data.head_detail.date_label = "ช่วงวันที่บันทึกข้อมูล";
           }
-        })
-        .finally(() => {
-          this.isLoading = false;
-          this.loader = true;
-        });
 
-      axios
-        .get(this.url.Report24, {
-          signal: this.controller.signal,
-          params: params,
-        })
-        .then((res) => {
-          //
-          this.data.main = [...this.data.main, ...res.data.data];
+          //   report 24
+          axios
+            .get(this.url.Report24, {
+              signal: this.controller.signal,
+              params: params,
+            })
+            .then((res) => {
+              //
+              this.data.main = [...this.data.main, ...res.data.data];
+            })
+            .finally(() => {
+              this.isLoading = false;
+              this.loader = true;
+            });
         })
         .finally(() => {
           this.isLoading = false;

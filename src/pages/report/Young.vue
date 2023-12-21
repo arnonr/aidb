@@ -511,7 +511,7 @@
           status2: 0,
           status3: 0,
         },
-        title: "รายงานโคสาวที่ยังไม่ได้รับการผสม",
+        title: "รายงานสัตว์ (สาว) ที่ยังไม่ได้รับการผสม",
         data: [],
         provinceAITime: [],
         provinceAICount: [],

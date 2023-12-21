@@ -215,6 +215,35 @@
               </template>
             </Datepicker>
           </div>
+
+          <div class="col-12 sm:col-6 lg:col-6">
+            <label
+              for="dateRange"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              ช่วงวันที่ผสม</label
+            >
+            <Datepicker
+              v-model="search.day"
+              range
+              :disabled="isSelectDayDisabled"
+              id="dateRange"
+              locale="th"
+              :format="format"
+              utc
+              :enableTimePicker="false"
+              cancelText="ยกเลิก"
+              selectText="ยืนยัน"
+              placeholder="ตั้งแต่วันที่ - จนถึงวันที่"
+            >
+              <template #year-overlay-value="{ text }">
+                {{ parseInt(text) + 543 }}
+              </template>
+              <template #year="{ year }">
+                {{ year + 543 }}
+              </template>
+            </Datepicker>
+          </div>
         </div>
       </div>
     </div>
@@ -522,7 +551,7 @@
           ></Column>
           <Column
             field="FarmName"
-            header="เจ้าของฟาร์ม"
+            header="ชื่อฟาร์ม"
             class="text-center"
             exportFooter="&#8203;"
           ></Column>
@@ -559,6 +588,24 @@
           <Column
             field="SemenNumber"
             header="น้ำเชื้อ"
+            class="text-center"
+            exportFooter="&#8203;"
+          ></Column>
+          <Column
+            field="PregnancyCheckStatusName"
+            header="ผลตรวจท้อง"
+            class="text-center"
+            exportFooter="&#8203;"
+          ></Column>
+          <Column
+            field="GiveBirthDate"
+            header="วันคลอด"
+            class="text-center"
+            exportFooter="&#8203;"
+          ></Column>
+          <Column
+            field="ChildGender"
+            header="เพศลูก"
             class="text-center"
             exportFooter="&#8203;"
           ></Column>
@@ -668,6 +715,7 @@ export default {
       isSelectOrganizationZoneDisabled: false,
       isSelectDayDisabled: false,
       isSelectCreatedDayDisabled: false,
+      isSelectAIDayDisabled: false,
       isLoading: false,
       loader: false,
       total: null,
@@ -726,6 +774,7 @@ export default {
         }, 1000);
       }
     },
+
     "search.AIZoneID"(val) {
       if (val) {
         this.search.OrganizationZoneID = null;
@@ -1110,7 +1159,7 @@ export default {
                   " (" +
                   number +
                   ")" +
-                  " | เจ้าของฟาร์ม " +
+                  " | ชื่อฟาร์ม " +
                   name +
                   " | จังหวัด " +
                   province +
@@ -1510,29 +1559,29 @@ export default {
               });
 
               if (check) {
-                if (check.PregnancyCheckStatusName != "ท้อง") {
-                  if (check.PregnancyCheckStatusName == "ไม่ท้อง") {
-                    status2 = status2 - 1;
-                  }
+                // if (check.PregnancyCheckStatusName != "ท้อง") {
+                //   if (check.PregnancyCheckStatusName == "ไม่ท้อง") {
+                //     status2 = status2 - 1;
+                //   }
 
-                  if (check.PregnancyCheckStatusName == "รอตรวจซ้ำ") {
-                    status3 = status3 - 1;
-                  }
+                //   if (check.PregnancyCheckStatusName == "รอตรวจซ้ำ") {
+                //     status3 = status3 - 1;
+                //   }
 
-                  if (check.PregnancyCheckStatusName == "") {
-                    status4 = status4 - 1;
-                  }
+                //   if (check.PregnancyCheckStatusName == "") {
+                //     status4 = status4 - 1;
+                //   }
 
-                  if (e.PregnancyCheckStatusName == "ท้อง") {
-                    status1 = status1 + 1;
-                  } else if (e.PregnancyCheckStatusName == "ไม่ท้อง") {
-                    status2 = status2 + 1;
-                  } else if (check.PregnancyCheckStatusName == "รอตรวจซ้ำ") {
-                    status3 = status3 + 1;
-                  } else {
-                    status4 = status4 + 1;
-                  }
-                }
+                //   if (e.PregnancyCheckStatusName == "ท้อง") {
+                //     status1 = status1 + 1;
+                //   } else if (e.PregnancyCheckStatusName == "ไม่ท้อง") {
+                //     status2 = status2 + 1;
+                //   } else if (check.PregnancyCheckStatusName == "รอตรวจซ้ำ") {
+                //     status3 = status3 + 1;
+                //   } else {
+                //     status4 = status4 + 1;
+                //   }
+                // }
               } else {
                 if (e.PregnancyCheckStatusName == "ท้อง") {
                   status1 = status1 + 1;
@@ -1564,7 +1613,7 @@ export default {
           let AnimalIDAll = [];
           let AnimalRealCountAll = 0;
           if (this.data.main.length != 0) {
-            this.totalStatus.all = 0;
+            this.totalStatus_all = 0;
             this.totalStatus.status1 = 0;
             this.totalStatus.status2 = 0;
             this.totalStatus.status3 = 0;

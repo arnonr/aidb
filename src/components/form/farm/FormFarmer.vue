@@ -62,7 +62,7 @@
             ></label
           >
           <Button
-            label="เพิ่มข้อมูลทะเบียนเกษตรใหม่"
+            label="เพิ่มข้อมูลทะเบียนเกษตรกรใหม่"
             @click="newAdd()"
             icon="pi pi-save"
             iconPos="left"

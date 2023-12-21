@@ -571,6 +571,7 @@ export default {
         Farm: "/farm",
         Report: "/report/report23",
         Report24: "/report/report24",
+        Report25: "/report/report25",
         Project: "/project",
         Staff: "/staff",
       },
@@ -1458,11 +1459,27 @@ export default {
             .then((res) => {
               //
               this.data.main = [...this.data.main, ...res.data.data];
+
+              axios
+                .get(this.url.Report25, {
+                  signal: this.controller.signal,
+                  params: params,
+                })
+                .then((res) => {
+                  //
+                  this.data.main = [...this.data.main, ...res.data.data];
+                })
+                .finally(() => {
+                  this.isLoading = false;
+                  this.loader = true;
+                });
             })
             .finally(() => {
               this.isLoading = false;
               this.loader = true;
             });
+
+          //   report 25
         })
         .finally(() => {
           this.isLoading = false;

@@ -430,7 +430,7 @@ export default {
   },
   data() {
     return {
-      title: "รายงานสรุปจำนวนโคตั้งท้อง",
+      title: "รายงานสรุปจำนวนสัตว์ตั้งท้อง",
       data: [],
       url: {
         organization_zone: "/organization-zone",

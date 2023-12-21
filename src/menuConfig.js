@@ -276,9 +276,9 @@ export default [
                 icon: "pi pi-minus",
                 to: "/report/mating",
               },
-              //   รายงานสรุปจำนวนโคตั้งท้อง
+              //   รายงานสรุปจำนวนสัตว์ตั้งท้อง
               {
-                label: "รายงานสรุปจำนวนโคตั้งท้อง",
+                label: "รายงานสรุปจำนวนสัตว์ตั้งท้อง",
                 icon: "pi pi-minus",
                 to: "/report/TotalPreg",
               },

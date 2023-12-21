@@ -610,7 +610,7 @@
           status2: 0,
           status3: 0,
         },
-        title: "รายงานสรุปจำนวนโคตั้งท้อง",
+        title: "รายงานสรุปจำนวนสัตว์ตั้งท้อง",
         data: [],
         provinceAITime: [],
         provinceAICount: [],

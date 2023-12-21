@@ -7,7 +7,7 @@
         <div v-if="loader" class="grid">
           <div class="col-12">
             <h1 class="text-xl mb-4 text-500">
-              เครื่องมือช่วยค้นหาทะเบียนสัตว์ (ผท.1)
+              เครื่องมือช่วยค้นหาทะเบียนสัตว์ (ผท.1)1
             </h1>
           </div>
 
@@ -1207,7 +1207,15 @@
               <label class="block text-600 text-sm font-bold mb-2"
                 >สายพันธุ์ที่ 1</label
               >
-              <Dropdown
+              <InputText
+                type="text"
+                class="w-full"
+                v-model="form.AnimalBreed1.AnimalBreedName"
+                disabled
+              />
+
+
+              <!-- <Dropdown
                 class="w-full"
                 id="selectedstatus"
                 optionLabel="Fullname"
@@ -1218,7 +1226,7 @@
                 :filter="true"
                 v-model="form.AnimalBreedID1"
                 disabled
-              />
+              /> -->
             </div>
             <div class="field col-12 sm:col-6" v-if="form.AnimalBreedID1">
               <label class="block text-600 text-sm font-bold mb-2"
@@ -1235,7 +1243,7 @@
               <label class="block text-600 text-sm font-bold mb-2"
                 >สายพันธุ์ที่ 2</label
               >
-              <Dropdown
+              <!-- <Dropdown
                 class="w-full"
                 id="selectedstatus"
                 optionLabel="Fullname"
@@ -1245,6 +1253,12 @@
                 :showClear="true"
                 :filter="true"
                 v-model="form.AnimalBreedID2"
+                disabled
+              /> -->
+              <InputText
+                type="text"
+                class="w-full"
+                v-model="form.AnimalBreed2.AnimalBreedName"
                 disabled
               />
             </div>
@@ -1266,7 +1280,7 @@
               <label class="block text-600 text-sm font-bold mb-2"
                 >สายพันธุ์ที่ 3</label
               >
-              <Dropdown
+              <!-- <Dropdown
                 class="w-full"
                 id="selectedstatus"
                 optionLabel="Fullname"
@@ -1276,6 +1290,12 @@
                 :showClear="true"
                 :filter="true"
                 v-model="form.AnimalBreedID3"
+                disabled
+              /> -->
+              <InputText
+                type="text"
+                class="w-full"
+                v-model="form.AnimalBreed3.AnimalBreedName"
                 disabled
               />
             </div>
@@ -1300,7 +1320,7 @@
               <label class="block text-600 text-sm font-bold mb-2"
                 >สายพันธุ์ที่ 4</label
               >
-              <Dropdown
+              <!-- <Dropdown
                 class="w-full"
                 id="selectedstatus"
                 optionLabel="Fullname"
@@ -1310,6 +1330,12 @@
                 :showClear="true"
                 :filter="true"
                 v-model="form.AnimalBreedID4"
+                disabled
+              /> -->
+              <InputText
+                type="text"
+                class="w-full"
+                v-model="form.AnimalBreed4.AnimalBreedName"
                 disabled
               />
             </div>
@@ -1334,7 +1360,7 @@
               <label class="block text-600 text-sm font-bold mb-2"
                 >สายพันธุ์ที่ 5</label
               >
-              <Dropdown
+              <!-- <Dropdown
                 class="w-full"
                 id="selectedstatus"
                 optionLabel="Fullname"
@@ -1344,6 +1370,12 @@
                 :showClear="true"
                 :filter="true"
                 v-model="form.AnimalBreedID5"
+                disabled
+              /> -->
+              <InputText
+                type="text"
+                class="w-full"
+                v-model="form.AnimalBreed5.AnimalBreedName"
                 disabled
               />
             </div>
@@ -2868,6 +2900,8 @@ export default {
         return;
       } else {
         this.form = this.data.find((x) => x.AnimalID == id);
+
+        console.log(this.form)
 
         if (!this.form.SourceFarm) {
           this.form.SourceFarm = {

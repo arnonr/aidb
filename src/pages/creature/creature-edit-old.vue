@@ -997,27 +997,21 @@ export default {
     }
 
     await axios
-      .get(
-        this.apiFarm +
-          "&includeAll=false&FarmAnimalType=[" +
-          this.animal_id +
-          "]",
-        {
-          signal: this.controller.signal,
-        }
-      )
-      .then(() => {
-        // this.farm = response.data.rows.map((item) => {
-        //   return {
-        //     FarmID: item.FarmID,
-        //     FarmName: item.FarmName,
-        //     OrganizationID: item.OrganizationID,
-        //     AIZoneID: item.AIZoneID,
-        //     Fullname: item.FarmIdentificationNumber + ", " + item.FarmName,
-        //     OrganizationZoneName: item.OrganizationZone.OrganizationZoneName,
-        //   };
-        // });
-        // console.log(this.farm);
+      .get(this.apiFarm + "&FarmAnimalType=[" + this.animal_id + "]", {
+        signal: this.controller.signal,
+      })
+      .then((response) => {
+        this.farm = response.data.rows.map((item) => {
+          return {
+            FarmID: item.FarmID,
+            FarmName: item.FarmName,
+            OrganizationID: item.OrganizationID,
+            AIZoneID: item.AIZoneID,
+            Fullname: item.FarmIdentificationNumber + ", " + item.FarmName,
+            OrganizationZoneName: item.OrganizationZone.OrganizationZoneName,
+          };
+        });
+        console.log(this.farm);
       });
     await axios
       .get(this.apiAnimalSex, { signal: this.controller.signal })
@@ -1697,33 +1691,6 @@ export default {
                 : this.form.OrganizationID;
               //   id.OrganizationZone.OrganizationZoneName
               //
-              this.farm = [
-                {
-                  FarmID: response.data.rows[0].FarmID,
-                  FarmName: response.data.rows[0].FarmName,
-                  OrganizationID: response.data.rows[0].OrganizationID,
-                  AIZoneID: response.data.rows[0].AIZoneID,
-                  Fullname:
-                    response.data.rows[0].FarmIdentificationNumber +
-                    ", " +
-                    response.data.rows[0].FarmName,
-                  OrganizationZoneName:
-                    response.data.rows[0].OrganizationZone.OrganizationZoneName,
-                },
-              ];
-
-              //   response.data.rows.map((item) => {
-              //     return {
-              //       FarmID: item.FarmID,
-              //       FarmName: item.FarmName,
-              //       OrganizationID: item.OrganizationID,
-              //       AIZoneID: item.AIZoneID,
-              //       Fullname:
-              //         item.FarmIdentificationNumber + ", " + item.FarmName,
-              //       OrganizationZoneName:
-              //         item.OrganizationZone.OrganizationZoneName,
-              //     };
-              //   });
             });
 
           // console.log(this.form.AnimalFirstBreed);

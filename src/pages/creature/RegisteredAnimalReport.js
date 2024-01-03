@@ -16,7 +16,7 @@ const RegisteredAnimalReport = async (id) => {
 
   let pdfAnimalImg;
 
-  if (result.AnimalImagePath) {
+  if (result.AnimalImagePath != null) {
     pdfAnimalImg = await getBase64Image(result.AnimalImagePath);
   } else {
     pdfAnimalImg = await getBase64Image(logo);
@@ -278,7 +278,7 @@ const RegisteredAnimalReport = async (id) => {
               {
                 margin: [0, 10, 0, 0],
                 table: {
-                  widths: ["auto", "*", "auto", "*"],
+                  widths: ["50", "*", "auto", "*"],
                   body: [
                     [
                       {
@@ -344,7 +344,7 @@ const RegisteredAnimalReport = async (id) => {
                         border: [false, false, false, false],
                       },
                       {
-                        text: "TH358",
+                        text: result.AnimalDadName,
                         bold: true,
                         alignment: "center",
                         style: "info",
@@ -370,7 +370,7 @@ const RegisteredAnimalReport = async (id) => {
                         border: [false, false, false, false],
                       },
                       {
-                        text: "131911ND06759",
+                        text: result.AnimalMomName,
                         bold: true,
                         alignment: "center",
                         style: "info",

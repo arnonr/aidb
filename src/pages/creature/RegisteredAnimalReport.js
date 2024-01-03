@@ -278,7 +278,7 @@ const RegisteredAnimalReport = async (id) => {
               {
                 margin: [0, 10, 0, 0],
                 table: {
-                  widths: ["50", "*", "auto", "*"],
+                  widths: ["auto", 100, "auto", "*"],
                   body: [
                     [
                       {
@@ -396,6 +396,7 @@ const RegisteredAnimalReport = async (id) => {
                         border: [false, false, false, false],
                       },
                       {
+                        
                         text: result.FarmName,
                         bold: true,
                         alignment: "center",

@@ -1984,16 +1984,13 @@ export default {
         }
       }
 
-      let formData = new FormData();
-
-      formData.append("photo_url", this.form.AnimalImagePathGen);
       // post
       axios
         .put(this.url + "/" + this.form.AnimalID, this.form)
 
         .then((res) => {
           if (this.form.AnimalImagePathGen !== undefined) {
-            this.uploadPhoto(res.data.AnimalID, formData);
+            this.uploadPhoto(res.data.AnimalID);
           }
           this.$toast.add({
             severity: "success",
@@ -2002,11 +1999,11 @@ export default {
             life: 5000,
           });
 
-          let farmNa = this.farm.find((x) => {
-            return (x.FarmID = this.form.FarmID);
-          });
+          //   let farmNa = this.farm.find((x) => {
+          //     return (x.FarmID = this.form.FarmID);
+          //   });
 
-          this.$router.push("/agency/creature?AIZoneID=" + farmNa.AIZoneID);
+          //   this.$router.push("/agency/creature?AIZoneID=" + farmNa.AIZoneID);
         })
         // error
         .catch((err) => {
@@ -2023,9 +2020,20 @@ export default {
           });
         });
     },
-    async uploadPhoto(id, formData) {
+
+    async uploadPhoto(id) {
+      console.log(id);
+      let formData1 = new FormData();
+
+      formData1.append("photo_url", this.form.AnimalImagePathGen);
+
+    //   formData1.append("id", id);
+
+      console.log(formData1);
+      console.log(this.form.AnimalImagePathGen);
+
       await axios
-        .post(this.url + "/photo/" + id, formData)
+        .post(this.url + "/photo/" + id, formData1)
         .then(() => {})
         .catch((err) => {
           this.form.isActive = this.status[0];

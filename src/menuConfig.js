@@ -257,7 +257,7 @@ export default [
                 to: "/report/aipt6",
               },
               {
-                label: "รายงานโคสาวที่ยังไม่ได้รับการผสม",
+                label: "รายงานสัตว์ (สาว) ที่ยังไม่ได้รับการผสม",
                 icon: "pi pi-minus",
                 to: "/report/young",
               },

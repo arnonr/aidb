@@ -780,7 +780,7 @@ export default {
       }
     },
     "search.FarmID"() {
-      this.fetchFarm();
+    //   this.fetchFarm();
 
       if (this.set_farm != null) {
         this.form.FarmID = this.set_farm.id;

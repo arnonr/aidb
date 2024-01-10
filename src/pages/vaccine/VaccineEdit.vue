@@ -58,7 +58,7 @@
                   class="w-full"
                   type="text"
                   v-model="form.Lot"
-                  placeholder="ใส่ตัวเลข เช่น 1"
+                  placeholder=""
                   :class="{ 'p-invalid': !form.Lot && valid }"
                 />
               </div>
@@ -660,7 +660,7 @@ export default {
           this.$toast.add({
             severity: "success",
             summary: "สำเร็จ",
-            detail: "ข้อมูลฟาร์มถูกบันทึก",
+            detail: "ข้อมูลวัคซีนถูกบันทึก",
             // detail: "เพิ่มข้อมูลเสร็จสิ้น",
             life: 2000,
           });

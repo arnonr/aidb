@@ -6,7 +6,7 @@
       <div class="grid">
         <div class="col-12">
           <h1 class="text-xl mb-4 text-500">
-            เครื่องมือช่วยค้นหาทะเบียนฟาร์ม (ผท.3)
+            เครื่องมือช่วยค้นหาข้อมูลสุขภาพ : ฉีดวัคซีน
           </h1>
         </div>
         <!--  -->
@@ -252,7 +252,7 @@
 
     <!--  -->
     <div class="col-12">
-      <div v-if="this.form.FarmID" class="card">
+      <div v-if="this.search.FarmID" class="card">
         <div class="grid flex align-items-center mb-5">
           <div class="col-12 md:col-6">
             <h1 class="text-2xl mb-0 text-600">
@@ -781,11 +781,7 @@ export default {
     },
     "search.FarmID"() {
       //   this.fetchFarm();
-      console.log(this.set_farm + "FREEDOM50");
-      if (this.set_farm != null) {
-        this.form.FarmID = this.set_farm.id;
-        this.load();
-      }
+      this.load();
 
       if (this.isLoading == false) {
         this.isLoading = true;
@@ -862,11 +858,11 @@ export default {
       if (this.curpage) {
         url += this.curpage;
       }
-      if (this.form.FarmID) {
-        url += "&FarmID=" + this.form.FarmID;
+      if (this.search.FarmID) {
+        url += "&FarmID=" + this.search.FarmID;
         // console.log(url);
       } else if (this.set_farm) {
-        url += "&FarmID=" + this.form.FarmID;
+        url += "&FarmID=" + this.search.FarmID;
       }
       axios
         .get(url, {
@@ -897,7 +893,7 @@ export default {
           this.isLoading = false;
         });
       store.dispatch("FarmVaccine", {
-        id: this.form.FarmID,
+        id: this.search.FarmID,
       });
     },
 
@@ -1353,12 +1349,10 @@ export default {
         });
         return;
       } else {
-        const id = this.form.FarmID;
-        console.log(this.form.FarmID);
-        console.log(this.Farm);
+        const id = this.search.FarmID;
         // let item = this.Farm.data.find((id) => id.FarmID == this.form.FarmID);
         let item = this.dropdown.Farms.find(
-          (id) => id.FarmID == this.form.FarmID
+          (id) => id.FarmID == this.search.FarmID
         );
 
         const farm = item.FarmIdentificationNumber;

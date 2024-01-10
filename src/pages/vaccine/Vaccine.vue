@@ -780,8 +780,8 @@ export default {
       }
     },
     "search.FarmID"() {
-    //   this.fetchFarm();
-
+      //   this.fetchFarm();
+      console.log(this.set_farm + "FREEDOM50");
       if (this.set_farm != null) {
         this.form.FarmID = this.set_farm.id;
         this.load();
@@ -856,49 +856,49 @@ export default {
       //   this.fetchFarm();
     },
     load() {
-        this.isLoading = true;
-        let url = this.url.vaccine + "?size=15";
-        url += "&page=";
-        if (this.curpage) {
-          url += this.curpage;
-        }
-        if (this.form.FarmID) {
-          url += "&FarmID=" + this.form.FarmID;
-          // console.log(url);
-        } else if (this.set_farm) {
-          url += "&FarmID=" + this.form.FarmID;
-        }
-        axios
-          .get(url, {
-            signal: this.controller.signal,
-          })
-          .then((response) => {
-            this.total = response.data.total;
-            this.data = response.data.rows;
-            this.data.sort(
-              (first, last) =>
-                new Date(last.ThaiVaccineActivityDate) -
-                new Date(first.ThaiVaccineActivityDate)
-            );
-            this.data.show = response.data.rows;
-            // console.log(this.data);
-            if (this.curpage == 0 || this.curpage == 1) {
-              for (let i = 0; i < this.data.length; i++) {
-                this.data[i].show_id = i + 1;
-              }
-            } else {
-              let start = (this.curpage - 1) * 15;
-              for (let i = 0; i < this.data.length; i++) {
-                this.data[i].show_id = i + 1 + start;
-              }
+      this.isLoading = true;
+      let url = this.url.vaccine + "?size=15";
+      url += "&page=";
+      if (this.curpage) {
+        url += this.curpage;
+      }
+      if (this.form.FarmID) {
+        url += "&FarmID=" + this.form.FarmID;
+        // console.log(url);
+      } else if (this.set_farm) {
+        url += "&FarmID=" + this.form.FarmID;
+      }
+      axios
+        .get(url, {
+          signal: this.controller.signal,
+        })
+        .then((response) => {
+          this.total = response.data.total;
+          this.data = response.data.rows;
+          this.data.sort(
+            (first, last) =>
+              new Date(last.ThaiVaccineActivityDate) -
+              new Date(first.ThaiVaccineActivityDate)
+          );
+          this.data.show = response.data.rows;
+          // console.log(this.data);
+          if (this.curpage == 0 || this.curpage == 1) {
+            for (let i = 0; i < this.data.length; i++) {
+              this.data[i].show_id = i + 1;
             }
-          })
-          .finally(() => {
-            this.isLoading = false;
-          });
-        store.dispatch("FarmVaccine", {
-          id: this.form.FarmID,
+          } else {
+            let start = (this.curpage - 1) * 15;
+            for (let i = 0; i < this.data.length; i++) {
+              this.data[i].show_id = i + 1 + start;
+            }
+          }
+        })
+        .finally(() => {
+          this.isLoading = false;
         });
+      store.dispatch("FarmVaccine", {
+        id: this.form.FarmID,
+      });
     },
 
     fetchAIZone() {
@@ -1194,29 +1194,29 @@ export default {
         params["FarmStatusID"] = this.search.FarmStatusID;
       }
 
-    //   axios
-    //     .get(this.url.Farm, {
-    //       signal: this.controller.signal,
-    //       params: params,
-    //     })
-    //     .then((res) => {
-    //       this.data = res.data.rows
-    //         .sort((a, b) =>
-    //           a.Province.ProvinceName.localeCompare(b.Province.ProvinceName)
-    //         )
-    //         .map((item) => {
-    //           item.FarmRegisterDate = dayjs(item.FarmRegisterDate)
-    //             .locale(locale)
-    //             .format("DD/MM/YYYY");
-    //           return item;
-    //         });
-    //       this.totalPage = res.data.totalPage;
-    //       this.totalItems = res.data.totalData;
-    //       this.total = res.data.total;
-    //     })
-    //     .finally(() => {
-    //       this.isLoading = false;
-    //     });
+      //   axios
+      //     .get(this.url.Farm, {
+      //       signal: this.controller.signal,
+      //       params: params,
+      //     })
+      //     .then((res) => {
+      //       this.data = res.data.rows
+      //         .sort((a, b) =>
+      //           a.Province.ProvinceName.localeCompare(b.Province.ProvinceName)
+      //         )
+      //         .map((item) => {
+      //           item.FarmRegisterDate = dayjs(item.FarmRegisterDate)
+      //             .locale(locale)
+      //             .format("DD/MM/YYYY");
+      //           return item;
+      //         });
+      //       this.totalPage = res.data.totalPage;
+      //       this.totalItems = res.data.totalData;
+      //       this.total = res.data.total;
+      //     })
+      //     .finally(() => {
+      //       this.isLoading = false;
+      //     });
 
       //
       axios
@@ -1354,11 +1354,12 @@ export default {
         return;
       } else {
         const id = this.form.FarmID;
-        console.log(this.form.FarmID)
-        console.log(this.Farm)
+        console.log(this.form.FarmID);
+        console.log(this.Farm);
         // let item = this.Farm.data.find((id) => id.FarmID == this.form.FarmID);
-        let item = this.dropdown.Farms.find((id) => id.FarmID == this.form.FarmID);
-        
+        let item = this.dropdown.Farms.find(
+          (id) => id.FarmID == this.form.FarmID
+        );
 
         const farm = item.FarmIdentificationNumber;
 

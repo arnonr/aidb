@@ -19,7 +19,7 @@
                 </label>
                 <InputText class="w-full" v-model="form.FullName" disabled />
               </div>
-              <div class="field col-12 sm:col-6">
+              <div class="field col-12 sm:col-4">
                 <label class="block text-600 text-sm font-bold mb-2">
                   จุดประสงค์การฉีดวัคซีน
                 </label>
@@ -50,7 +50,7 @@
                   placeholder="เลือกชนิด"
                 />
               </div>
-              <div class="field col-12 sm:col-6">
+              <div class="field col-12 sm:col-2">
                 <label class="block text-600 text-sm font-bold mb-2">
                   LOT
                 </label>
@@ -62,9 +62,8 @@
                   :class="{ 'p-invalid': !form.Lot && valid }"
                 />
               </div>
-              <div class="field col-12 sm:col-6"></div>
 
-              <div class="field col-12 sm:col-6">
+              <div class="field col-12 sm:col-4">
                 <label class="block text-600 text-sm font-bold mb-2">
                   วันที่ฉีด
                 </label>
@@ -90,7 +89,23 @@
                 </Datepicker>
               </div>
 
-              <div class="field col-12 sm:col-6">
+              <div class="field col-12 sm:col-4">
+                <label class="block text-600 text-sm font-bold mb-2">
+                  ระยะห่างการฉีดครั้งต่อไป
+                </label>
+                <Dropdown
+                  class="w-full"
+                  v-model="form.VaccineNextMonth"
+                  :options="VaccineNextMonth"
+                  optionLabel="label"
+                  optionValue="id"
+                  :class="{ 'p-invalid': valid }"
+                  :showClear="true"
+                  placeholder="ระยะห่างการฉีดครั้งต่อไป"
+                />
+              </div>
+
+              <div class="field col-12 sm:col-4">
                 <label class="block text-600 text-sm font-bold mb-2">
                   วันที่การฉีดครั้งต่อไป
                 </label>
@@ -333,6 +348,13 @@ export default {
   data() {
     return {
       key: this.$route.params.id,
+      organization: [],
+      VaccineNextMonth: [
+        { label: "1 เดือน", id: 1 },
+        { label: "2 เดือน", id: 2 },
+        { label: "3 เดือน", id: 3 },
+        { label: "6 เดือน", id: 6 },
+      ],
       url: {
         animal: "/animal",
         apiPersonal: "/staff?isActive=1",
@@ -340,7 +362,6 @@ export default {
         VaccineObjective: "/vaccine-objective",
         Vaccine: "/vaccine",
       },
-
       id: "AnimalID",
       columns: [
         {
@@ -374,6 +395,7 @@ export default {
       form: {
         Animal: [],
         AnimalID: [],
+        VaccineNextMonth: [],
       },
       itemsVaccine: [],
       data: [],
@@ -388,6 +410,29 @@ export default {
     };
   },
   loadLazyTimeout: null,
+  watch: {
+    "form.VaccineNextMonth"() {
+      if (this.form.VaccineNextMonth == 1) {
+        this.form.VaccineNextDate = dayjs(this.form.VaccineActivityDate)
+          .add(1, "month")
+          .format("YYYY-MM-DD");
+      } else if (this.form.VaccineNextMonth == 2) {
+        this.form.VaccineNextDate = dayjs(this.form.VaccineActivityDate)
+          .add(2, "month")
+          .format("YYYY-MM-DD");
+      } else if (this.form.VaccineNextMonth == 3) {
+        this.form.VaccineNextDate = dayjs(this.form.VaccineActivityDate)
+          .add(3, "month")
+          .format("YYYY-MM-DD");
+      } else if (this.form.VaccineNextMonth == 6) {
+        this.form.VaccineNextDate = dayjs(this.form.VaccineActivityDate)
+          .add(6, "month")
+          .format("YYYY-MM-DD");
+      } else {
+        console.log("ERROR")
+      }
+    },
+  },
   mounted() {
     this.field();
   },

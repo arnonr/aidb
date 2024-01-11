@@ -268,7 +268,7 @@ export default {
       LoadSelection: {
         Staff: "/staff",
         DistributionReasonID: "/distribution-reason",
-        DestinationFarmID: "/farm",
+        DestinationFarmID: "/farm?isActive=1&includeAll=false",
       },
       show: {},
       // Selection
@@ -290,10 +290,10 @@ export default {
             header: "คัดทิ้ง",
             val: "DROP",
           },
-          {
-            header: "ย้าย",
-            val: "TRANSFER",
-          },
+        //   {
+        //     header: "ย้าย",
+        //     val: "TRANSFER",
+        //   },
         ],
       },
       // Table Field

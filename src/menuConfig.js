@@ -289,22 +289,22 @@ export default [
               },
             ],
           },
-          {
-            label: "ด้านการตรวจระบบสืบพันธุ์",
-            icon: "pi pi-fw pi-circle",
-            items: [
-              {
-                label: "รายงานแก้ไขปัญหาทางระบบสืบพันธุ์",
-                icon: "pi pi-minus",
-                to: "/report/reproduce",
-              },
-              {
-                label: "รายงานตรวจระบบสืบพันธ์หลังคลอด 30 วัน",
-                icon: "pi pi-minus",
-                to: "/report/preg30",
-              },
-            ],
-          },
+        //   {
+        //     label: "ด้านการตรวจระบบสืบพันธุ์",
+        //     icon: "pi pi-fw pi-circle",
+        //     items: [
+        //       {
+        //         label: "รายงานแก้ไขปัญหาทางระบบสืบพันธุ์",
+        //         icon: "pi pi-minus",
+        //         to: "/report/reproduce",
+        //       },
+        //       {
+        //         label: "รายงานตรวจระบบสืบพันธ์หลังคลอด 30 วัน",
+        //         icon: "pi pi-minus",
+        //         to: "/report/preg30",
+        //       },
+        //     ],
+        //   },
           {
             label: "รายงานการเจริญเติบโต",
             icon: "pi pi-fw pi-circle",

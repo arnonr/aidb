@@ -1149,6 +1149,7 @@ export default {
       ],
 
       urlFarm: "/farm/selection?includeAll=false",
+      urlProvince: "/province/selection?includeAll=false",
       url: {
         Farm: "/farm",
         FarmStatus: "/farm-status",
@@ -1613,7 +1614,7 @@ export default {
         params["OrganizationZoneID"] = this.search.OrganizationZoneID;
       }
       axios
-        .get(this.url.Province, {
+        .get(this.urlProvince, {
           signal: this.controller.signal,
           params: params,
         })

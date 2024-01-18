@@ -1628,7 +1628,7 @@ export default {
 
     this.form.isActive = this.status[0];
 
-    this.load_selection();
+    // this.load_selection();
     this.permit = this.permission.filter((item) => {
       return item.MenuID == 3;
     });
@@ -2720,9 +2720,9 @@ export default {
       }
     },
     load_selection() {
-      const getOrganization = axios.get(this.urlOrganization, {
-        signal: this.controller.signal,
-      });
+    //   const getOrganization = axios.get(this.urlOrganization, {
+    //     signal: this.controller.signal,
+    //   });
       const getOrganizationZone = axios.get(this.urlOrganizationZone, {
         signal: this.controller.signal,
       });
@@ -2732,44 +2732,44 @@ export default {
       const getProject = axios.get(this.urlProject, {
         signal: this.controller.signal,
       });
-      const getFarm = axios.get(this.urlFarm, {
-        signal: this.controller.signal,
-      });
+    //   const getFarm = axios.get(this.urlFarm, {
+    //     signal: this.controller.signal,
+    //   });
 
       const getAnimalSex = axios.get(this.urlAnimalSex, {
         signal: this.controller.signal,
       });
-      const getTumbol = axios.get(this.urlTumbol, {
-        signal: this.controller.signal,
-      });
-      const getAmphur = axios.get(this.urlAmphur, {
-        signal: this.controller.signal,
-      });
-      const getProvince = axios.get(this.urlProvince, {
-        signal: this.controller.signal,
-      });
+    //   const getTumbol = axios.get(this.urlTumbol, {
+    //     signal: this.controller.signal,
+    //   });
+    //   const getAmphur = axios.get(this.urlAmphur, {
+    //     signal: this.controller.signal,
+    //   });
+    //   const getProvince = axios.get(this.urlProvince, {
+    //     signal: this.controller.signal,
+    //   });
 
       Promise.all([
-        getOrganization,
+        // getOrganization,
         getOrganizationZone,
-        getFarm,
         getAnimalSex,
-        getTumbol,
-        getAmphur,
-        getProvince,
+        // getTumbol,
+        // getAmphur,
+        // getProvince,
+        // getFarm,
         getAIZone,
         getProject,
       ])
         .then((values) => {
-          this.Organization = values[0].data.rows;
+        //   this.Organization = values[0].data.rows;
 
-          for (let i = 0; i < this.Organization.length; i++) {
-            this.Organization[i].show_id = i + 1;
-            this.Organization[i].OrganizationFull =
-              this.Organization[i].OrganizationCode +
-              ", " +
-              this.Organization[i].OrganizationName;
-          }
+        //   for (let i = 0; i < this.Organization.length; i++) {
+        //     this.Organization[i].show_id = i + 1;
+        //     this.Organization[i].OrganizationFull =
+        //       this.Organization[i].OrganizationCode +
+        //       ", " +
+        //       this.Organization[i].OrganizationName;
+        //   }
 
           this.OrganizationZone = values[1].data.rows;
 
@@ -2779,42 +2779,42 @@ export default {
               this.OrganizationZone[i].OrganizationZoneName;
           }
 
-          this.Farm = values[2].data.rows;
-          for (let i = 0; i < this.Farm.length; i++) {
-            this.Farm[i].show_id = i + 1;
-            this.Farm[i].FarmFull =
-              this.Farm[i].FarmIdentificationNumber +
-              ", " +
-              this.Farm[i].FarmName;
-          }
+        //   this.Farm = values[2].data.rows;
+        //   for (let i = 0; i < this.Farm.length; i++) {
+        //     this.Farm[i].show_id = i + 1;
+        //     this.Farm[i].FarmFull =
+        //       this.Farm[i].FarmIdentificationNumber +
+        //       ", " +
+        //       this.Farm[i].FarmName;
+        //   }
           this.AnimalSex = values[3].data.rows;
 
-          this.Tumbol = values[4].data.rows.map((item) => {
-            return {
-              TumbolID: item.TumbolID,
-              AmphurID: item.AmphurID,
-              TumbolCode: item.TumbolCode,
-              ProvinceID: item.ProvinceID,
-              TumbolName: item.TumbolName,
-              Fullname:
-                item.TumbolCode.substring(0, 6) + ", " + item.TumbolName,
-            };
-          });
-          this.TempTumbol = this.Tumbol;
+        //   this.Tumbol = values[4].data.rows.map((item) => {
+        //     return {
+        //       TumbolID: item.TumbolID,
+        //       AmphurID: item.AmphurID,
+        //       TumbolCode: item.TumbolCode,
+        //       ProvinceID: item.ProvinceID,
+        //       TumbolName: item.TumbolName,
+        //       Fullname:
+        //         item.TumbolCode.substring(0, 6) + ", " + item.TumbolName,
+        //     };
+        //   });
+        //   this.TempTumbol = this.Tumbol;
 
-          this.Amphur = values[5].data.rows.map((item) => {
-            return {
-              AmphurID: item.AmphurID,
-              ProvinceID: item.ProvinceID,
-              AmphurCode: item.AmphurCode,
-              AmphurName: item.AmphurName,
-              Fullname:
-                item.AmphurCode.substring(0, 4) + ", " + item.AmphurName,
-            };
-          });
-          this.TempAmphur = this.Amphur;
+        //   this.Amphur = values[5].data.rows.map((item) => {
+        //     return {
+        //       AmphurID: item.AmphurID,
+        //       ProvinceID: item.ProvinceID,
+        //       AmphurCode: item.AmphurCode,
+        //       AmphurName: item.AmphurName,
+        //       Fullname:
+        //         item.AmphurCode.substring(0, 4) + ", " + item.AmphurName,
+        //     };
+        //   });
+        //   this.TempAmphur = this.Amphur;
 
-          this.Province = values[6].data.rows;
+        //   this.Province = values[6].data.rows;
 
           this.AIZone = values[7].data.rows;
           this.Projects = values[8].data.rows;

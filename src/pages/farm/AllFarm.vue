@@ -1147,6 +1147,8 @@ export default {
           header: "วันที่ขึ้นทะเบียน",
         },
       ],
+
+      urlFarm: "/farm/selection?includeAll=false",
       url: {
         Farm: "/farm",
         FarmStatus: "/farm-status",
@@ -1861,54 +1863,96 @@ export default {
 
       //
       axios
-        .get(this.url.Farm, {
+        .get(this.urlFarm, {
           signal: this.controller.signal,
-          params: {
-            ...params,
-            size: 10000,
-            page: 1,
-            FarmID: undefined,
-          },
+          params: params,
         })
         .then((res) => {
-          this.dropdown.Farms = res.data.rows
-            .sort((a, b) =>
-              a.Province.ProvinceName.localeCompare(b.Province.ProvinceName)
-            )
-            .map((item) => {
-              let name = item.Farmer ? item.Farmer.FullName : "- ";
-              let number = item.FarmIdentificationNumber
-                ? item.FarmIdentificationNumber
-                : "- ";
-              let province = item.Province ? item.Province.ProvinceName : "- ";
-              let Organization = item.OrganizationZone
-                ? item.OrganizationZone.OrganizationZoneName
-                : "- ";
-
-              return {
-                FarmID: item.FarmID,
-                FarmName: item.FarmName,
-                FarmIdentificationNumber: item.FarmIdentificationNumber,
-                Fullname:
-                  "ฟาร์ม " +
-                  item.FarmName +
-                  " (" +
-                  number +
-                  ")" +
-                  " | เจ้าของฟาร์ม " +
-                  name +
-                  " | จังหวัด " +
-                  province +
-                  " | " +
-                  Organization,
-                OrganizationZoneName: Organization,
-              };
-            });
-          //
+          this.dropdown.Farms = res.data.rows;
         })
         .finally(() => {
           this.isLoading = false;
         });
+
+      //   if (this.search.FarmerFullName) {
+      //     url += "&FullName=" + this.search.FarmerFullName;
+      //     urlExcel += "&FullName=" + this.search.FarmerFullName;
+      //   }
+    },
+
+    exportExcel() {
+      this.isLoading = true;
+      if (
+        this.search.AIZoneID == null &&
+        this.search.OrganizationZoneID == null
+      ) {
+        this.isLoading = false;
+        return;
+      }
+
+      let params = {
+        size: this.rowPerPage,
+        page: this.currentPage,
+        orderByField: "FarmID",
+        orderBy: "desc",
+        // includeAll: false,
+      };
+
+      if (this.search.FarmAnimalType == null) {
+        this.search.FarmAnimalType = parseInt(this.AnimalID);
+        params["FarmAnimalType"] = this.search.FarmAnimalType;
+      } else {
+        params["FarmAnimalType"] = this.search.FarmAnimalType;
+      }
+
+      // Province IN AIZOne
+      if (this.search.AIZoneID != null) {
+        if (this.search.AIZoneID != 99) {
+          params["AIZoneID"] = this.search.AIZoneID;
+        }
+      }
+
+      if (this.search.OrganizationZoneID != null) {
+        if (this.search.OrganizationZoneID != 99) {
+          params["OrganizationZoneID"] = this.search.OrganizationZoneID;
+        }
+      }
+
+      if (this.search.ProvinceID != null) {
+        params["FarmProvinceID"] = this.search.ProvinceID;
+      }
+
+      if (this.search.AmphurID != null) {
+        params["FarmAmphurID"] = this.search.AmphurID;
+      }
+
+      if (this.search.TumbolID != null) {
+        params["FarmTumbolID"] = this.search.TumbolID;
+      }
+
+      if (this.search.OrganizationID != null) {
+        params["OrganizationID"] = this.search.OrganizationID;
+      }
+
+      if (this.search.OrganizationID != null) {
+        params["OrganizationID"] = this.search.OrganizationID;
+      }
+
+      if (this.search.ProjectIDArray) {
+        params["ProjectID"] = JSON.stringify(this.search.ProjectIDArray);
+      }
+
+      if (this.search.FarmerFullName) {
+        params["FullName"] = this.search.FarmerFullName;
+      }
+
+      if (this.search.FarmID) {
+        params["FarmID"] = this.search.FarmID;
+      }
+
+      if (this.search.FarmStatusID) {
+        params["FarmStatusID"] = this.search.FarmStatusID;
+      }
 
       axios
         .get(this.url.Farm, {
@@ -1939,11 +1983,6 @@ export default {
         .finally(() => {
           this.isLoading = false;
         });
-
-      //   if (this.search.FarmerFullName) {
-      //     url += "&FullName=" + this.search.FarmerFullName;
-      //     urlExcel += "&FullName=" + this.search.FarmerFullName;
-      //   }
     },
 
     load(event) {

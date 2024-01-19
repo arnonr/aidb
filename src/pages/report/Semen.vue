@@ -345,10 +345,10 @@ export default {
     return {
       data: [],
       url: {
-        organization_zone: "/organization-zone",
-        province: "/province",
-        amphur: "/amphur",
-        tumbol: "/tumbol",
+        organization_zone: "/organization-zone/selection?includeAll=false&isActive=1",
+        province: "/province/selection?includeAll=false&isActive=1",
+        amphur: "/amphur/selection?includeAll=false&isActive=1",
+        tumbol: "/tumbol/selection?includeAll=false&isActive=1",
       },
       amphur: [],
       Organization: [],

@@ -310,10 +310,10 @@ export default {
     return {
       data: [],
       url: {
-        organization_zone: "/organization-zone",
-        province: "/province",
-        amphur: "/amphur",
-        staff: "/staff",
+        organization_zone: "/organization-zone/selection?includeAll=false&isActive=1",
+        province: "/province/selection?includeAll=false&isActive=1",
+        amphur: "/amphur/selection?includeAll=false&isActive=1",
+        staff: "/staff/selection?includeAll=false&isActive=1",
         report3: "/report/report3?AIZoneID=",
       },
       dropdown: [],

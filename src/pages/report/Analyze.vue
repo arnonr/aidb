@@ -561,19 +561,21 @@ export default {
       provinceAITime: [],
       provinceAICount: [],
       url: {
-        AIZone: "/ai-zone",
-        OrganizationZone: "/organization-zone",
-        Province: "/province",
-        Amphur: "/amphur",
-        Tumbol: "/tumbol",
-        OrganizationType: "/organization-type",
-        Organization: "/organization",
-        Farm: "/farm",
+        AIZone: "/ai-zone/selection?includeAll=false&isActive=1",
+        OrganizationZone:
+          "/organization-zone/selection?includeAll=false&isActive=1",
+        Province: "/province/selection?includeAll=false&isActive=1",
+        Amphur: "/amphur/selection?includeAll=false&isActive=1",
+        Tumbol: "/tumbol/selection?includeAll=false&isActive=1",
+        OrganizationType:
+          "/organization-type/selection?includeAll=false&isActive=1",
+        Organization: "/organization/selection?includeAll=false&isActive=1",
+        Farm: "/farm/selection?includeAll=false&isActive=1",
         Report: "/report/report23",
         Report24: "/report/report24",
         Report25: "/report/report25",
-        Project: "/project",
-        Staff: "/staff",
+        Project: "/project/selection?includeAll=false&isActive=1",
+        Staff: "/staff/selection?includeAll=false&isActive=1",
       },
       dropdown: {
         AIZones: [],
@@ -1460,19 +1462,20 @@ export default {
               //
               this.data.main = [...this.data.main, ...res.data.data];
 
-              axios
-                .get(this.url.Report25, {
-                  signal: this.controller.signal,
-                  params: params,
-                })
-                .then((res) => {
-                  //
-                  this.data.main = [...this.data.main, ...res.data.data];
-                })
-                .finally(() => {
-                  this.isLoading = false;
-                  this.loader = true;
-                });
+              //   report 25
+            //   axios
+            //     .get(this.url.Report25, {
+            //       signal: this.controller.signal,
+            //       params: params,
+            //     })
+            //     .then((res) => {
+            //       //
+            //       this.data.main = [...this.data.main, ...res.data.data];
+            //     })
+            //     .finally(() => {
+            //       this.isLoading = false;
+            //       this.loader = true;
+            //     });
             })
             .finally(() => {
               this.isLoading = false;

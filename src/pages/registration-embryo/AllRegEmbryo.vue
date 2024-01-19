@@ -947,7 +947,7 @@ export default {
       this.url.main = "/embryo";
       this.url.animal = "/animal";
       this.url.source_type = "/source-type";
-      this.url.organization = "/organization";
+      this.url.organization = "/organization/selection?includeAll=false";
       this.url.staff = "/staff?isActive=1";
 
       let url = this.url.main + "?size=15";

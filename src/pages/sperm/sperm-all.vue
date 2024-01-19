@@ -891,7 +891,7 @@ export default {
       this.url.main = "/semen";
       this.url.source_type = "/source-type";
       this.url.country = "/country?includeAll=false";
-      this.url.organization = "/organization?includeAll=false";
+      this.url.organization = "/organization/selection?includeAll=false";
       let url = this.url.main;
 
       if (this.animal_id == 1) {

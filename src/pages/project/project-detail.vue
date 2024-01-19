@@ -55,7 +55,8 @@
               for="codeNumber"
               class="block text-600 text-sm font-bold mb-2"
             >
-              หมายเลขทะเบียนฟาร์ม</label>
+              หมายเลขทะเบียนฟาร์ม</label
+            >
             <span class="p-input-icon-right w-full">
               <i class="pi pi-search" />
               <InputText
@@ -107,6 +108,7 @@
                     emptyFilterMessage="ไม่พบข้อมูล"
                     class="w-full"
                     placeholder="ทั้งหมด"
+                    :disabled="isSelectAIZoneDisabled"
                     :options="selection.AIZone.data"
                     optionLabel="AIZoneName"
                     optionValue="AIZoneID"
@@ -129,6 +131,7 @@
                     placeholder="ทั้งหมด"
                     :options="selection.OrganizationZone.data"
                     optionLabel="OrganizationZoneName"
+                    :disabled="isSelectOrganizationZoneDisabled"
                     optionValue="OrganizationZoneID"
                     v-model="search.OrganizationZone"
                     @change="filterProvince($event)"
@@ -1195,11 +1198,15 @@ export default {
   data() {
     return {
       json_data: [],
+      isSelectAIZoneDisabled: false,
+      isSelectOrganizationZoneDisabled: false,
       url: "/farm",
       getFarm: "/farmer/selection?includeAll=false&isActive=1",
       getOrganization: "/organization/selection?includeAll=false&isActive=1",
-      getOrganizationZone: "/organization-zone/selection?includeAll=false&isActive=1",
-      getOrganizationType: "/organization-type/selection?includeAll=false&isActive=1",
+      getOrganizationZone:
+        "/organization-zone/selection?includeAll=false&isActive=1",
+      getOrganizationType:
+        "/organization-type/selection?includeAll=false&isActive=1",
       getProvince: "/province/selection?includeAll=false&isActive=1",
       getAmphur: "/amphur/selection?includeAll=false&isActive=1",
       getTumbol: "/tumbol/selection?includeAll=false&isActive=1",
@@ -1364,6 +1371,36 @@ export default {
     });
   },
   watch: {
+    "search.AIZone"(val) {
+      if (val && val != null) {
+        this.filtered.AIZone = val;
+        this.search.OrganizationZone = null;
+        this.filtered.AIZone = null;
+        this.isSelectAIZoneDisabled = false;
+        this.isSelectOrganizationZoneDisabled = true;
+      } else {
+        this.isSelectAIZoneDisabled = false;
+        this.isSelectOrganizationZoneDisabled = false;
+      }
+
+      this.load();
+    },
+
+    "search.OrganizationZone"(val) {
+      if (val && val != null) {
+        this.filtered.OrganizationZone = val;
+        this.filtered.AIZone = null;
+        this.search.AIZone = null;
+        this.isSelectAIZoneDisabled = true;
+        this.isSelectOrganizationZoneDisabled = false;
+      } else {
+        this.isSelectAIZoneDisabled = false;
+        this.isSelectOrganizationZoneDisabled = false;
+      }
+
+      this.load();
+    },
+
     "search.FarmIdentificationNumber"(val) {
       this.filtered.FarmIdentificationNumber = val;
       this.load();
@@ -1380,10 +1417,10 @@ export default {
       this.filtered.OrganizationID = val;
       this.load();
     },
-    "search.OrganizationZone"(val) {
-      this.filtered.OrganizationZone = val;
-      this.load();
-    },
+    // "search.OrganizationZone"(val) {
+    //   this.filtered.OrganizationZone = val;
+    //   this.load();
+    // },
     "filtered.FarmStatusID"(val) {
       this.filtered.FarmStatusID = val;
       this.load();

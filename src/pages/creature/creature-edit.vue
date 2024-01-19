@@ -837,15 +837,16 @@ export default {
       params: this.$route.params.id,
       url: "/animal",
       urlNumber: "/animal/generate-number",
-      apiFarm: "/farm?isActive=1",
-      apiPersonal: "/staff?isActive=1",
-      apiAnimalSex: "/animal-sex?isActive=1",
+      apiFarm: "/farm/selection?includeAll=false&isActive=1",
+      apiPersonal: "/staff/selection?includeAll=false&isActive=1",
+      apiAnimalSex: "/animal-sex/selection?includeAll=false&isActive=1",
       apiAnimalFatherID: "/animal/id-and-name?isActive=1",
       apiAnimalMotherID: "/animal/id-and-name?isActive=1",
       apiAnimalBreedID: "/animal-breed?isActive=1",
-      apiOrganizationID: "/organization?includeAll=false&isActive=1",
-      apiOrganizationZoneID: "/organization-zone?isActive=1",
-      apiProject: "/project?includeAll=false&isActive=1",
+      apiOrganizationID: "/organization/selection?includeAll=false&isActive=1",
+      apiOrganizationZoneID:
+        "/organization-zone/selection?includeAll=false&isActive=1",
+      apiProject: "/project/selection?includeAll=false&isActive=1",
       apiAnimalStatusID: "/animal-status?isActive=1",
       apiAnimalTypeID: "/animal-type?isActive=1",
       apiCheckBreed: "/animal/generate-breed",
@@ -997,15 +998,9 @@ export default {
     }
 
     await axios
-      .get(
-        this.apiFarm +
-          "&includeAll=false&FarmAnimalType=[" +
-          this.animal_id +
-          "]",
-        {
-          signal: this.controller.signal,
-        }
-      )
+      .get(this.apiFarm + "&FarmAnimalType=[" + this.animal_id + "]", {
+        signal: this.controller.signal,
+      })
       .then(() => {
         // this.farm = response.data.rows.map((item) => {
         //   return {
@@ -1526,16 +1521,20 @@ export default {
             id.AnimalSource = this.AnimalSource[0];
           } else if (id.AnimalSource == "BUY") {
             id.AnimalSource = this.AnimalSource[1];
-          } else {
+          } else if (id.AnimalSource == "TRANSFER") {
             id.AnimalSource = this.AnimalSource[2];
+          } else {
+            id.AnimalSource = null;
           }
 
           if (id.AnimalBornType == "NORMAL") {
             id.AnimalBornType = this.BornType[0];
           } else if (id.AnimalBornType == "AI") {
             id.AnimalBornType = this.BornType[1];
-          } else {
+          } else if (id.AnimalBornType == "EMBRYO") {
             id.AnimalBornType = this.BornType[2];
+          } else {
+            id.AnimalBornType = null;
           }
 
           if (
@@ -1661,70 +1660,66 @@ export default {
         .finally(() => {
           this.isFisrtLoad = true;
 
-          axios
-            .get(this.apiFarm + "&FarmID=" + this.form.FarmID)
-            .then((response) => {
-              // console.log(response);
-              if (response.data.rows[0].Projects.length != 0) {
-                let checkProject21 = response.data.rows[0].Projects.find(
-                  (x) => {
-                    // console.log(x);
-                    return x == "โครงการการผลิตและมาตรฐานน้ำเชื้อ";
-                  }
-                );
+          axios.get("/farm?FarmID=" + this.form.FarmID).then((response) => {
+            // console.log(response);
+            if (response.data.rows[0].Projects.length != 0) {
+              let checkProject21 = response.data.rows[0].Projects.find((x) => {
+                // console.log(x);
+                return x == "โครงการการผลิตและมาตรฐานน้ำเชื้อ";
+              });
 
-                if (checkProject21 != null) {
-                  if (this.user.GroupID != 1) {
-                    // console.log("FREEDOM1");
+              if (checkProject21 != null) {
+                if (this.user.GroupID != 1) {
+                  // console.log("FREEDOM1");
 
-                    window.location.href =
-                      "http://bblp-aidm.dld.go.th/agency/creature";
-                  }
+                  window.location.href =
+                    "http://bblp-aidm.dld.go.th/agency/creature";
                 }
               }
-              console.log(response.data.rows[0]);
+            }
+            console.log(response.data.rows[0]);
 
-              this.OrganizationZone = response.data.rows[0].OrganizationZone
-                ? response.data.rows[0].OrganizationZone.OrganizationZoneName
-                : null;
+            this.OrganizationZone = response.data.rows[0].OrganizationZone
+              ? response.data.rows[0].OrganizationZone.OrganizationZoneName
+              : null;
 
-              this.form.OrganizationZoneID = response.data.rows[0]
-                .OrganizationZoneID
-                ? response.data.rows[0].OrganizationZoneID
-                : this.form.OrganizationZoneID;
-              this.form.OrganizationID = response.data.rows[0].OrganizationID
-                ? response.data.rows[0].OrganizationID
-                : this.form.OrganizationID;
-              //   id.OrganizationZone.OrganizationZoneName
-              //
-              this.farm = [
-                {
-                  FarmID: response.data.rows[0].FarmID,
-                  FarmName: response.data.rows[0].FarmName,
-                  OrganizationID: response.data.rows[0].OrganizationID,
-                  AIZoneID: response.data.rows[0].AIZoneID,
-                  Fullname:
-                    response.data.rows[0].FarmIdentificationNumber +
-                    ", " +
-                    response.data.rows[0].FarmName,
-                  OrganizationZoneName:
-                    response.data.rows[0].OrganizationZone.OrganizationZoneName,
-                },
-              ];
+            this.form.OrganizationZoneID = response.data.rows[0]
+              .OrganizationZoneID
+              ? response.data.rows[0].OrganizationZoneID
+              : this.form.OrganizationZoneID;
+            this.form.OrganizationID = response.data.rows[0].OrganizationID
+              ? response.data.rows[0].OrganizationID
+              : this.form.OrganizationID;
+            //   id.OrganizationZone.OrganizationZoneName
+            //
+            this.farm = [
+              {
+                FarmID: response.data.rows[0].FarmID,
+                FarmName: response.data.rows[0].FarmName,
+                OrganizationID: response.data.rows[0].OrganizationID,
+                AIZoneID: response.data.rows[0].AIZoneID,
+                Fullname:
+                  response.data.rows[0].FarmIdentificationNumber +
+                  ", " +
+                  response.data.rows[0].FarmName,
+                OrganizationZoneName:
+                  response.data.rows[0].OrganizationZone.OrganizationZoneName,
+              },
+            ];
 
-              //   response.data.rows.map((item) => {
-              //     return {
-              //       FarmID: item.FarmID,
-              //       FarmName: item.FarmName,
-              //       OrganizationID: item.OrganizationID,
-              //       AIZoneID: item.AIZoneID,
-              //       Fullname:
-              //         item.FarmIdentificationNumber + ", " + item.FarmName,
-              //       OrganizationZoneName:
-              //         item.OrganizationZone.OrganizationZoneName,
-              //     };
-              //   });
-            });
+            //   response.data.rows.map((item) => {
+            //     return {
+            //       FarmID: item.FarmID,
+            //       FarmName: item.FarmName,
+            //       OrganizationID: item.OrganizationID,
+            //       AIZoneID: item.AIZoneID,
+            //       Fullname:
+            //         item.FarmIdentificationNumber + ", " + item.FarmName,
+            //       OrganizationZoneName:
+            //         item.OrganizationZone.OrganizationZoneName,
+            //     };
+            //   });
+          });
 
           // console.log(this.form.AnimalFirstBreed);
 
@@ -2027,7 +2022,7 @@ export default {
 
       formData1.append("photo_url", this.form.AnimalImagePathGen);
 
-    //   formData1.append("id", id);
+      //   formData1.append("id", id);
 
       console.log(formData1);
       console.log(this.form.AnimalImagePathGen);

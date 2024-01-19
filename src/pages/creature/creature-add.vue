@@ -868,7 +868,7 @@
                     </div>
                   </div>
 
-                  <!-- <div class="field col-12 sm:col-12 lg:col-12">
+                  <div class="field col-12 sm:col-12 lg:col-12">
                     <div class="text-xl">Status</div>
                     <div
                       v-for="isAlive of alive"
@@ -884,7 +884,7 @@
                       />
                       <label :for="isAlive.key">{{ isAlive.name }}</label>
                     </div>
-                  </div> -->
+                  </div>
                   <div class="field col-12 sm:col-12 lg:col-12">
                     <div class="text-xl">สถานะ</div>
                     <div
@@ -962,17 +962,17 @@ export default {
     return {
       url: "/animal",
       urlNumber: "/animal/generate-number",
-      apiFarm: "/farm?includeAll=false&isActive=1",
-      apiPersonal: "/staff?isActive=1",
-      apiAnimalSex: "/animal-sex?isActive=1",
+      apiFarm: "/farm/selection?includeAll=false&isActive=1",
+      apiPersonal: "/staff/selection?includeAll=false&isActive=1",
+      apiAnimalSex: "/animal-sex/selection?includeAll=false&isActive=1",
       apiAnimalFatherID: "/animal/id-and-name?isActive=1",
       apiAnimalMotherID: "/animal/id-and-name?isActive=1",
       apiAnimalBreedID: "/animal-breed?includeAll=false&isActive=1",
-      apiOrganizationID: "/organization?includeAll=false&isActive=1",
-      apiOrganizationZoneID: "/organization-zone?isActive=1",
-      apiProject: "/project?includeAll=false&isActive=1",
-      apiAnimalStatusID: "/animal-status?isActive=1",
-      apiAnimalTypeID: "/animal-type?isActive=1",
+      apiOrganizationID: "/organization/selection?includeAll=false&isActive=1",
+      apiOrganizationZoneID: "/organization-zone/selection?includeAll=false&isActive=1",
+      apiProject: "/project/selection?includeAll=false&isActive=1",
+      apiAnimalStatusID: "/animal-status?includeAll=false&isActive=1",
+      apiAnimalTypeID: "/animal-type?includeAll=false&isActive=1",
       apiCheckBreed: "/animal/generate-breed",
       breadcrumb: [
         { label: "ทะเบียนสัตว์ (ผท.1)", to: "/agency/creature" },

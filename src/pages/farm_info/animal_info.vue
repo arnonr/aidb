@@ -1096,15 +1096,15 @@ export default {
   data() {
     return {
       url: "/animal",
-      urlOrganization: "/organization?includeAll=false",
-      urlOrganizationZone: "/organization-zone",
-      urlFarm: "/farm?includeAll=false",
-      urlAnimalSex: "/animal-sex",
-      urlTumbol: "/tumbol?includeAll=false",
-      urlAmphur: "/amphur?includeAll=false",
-      urlProvince: "/province?includeAll=false",
+      urlOrganization: "/organization/selection?isActive=1&includeAll=false",
+      urlOrganizationZone: "/organization-zone/selection?isActive=1&includeAll=false",
+      urlFarm: "/farm/selection?isActive=1&includeAll=false",
+      urlAnimalSex: "/animal-sex/selection?isActive=1&includeAll=false",
+      urlTumbol: "/tumbol/selection?isActive=1&includeAll=false",
+      urlAmphur: "/amphur/selection?isActive=1&includeAll=false",
+      urlProvince: "/province/selection?isActive=1&includeAll=false",
       urlAnimalBreedID: "/animal-breed?isActive=1",
-      apiProject: "/project?includeAll=false",
+      apiProject: "/project/selection?isActive=1&includeAll=false",
 
       breadcrumb: [
         { label: "หน้าหลัก", to: "/" },

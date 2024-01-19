@@ -631,7 +631,7 @@ export default {
       },
       //load_selection
       LoadSelection: {
-        Staff: "/staff",
+        Staff: "/staff/selection?includeAll=false&isActive=1",
         GiveBirthHelpID: "/give-birth-help",
         BCSID: "/bcs",
       },

@@ -334,7 +334,7 @@ export default {
       LoadSelection: {
         BCS: "/bcs",
 
-        Staff: "/staff",
+        Staff: "/staff/selection?includeAll=false&isActive=1",
         PregnancyCheckMethodID: "/pregnancy-check-method",
         PregnancyCheckStatusID: "/pregnancy-check-status",
       },

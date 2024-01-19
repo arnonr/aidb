@@ -1396,10 +1396,10 @@ export default {
 
       //load_selection
       LoadSelection: {
-        Staff: "/staff",
-        Project: "/project",
+        Staff: "/staff/selection?includeAll=false&isActive=1",
+        Project: "/project/selection?includeAll=false&isActive=1",
         // Animal: "/animal",
-        Semen: "/semen",
+        Semen: "/semen?includeAll=false&isActive=1",
         BCS: "/bcs",
         Estral: "/goat-estral-activity",
         GunDepth: "/gun-depth",
@@ -1852,7 +1852,7 @@ export default {
               .then((response) => {
                 if (
                   this.LoadSelection[i] ==
-                  "/animal?AnimalTypeID=[17,18]&isActive=1&AnimalSexID=1"
+                  "/animal/selection?AnimalTypeID=[17,18]&isActive=1&AnimalSexID=1"
                 ) {
                   // console.log(111);
                   this.selection[i] = response.data.rows;
@@ -1868,7 +1868,7 @@ export default {
                   });
                   // console.log(this.selection[i]);
                 } else if (
-                  this.LoadSelection[i] == "/project?ProjectLevel=AI"
+                  this.LoadSelection[i] == "/project/selection?includeAll=false&isActive=1฿ProjectLevel=AI"
                 ) {
                   this.selection[i] = response.data.rows;
                 } else {

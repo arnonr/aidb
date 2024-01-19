@@ -1108,7 +1108,7 @@ export default {
     return {
       url: "/red-goat",
       urlAnimal: "/animal/",
-      urlOrganization: "/organization",
+      urlOrganization: "/organization/selection?includeAll=false&isActive=1",
       apiAnimalFatherID: "/animal?isActive=1",
       apiPersonal: "/staff?isActive=1",
       breadcrumb: [

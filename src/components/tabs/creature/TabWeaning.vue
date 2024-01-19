@@ -228,7 +228,7 @@ export default {
 
       //load_selection
       LoadSelection: {
-        Staff: "/staff",
+        Staff: "/staff/selection?includeAll=false&isActive=1",
         BCSID: "/bcs",
       },
 

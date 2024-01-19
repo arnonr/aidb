@@ -2011,7 +2011,7 @@ export default {
       checked: null,
       //load_selection
       LoadSelection: {
-        Staff: "/staff",
+        Staff: "/staff/selection?includeAll=false&isActive=1",
         HeatType: "/heat-type",
         HeatCircle: "/heat-circle",
         LeftOvarySymptom: "/ovary-symptom",

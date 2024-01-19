@@ -381,7 +381,9 @@ export default {
         AnimalBreed3: {},
         AnimalBreed4: {},
         AnimalFarm: {},
+        AnimalName: null
       },
+      
       permit: null,
       active: 0,
       isProjectThaiBlack: false,
@@ -418,9 +420,10 @@ export default {
           signal: this.controller.signal,
         })
         .then((response) => {
-          if (response.data.total > 0) {
+          if (response.data.rows.length > 0) {
             if (this.search == response.data.rows[0].AnimalEarID) {
               this.data = response.data.rows[0];
+              console.log(this.data)
 
               // ป้องกันค้นหาเลขสัตว์อื่นแล้วเจอ
               if (this.animal_id == 1) {
@@ -457,6 +460,8 @@ export default {
                   this.data = {};
                 }
               }
+
+              console.log(this.data)
 
               store.dispatch(
                 "selectAnimalSecretStatus",

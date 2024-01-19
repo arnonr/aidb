@@ -343,16 +343,20 @@
         <DataTable
           class="text-sm"
           :value="data"
-          :paginator="true"
           :exportable="true"
           ref="dt"
           :rowHover="true"
-          :rows="10"
           :loading="isLoading"
+          :paginator="true"
+          v-model:rows="this.rowPerPage"
           paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
           :rowsPerPageOptions="[10, 20, 50]"
           responsiveLayout="scroll"
           currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
+          :totalRecords="total"
+          @page="load"
+          @sort="sort($event)"
+          lazy
         >
           <Column
             field="StaffNumber"
@@ -2536,7 +2540,7 @@ export default {
   },
   data() {
     return {
-      url: "/staff",
+      url: "/staff/all-count",
       urlTitle: "/title?isActive=1",
       urlGender: "/gender?isActive=1",
       urlMariedStatus: "/married-status?isActive=1",
@@ -2639,6 +2643,10 @@ export default {
       display_edit: false,
       display_view: false,
       display_delete: false,
+      rowPerPage: 20,
+      currentPage: 1,
+      totalPage: 1,
+      totalItems: 0,
     };
   },
   mounted() {
@@ -2972,9 +2980,12 @@ export default {
       }
     },
     // Axios
-    load() {
+    load(event) {
+      if (event) {
+        this.currentPage = event.page + 1;
+      }
       this.isLoading = true;
-      let url = this.url + "?size=";
+      let url = this.url + "?orderByField=StaffID&orderBy=desc";
       if (this.filtered.StaffNumber) {
         url += "&StaffNumber=" + this.filtered.StaffNumber;
       }
@@ -3014,11 +3025,18 @@ export default {
         url += "&StaffEndDate=" + this.filtered.StaffEndDate;
       }
 
-      if(this.filtered.StaffStatus){
+      if (this.filtered.StaffStatus) {
         url += "&StaffStatus=" + this.filtered.StaffStatus;
       }
+
+      let params = {
+        size: this.rowPerPage,
+        page: this.currentPage,
+        // includeAll: false,
+      };
+
       axios
-        .get(url, { signal: this.controller.signal })
+        .get(url, { signal: this.controller.signal, params: params })
         .then((response) => {
           this.total = response.data.total;
           this.data = response.data.rows;
@@ -3043,6 +3061,9 @@ export default {
           }
 
           this.json_data = this.data;
+          this.totalPage = response.data.totalPage;
+          this.totalItems = response.data.totalData;
+          this.total = response.data.total;
         })
         .finally(() => {
           this.isLoading = false;

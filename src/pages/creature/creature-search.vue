@@ -1662,7 +1662,7 @@ export default {
           this.fetchProvince();
           //   this.fetchOrganization();
           this.fetchFarm();
-        //   this.fetchAnimal();
+          //   this.fetchAnimal();
           this.search.AmphurID = null;
           this.search.TumbolID = null;
           this.search.OrganizationID = null;
@@ -1695,7 +1695,7 @@ export default {
           this.fetchProvince();
           this.fetchOrganization();
           this.fetchFarm();
-        //   this.fetchAnimal();
+          //   this.fetchAnimal();
           this.search.AmphurID = null;
           this.search.TumbolID = null;
           this.search.OrganizationID = null;
@@ -1982,7 +1982,7 @@ export default {
         this.currentPage = event.page + 1;
         this.params.page = event.page + 1;
       }
-    //   this.fetchAnimal();
+      //   this.fetchAnimal();
     },
 
     fetchAIZone() {
@@ -2394,7 +2394,6 @@ export default {
       //     });
     },
 
-   
     fetchAnimal() {
       this.isLoading = true;
       if (
@@ -2736,22 +2735,21 @@ export default {
       //   const getOrganization = axios.get(this.urlOrganization, {
       //     signal: this.controller.signal,
       //   });
-    //   const getOrganizationZone = axios.get(this.urlOrganizationZone, {
-    //     signal: this.controller.signal,
-    //   });
-    //   const getAIZone = axios.get(this.urlAIZone, {
-    //     signal: this.controller.signal,
-    //   });
-    //   const getProject = axios.get(this.urlProject, {
-    //     signal: this.controller.signal,
-    //   });
+      //   const getOrganizationZone = axios.get(this.urlOrganizationZone, {
+      //     signal: this.controller.signal,
+      //   });
+      //   const getAIZone = axios.get(this.urlAIZone, {
+      //     signal: this.controller.signal,
+      //   });
+      //   const getProject = axios.get(this.urlProject, {
+      //     signal: this.controller.signal,
+      //   });
       //   const getFarm = axios.get(this.urlFarm, {
       //     signal: this.controller.signal,
       //   });
-
-    //   const getAnimalSex = axios.get(this.urlAnimalSex, {
-    //     signal: this.controller.signal,
-    //   });
+      //   const getAnimalSex = axios.get(this.urlAnimalSex, {
+      //     signal: this.controller.signal,
+      //   });
       //   const getTumbol = axios.get(this.urlTumbol, {
       //     signal: this.controller.signal,
       //   });
@@ -2761,78 +2759,69 @@ export default {
       //   const getProvince = axios.get(this.urlProvince, {
       //     signal: this.controller.signal,
       //   });
-
-    //   Promise.all([
-    //     // getOrganization,
-    //     getOrganizationZone,
-    //     getAnimalSex,
-    //     // getTumbol,
-    //     // getAmphur,
-    //     // getProvince,
-    //     // getFarm,
-    //     getAIZone,
-    //     getProject,
-    //   ])
-    //     .then((values) => {
-    //       //   this.Organization = values[0].data.rows;
-
-    //       //   for (let i = 0; i < this.Organization.length; i++) {
-    //       //     this.Organization[i].show_id = i + 1;
-    //       //     this.Organization[i].OrganizationFull =
-    //       //       this.Organization[i].OrganizationCode +
-    //       //       ", " +
-    //       //       this.Organization[i].OrganizationName;
-    //       //   }
-
-    //       this.OrganizationZone = values[1].data.rows;
-
-    //       for (let i = 0; i < this.OrganizationZone.length; i++) {
-    //         this.OrganizationZone[i].show_id = i + 1;
-    //         this.OrganizationZone[i].OrganizationZoneFull =
-    //           this.OrganizationZone[i].OrganizationZoneName;
-    //       }
-
-    //       //   this.Farm = values[2].data.rows;
-    //       //   for (let i = 0; i < this.Farm.length; i++) {
-    //       //     this.Farm[i].show_id = i + 1;
-    //       //     this.Farm[i].FarmFull =
-    //       //       this.Farm[i].FarmIdentificationNumber +
-    //       //       ", " +
-    //       //       this.Farm[i].FarmName;
-    //       //   }
-    //       this.AnimalSex = values[3].data.rows;
-
-    //       //   this.Tumbol = values[4].data.rows.map((item) => {
-    //       //     return {
-    //       //       TumbolID: item.TumbolID,
-    //       //       AmphurID: item.AmphurID,
-    //       //       TumbolCode: item.TumbolCode,
-    //       //       ProvinceID: item.ProvinceID,
-    //       //       TumbolName: item.TumbolName,
-    //       //       Fullname:
-    //       //         item.TumbolCode.substring(0, 6) + ", " + item.TumbolName,
-    //       //     };
-    //       //   });
-    //       //   this.TempTumbol = this.Tumbol;
-
-    //       //   this.Amphur = values[5].data.rows.map((item) => {
-    //       //     return {
-    //       //       AmphurID: item.AmphurID,
-    //       //       ProvinceID: item.ProvinceID,
-    //       //       AmphurCode: item.AmphurCode,
-    //       //       AmphurName: item.AmphurName,
-    //       //       Fullname:
-    //       //         item.AmphurCode.substring(0, 4) + ", " + item.AmphurName,
-    //       //     };
-    //       //   });
-    //       //   this.TempAmphur = this.Amphur;
-
-    //       //   this.Province = values[6].data.rows;
-
-    //       this.AIZone = values[7].data.rows;
-    //       this.Projects = values[8].data.rows;
-    //     })
-    //     .finally(() => (this.loader = true));
+      //   Promise.all([
+      //     // getOrganization,
+      //     getOrganizationZone,
+      //     getAnimalSex,
+      //     // getTumbol,
+      //     // getAmphur,
+      //     // getProvince,
+      //     // getFarm,
+      //     getAIZone,
+      //     getProject,
+      //   ])
+      //     .then((values) => {
+      //       //   this.Organization = values[0].data.rows;
+      //       //   for (let i = 0; i < this.Organization.length; i++) {
+      //       //     this.Organization[i].show_id = i + 1;
+      //       //     this.Organization[i].OrganizationFull =
+      //       //       this.Organization[i].OrganizationCode +
+      //       //       ", " +
+      //       //       this.Organization[i].OrganizationName;
+      //       //   }
+      //       this.OrganizationZone = values[1].data.rows;
+      //       for (let i = 0; i < this.OrganizationZone.length; i++) {
+      //         this.OrganizationZone[i].show_id = i + 1;
+      //         this.OrganizationZone[i].OrganizationZoneFull =
+      //           this.OrganizationZone[i].OrganizationZoneName;
+      //       }
+      //       //   this.Farm = values[2].data.rows;
+      //       //   for (let i = 0; i < this.Farm.length; i++) {
+      //       //     this.Farm[i].show_id = i + 1;
+      //       //     this.Farm[i].FarmFull =
+      //       //       this.Farm[i].FarmIdentificationNumber +
+      //       //       ", " +
+      //       //       this.Farm[i].FarmName;
+      //       //   }
+      //       this.AnimalSex = values[3].data.rows;
+      //       //   this.Tumbol = values[4].data.rows.map((item) => {
+      //       //     return {
+      //       //       TumbolID: item.TumbolID,
+      //       //       AmphurID: item.AmphurID,
+      //       //       TumbolCode: item.TumbolCode,
+      //       //       ProvinceID: item.ProvinceID,
+      //       //       TumbolName: item.TumbolName,
+      //       //       Fullname:
+      //       //         item.TumbolCode.substring(0, 6) + ", " + item.TumbolName,
+      //       //     };
+      //       //   });
+      //       //   this.TempTumbol = this.Tumbol;
+      //       //   this.Amphur = values[5].data.rows.map((item) => {
+      //       //     return {
+      //       //       AmphurID: item.AmphurID,
+      //       //       ProvinceID: item.ProvinceID,
+      //       //       AmphurCode: item.AmphurCode,
+      //       //       AmphurName: item.AmphurName,
+      //       //       Fullname:
+      //       //         item.AmphurCode.substring(0, 4) + ", " + item.AmphurName,
+      //       //     };
+      //       //   });
+      //       //   this.TempAmphur = this.Amphur;
+      //       //   this.Province = values[6].data.rows;
+      //       this.AIZone = values[7].data.rows;
+      //       this.Projects = values[8].data.rows;
+      //     })
+      //     .finally(() => (this.loader = true));
     },
     // sort table
     sort($event) {
@@ -2844,12 +2833,14 @@ export default {
         }
         this.params.orderByField = $event.sortField;
         // this.load();
+        this.fetchAnimal();
       }
     },
     // page change
     page($event) {
       this.curpage = $event.page + 1;
-    //   this.load();
+        // this.load();
+        this.fetchAnimal();
     },
     remove() {
       //   axios.delete(this.url.Animal + "/" + this.form.id).then(() => {

@@ -1040,7 +1040,7 @@ export default {
     },
 
     fetchAIZone() {
-      let params = { includeAll: false };
+      let params = { };
       //  Fetch AIZone
       axios
         .get(this.url.AIZone, {
@@ -1055,7 +1055,7 @@ export default {
         });
     },
     fetchOrganizationZone() {
-      let params = { includeAll: false, isActive: 1 };
+      let params = { isActive: 1 };
       //  Fetch OrganizationZone
       axios
         .get(this.url.OrganizationZone, {
@@ -1070,7 +1070,7 @@ export default {
         });
     },
     fetchProject() {
-      let params = { includeAll: false };
+      let params = {  };
 
       if (this.animal_id == 1) {
         params["AnimalTypeID"] = "[1,2,41,42]";
@@ -1095,7 +1095,7 @@ export default {
     },
     fetchProvince() {
       //  Fetch Province
-      let params = { includeAll: false };
+      let params = {  };
 
       if (this.search.AIZoneID != null) {
         params["AIZoneID"] = this.search.AIZoneID;
@@ -1132,7 +1132,7 @@ export default {
         return;
       }
 
-      let params = { includeAll: false };
+      let params = {  };
 
       if (this.search.ProvinceID != null) {
         params["ProvinceID"] = this.search.ProvinceID;
@@ -1160,7 +1160,7 @@ export default {
         return;
       }
 
-      let params = { includeAll: false };
+      let params = {  };
 
       if (this.search.AmphurID != null) {
         params["AmphurID"] = this.search.AmphurID;
@@ -1180,7 +1180,7 @@ export default {
         });
     },
     fetchOrganizationType() {
-      let params = { includeAll: false };
+      let params = {  };
 
       axios
         .get(this.url.OrganizationType, {
@@ -1203,7 +1203,7 @@ export default {
         return;
       }
 
-      let params = { includeAll: false };
+      let params = {  };
 
       if (this.search.OrganizationTypeID != null) {
         params["OrganizationTypeID"] = this.search.OrganizationTypeID;
@@ -1258,7 +1258,7 @@ export default {
         return;
       }
 
-      let params = { includeAll: false, includeOrganization: true };
+      let params = { includeOrganization: true };
 
       // Province IN AIZOne
       //   if (this.search.AIZoneID != null) {
@@ -1463,19 +1463,19 @@ export default {
               this.data.main = [...this.data.main, ...res.data.data];
 
               //   report 25
-            //   axios
-            //     .get(this.url.Report25, {
-            //       signal: this.controller.signal,
-            //       params: params,
-            //     })
-            //     .then((res) => {
-            //       //
-            //       this.data.main = [...this.data.main, ...res.data.data];
-            //     })
-            //     .finally(() => {
-            //       this.isLoading = false;
-            //       this.loader = true;
-            //     });
+              //   axios
+              //     .get(this.url.Report25, {
+              //       signal: this.controller.signal,
+              //       params: params,
+              //     })
+              //     .then((res) => {
+              //       //
+              //       this.data.main = [...this.data.main, ...res.data.data];
+              //     })
+              //     .finally(() => {
+              //       this.isLoading = false;
+              //       this.loader = true;
+              //     });
             })
             .finally(() => {
               this.isLoading = false;

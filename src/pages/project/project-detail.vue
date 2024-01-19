@@ -55,8 +55,7 @@
               for="codeNumber"
               class="block text-600 text-sm font-bold mb-2"
             >
-              หมายเลขทะเบียนฟาร์ม</label
-            >
+              หมายเลขทะเบียนฟาร์ม</label>
             <span class="p-input-icon-right w-full">
               <i class="pi pi-search" />
               <InputText
@@ -1197,18 +1196,18 @@ export default {
     return {
       json_data: [],
       url: "/farm",
-      getFarm: "/farmer",
-      getOrganization: "/organization?includeAll=false",
-      getOrganizationZone: "/organization-zone?isActive=1",
-      getOrganizationType: "/organization-type?isActive=1",
-      getProvince: "/province?includeAll=false",
-      getAmphur: "/amphur?includeAll=false",
-      getTumbol: "/tumbol?includeAll=false",
+      getFarm: "/farmer/selection?includeAll=false&isActive=1",
+      getOrganization: "/organization/selection?includeAll=false&isActive=1",
+      getOrganizationZone: "/organization-zone/selection?includeAll=false&isActive=1",
+      getOrganizationType: "/organization-type/selection?includeAll=false&isActive=1",
+      getProvince: "/province/selection?includeAll=false&isActive=1",
+      getAmphur: "/amphur/selection?includeAll=false&isActive=1",
+      getTumbol: "/tumbol/selection?includeAll=false&isActive=1",
       getTitle: "/title?isActive=1",
-      getAIZone: "/ai-zone?isActive=1",
+      getAIZone: "/ai-zone/selection?includeAll=false&isActive=1",
       getGender: "/gender?isActive=1",
-      urlFarmStatus: "/farm-status?isActive=1",
-      urlProject: "/project?includeAll=false",
+      urlFarmStatus: "/farm-status/selection?includeAll=false&isActive=1",
+      urlProject: "/project/selection?includeAll=false&isActive=1",
       id: "FarmID",
       name: "ทะเบียนฟาร์ม (ผท.3)",
       SendFarmID: null,
@@ -1644,14 +1643,14 @@ export default {
 
       let url =
         this.url +
-        `?orderByField=FarmID&orderBy=desc&size=` +
+        `?isActive=1&orderByField=FarmID&orderBy=desc&size=` +
         this.rowPerPage +
         `&page=` +
         this.currentPage;
 
       let urlExcel =
         this.url +
-        `?orderByField=FarmID&orderBy=desc&size=100000&page=` +
+        `?isActive=1&orderByField=FarmID&orderBy=desc&size=100000&page=` +
         this.currentPage;
 
       if (event) {

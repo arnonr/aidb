@@ -733,17 +733,17 @@ export default {
   data() {
     return {
       url: "/animal",
-      urlOrganization: "/organization?includeAll=false",
-      urlOrganizationZone: "/organization-zone",
-      urlAIZone: "/ai-zone?isActive=1",
-      urlFarm: "/farm?includeAll=false",
-      urlAnimalSex: "/animal-sex",
-      urlTumbol: "/tumbol?includeAll=false",
-      urlAmphur: "/amphur?includeAll=false",
-      urlProvince: "/province?includeAll=false",
+      urlOrganization: "/organization/selection?includeAll=false&isActive=1",
+      urlOrganizationZone: "/organization-zone/selection?includeAll=false&isActive=1",
+      urlAIZone: "/ai-zone/selection?includeAll=false&isActive=1",
+      urlFarm: "/farm/selection?includeAll=false&isActive=1",
+      urlAnimalSex: "/animal-sex/selection?includeAll=false&isActive=1",
+      urlTumbol: "/tumbol/selection?includeAll=false&isActive=1",
+      urlAmphur: "/amphur/selection?includeAll=false&isActive=1",
+      urlProvince: "/province/selection?includeAll=false&isActive=1",
       urlAnimalBreedID: "/animal-breed?includeAll=false&isActive=1",
-      urlProject: "/project?includeAll=false&isActive=1",
-      apiProject: "/project?includeAll=false&isActive=1",
+      urlProject: "/project/selection?includeAll=false&isActive=1",
+      apiProject: "/project/selection?includeAll=false&isActive=1",
 
       breadcrumb: [
         { label: "หน้าหลัก", to: "/" },

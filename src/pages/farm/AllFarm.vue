@@ -720,7 +720,7 @@
             }}
           </span>
         </div>
-        <div class="col-6 lg:col-4">
+        <!-- <div class="col-6 lg:col-4">
           <span class="font-medium text-700">คำนำหน้า</span>
           <span class="font-semibold ml-2">
             {{
@@ -729,7 +729,7 @@
                 : "-"
             }}
           </span>
-        </div>
+        </div> -->
         <div class="col-6 lg:col-4">
           <span class="font-medium text-700">ชื่อ - นามสกุล</span>
           <span class="font-semibold ml-2">
@@ -740,7 +740,7 @@
             }}
           </span>
         </div>
-        <div class="col-6 lg:col-4">
+        <!-- <div class="col-6 lg:col-4">
           <span class="font-medium text-700">เพศ</span>
           <span class="font-semibold ml-2">
             {{
@@ -749,7 +749,7 @@
                 : "-"
             }}
           </span>
-        </div>
+        </div> -->
         <div class="col-6 lg:col-12">
           <span class="font-medium text-700">วันเดือนปีเกิด</span>
           <span class="font-semibold ml-2">
@@ -1103,6 +1103,8 @@ import router from "@/router";
 import { mapGetters } from "vuex";
 import JsonExcel from "vue-json-excel3";
 import locale from "dayjs/locale/th";
+import { format } from "date-fns";
+import { th } from "date-fns/locale";
 
 export default {
   components: {
@@ -2133,31 +2135,35 @@ export default {
     },
     detailOrganization(id) {
       const { OrganizationTypeName } =
-        this.selection.OrganizationType.data.find(
+
+        this.dropdown.OrganizationTypes.find(
           (val) => val.OrganizationTypeID === id
         );
 
       return OrganizationTypeName;
     },
-    detailTitle(id) {
-      const { TitleName } = this.selection.TitleName.data.find(
-        (val) => val.TitleID === id
-      );
 
-      return TitleName;
+    detailTitle(id) {
+        console.log(id)
+    //   const { TitleName } = this.selection.TitleName.data.find(
+    //     (val) => val.TitleID === id
+    //   );
+
+    //   return TitleName;
     },
     detailGender(id) {
-      const { GenderName } = this.selection.Gender.data.find(
-        (val) => val.GenderID === id
-      );
+        console.log(id)
+    //   const { GenderName } = this.dropdown.Gender.find(
+    //     (val) => val.GenderID === id
+    //   );
 
-      return GenderName;
+    //   return GenderName;
     },
-    // detailFormatBirthDate(date) {
-    //   return format(new Date(date), "dd/MM/yyyy", {
-    //     locale: th,
-    //   });
-    // },
+    detailFormatBirthDate(date) {
+      return format(new Date(date), "dd/MM/yyyy", {
+        locale: th,
+      });
+    },
     detailFarmerRegisterStatus(id) {
       if (id == 2) {
         return "ขึ้นทะเบียนแล้ว";

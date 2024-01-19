@@ -26,7 +26,7 @@
               <Dropdown
                 class="w-full"
                 v-model="search.SemenNumber"
-                :options="data.semensOptions"
+                :options="data.data"
                 optionLabel="SemenNumber"
                 optionValue="SemenCode"
                 :virtualScrollerOptions="{
@@ -73,7 +73,7 @@
               <Dropdown
                 class="w-full"
                 v-model="search.SemenCode"
-                :options="data.semensOptions"
+                :options="data.data"
                 optionLabel="SemenNumber"
                 optionValue="SemenCode"
                 :virtualScrollerOptions="{
@@ -330,24 +330,6 @@
           <DataTable
             class="text-sm"
             :value="data.data"
-            :exportable="true"
-            ref="dt"
-            :rowHover="true"
-            :loading="isLoading"
-            :paginator="true"
-            v-model:rows="this.rowPerPage"
-            paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
-            :rowsPerPageOptions="[10, 20, 50]"
-            responsiveLayout="scroll"
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
-            :totalRecords="total"
-            @page="load"
-            @sort="sort($event)"
-            lazy
-          >
-            <!-- <DataTable
-            class="text-sm"
-            :value="data.data"
             :paginator="true"
             :rowHover="true"
             :rows="10"
@@ -355,7 +337,7 @@
             :rowsPerPageOptions="[10, 20, 50]"
             responsiveLayout="scroll"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
-          > -->
+          >
             <!-- class="text-sm"
           :value="data"
           :exportable="true"
@@ -831,10 +813,6 @@ export default {
       curpage: 0,
       displayShowModal: false,
       display_notfound: false,
-      rowPerPage: 20,
-      currentPage: 1,
-      totalPage: 1,
-      totalItems: 0,
 
       //  cancel requests
 
@@ -908,39 +886,20 @@ export default {
     },
     loadDefault() {
       this.fetchAnimalBreed();
-      this.fetchSemen();
     },
-    fetchSemen() {
-      //  Fetch Province
-
-      this.url.semen = "/semen/selection?includeAll=false&isActive=1";
-      axios
-        .get(this.url.semen, {
-          signal: this.controller.signal,
-        })
-        .then((res) => {
-          this.data.semensOptions = res.data.rows;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-    load(event) {
-      if (event) {
-        this.currentPage = event.page + 1;
-      }
-      this.url.main = "/semen?isActive=1";
+    load() {
+      this.url.main = "/semen";
       this.url.source_type = "/source-type";
       this.url.country = "/country?includeAll=false";
       this.url.organization = "/organization/selection?includeAll=false";
       let url = this.url.main;
 
       if (this.animal_id == 1) {
-        url += "&AnimalTypeID=[1,2,41,42]";
+        url += "?AnimalTypeID=[1,2,41,42]";
       } else if (this.animal_id == 2) {
-        url += "&AnimalTypeID=[3,4,43,44]";
+        url += "?AnimalTypeID=[3,4,43,44]";
       } else if (this.animal_id == 3) {
-        url += "&AnimalTypeID=[17,18,45,46]";
+        url += "?AnimalTypeID=[17,18,45,46]";
       }
 
       if (this.filtered.SemenNumber) {
@@ -1019,65 +978,9 @@ export default {
       //   url += "&SemenType=" + this.filtered.semenType;
       // }
 
-      //   axios
-      //     .get(url, {
-      //       signal: this.controller.signal,
-      //     })
-      //     .then((res) => {
-      //       this.data.total = res.data.total;
-      //       this.data.data = res.data.rows;
-
-      //       // if (this.animal_id == 1) {
-      //       //   this.data.data = res.data.rows.filter(
-      //       //     (item) => item.AnimalTypeID === 1 || item.AnimalTypeID === 2
-      //       //   );
-      //       // } else if (this.animal_id == 2) {
-      //       //   this.data.data = res.data.rows.filter(
-      //       //     (item) =>
-      //       //       item.AnimalTypeID === 3 ||
-      //       //       item.AnimalTypeID === 4 ||
-      //       //       item.AnimalTypeID === 42
-      //       //   );
-      //       // } else if (this.animal_id == 3) {
-      //       //   this.data.data = res.data.rows.filter(
-      //       //     (item) => item.AnimalTypeID === 17 || item.AnimalTypeID === 18
-      //       //   );
-      //       // }
-
-      //       if (this.curpage == 0 || this.curpage == 1) {
-      //         for (let i = 0; i < this.data.data.length; i++) {
-      //           this.data.data[i].show_id = i + 1;
-      //           if (this.data.data[i].ProduceDate != null) {
-      //             this.data.data[i].ProduceDate = dayjs(
-      //               this.data.data[i].ProduceDate
-      //             )
-      //               .locale(locale)
-      //               .format("DD/MM/YY");
-      //           }
-      //         }
-      //       } else {
-      //         let start = (this.curpage - 1) * 15;
-      //         for (let i = 0; i < this.data.data.length; i++) {
-      //           this.data.data[i].show_id = i + 1 + start;
-      //         }
-      //       }
-      //     })
-      //     .finally(() => {
-      //       this.isLoading = false;
-      //     });
-
-      let params = {
-        size: this.rowPerPage,
-        page: this.currentPage,
-        orderByField: "SemenID",
-        orderBy: "desc",
-        // includeAll: false,
-      };
-
       axios
         .get(url, {
           signal: this.controller.signal,
-          params: params,
         })
         .then((res) => {
           this.data.total = res.data.total;
@@ -1117,10 +1020,6 @@ export default {
               this.data.data[i].show_id = i + 1 + start;
             }
           }
-
-          this.totalPage = res.data.totalPage;
-          this.totalItems = res.data.totalData;
-          this.total = res.data.total;
         })
         .finally(() => {
           this.isLoading = false;

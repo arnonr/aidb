@@ -843,10 +843,11 @@ export default {
     return {
       apiFarm: "/farm?isActive=1",
       animal_url: "/animal/get-by-farm-id",
-      getOrganizationZone: "/organization-zoneisActive=1",
-      getProvince: "/province?includeAll=false&isActive=1",
-      getAmphur: "/amphur?includeAll=false&isActive=1",
-      getTumbol: "/tumbol?includeAll=false&isActive=1",
+      getOrganizationZone:
+        "/organization-zone/selection?isActive=1&includeAll=false",
+      getProvince: "/province/selection?isActive=1&includeAll=false",
+      getAmphur: "/amphur/selection?isActive=1&includeAll=false",
+      getTumbol: "/tumbol/selection?isActive=1&includeAll=false",
       data: {},
       IsSearch: false,
       controller: new AbortController(),
@@ -871,15 +872,17 @@ export default {
       },
 
       url: {
-        Farm: "/farm",
-        AIZone: "/ai-zone",
-        OrganizationZone: "/organization-zone",
-        Province: "/province",
-        Amphur: "/amphur",
-        Tumbol: "/tumbol",
-        OrganizationType: "/organization-type",
-        Organization: "/organization",
-        Project: "/project",
+        Farm: "/farm/selection?isActive=1&includeAll=false",
+        AIZone: "/ai-zone/selection?isActive=1&includeAll=false",
+        OrganizationZone:
+          "/organization-zone/selection?isActive=1&includeAll=false",
+        Province: "/province/selection?isActive=1&includeAll=false",
+        Amphur: "/amphur/selection?isActive=1&includeAll=false",
+        Tumbol: "/tumbol/selection?isActive=1&includeAll=false",
+        OrganizationType:
+          "/organization-type/selection?isActive=1&includeAll=false",
+        Organization: "/organization/selection?isActive=1&includeAll=false",
+        Project: "/project/selection?isActive=1&includeAll=false",
       },
       dropdown: {
         AIZones: [],
@@ -939,38 +942,7 @@ export default {
         signal: this.controller.signal,
       })
       .then((res) => {
-        this.farm = res.data.rows
-          .sort((a, b) =>
-            a.Province.ProvinceName.localeCompare(b.Province.ProvinceName)
-          )
-          .map((item) => {
-            let name = item.Farmer ? item.Farmer.FullName : "- ";
-            let number = item.FarmIdentificationNumber
-              ? item.FarmIdentificationNumber
-              : "- ";
-            let province = item.Province ? item.Province.ProvinceName : "- ";
-            let Organization = item.OrganizationZone
-              ? item.OrganizationZone.OrganizationZoneName
-              : "- ";
-
-            return {
-              FarmID: item.FarmID,
-              FarmName: item.FarmName,
-              Fullname:
-                "ฟาร์ม " +
-                item.FarmName +
-                " (" +
-                number +
-                ")" +
-                " | เจ้าของฟาร์ม " +
-                name +
-                " | จังหวัด " +
-                province +
-                " | " +
-                Organization,
-              OrganizationZoneName: Organization,
-            };
-          });
+        this.farm = res.data.rows;
         this.loader = true;
       });
   },
@@ -1401,13 +1373,12 @@ export default {
         // includeAll: false,
       };
 
-    //   if (this.search.FarmAnimalType == null) {
-    //     this.search.FarmAnimalType = parseInt(this.animal_id);
-    //     params["FarmAnimalType"] = this.search.FarmAnimalType;
-    //   } else {
-    //     params["FarmAnimalType"] = this.search.FarmAnimalType;
-    //   }
-
+      //   if (this.search.FarmAnimalType == null) {
+      //     this.search.FarmAnimalType = parseInt(this.animal_id);
+      //     params["FarmAnimalType"] = this.search.FarmAnimalType;
+      //   } else {
+      //     params["FarmAnimalType"] = this.search.FarmAnimalType;
+      //   }
 
       this.search.FarmAnimalType = parseInt(this.animal_id);
 
@@ -1458,39 +1429,7 @@ export default {
           params: params,
         })
         .then((res) => {
-          this.dropdown.Farms = res.data.rows
-            .sort((a, b) =>
-              a.Province.ProvinceName.localeCompare(b.Province.ProvinceName)
-            )
-            .map((item) => {
-              let name = item.Farmer ? item.Farmer.FullName : "- ";
-              let number = item.FarmIdentificationNumber
-                ? item.FarmIdentificationNumber
-                : "- ";
-              let province = item.Province ? item.Province.ProvinceName : "- ";
-              let Organization = item.OrganizationZone
-                ? item.OrganizationZone.OrganizationZoneName
-                : "- ";
-
-              return {
-                FarmID: item.FarmID,
-                FarmName: item.FarmName,
-                FarmIdentificationNumber: item.FarmIdentificationNumber,
-                Fullname:
-                  "ฟาร์ม " +
-                  item.FarmName +
-                  " (" +
-                  number +
-                  ")" +
-                  " | เจ้าของฟาร์ม " +
-                  name +
-                  " | จังหวัด " +
-                  province +
-                  " | " +
-                  Organization,
-                OrganizationZoneName: Organization,
-              };
-            });
+          this.dropdown.Farms = res.data.rows;
 
           //   this.data = res.data.rows
           //     .sort((a, b) =>

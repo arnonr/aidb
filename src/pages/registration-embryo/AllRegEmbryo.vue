@@ -948,7 +948,7 @@ export default {
       this.url.animal = "/animal";
       this.url.source_type = "/source-type";
       this.url.organization = "/organization/selection?includeAll=false";
-      this.url.staff = "/staff?isActive=1";
+      this.url.staff = "/staff/selection?includeAll=false&isActive=1";
 
       let url = this.url.main + "?size=15";
 
@@ -1015,16 +1015,7 @@ export default {
         .finally(() => {
           this.isLoading = false;
         });
-      axios
-        .get(this.url.animal, {
-          signal: this.controller.signal,
-        })
-        .then((res) => {
-          this.data.animal = res.data.rows;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
+
       axios
         .get(this.url.main, {
           signal: this.controller.signal,
@@ -1078,6 +1069,25 @@ export default {
         })
         .finally(() => {
           console.log(this.data.data);
+          this.isLoading = false;
+        });
+    },
+    fetchAnimal() {
+      let params = {
+        AnimalEarID: this.search.AnimalEarID,
+        orderByField: "FarmID",
+        orderBy: "desc",
+      };
+      this.url.animal = "/animal/selection?includeAll=false";
+      axios
+        .get(this.url.animal, {
+          params: params,
+          signal: this.controller.signal,
+        })
+        .then((res) => {
+          this.data.animal = res.data.rows;
+        })
+        .finally(() => {
           this.isLoading = false;
         });
     },

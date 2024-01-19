@@ -1399,7 +1399,7 @@ export default {
         Staff: "/staff/selection?includeAll=false&isActive=1",
         Project: "/project/selection?includeAll=false&isActive=1",
         // Animal: "/animal",
-        Semen: "/semen?includeAll=false&isActive=1",
+        Semen: "/semen/selection?includeAll=false&isActive=1",
         BCS: "/bcs",
         Estral: "/goat-estral-activity",
         GunDepth: "/gun-depth",

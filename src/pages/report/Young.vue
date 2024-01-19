@@ -1212,7 +1212,7 @@
       },
   
       fetchAIZone() {
-        let params = { includeAll: false };
+        let params = { };
         //  Fetch AIZone
         axios
           .get(this.url.AIZone, {
@@ -1227,7 +1227,7 @@
           });
       },
       fetchOrganizationZone() {
-        let params = { includeAll: false, isActive: 1 };
+        let params = { };
         //  Fetch OrganizationZone
         axios
           .get(this.url.OrganizationZone, {
@@ -1242,7 +1242,7 @@
           });
       },
       fetchProject() {
-        let params = { includeAll: false };
+        let params = {  };
   
         if (this.animal_id == 1) {
           params["AnimalTypeID"] = "[1,2,41,42]";
@@ -1267,7 +1267,7 @@
       },
       fetchProvince() {
         //  Fetch Province
-        let params = { includeAll: false };
+        let params = {  };
   
         if (this.search.AIZoneID != null) {
           params["AIZoneID"] = this.search.AIZoneID;
@@ -1304,7 +1304,7 @@
           return;
         }
   
-        let params = { includeAll: false };
+        let params = {  };
   
         if (this.search.ProvinceID != null) {
           params["ProvinceID"] = this.search.ProvinceID;
@@ -1332,7 +1332,7 @@
           return;
         }
   
-        let params = { includeAll: false };
+        let params = {  };
   
         if (this.search.AmphurID != null) {
           params["AmphurID"] = this.search.AmphurID;
@@ -1352,7 +1352,7 @@
           });
       },
       fetchOrganizationType() {
-        let params = { includeAll: false };
+        let params = {  };
   
         axios
           .get(this.url.OrganizationType, {
@@ -1375,7 +1375,7 @@
           return;
         }
   
-        let params = { includeAll: false };
+        let params = { };
   
         if (this.search.OrganizationTypeID != null) {
           params["OrganizationTypeID"] = this.search.OrganizationTypeID;
@@ -1430,7 +1430,7 @@
           return;
         }
   
-        let params = { includeAll: false, includeOrganization: true };
+        let params = { includeOrganization: true };
   
         // Province IN AIZOne
         //   if (this.search.AIZoneID != null) {
@@ -1484,7 +1484,6 @@
         }
   
         let params = {
-          // includeAll: false,
         };
   
         params["FarmAnimalType"] = this.animal_id;

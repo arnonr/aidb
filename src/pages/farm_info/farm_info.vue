@@ -1156,13 +1156,16 @@ export default {
         })
         .then((res) => {
           this.dropdown.AIZones = res.data.rows;
-
-          this.dropdown.AIZones.push({
-            AIZoneID: 99,
-            AIZoneName: "ทั้งหมด",
-          });
-
-          console.log(this.dropdown.AIZones);
+          //   if (localStorage.getItem("staffID") !== null) {
+          //     this.open_edit(localStorage.getItem("staffID"));
+          //     localStorage.removeItem("staffID");
+          //   }
+          if (store.state.user.GroupID === 1) {
+            this.dropdown.AIZones.push({
+              AIZoneID: 99,
+              AIZoneName: "ทั้งหมด",
+            });
+          }
         })
         .finally(() => {
           this.isLoading = false;
@@ -1178,10 +1181,13 @@ export default {
         })
         .then((res) => {
           this.dropdown.OrganizationZones = res.data.rows;
-          this.dropdown.OrganizationZones.push({
-            OrganizationZoneID: 99,
-            OrganizationZoneName: "ทั้งหมด",
-          });
+
+          if (store.state.user.GroupID === 1) {
+            this.dropdown.OrganizationZones.push({
+              OrganizationZoneID: 99,
+              OrganizationZoneName: "ทั้งหมด",
+            });
+          }
         })
         .finally(() => {
           this.isLoading = false;

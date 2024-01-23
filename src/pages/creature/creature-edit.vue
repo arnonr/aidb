@@ -81,24 +81,7 @@
                       </template>
                     </Datepicker>
                   </div>
-                  <div class="field col-12 sm:col-6">
-                    <label class="block text-600 text-sm font-bold mb-2">
-                      หน่วยงาน/สถานีที่ฟาร์มสังกัด
-                      <span class="text-red-500"> *</span></label
-                    >
-                    <Dropdown
-                      class="w-full"
-                      id="selectedstatus"
-                      :options="organization"
-                      optionLabel="OrganizationName"
-                      optionValue="OrganizationID"
-                      placeholder="เลือกหน่วยงาน/สถานีที่ฟาร์มสังกัด"
-                      :filter="true"
-                      :disabled="true"
-                      v-model="form.OrganizationID"
-                      :class="{ 'p-invalid': !form.OrganizationID && valid }"
-                    />
-                  </div>
+                
 
                   <div class="field col-12 sm:col-6">
                     <label class="block text-600 text-sm font-bold mb-2">
@@ -121,6 +104,26 @@
                       }"
                     />
                   </div>
+
+                  <div class="field col-12 sm:col-6">
+                    <label class="block text-600 text-sm font-bold mb-2">
+                      หน่วยงาน/สถานีที่ฟาร์มสังกัด
+                      <span class="text-red-500"> *</span></label
+                    >
+                    <Dropdown
+                      class="w-full"
+                      id="selectedstatus"
+                      :options="organization"
+                      optionLabel="OrganizationName"
+                      optionValue="OrganizationID"
+                      placeholder="เลือกหน่วยงาน/สถานีที่ฟาร์มสังกัด"
+                      :filter="true"
+                      :disabled="true"
+                      v-model="form.OrganizationID"
+                      :class="{ 'p-invalid': !form.OrganizationID && valid }"
+                    />
+                  </div>
+                  
                   <!-- <div class="field col-12 sm:col-6">
                     <label class="block text-600 text-sm font-bold mb-2">
                       พื้นที่เขตปศุสัตว์<span class="text-red-500">

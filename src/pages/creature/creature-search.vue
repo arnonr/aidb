@@ -1422,7 +1422,8 @@ export default {
   data() {
     return {
       urlOrganization: "/organization/selection?includeAll=false&isActive=1",
-      urlOrganizationZone: "/organization-zone/selection?includeAll=false&isActive=1",
+      urlOrganizationZone:
+        "/organization-zone/selection?includeAll=false&isActive=1",
       urlAIZone: "/ai-zone/selection?includeAll=false",
       urlFarm: "/farm/selection?includeAll=false",
       urlAnimalSex: "/animal-sex?includeAll=false",
@@ -1436,7 +1437,8 @@ export default {
         Animal: "/animal/all-not-event",
         Farm: "/farm/selection?includeAll=false",
         AIZone: "/ai-zone/selection?includeAll=false",
-        OrganizationZone: "/organization-zone/selection?includeAll=false&isActive=1",
+        OrganizationZone:
+          "/organization-zone/selection?includeAll=false&isActive=1",
         Province: "/province/selection?includeAll=false",
         Amphur: "/amphur/selection?includeAll=false",
         Tumbol: "/tumbol/selection?includeAll=false",
@@ -1662,7 +1664,7 @@ export default {
           this.fetchProvince();
           //   this.fetchOrganization();
           this.fetchFarm();
-          //   this.fetchAnimal();
+          this.fetchAnimal();
           this.search.AmphurID = null;
           this.search.TumbolID = null;
           this.search.OrganizationID = null;
@@ -1695,7 +1697,7 @@ export default {
           this.fetchProvince();
           this.fetchOrganization();
           this.fetchFarm();
-          //   this.fetchAnimal();
+          this.fetchAnimal();
           this.search.AmphurID = null;
           this.search.TumbolID = null;
           this.search.OrganizationID = null;
@@ -1825,14 +1827,136 @@ export default {
         }, 1000);
       }
     },
-    //
+    "params.AnimalEarID"() {
+      this.fetchAnimal();
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
 
-    // "parents.AnimalFatherEarID"() {
-    //   this.fetchParents();
-    // },
-    // "parents.AnimalMotherEarID"() {
-    //   this.fetchParents();
-    // },
+    "params.AnimalName"() {
+      this.fetchAnimal();
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+
+    "params.AnimalSexID"() {
+      this.fetchAnimal();
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+
+    "search.Status"() {
+      this.fetchAnimal();
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+
+    "parents.AnimalFatherEarID"() {
+      this.fetchParents();
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+
+    "parents.AnimalMotherEarID"() {
+      this.fetchParents();
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+
+    "params.AnimalAgeStart"() {
+      this.fetchAnimal();
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+
+    "params.AnimalAgeTo"() {
+      this.fetchAnimal();
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+
+    "params.AnimalBreedID1"() {
+      this.fetchAnimal();
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+
+    "params.AnimalBreedID2"() {
+      this.fetchAnimal();
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+
+    "params.AnimalBreedID3"() {
+      this.fetchAnimal();
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+
+    "params.AnimalBreedID4"() {
+      this.fetchAnimal();
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+
+    "params.AnimalBreedID5"() {
+      this.fetchAnimal();
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+
 
     // "params.AnimalFatherID"() {
     //   this.fetchAnimal();
@@ -1847,7 +1971,7 @@ export default {
     //   this.load();
     // }, 500),
     // "params.AnimalEarID": _.debounce(function () {
-    //   this.load();
+    //   this.
     // }, 500),
     // "params.AnimalNationalID": _.debounce(function () {
     //   this.load();
@@ -1870,27 +1994,6 @@ export default {
     // // ค้นหา
 
     // // "params.AnimalName": _.debounce(function () {
-    // //   this.load();
-    // // }, 500),
-    // // "params.AnimalAgeStart": _.debounce(function () {
-    // //   this.load();
-    // // }, 500),
-    // // "params.AnimalAgeTo": _.debounce(function () {
-    // //   this.load();
-    // // }, 500),
-    // // "params.AnimalBreedID1": _.debounce(function () {
-    // //   this.load();
-    // // }, 500),
-    // // "params.AnimalBreedID2": _.debounce(function () {
-    // //   this.load();
-    // // }, 500),
-    // // "params.AnimalBreedID3": _.debounce(function () {
-    // //   this.load();
-    // // }, 500),
-    // // "params.AnimalBreedID4": _.debounce(function () {
-    // //   this.load();
-    // // }, 500),
-    // // "params.AnimalBreedID5": _.debounce(function () {
     // //   this.load();
     // // }, 500),
 
@@ -1982,11 +2085,11 @@ export default {
         this.currentPage = event.page + 1;
         this.params.page = event.page + 1;
       }
-      //   this.fetchAnimal();
+        this.fetchAnimal();
     },
 
     fetchAIZone() {
-      let params = { };
+      let params = {};
       //  Fetch AIZone
       axios
         .get(this.url.AIZone, {
@@ -2006,7 +2109,7 @@ export default {
         });
     },
     fetchOrganizationZone() {
-      let params = {  };
+      let params = {};
       //  Fetch OrganizationZone
       axios
         .get(this.url.OrganizationZone, {
@@ -2025,7 +2128,7 @@ export default {
         });
     },
     fetchProject() {
-      let params = { };
+      let params = {};
 
       if (this.animal_id == 1) {
         params["AnimalTypeID"] = "[1,2,41,42]";
@@ -2049,7 +2152,7 @@ export default {
     },
     fetchProvince() {
       //  Fetch Province
-      let params = {  };
+      let params = {};
 
       if (this.search.AIZoneID != null) {
         params["AIZoneID"] = this.search.AIZoneID;
@@ -2103,7 +2206,7 @@ export default {
         return;
       }
 
-      let params = { };
+      let params = {};
 
       if (this.search.ProvinceID != null) {
         params["ProvinceID"] = this.search.ProvinceID;
@@ -2130,7 +2233,7 @@ export default {
         return;
       }
 
-      let params = { };
+      let params = {};
 
       if (this.search.AmphurID != null) {
         params["AmphurID"] = this.search.AmphurID;
@@ -2149,7 +2252,7 @@ export default {
         });
     },
     fetchOrganizationType() {
-      let params = {  };
+      let params = {};
 
       axios
         .get(this.url.OrganizationType, {
@@ -2171,7 +2274,7 @@ export default {
         return;
       }
 
-      let params = { };
+      let params = {};
 
       if (this.search.OrganizationTypeID != null) {
         params["OrganizationTypeID"] = this.search.OrganizationTypeID;
@@ -2449,6 +2552,31 @@ export default {
       if (this.search.FarmerFullName) {
         params["FullName"] = this.search.FarmerFullName;
       }
+
+      if (this.params.AnimalBreedID1) {
+        params["AnimalBreedID1"] = this.params.AnimalBreedID1;
+      }
+
+      if (this.params.AnimalBreedID2) {
+        params["AnimalBreedID2"] = this.params.AnimalBreedID2;
+      }
+
+      if (this.params.AnimalBreedID3) {
+        params["AnimalBreedID3"] = this.params.AnimalBreedID3;
+      }
+
+      if (this.params.AnimalBreedID4) {
+        params["AnimalBreedID4"] = this.params.AnimalBreedID4;
+      }
+
+      if (this.params.AnimalBreedID5) {
+        params["AnimalBreedID5"] = this.params.AnimalBreedID5;
+      }
+
+      if (this.search.Status) {
+        params["isActive"] = this.search.Status;
+      }
+
       this.setParam();
       if (this.animal_id == 1) {
         params["AnimalTypeID"] = "[1,2,41,42]";
@@ -2668,48 +2796,48 @@ export default {
     },
 
     fetchParents() {
-      //   if (
-      //     this.parents.AnimalFatherEarID != null &&
-      //     this.parents.AnimalFatherEarID != ""
-      //   ) {
-      //     axios
-      //       .get("/animal?includeAll=false", {
-      //         signal: this.controller.signal,
-      //         params: {
-      //           AnimalEarID: this.parents.AnimalFatherEarID,
-      //         },
-      //       })
-      //       .then((res) => {
-      //         if (res.data.rows.length != 0) {
-      //           this.params.AnimalFatherID = res.data.rows[0].AnimalID;
-      //         } else {
-      //           this.params.AnimalFatherID = 0;
-      //         }
-      //       });
-      //   } else {
-      //     this.params.AnimalFatherID = null;
-      //   }
-      //   if (
-      //     this.parents.AnimalMotherEarID != null &&
-      //     this.parents.AnimalMotherEarID != ""
-      //   ) {
-      //     axios
-      //       .get("/animal?includeAll=false", {
-      //         signal: this.controller.signal,
-      //         params: {
-      //           AnimalEarID: this.parents.AnimalMotherEarID,
-      //         },
-      //       })
-      //       .then((res) => {
-      //         if (res.data.rows.length != 0) {
-      //           this.params.AnimalMotherID = res.data.rows[0].AnimalID;
-      //         } else {
-      //           this.params.AnimalMotherID = 0;
-      //         }
-      //       });
-      //   } else {
-      //     this.params.AnimalMotherID = null;
-      //   }
+        // if (
+        //   this.parents.AnimalFatherEarID != null &&
+        //   this.parents.AnimalFatherEarID != ""
+        // ) {
+        //   axios
+        //     .get("/animal?includeAll=false", {
+        //       signal: this.controller.signal,
+        //       params: {
+        //         AnimalEarID: this.parents.AnimalFatherEarID,
+        //       },
+        //     })
+        //     .then((res) => {
+        //       if (res.data.rows.length != 0) {
+        //         this.params.AnimalFatherID = res.data.rows[0].AnimalID;
+        //       } else {
+        //         this.params.AnimalFatherID = 0;
+        //       }
+        //     });
+        // } else {
+        //   this.params.AnimalFatherID = null;
+        // }
+        // if (
+        //   this.parents.AnimalMotherEarID != null &&
+        //   this.parents.AnimalMotherEarID != ""
+        // ) {
+        //   axios
+        //     .get("/animal?includeAll=false", {
+        //       signal: this.controller.signal,
+        //       params: {
+        //         AnimalEarID: this.parents.AnimalMotherEarID,
+        //       },
+        //     })
+        //     .then((res) => {
+        //       if (res.data.rows.length != 0) {
+        //         this.params.AnimalMotherID = res.data.rows[0].AnimalID;
+        //       } else {
+        //         this.params.AnimalMotherID = 0;
+        //       }
+        //     });
+        // } else {
+        //   this.params.AnimalMotherID = null;
+        // }
     },
 
     setParam() {
@@ -2839,8 +2967,8 @@ export default {
     // page change
     page($event) {
       this.curpage = $event.page + 1;
-        // this.load();
-        this.fetchAnimal();
+      // this.load();
+      this.fetchAnimal();
     },
     remove() {
       //   axios.delete(this.url.Animal + "/" + this.form.id).then(() => {

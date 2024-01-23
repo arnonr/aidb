@@ -37,7 +37,7 @@
                 </div>
 
                 <div class="formgrid grid">
-                  <div class="field col-12 sm:col-6">
+                    <div class="field col-12 sm:col-6">
                     <label class="block text-600 text-sm font-bold mb-2">
                       เขตพื้นที่ที่ฟาร์มสังกัด<span class="text-red-500">
                         *</span
@@ -51,13 +51,30 @@
                       optionValue="OrganizationZoneID"
                       placeholder="เลือกเขตพื้นที่ที่ฟาร์มสังกัด"
                       :filter="true"
+                      :disabled="true"
                       v-model="form.OrganizationZoneID"
                       :class="{
                         'p-invalid': !form.OrganizationZoneID && valid,
                       }"
                     />
                   </div>
-
+                  <div class="field col-12 sm:col-6">
+                    <label class="block text-600 text-sm font-bold mb-2">
+                      หน่วยงาน/สถานีที่ฟาร์มสังกัด
+                      <span class="text-red-500"> *</span></label
+                    >
+                    <Dropdown
+                      class="w-full"
+                      id="selectedstatus"
+                      :options="organization"
+                      optionLabel="OrganizationName"
+                      optionValue="OrganizationID"
+                      placeholder="เลือกหน่วยงาน/สถานีที่ฟาร์มสังกัด"
+                      :filter="true"
+                      v-model="form.OrganizationID"
+                      :class="{ 'p-invalid': !form.OrganizationID && valid }"
+                    />
+                  </div>
                   <div class="field col-12 sm:col-6 md:col-6">
                     <label class="block text-600 text-sm font-bold mb-2">
                       ฟาร์ม <span class="text-red-500">*</span></label
@@ -75,45 +92,6 @@
                       :class="{ 'p-invalid': !form.FarmID && valid }"
                     />
                   </div>
-
-                  <div class="field col-12 sm:col-6">
-                    <label class="block text-600 text-sm font-bold mb-2">
-                      หน่วยงาน/สถานีที่ฟาร์มสังกัด
-                      <span class="text-red-500"> *</span></label
-                    >
-                    <Dropdown
-                      class="w-full"
-                      id="selectedstatus"
-                      :options="organization"
-                      optionLabel="OrganizationName"
-                      optionValue="OrganizationID"
-                      placeholder="เลือกหน่วยงาน/สถานีที่ฟาร์มสังกัด"
-                      :filter="true"
-                      :disabled="true"
-                      v-model="form.OrganizationID"
-                      :class="{ 'p-invalid': !form.OrganizationID && valid }"
-                    />
-                  </div>
-
-                  <div class="field col-12 sm:col-6">
-                    <label class="block text-600 text-sm font-bold mb-2"
-                      >ชนิดสัตว์ <span class="text-red-500">*</span></label
-                    >
-                    <Dropdown
-                      class="w-full"
-                      :options="animaltype"
-                      optionLabel="AnimalTypeName"
-                      optionValue="AnimalTypeID"
-                      placeholder="เลือกชนิดสัตว์"
-                      :showClear="true"
-                      :filter="true"
-                      v-model="form.AnimalTypeID"
-                      :class="{ 'p-invalid': !form.AnimalTypeID && valid }"
-                    >
-                    </Dropdown>
-                  </div>
-
-
                   <div class="field col-12 sm:col-6">
                     <label class="block text-600 text-sm font-bold mb-2">
                       วัน-เดือน-ปี (เกิด)
@@ -148,7 +126,9 @@
                       </template>
                     </Datepicker>
                   </div>
+                 
 
+                
                   <!-- <div class="field col-12 sm:col-6">
                     <label class="block text-600 text-sm font-bold mb-2">
                       พื้นที่เขตปศุสัตว์<span class="text-red-500">
@@ -179,7 +159,24 @@
                     />
                   </div> -->
 
-               
+                  <div class="field col-12 sm:col-6">
+                    <label class="block text-600 text-sm font-bold mb-2"
+                      >ชนิดสัตว์ <span class="text-red-500">*</span></label
+                    >
+                    <Dropdown
+                      class="w-full"
+                      :options="animaltype"
+                      optionLabel="AnimalTypeName"
+                      optionValue="AnimalTypeID"
+                      placeholder="เลือกชนิดสัตว์"
+                      :showClear="true"
+                      :filter="true"
+                      v-model="form.AnimalTypeID"
+                      :class="{ 'p-invalid': !form.AnimalTypeID && valid }"
+                    >
+                    </Dropdown>
+                  </div>
+
                   <div class="field col-12 sm:col-6">
                     <label class="block text-600 text-sm font-bold mb-2">
                       หมายเลขเบอร์หู
@@ -974,8 +971,7 @@ export default {
       apiAnimalMotherID: "/animal/id-and-name?isActive=1",
       apiAnimalBreedID: "/animal-breed?includeAll=false&isActive=1",
       apiOrganizationID: "/organization/selection?includeAll=false&isActive=1",
-      apiOrganizationZoneID:
-        "/organization-zone/selection?includeAll=false&isActive=1",
+      apiOrganizationZoneID: "/organization-zone/selection?includeAll=false&isActive=1",
       apiProject: "/project/selection?includeAll=false&isActive=1",
       apiAnimalStatusID: "/animal-status?includeAll=false&isActive=1",
       apiAnimalTypeID: "/animal-type?includeAll=false&isActive=1",
@@ -1144,16 +1140,12 @@ export default {
     this.form.AnimalSexID = 2;
   },
   watch: {
-    "form.OrganizationZoneID"() {
-      this.fetchFarm();
-      this.fetchOrganization();
-    },
     "form.FarmID"(val) {
       //  console.log(this.farm)
       if (Array.isArray(this.farm) && this.farm.length) {
         // console.log(this.farm);
         let temp = this.farm.filter((item) => item.FarmID == val);
-        // this.form.OrganizationZoneID = temp[0].OrganizationZoneID;
+        this.form.OrganizationZoneID = temp[0].OrganizationZoneID;
         this.form.OrganizationID = temp[0].OrganizationID;
         this.form.AIZoneID = temp[0].AIZoneID;
         this.filtered.FarmID = temp[0].FarmID;
@@ -1333,95 +1325,6 @@ export default {
     },
   },
   methods: {
-    fetchFarm() {
-      this.isLoading = true;
-      if (
-        this.search.AIZoneID == null &&
-        this.form.OrganizationZoneID == null
-      ) {
-        this.isLoading = false;
-        return;
-      }
-
-      let params = {
-        orderByField: "FarmID",
-        orderBy: "desc",
-      };
-
-      if (this.search.FarmAnimalType == null) {
-        this.search.FarmAnimalType = parseInt(this.animal_id);
-        params["FarmAnimalType"] = this.search.FarmAnimalType;
-      } else {
-        params["FarmAnimalType"] = this.search.FarmAnimalType;
-      }
-
-      // Province IN AIZOne
-      if (this.form.AIZoneID != null) {
-        if (this.form.AIZoneID != 99) {
-          params["AIZoneID"] = this.form.AIZoneID;
-        }
-      }
-
-      if (this.form.OrganizationZoneID != null) {
-        if (this.form.OrganizationZoneID != 99) {
-          params["OrganizationZoneID"] = this.form.OrganizationZoneID;
-        }
-      }
-
-      axios
-        .get(this.apiFarm, {
-          signal: this.controller.signal,
-          params: params,
-        })
-        .then((res) => {
-          this.farm = res.data.rows;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-
-    fetchOrganization() {
-      this.isLoading = true;
-      if (
-        this.search.AIZoneID == null &&
-        this.form.OrganizationZoneID == null
-      ) {
-        this.isLoading = false;
-        return;
-      }
-
-      let params = {
-        orderByField: "OrganizationID",
-        orderBy: "desc",
-      };
-
-      // Province IN AIZOne
-      if (this.form.AIZoneID != null) {
-        if (this.form.AIZoneID != 99) {
-          params["AIZoneID"] = this.form.AIZoneID;
-        }
-      }
-
-      if (this.form.OrganizationZoneID != null) {
-        if (this.form.OrganizationZoneID != 99) {
-          params["OrganizationZoneID"] = this.form.OrganizationZoneID;
-        }
-      }
-
-      axios
-        .get(this.apiOrganizationID, {
-          signal: this.controller.signal,
-          params: params,
-        })
-        .then((res) => {
-          this.organization = res.data.rows;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-
     format(date) {
       const dayStart = date.getDate();
       const monthStart = date.getMonth();
@@ -1552,23 +1455,23 @@ export default {
     // Axios
     load() {
       this.isLoading = true;
-      //   axios
-      //     .get(this.apiFarm + "&FarmAnimalType=[" + this.animal_id + "]", {
-      //       signal: this.controller.signal,
-      //     })
-      //     .then((response) => {
-      //       this.farm = response.data.rows.map((item) => {
-      //         return {
-      //           FarmID: item.FarmID,
-      //           FarmName: item.FarmName,
-      //           OrganizationID: item.OrganizationID,
-      //           OrganizationZoneID: item.OrganizationZoneID,
-      //           AIZoneID: item.AIZoneID,
-      //           Fullname: item.FarmIdentificationNumber + ", " + item.FarmName,
-      //           // OrganizationZoneName: item.OrganizationZone.OrganizationZoneName,
-      //         };
-      //       });
-      //     });
+      axios
+        .get(this.apiFarm + "&FarmAnimalType=[" + this.animal_id + "]", {
+          signal: this.controller.signal,
+        })
+        .then((response) => {
+          this.farm = response.data.rows.map((item) => {
+            return {
+              FarmID: item.FarmID,
+              FarmName: item.FarmName,
+              OrganizationID: item.OrganizationID,
+              OrganizationZoneID: item.OrganizationZoneID,
+              AIZoneID: item.AIZoneID,
+              Fullname: item.FarmIdentificationNumber + ", " + item.FarmName,
+              // OrganizationZoneName: item.OrganizationZone.OrganizationZoneName,
+            };
+          });
+        });
       axios
         .get(this.apiAnimalSex, { signal: this.controller.signal })
         .then((response) => {
@@ -1736,7 +1639,11 @@ export default {
           //   };
           // });
         });
-
+      axios
+        .get(this.apiOrganizationID, { signal: this.controller.signal })
+        .then((response) => {
+          this.organization = response.data.rows;
+        });
       axios
         .get(this.apiOrganizationZoneID, { signal: this.controller.signal })
         .then((response) => {

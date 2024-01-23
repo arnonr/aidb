@@ -1162,7 +1162,7 @@ export default {
         Tumbol: "/tumbol/selection?isActive=1",
         OrganizationType: "/organization-type/selection?isActive=1",
         Organization: "/organization/selection?isActive=1",
-        Project: "/project/selection?isActive=1",
+        Project: "/project/selection?includeAll=false&isActive=1",
       },
       dropdown: {
         AIZones: [],
@@ -1541,7 +1541,7 @@ export default {
       this.fetchFarm();
     },
     fetchAIZone() {
-      let params = { includeAll: false };
+      let params = {  };
       //  Fetch AIZone
       axios
         .get(this.url.AIZone, {
@@ -1563,7 +1563,7 @@ export default {
         });
     },
     fetchOrganizationZone() {
-      let params = { includeAll: false, isActive: 1 };
+      let params = {  };
       //  Fetch OrganizationZone
       axios
         .get(this.url.OrganizationZone, {
@@ -1582,7 +1582,7 @@ export default {
         });
     },
     fetchProject() {
-      let params = { includeAll: false };
+      let params = { };
 
       if (this.animal_id == 1) {
         params["AnimalTypeID"] = "[1,2,41,42]";
@@ -1606,7 +1606,7 @@ export default {
     },
     fetchProvince() {
       //  Fetch Province
-      let params = { includeAll: false };
+      let params = { };
 
       if (this.search.AIZoneID != null) {
         params["AIZoneID"] = this.search.AIZoneID;
@@ -1636,7 +1636,7 @@ export default {
         return;
       }
 
-      let params = { includeAll: false };
+      let params = { };
 
       if (this.search.ProvinceID != null) {
         params["ProvinceID"] = this.search.ProvinceID;
@@ -1663,7 +1663,7 @@ export default {
         return;
       }
 
-      let params = { includeAll: false };
+      let params = { };
 
       if (this.search.AmphurID != null) {
         params["AmphurID"] = this.search.AmphurID;
@@ -1682,7 +1682,7 @@ export default {
         });
     },
     fetchOrganizationType() {
-      let params = { includeAll: false };
+      let params = {  };
 
       axios
         .get(this.url.OrganizationType, {
@@ -1704,7 +1704,7 @@ export default {
         return;
       }
 
-      let params = { includeAll: false };
+      let params = {  };
 
       if (this.search.OrganizationTypeID != null) {
         params["OrganizationTypeID"] = this.search.OrganizationTypeID;
@@ -1752,7 +1752,7 @@ export default {
 
     fetchFarmStatus() {
       //  Fetch Province
-      let params = { includeAll: false };
+      let params = {  };
       axios
         .get(this.url.FarmStatus, {
           signal: this.controller.signal,
@@ -1964,7 +1964,6 @@ export default {
             ...params,
             size: 10000000,
             page: 1,
-            includeAll: true,
           },
         })
         .then((response) => {

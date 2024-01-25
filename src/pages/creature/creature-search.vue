@@ -588,7 +588,7 @@
                   />
                 </div>
                 <!-- <div class="col-12 sm:col-6 lg:col-4"></div> -->
-                <div class="col-12 sm:col-6 lg:col-4">
+                <!-- <div class="col-12 sm:col-6 lg:col-4">
                   <label
                     for="dateBirthRange"
                     class="block text-600 text-sm font-bold mb-2"
@@ -615,9 +615,9 @@
                     id="dateBirthRange"
                     v-model="params.AnimalAgeTo"
                   />
-                </div>
+                </div> -->
 
-                <div class="col-12 sm:col-6 lg:col-3">
+                <div class="col-12 sm:col-6 lg:col-4">
                   <label
                     for="selectedFarm"
                     class="block text-600 text-sm font-bold mb-2"
@@ -632,7 +632,7 @@
                   />
                 </div>
 
-                <div class="col-12 sm:col-6 lg:col-3">
+                <div class="col-12 sm:col-6 lg:col-4">
                   <label
                     for="selectedFarm"
                     class="block text-600 text-sm font-bold mb-2"

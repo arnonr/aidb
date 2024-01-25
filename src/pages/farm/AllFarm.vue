@@ -239,6 +239,7 @@
                 โครงการ</label
               >
               <MultiSelect
+                style="max-width: 900px"
                 v-model="search.ProjectIDArray"
                 class="w-full"
                 :options="dropdown.Projects"
@@ -1541,7 +1542,7 @@ export default {
       this.fetchFarm();
     },
     fetchAIZone() {
-      let params = {  };
+      let params = {};
       //  Fetch AIZone
       axios
         .get(this.url.AIZone, {
@@ -1563,7 +1564,7 @@ export default {
         });
     },
     fetchOrganizationZone() {
-      let params = {  };
+      let params = {};
       //  Fetch OrganizationZone
       axios
         .get(this.url.OrganizationZone, {
@@ -1582,7 +1583,7 @@ export default {
         });
     },
     fetchProject() {
-      let params = { };
+      let params = {};
 
       if (this.animal_id == 1) {
         params["AnimalTypeID"] = "[1,2,41,42]";
@@ -1606,7 +1607,7 @@ export default {
     },
     fetchProvince() {
       //  Fetch Province
-      let params = { };
+      let params = {};
 
       if (this.search.AIZoneID != null) {
         params["AIZoneID"] = this.search.AIZoneID;
@@ -1636,7 +1637,7 @@ export default {
         return;
       }
 
-      let params = { };
+      let params = {};
 
       if (this.search.ProvinceID != null) {
         params["ProvinceID"] = this.search.ProvinceID;
@@ -1663,7 +1664,7 @@ export default {
         return;
       }
 
-      let params = { };
+      let params = {};
 
       if (this.search.AmphurID != null) {
         params["AmphurID"] = this.search.AmphurID;
@@ -1682,7 +1683,7 @@ export default {
         });
     },
     fetchOrganizationType() {
-      let params = {  };
+      let params = {};
 
       axios
         .get(this.url.OrganizationType, {
@@ -1704,7 +1705,7 @@ export default {
         return;
       }
 
-      let params = {  };
+      let params = {};
 
       if (this.search.OrganizationTypeID != null) {
         params["OrganizationTypeID"] = this.search.OrganizationTypeID;
@@ -1752,7 +1753,7 @@ export default {
 
     fetchFarmStatus() {
       //  Fetch Province
-      let params = {  };
+      let params = {};
       axios
         .get(this.url.FarmStatus, {
           signal: this.controller.signal,
@@ -2133,30 +2134,28 @@ export default {
       }
     },
     detailOrganization(id) {
-      const { OrganizationTypeName } =
-
-        this.dropdown.OrganizationTypes.find(
-          (val) => val.OrganizationTypeID === id
-        );
+      const { OrganizationTypeName } = this.dropdown.OrganizationTypes.find(
+        (val) => val.OrganizationTypeID === id
+      );
 
       return OrganizationTypeName;
     },
 
     detailTitle(id) {
-        console.log(id)
-    //   const { TitleName } = this.selection.TitleName.data.find(
-    //     (val) => val.TitleID === id
-    //   );
+      console.log(id);
+      //   const { TitleName } = this.selection.TitleName.data.find(
+      //     (val) => val.TitleID === id
+      //   );
 
-    //   return TitleName;
+      //   return TitleName;
     },
     detailGender(id) {
-        console.log(id)
-    //   const { GenderName } = this.dropdown.Gender.find(
-    //     (val) => val.GenderID === id
-    //   );
+      console.log(id);
+      //   const { GenderName } = this.dropdown.Gender.find(
+      //     (val) => val.GenderID === id
+      //   );
 
-    //   return GenderName;
+      //   return GenderName;
     },
     detailFormatBirthDate(date) {
       return format(new Date(date), "dd/MM/yyyy", {

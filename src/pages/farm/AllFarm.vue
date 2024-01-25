@@ -313,15 +313,16 @@
                 icon="pi pi-plus"
                 class="md:w-auto mr-2 mb-3"
               />
+
               <json-excel
                 :data="json_data"
                 style="display: inline-block"
-                class="mb-3"
+                class="btn"
               >
                 <Button
                   label="ดาวน์โหลด"
                   icon="pi pi-download"
-                  class="p-button-raised p-button-raised p-button-success"
+                  class="mb-3 p-button-raised p-button-raised p-button-success"
                 />
               </json-excel>
             </div>
@@ -1155,6 +1156,7 @@ export default {
       urlProvince: "/province/selection?includeAll=false",
       url: {
         Farm: "/farm",
+        ExportFarm: "/farm/export-excel?isActive=1",
         FarmStatus: "/farm-status/selection?isActive=1",
         AIZone: "/ai-zone/selection?isActive=1",
         OrganizationZone: "/organization-zone/selection?isActive=1",
@@ -1297,6 +1299,7 @@ export default {
           this.fetchProvince();
           this.fetchOrganization();
           this.fetchFarm();
+          this.exportExcel();
           this.search.AmphurID = null;
           this.search.TumbolID = null;
           this.search.OrganizationID = null;
@@ -1328,6 +1331,7 @@ export default {
           this.fetchProvince();
           this.fetchOrganization();
           this.fetchFarm();
+          this.exportExcel();
           this.search.AmphurID = null;
           this.search.TumbolID = null;
           this.search.OrganizationID = null;
@@ -1340,6 +1344,7 @@ export default {
       this.fetchAmphur();
       this.fetchOrganization();
       this.fetchFarm();
+      this.exportExcel();
       this.dropdown.Amphurs = [];
       this.dropdown.Tumbols = [];
 
@@ -1359,6 +1364,7 @@ export default {
       this.fetchTumbol();
       this.fetchOrganization();
       this.fetchFarm();
+      this.exportExcel();
       this.dropdown.Tumbols = [];
 
       if (this.isLoading == false) {
@@ -1375,6 +1381,7 @@ export default {
     "search.TumbolID"() {
       this.fetchOrganization();
       this.fetchFarm();
+      this.exportExcel();
 
       if (this.isLoading == false) {
         this.isLoading = true;
@@ -1399,6 +1406,7 @@ export default {
     },
     "search.OrganizationID"() {
       this.fetchFarm();
+      this.exportExcel();
 
       if (this.isLoading == false) {
         this.isLoading = true;
@@ -1411,6 +1419,7 @@ export default {
     },
     "search.FarmID"() {
       this.fetchFarm();
+      this.exportExcel();
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -1420,6 +1429,7 @@ export default {
     },
     "search.ProjectIDArray"() {
       this.fetchFarm();
+      this.exportExcel();
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -1429,6 +1439,7 @@ export default {
     },
     "search.FarmAnimalType"() {
       this.fetchFarm();
+      this.exportExcel();
 
       if (this.isLoading == false) {
         this.isLoading = true;
@@ -1439,6 +1450,7 @@ export default {
     },
     "search.FarmerFullName"() {
       this.fetchFarm();
+      this.exportExcel();
 
       if (this.isLoading == false) {
         this.isLoading = true;
@@ -1449,6 +1461,7 @@ export default {
     },
     "search.FarmStatusID"() {
       this.fetchFarm();
+      this.exportExcel();
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -1540,6 +1553,7 @@ export default {
       this.fetchOrganization();
       this.fetchFarmStatus();
       this.fetchFarm();
+      this.exportExcel();
     },
     fetchAIZone() {
       let params = {};
@@ -1869,7 +1883,7 @@ export default {
       axios
         .get(this.urlFarm, {
           signal: this.controller.signal,
-          params: {...params,size: undefined,page: 1},
+          params: { ...params, size: undefined, page: 1 },
         })
         .then((res) => {
           this.dropdown.Farms = res.data.rows;
@@ -1884,7 +1898,7 @@ export default {
       //   }
     },
 
-    exportExcel() {
+    async exportExcel() {
       this.isLoading = true;
       if (
         this.search.AIZoneID == null &&
@@ -1958,8 +1972,8 @@ export default {
         params["FarmStatusID"] = this.search.FarmStatusID;
       }
 
-      axios
-        .get(this.url.Farm, {
+      await axios
+        .get(this.url.ExportFarm, {
           signal: this.controller.signal,
           params: {
             ...params,
@@ -1968,20 +1982,23 @@ export default {
           },
         })
         .then((response) => {
-          this.json_data = response.data.rows.map((e) => {
-            return {
-              หมายเลขฟาร์ม: e.FarmIdentificationNumber,
-              ชื่อฟาร์ม: e.FarmName,
-              ชื่อนามสกุลเกษตรกร: e.Farmer ? e.Farmer.FullName : "-",
-              จังหวัด: e.Province.ProvinceName,
-              อำเภอ: e.Amphur.AmphurName,
-              ตำบล: e.Tumbol.TumbolName,
-              หน่วยงาน: e.Organization ? e.Organization.OrganizationName : "-",
-              วันที่ขึ้นทะเบียน: e.FarmRegisterDate
-                ? dayjs(e.FarmRegisterDate).locale(locale).format("DD/MM/YYYY")
-                : "",
-            };
-          });
+          this.json_data = response.data.rows;
+
+          //   .map((e) => {
+          //     return {
+          //       หมายเลขฟาร์ม: e.FarmIdentificationNumber,
+          //       ชื่อฟาร์ม: e.FarmName,
+          //       ชื่อนามสกุลเกษตรกร: e.Farmer ? e.Farmer.FullName : "-",
+          //       จังหวัด: e.Province.ProvinceName,
+          //       อำเภอ: e.Amphur.AmphurName,
+          //       ตำบล: e.Tumbol.TumbolName,
+          //       หน่วยงาน: e.Organization ? e.Organization.OrganizationName : "-",
+          //       วันที่ขึ้นทะเบียน: e.FarmRegisterDate
+          //         ? dayjs(e.FarmRegisterDate).locale(locale).format("DD/MM/YYYY")
+          //         : "",
+          //     };
+          //   });
+          return response.data.rows;
         })
         .finally(() => {
           this.isLoading = false;
@@ -1994,6 +2011,7 @@ export default {
       }
 
       this.fetchFarm();
+      this.exportExcel();
       //   this.isLoading = true;
       //   if (event) {
       //     this.currentPage = event.page + 1;

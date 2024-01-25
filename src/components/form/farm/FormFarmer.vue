@@ -1052,62 +1052,74 @@ export default {
             this.form = res.data.rows[0];
             this.checkSelect = 1;
 
-            // ถามว่าพบข้อมูล
-            axios
-              .get(this.url.farm + "&FarmerID=" + this.form.FarmerID, {
-                signal: this.controller.signal,
-              })
-              .then((res1) => {
-                if (res1) {
-                  let farmCheck = res1.data.rows;
+            if (this.form.FarmerRegisterStatus == 0) {
+              Swal.fire({
+                title: "หมายเลขบัตรประชาชนนี้ยังไม่ขึ้นทะเบียนกับกรม",
+                //   html: "",
+                text: "",
+                icon: "warning",
+              }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                  // ถามว่าพบข้อมูล
+                  axios
+                    .get(this.url.farm + "&FarmerID=" + this.form.FarmerID, {
+                      signal: this.controller.signal,
+                    })
+                    .then((res1) => {
+                      if (res1) {
+                        let farmCheck = res1.data.rows;
 
-                  let text =
-                    "";
-                  text =
-                    text +
-                    "<table style='margin-top:1em; border-collapse: collapse;width:100%'><tr><th style='border: 1px solid;'>เลขทะเบียนฟาร์ม</th><th  style='border: 1px solid;'>ชื่อฟาร์ม</th><th  style='border: 1px solid;'>สถานะ</th></tr>";
+                        let text = "";
+                        text =
+                          text +
+                          "<table style='margin-top:1em; border-collapse: collapse;width:100%'><tr><th style='border: 1px solid;'>เลขทะเบียนฟาร์ม</th><th  style='border: 1px solid;'>ชื่อฟาร์ม</th><th  style='border: 1px solid;'>สถานะ</th></tr>";
 
-                  farmCheck.forEach((el) => {
-                    text =
-                      text +
-                      "<tr><td style='border: 1px solid;'>" +
-                      el.FarmIdentificationNumber +
-                      "</td><td style='border: 1px solid;'>" +
-                      el.FarmName +
-                      "</td><td style='border: 1px solid;'>" +
-                      el.FarmStatus.FarmStatusName +
-                      "</td></tr>";
-                  });
+                        farmCheck.forEach((el) => {
+                          text =
+                            text +
+                            "<tr><td style='border: 1px solid;'>" +
+                            el.FarmIdentificationNumber +
+                            "</td><td style='border: 1px solid;'>" +
+                            el.FarmName +
+                            "</td><td style='border: 1px solid;'>" +
+                            el.FarmStatus.FarmStatusName +
+                            "</td></tr>";
+                        });
 
-                  text = text + "</table>";
+                        text = text + "</table>";
 
-                  Swal.fire({
-                    title: "หมายเลขบัตรประชาชนนี้เคยขึ้นทะเบียนฟาร์มแล้ว ดังนี้",
-                    html: text,
-                    showDenyButton: true,
-                    showCancelButton: false,
-                    confirmButtonText: "เพิ่มฟาร์มใหม่",
-                    customClass: "swal-wide",
-                    denyButtonText: `ยกเลิก`,
-                  }).then((result) => {
-                    /* Read more about isConfirmed, isDenied below */
-                    if (result.isConfirmed) {
-                      this.$toast.add({
-                        severity: "success",
-                        summary: "สำเร็จ",
-                        detail: "พบข้อมูลเกษตกร",
-                        life: 2000,
-                      });
-                    } else if (result.isDenied) {
-                      //   Swal.fire("Changes are not saved", "", "info");
+                        Swal.fire({
+                          title:
+                            "หมายเลขบัตรประชาชนนี้เคยขึ้นทะเบียนฟาร์มแล้ว ดังนี้",
+                          html: text,
+                          showDenyButton: true,
+                          showCancelButton: false,
+                          confirmButtonText: "เพิ่มฟาร์มใหม่",
+                          customClass: "swal-wide",
+                          denyButtonText: `ยกเลิก`,
+                        }).then((result) => {
+                          /* Read more about isConfirmed, isDenied below */
+                          if (result.isConfirmed) {
+                            this.$toast.add({
+                              severity: "success",
+                              summary: "สำเร็จ",
+                              detail: "พบข้อมูลเกษตกร",
+                              life: 2000,
+                            });
+                          } else if (result.isDenied) {
+                            //   Swal.fire("Changes are not saved", "", "info");
 
-                      this.$router.push({ name: "farmall" });
-                    }
-                  });
+                            this.$router.push({ name: "farmall" });
+                          }
+                        });
+                      }
+
+                      // return res;
+                    });
                 }
-
-                // return res;
               });
+            }
           })
           .catch(() => {
             this.checkSelect = 3;
@@ -1338,16 +1350,16 @@ export default {
           this.isLoading = false;
         });
 
-    //   axios
-    //     .get(this.url.farm, {
-    //       signal: this.controller.signal,
-    //     })
-    //     .then((res) => {
-    //       this.data.farm = res.data.rows;
-    //     })
-    //     .finally(() => {
-    //       this.isLoading = false;
-    //     });
+      //   axios
+      //     .get(this.url.farm, {
+      //       signal: this.controller.signal,
+      //     })
+      //     .then((res) => {
+      //       this.data.farm = res.data.rows;
+      //     })
+      //     .finally(() => {
+      //       this.isLoading = false;
+      //     });
     },
     nextPage() {
       if (this.validation() == false) {

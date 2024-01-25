@@ -1869,7 +1869,7 @@ export default {
       axios
         .get(this.urlFarm, {
           signal: this.controller.signal,
-          params: params,
+          params: {...params,size: undefined,page: 1},
         })
         .then((res) => {
           this.dropdown.Farms = res.data.rows;

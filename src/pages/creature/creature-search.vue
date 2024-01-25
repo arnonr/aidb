@@ -1868,7 +1868,7 @@ export default {
     },
 
     "parents.AnimalFatherEarID"() {
-      this.fetchParents();
+      this.fetchFather();
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -1878,7 +1878,7 @@ export default {
     },
 
     "parents.AnimalMotherEarID"() {
-      this.fetchParents();
+      this.fetchMother();
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -1956,7 +1956,6 @@ export default {
         }, 1000);
       }
     },
-
 
     // "params.AnimalFatherID"() {
     //   this.fetchAnimal();
@@ -2076,6 +2075,7 @@ export default {
       this.fetchOrganizationType();
       this.fetchOrganization();
       this.fetchFarm();
+      this.fetchAnimalBreed();
       //   this.fetchAnimal();
     },
     async load(event) {
@@ -2085,7 +2085,7 @@ export default {
         this.currentPage = event.page + 1;
         this.params.page = event.page + 1;
       }
-        this.fetchAnimal();
+      this.fetchAnimal();
     },
 
     fetchAIZone() {
@@ -2573,6 +2573,15 @@ export default {
         params["AnimalBreedID5"] = this.params.AnimalBreedID5;
       }
 
+      console.log(this.params.AnimalFatherID);
+      if (this.params.AnimalFatherID) {
+        params["AnimalFatherID"] = this.params.AnimalFatherID;
+      }
+
+      if (this.params.AnimalMotherID) {
+        params["AnimalMotherID"] = this.params.AnimalMotherID;
+      }
+
       if (this.search.Status) {
         params["isActive"] = this.search.Status;
       }
@@ -2795,49 +2804,66 @@ export default {
         });
     },
 
-    fetchParents() {
-        // if (
-        //   this.parents.AnimalFatherEarID != null &&
-        //   this.parents.AnimalFatherEarID != ""
-        // ) {
-        //   axios
-        //     .get("/animal?includeAll=false", {
-        //       signal: this.controller.signal,
-        //       params: {
-        //         AnimalEarID: this.parents.AnimalFatherEarID,
-        //       },
-        //     })
-        //     .then((res) => {
-        //       if (res.data.rows.length != 0) {
-        //         this.params.AnimalFatherID = res.data.rows[0].AnimalID;
-        //       } else {
-        //         this.params.AnimalFatherID = 0;
-        //       }
-        //     });
-        // } else {
-        //   this.params.AnimalFatherID = null;
-        // }
-        // if (
-        //   this.parents.AnimalMotherEarID != null &&
-        //   this.parents.AnimalMotherEarID != ""
-        // ) {
-        //   axios
-        //     .get("/animal?includeAll=false", {
-        //       signal: this.controller.signal,
-        //       params: {
-        //         AnimalEarID: this.parents.AnimalMotherEarID,
-        //       },
-        //     })
-        //     .then((res) => {
-        //       if (res.data.rows.length != 0) {
-        //         this.params.AnimalMotherID = res.data.rows[0].AnimalID;
-        //       } else {
-        //         this.params.AnimalMotherID = 0;
-        //       }
-        //     });
-        // } else {
-        //   this.params.AnimalMotherID = null;
-        // }
+    fetchFather() {
+      if (
+        this.parents.AnimalFatherEarID != null &&
+        this.parents.AnimalFatherEarID != ""
+      ) {
+        console.log(this.parents.AnimalFatherEarID);
+        axios
+          .get("/animal?includeAll=false", {
+            signal: this.controller.signal,
+            params: {
+              AnimalEarID: this.parents.AnimalFatherEarID,
+            },
+          })
+          .then((res) => {
+            if (res.data.rows.length != 0) {
+              this.params.AnimalFatherID = res.data.rows[0].AnimalID;
+            } else {
+              this.params.AnimalFatherID = 0;
+            }
+            this.fetchAnimal();
+          });
+      } else {
+        this.params.AnimalFatherID = null;
+        this.fetchAnimal();
+      }
+    },
+
+    fetchMother() {
+
+      if (this.parents.AnimalMotherEarID != null &&
+        this.parents.AnimalMotherEarID != "") {
+            
+        axios
+          .get("/animal?includeAll=false", {
+            signal: this.controller.signal,
+            params: {
+              AnimalEarID: this.parents.AnimalMotherEarID,
+            },
+          })
+          .then((res) => {
+            if (res.data.rows.length != 0) {
+              this.params.AnimalMotherID = res.data.rows[0].AnimalID;
+            } else {
+              this.params.AnimalMotherID = 0;
+            }
+            this.fetchAnimal();
+          });
+      } else {
+        this.params.AnimalMotherID = null;
+        this.fetchAnimal();
+      }
+
+   
+      //   if (
+      //     this.parents.AnimalMotherEarID == null &&
+      //     this.parents.AnimalFatherEarID == null
+      //   ) {
+      //     this.fetchAnimal();
+      //   }
+      //   console.log();
     },
 
     setParam() {

@@ -223,7 +223,7 @@
                 emptyMessage="ไม่มีข้อมูล"
                 emptyFilterMessage="ไม่พบข้อมูล"
                 class="w-full"
-                placeholder="ทั้งหมด"
+                placeholder="ยังไม่ได้เลือกชนิดสัตว์"
                 :options="dropdown.FarmAnimalTypes"
                 optionLabel="name"
                 optionValue="id"

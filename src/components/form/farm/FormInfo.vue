@@ -416,13 +416,14 @@ export default {
   data() {
     return {
       // Organization Load
-      urlOrganization: "/organization?includeAll=false",
-      urlOrganizationZone: "/organization-zone",
-      urlProvince: "/province?includeAll=false",
-      urlTumbol: "/tumbol?includeAll=false",
-      urlAmphur: "/amphur?includeAll=false",
-      urlAIZone: "/ai-zone",
-      urlProject: "/project?includeAll=false",
+      urlOrganization: "/organization/selection?includeAll=false&isActive=1",
+      urlOrganizationZone:
+        "/organization-zone/selection?includeAll=false&isActive=1",
+      urlProvince: "/province/selection?includeAll=false&isActive=1",
+      urlTumbol: "/tumbol/selection?includeAll=false&isActive=1",
+      urlAmphur: "/amphur/selection?includeAll=false&isActive=1",
+      urlAIZone: "/ai-zone/selection?includeAll=false&isActive=1",
+      urlProject: "/project/selection?includeAll=false&isActive=1",
       urlFarmStatus: "/farm-status",
       organization: [],
       organization_tmp: [],
@@ -493,6 +494,10 @@ export default {
       this.province_tmp = this.province.filter((item) => {
         return item.OrganizationZoneID == val;
       });
+
+      //   this.organization_tmp = this.organization.filter((item) => {
+      //     return item.OrganizationZoneID == val;
+      //   });
     },
     "form.FarmType"(val) {
       console.log(val);
@@ -508,12 +513,18 @@ export default {
           this.form.OrganizationZoneID = getAIZone[0].OrganizationZoneID;
         }
 
+        console.log(val)
+
         this.organization_tmp = this.organization.filter((item) => {
-          return (
-            item.OrganizationProvinceID == val &&
-            (item.OrganizationTypeID == "2" || item.OrganizationTypeID == "11")
-          );
+          return item.OrganizationProvinceID == val;
         });
+
+        // this.organization_tmp = this.organization.filter((item) => {
+        //   return (
+        //     item.OrganizationProvinceID == val &&
+        //     (item.OrganizationTypeID == "2" || item.OrganizationTypeID == "11")
+        //   );
+        // });
       }
       // OrganizationProvinceID
     },
@@ -524,7 +535,6 @@ export default {
           (item.OrganizationTypeID == "2" || item.OrganizationTypeID == "11")
         );
       });
-      // OrganizationProvinceID
     },
   },
   mounted() {

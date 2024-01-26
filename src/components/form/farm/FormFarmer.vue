@@ -1043,7 +1043,7 @@ export default {
       if (this.search.FarmerPID) {
         axios
           .get(
-            this.url.farmer + "?IdentificationNumber=" + this.search.FarmerPID,
+            "/farmer/fetch-before-add-farm?IdentificationNumber=" + this.search.FarmerPID,
             {
               signal: this.controller.signal,
             }

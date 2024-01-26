@@ -1435,6 +1435,7 @@ export default {
       apiProject: "/project/selection?includeAll=false",
       url: {
         Animal: "/animal/all-not-event",
+        ExportAnimal: "/animal/export-excel?isActive=1",
         Farm: "/farm/selection?includeAll=false",
         AIZone: "/ai-zone/selection?includeAll=false",
         OrganizationZone:
@@ -1665,6 +1666,7 @@ export default {
           //   this.fetchOrganization();
           this.fetchFarm();
           this.fetchAnimal();
+          this.exportExcel();
           this.search.AmphurID = null;
           this.search.TumbolID = null;
           this.search.OrganizationID = null;
@@ -1698,6 +1700,7 @@ export default {
           this.fetchOrganization();
           this.fetchFarm();
           this.fetchAnimal();
+          this.exportExcel();
           this.search.AmphurID = null;
           this.search.TumbolID = null;
           this.search.OrganizationID = null;
@@ -1731,6 +1734,7 @@ export default {
       this.fetchOrganization();
       this.fetchFarm();
       this.fetchAnimal();
+      this.exportExcel();
       this.dropdown.Tumbols = [];
 
       if (this.isLoading == false) {
@@ -1748,6 +1752,7 @@ export default {
       this.fetchOrganization();
       this.fetchFarm();
       this.fetchAnimal();
+      this.exportExcel();
 
       if (this.isLoading == false) {
         this.isLoading = true;
@@ -1773,6 +1778,7 @@ export default {
     "search.OrganizationID"() {
       this.fetchFarm();
       this.fetchAnimal();
+      this.exportExcel();
 
       if (this.isLoading == false) {
         this.isLoading = true;
@@ -1785,6 +1791,8 @@ export default {
     },
     "search.FarmID"() {
       this.fetchAnimal();
+      this.exportExcel();
+
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -1795,6 +1803,8 @@ export default {
     "search.ProjectIDArray"() {
       this.fetchFarm();
       this.fetchAnimal();
+      this.exportExcel();
+
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -1805,6 +1815,7 @@ export default {
     "search.FarmAnimalType"() {
       this.fetchFarm();
       this.fetchAnimal();
+      this.exportExcel();
 
       if (this.isLoading == false) {
         this.isLoading = true;
@@ -1823,12 +1834,16 @@ export default {
         this.isLoading = true;
         setTimeout(() => {
           this.fetchAnimal();
+          this.exportExcel();
+
           this.isLoading = false;
         }, 1000);
       }
     },
     "params.AnimalEarID"() {
       this.fetchAnimal();
+      this.exportExcel();
+
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -1839,6 +1854,8 @@ export default {
 
     "params.AnimalName"() {
       this.fetchAnimal();
+      this.exportExcel();
+
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -1849,6 +1866,8 @@ export default {
 
     "params.AnimalSexID"() {
       this.fetchAnimal();
+      this.exportExcel();
+
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -1859,6 +1878,8 @@ export default {
 
     "search.Status"() {
       this.fetchAnimal();
+      this.exportExcel();
+
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -1889,6 +1910,8 @@ export default {
 
     "params.AnimalAgeStart"() {
       this.fetchAnimal();
+      this.exportExcel();
+
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -1899,6 +1922,8 @@ export default {
 
     "params.AnimalAgeTo"() {
       this.fetchAnimal();
+      this.exportExcel();
+
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -1909,6 +1934,8 @@ export default {
 
     "params.AnimalBreedID1"() {
       this.fetchAnimal();
+      this.exportExcel();
+
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -1919,6 +1946,8 @@ export default {
 
     "params.AnimalBreedID2"() {
       this.fetchAnimal();
+      this.exportExcel();
+
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -1929,6 +1958,8 @@ export default {
 
     "params.AnimalBreedID3"() {
       this.fetchAnimal();
+      this.exportExcel();
+
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -1939,6 +1970,8 @@ export default {
 
     "params.AnimalBreedID4"() {
       this.fetchAnimal();
+      this.exportExcel();
+
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -1949,6 +1982,8 @@ export default {
 
     "params.AnimalBreedID5"() {
       this.fetchAnimal();
+      this.exportExcel();
+
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -2086,6 +2121,7 @@ export default {
         this.params.page = event.page + 1;
       }
       this.fetchAnimal();
+      this.exportExcel();
     },
 
     fetchAIZone() {
@@ -2746,6 +2782,24 @@ export default {
       //     .finally(() => {
       //       this.isLoading = false;
       //     });
+
+      axios
+        .get(this.url.ExportAnimal, {
+          signal: this.controller.signal,
+          params: {
+            ...params,
+            size: 100000,
+            page: 1,
+            noEventLatest: true,
+            includeEventLatest: false,
+          },
+        })
+        .then((response) => {
+          this.json_data = response.data.rows;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
     },
 
     fetchAnimalBreed() {
@@ -2824,18 +2878,20 @@ export default {
               this.params.AnimalFatherID = 0;
             }
             this.fetchAnimal();
+            this.exportExcel();
           });
       } else {
         this.params.AnimalFatherID = null;
         this.fetchAnimal();
+        this.exportExcel();
       }
     },
 
     fetchMother() {
-
-      if (this.parents.AnimalMotherEarID != null &&
-        this.parents.AnimalMotherEarID != "") {
-            
+      if (
+        this.parents.AnimalMotherEarID != null &&
+        this.parents.AnimalMotherEarID != ""
+      ) {
         axios
           .get("/animal?includeAll=false", {
             signal: this.controller.signal,
@@ -2850,13 +2906,14 @@ export default {
               this.params.AnimalMotherID = 0;
             }
             this.fetchAnimal();
+            this.exportExcel();
           });
       } else {
         this.params.AnimalMotherID = null;
         this.fetchAnimal();
+        this.exportExcel();
       }
 
-   
       //   if (
       //     this.parents.AnimalMotherEarID == null &&
       //     this.parents.AnimalFatherEarID == null
@@ -2988,6 +3045,7 @@ export default {
         this.params.orderByField = $event.sortField;
         // this.load();
         this.fetchAnimal();
+        this.exportExcel();
       }
     },
     // page change

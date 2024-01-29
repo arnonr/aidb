@@ -1043,7 +1043,8 @@ export default {
       if (this.search.FarmerPID) {
         axios
           .get(
-            "/farmer/fetch-before-add-farm?IdentificationNumber=" + this.search.FarmerPID,
+            "/farmer/fetch-before-add-farm?IdentificationNumber=" +
+              this.search.FarmerPID,
             {
               signal: this.controller.signal,
             }
@@ -1063,9 +1064,13 @@ export default {
                 if (result.isConfirmed) {
                   // ถามว่าพบข้อมูล
                   axios
-                    .get("farm/selection?isActive=1&includeAll=false&includeFarmStatus=true&FarmerID=" + this.form.FarmerID, {
-                      signal: this.controller.signal,
-                    })
+                    .get(
+                      "farm/selection?isActive=1&includeAll=false&includeFarmStatus=true&FarmerID=" +
+                        this.form.FarmerID,
+                      {
+                        signal: this.controller.signal,
+                      }
+                    )
                     .then((res1) => {
                       if (res1) {
                         let farmCheck = res1.data.rows;
@@ -1119,6 +1124,66 @@ export default {
                     });
                 }
               });
+            } else {
+              axios
+                .get(
+                  "farm/selection?isActive=1&includeAll=false&includeFarmStatus=true&FarmerID=" +
+                    this.form.FarmerID,
+                  {
+                    signal: this.controller.signal,
+                  }
+                )
+                .then((res1) => {
+                  if (res1) {
+                    let farmCheck = res1.data.rows;
+
+                    let text = "";
+                    text =
+                      text +
+                      "<table style='margin-top:1em; border-collapse: collapse;width:100%'><tr><th style='border: 1px solid;'>เลขทะเบียนฟาร์ม</th><th  style='border: 1px solid;'>ชื่อฟาร์ม</th><th  style='border: 1px solid;'>สถานะ</th></tr>";
+
+                    farmCheck.forEach((el) => {
+                      text =
+                        text +
+                        "<tr><td style='border: 1px solid;'>" +
+                        el.FarmIdentificationNumber +
+                        "</td><td style='border: 1px solid;'>" +
+                        el.FarmName +
+                        "</td><td style='border: 1px solid;'>" +
+                        el.FarmStatusName +
+                        "</td></tr>";
+                    });
+
+                    text = text + "</table>";
+
+                    Swal.fire({
+                      title:
+                        "หมายเลขบัตรประชาชนนี้เคยขึ้นทะเบียนฟาร์มแล้ว ดังนี้",
+                      html: text,
+                      showDenyButton: true,
+                      showCancelButton: false,
+                      confirmButtonText: "เพิ่มฟาร์มใหม่",
+                      customClass: "swal-wide",
+                      denyButtonText: `ยกเลิก`,
+                    }).then((result) => {
+                      /* Read more about isConfirmed, isDenied below */
+                      if (result.isConfirmed) {
+                        this.$toast.add({
+                          severity: "success",
+                          summary: "สำเร็จ",
+                          detail: "พบข้อมูลเกษตกร",
+                          life: 2000,
+                        });
+                      } else if (result.isDenied) {
+                        //   Swal.fire("Changes are not saved", "", "info");
+
+                        this.$router.push({ name: "farmall" });
+                      }
+                    });
+                  }
+
+                  // return res;
+                });
             }
           })
           .catch(() => {

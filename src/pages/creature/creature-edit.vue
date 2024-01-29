@@ -755,6 +755,7 @@
                         name="category"
                         :value="isAlive"
                         v-model="form.AnimalAlive"
+                        :disabled="true"
                         :readonly="true"
                       />
                       <label :for="isAlive.key">{{ isAlive.name }}</label>
@@ -772,6 +773,7 @@
                         name="category"
                         :value="isActive"
                         v-model="form.isActive"
+                        :disabled="true"
                         :readonly="true"
                       />
                       <label :for="isActive.key">{{ isActive.name }}</label>

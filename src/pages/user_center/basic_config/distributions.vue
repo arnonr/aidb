@@ -365,6 +365,7 @@ export default {
       }
       // change data
       this.form.isActive = this.form.isActive.value;
+      this.form.DistributionReasonID = undefined
       // post
       axios
         .post(this.url, this.form)

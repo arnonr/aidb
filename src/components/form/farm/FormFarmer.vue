@@ -161,7 +161,7 @@
             type="text"
             v-if="form.FarmerPIDType != 1 && form.FarmerPIDType != null"
             class="w-full"
-            v-model="form.MiddleName"
+            v-model="form.IdentificationNumber"
             :readonly="checkSelect == 1"
           />
         </div>

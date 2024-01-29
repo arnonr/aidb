@@ -1623,6 +1623,7 @@ export default {
     } else if (this.animal_id == 3) {
       this.apiProject += "&ProjectLevel=ANIMAL&AnimalTypeID=[17,18,45,46]";
     }
+    
     this.fetchAnimalSex();
     axios
       .get(this.apiProject, { signal: this.controller.signal })

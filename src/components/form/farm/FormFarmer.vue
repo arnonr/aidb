@@ -1063,7 +1063,7 @@ export default {
                 if (result.isConfirmed) {
                   // ถามว่าพบข้อมูล
                   axios
-                    .get(this.url.farm + "&FarmerID=" + this.form.FarmerID, {
+                    .get("farm/selection?isActive=1&includeAll=false&includeFarmStatus=true&FarmerID=" + this.form.FarmerID, {
                       signal: this.controller.signal,
                     })
                     .then((res1) => {
@@ -1083,7 +1083,7 @@ export default {
                             "</td><td style='border: 1px solid;'>" +
                             el.FarmName +
                             "</td><td style='border: 1px solid;'>" +
-                            el.FarmStatus.FarmStatusName +
+                            el.FarmStatusName +
                             "</td></tr>";
                         });
 

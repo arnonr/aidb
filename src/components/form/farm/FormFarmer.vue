@@ -6,9 +6,29 @@
   <form class="grid">
     <div class="col-12 lg:col-12">
       <div class="formgrid grid">
+        <!-- <div class="field col-12 sm:col-12 lg:col-12">
+          <div class="text-600 text-sm font-bold mb-2">
+            เลือกประเภทบัตร<span class="text-red-500"> *</span>
+          </div>
+          <div
+            v-for="(it, idx) of selectOptions.FarmerPIDType"
+            :key="idx"
+            class="field-radiobutton"
+          >
+            <RadioButton
+              :id="idx"
+              name="category"
+              :value="it.value"
+              v-model="search.FarmerPIDType"
+              :readonly="true"
+            />
+            <label :for="idx">{{ it.name }}</label>
+          </div>
+        </div> -->
+
         <div class="field col-12 sm:col-12">
           <label class="block text-600 text-sm font-bold mb-2">
-            ค้นหาข้อมูลเกษตรกรจากเลขบัตรประชาชน<span class="text-red-500">
+            ค้นหาข้อมูลเกษตรกรจากเลขบัตรประชาชน/Passport/บัตรต่างด้าว<span class="text-red-500">
               *</span
             ></label
           >
@@ -90,6 +110,36 @@
             :readonly="checkSelect == 1"
           />
         </div>
+
+        <div
+          class="field col-12 sm:col-6"
+          v-if="checkSelect == 1 || checkSelect == 2"
+        >
+          <label class="block text-600 text-sm font-bold mb-2"
+            >ประเภทบัตร<span class="text-red-500"> *</span></label
+          >
+          <Dropdown
+            class="w-full"
+            v-model="form.FarmerPIDType"
+            :options="selectOptions.FarmerPIDType"
+            optionLabel="name"
+            optionValue="value"
+            :virtualScrollerOptions="{
+              itemSize: 38,
+            }"
+            :filter="true"
+            :showClear="true"
+            placeholder="เลือกประเภทบัตร"
+            :class="{ 'p-invalid': valid }"
+          >
+            <template v-slot:loader="{ options }">
+              <div class="flex align-items-center p-2" style="height: 38px">
+                <Skeleton :width="options.even ? '60%' : '50%'" height="1rem" />
+              </div>
+            </template>
+          </Dropdown>
+        </div>
+
         <div
           class="field col-12 sm:col-6 lg:col-6"
           v-if="checkSelect == 1 || checkSelect == 2"
@@ -101,9 +151,17 @@
             type="text"
             class="w-full"
             mask="9-9999-99999-99-9"
+            v-if="form.FarmerPIDType == 1 || form.FarmerPIDType == null"
             unmask="true"
             v-model="form.IdentificationNumber"
             :class="{ 'p-invalid': !form.IdentificationNumber && valid }"
+            :readonly="checkSelect == 1"
+          />
+          <InputText
+            type="text"
+            v-if="form.FarmerPIDType != 1 && form.FarmerPIDType != null"
+            class="w-full"
+            v-model="form.MiddleName"
             :readonly="checkSelect == 1"
           />
         </div>
@@ -922,6 +980,13 @@ export default {
       isLoading: false,
       valid: false,
       controller: new AbortController(),
+      selectOptions: {
+        FarmerPIDType: [
+          { name: "บัตรประชาชน", value: 1 },
+          { name: "Passport", value: 2 },
+          { name: "บัตรต่างด้าว", value: 3 },
+        ],
+      },
 
       // form
 
@@ -947,6 +1012,7 @@ export default {
 
       search: {
         FarmPID: "",
+        FarmerPIDType: null,
       },
 
       items: [
@@ -1041,6 +1107,17 @@ export default {
     },
     getFarmer() {
       if (this.search.FarmerPID) {
+        // if (!this.search.FarmerPIDType) {
+        //   this.$toast.add({
+        //     severity: "error",
+        //     summary: "พบข้อผิดพลาด",
+        //     detail: "โปรดเลือกประเภทบัตร",
+        //     life: 2000,
+        //   });
+        //   this.form = {};
+        //   this.checkSelect = 3;
+        //   return;
+        // }
         axios
           .get(
             "/farmer/fetch-before-add-farm?IdentificationNumber=" +
@@ -1432,8 +1509,10 @@ export default {
       }
 
       if (this.checkSelect != 1) {
-        if (!this.chkDigitPid(this.form.IdentificationNumber)) {
-          return false;
+        if (this.form.FarmerPIDTypeID == 1) {
+          if (!this.chkDigitPid(this.form.IdentificationNumber)) {
+            return false;
+          }
         }
       }
 

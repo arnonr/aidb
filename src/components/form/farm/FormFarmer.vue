@@ -25,10 +25,11 @@
             <label :for="idx">{{ it.name }}</label>
           </div>
         </div> -->
-
         <div class="field col-12 sm:col-12">
           <label class="block text-600 text-sm font-bold mb-2">
-            ค้นหาข้อมูลเกษตรกรจากเลขบัตรประชาชน/Passport/บัตรต่างด้าว<span class="text-red-500">
+            ค้นหาข้อมูลเกษตรกรจากเลขประจำตัวประชาชน/เลขหนังสือเดินทาง (Passport)/เลขประจำตัวคนต่างด้าว<span
+              class="text-red-500"
+            >
               *</span
             ></label
           >
@@ -157,9 +158,21 @@
             :class="{ 'p-invalid': !form.IdentificationNumber && valid }"
             :readonly="checkSelect == 1"
           />
+
+          <InputMask
+            type="text"
+            class="w-full"
+            mask="9999999999999"
+            v-if="form.FarmerPIDType == 3"
+            unmask="true"
+            v-model="form.IdentificationNumber"
+            :class="{ 'p-invalid': !form.IdentificationNumber && valid }"
+            :readonly="checkSelect == 1"
+          />
+
           <InputText
             type="text"
-            v-if="form.FarmerPIDType != 1 && form.FarmerPIDType != null"
+            v-if="form.FarmerPIDType == 2"
             class="w-full"
             v-model="form.IdentificationNumber"
             :readonly="checkSelect == 1"
@@ -982,9 +995,9 @@ export default {
       controller: new AbortController(),
       selectOptions: {
         FarmerPIDType: [
-          { name: "บัตรประชาชน", value: 1 },
-          { name: "Passport", value: 2 },
-          { name: "บัตรต่างด้าว", value: 3 },
+          { name: "เลขประจำตัวประชาชน", value: 1 },
+          { name: "เลขหนังสือเดินทาง (Passport)", value: 2 },
+          { name: "เลขประจำตัวคนต่างด้าว", value: 3 },
         ],
       },
 

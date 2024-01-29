@@ -81,7 +81,6 @@
                       </template>
                     </Datepicker>
                   </div>
-                
 
                   <div class="field col-12 sm:col-6">
                     <label class="block text-600 text-sm font-bold mb-2">
@@ -123,7 +122,7 @@
                       :class="{ 'p-invalid': !form.OrganizationID && valid }"
                     />
                   </div>
-                  
+
                   <!-- <div class="field col-12 sm:col-6">
                     <label class="block text-600 text-sm font-bold mb-2">
                       พื้นที่เขตปศุสัตว์<span class="text-red-500">
@@ -421,7 +420,7 @@
                         <label class="block text-600 text-sm font-bold mb-2">
                           หมายเลขแม่<span class="text-red-500"> *</span></label
                         >
-                        <Dropdown
+                        <!-- <Dropdown
                           class="w-full"
                           id="selectedstatus"
                           :options="animalmother"
@@ -437,7 +436,29 @@
                             user.GroupID != 16 &&
                             user.GroupID != 15
                           "
-                        />
+                        /> -->
+
+                        <!-- @search="fetchMotherOptions" -->
+
+                        <v-select
+                          :options="animalmother_temp"
+                          @search="fetchAnimalMotherOptions"
+                          label="AnimalEarIDAndName"
+                          value="AnimalID"
+                          v-model="form.AnimalMotherID"
+                          class="w-full"
+                          placeholder="เลือกหมายเลขแม่"
+                          :disabled="
+                            user.GroupID != 1 &&
+                            user.GroupID != 16 &&
+                            user.GroupID != 15
+                          "
+                        ></v-select>
+
+                        <!-- <Select2
+                          v-model="myValue"
+                          :options="myOptions"
+                        /> -->
                       </div>
                     </div>
                   </div>
@@ -820,25 +841,34 @@
 <script>
 import axios from "axios";
 // import { useRoute } from "vue-router";
+// import Select2 from "v-select2-component";
 import PageTitle from "@/components/PageTitle.vue";
 
 import { mapGetters } from "vuex";
 import { format } from "date-fns";
 import { th } from "date-fns/locale";
+import vSelect from "vue-select";
+import "vue-select/dist/vue-select.css";
 
 export default {
   components: {
     PageTitle,
+    vSelect,
   },
   computed: {
     ...mapGetters({
       animal_id: "animal_id",
       user: "user",
     }),
+    searchInputId() {
+      return "search-input";
+    },
   },
   setup() {},
   data() {
     return {
+      options: ["foo", "bar", "baz"],
+
       params: this.$route.params.id,
       url: "/animal",
       urlNumber: "/animal/generate-number",
@@ -871,6 +901,7 @@ export default {
       organizationzone: [],
       animalfather: [],
       animalmother: [],
+      animalmother_temp: [],
       animaltype: [],
       gennumber: [],
 
@@ -1353,6 +1384,16 @@ export default {
     },
   },
   methods: {
+    fetchAnimalMotherOptions(search, loading) {
+      console.log(loading);
+      if (search.length > 2) {
+        this.animalmother_temp = this.animalmother.filter((x) => {
+          return x.AnimalEarIDAndName.includes(search);
+        });
+      } else {
+        this.animalmother_temp = [];
+      }
+    },
     format(date) {
       const dayStart = date.getDate();
       const monthStart = date.getMonth();
@@ -1390,7 +1431,7 @@ export default {
               "?AnimalFatherID=" +
               this.checkFather +
               "&AnimalMotherID=" +
-              this.checkMother,
+              this.checkMother.AnimalID,
             { signal: this.controller.signal }
           )
           .then((response) => {
@@ -1403,12 +1444,13 @@ export default {
                 //   response.data[i].AnimalBreedPercent;
 
                 if (response.data[i].AnimalBreedPercent == "50.000") {
-                  breed1tmp = this.Percent[0];
+                  breed1tmp = this.Percent[0].name;
                 } else if (response.data[i].AnimalBreedPercent == "75.000") {
-                  breed1tmp = this.Percent[1];
+                  breed1tmp = this.Percent[1].name;
                 } else if (response.data[i].AnimalBreedPercent == "100.000") {
-                  breed1tmp = this.Percent[2];
+                  breed1tmp = this.Percent[2].name;
                 }
+                console.log(breed1tmp);
                 this.form.AnimalBreedPercent1 = breed1tmp;
               } else if (i == 1) {
                 this.form.AnimalBreedID2 = response.data[i].AnimalBreedID;
@@ -1603,7 +1645,17 @@ export default {
             // AIZoneID: id.FarmID,F
             AnimalFirstBreed: id.AnimalFirstBreed,
             AnimalFatherID: id.AnimalFatherID,
-            AnimalMotherID: id.AnimalMotherID,
+            AnimalMotherID:
+              id.AnimalMotherID != null
+                ? {
+                    AnimalID: id.AnimalMotherID,
+                    
+                    AnimalEarIDAndName:
+                      id.AnimalMother.AnimalEarID +
+                      ", " +
+                      id.AnimalMother.AnimalName,
+                  }
+                : null,
             AnimalPar: id.AnimalPar,
             AnimalBirthDate: id.AnimalBirthDate,
             AnimalDateJoin: id.AnimalDateJoin,
@@ -1985,8 +2037,16 @@ export default {
       }
 
       // post
+      let AnimalMotherID = null;
+      if (this.form.AnimalFirstBreed == "0") {
+        AnimalMotherID = this.form.AnimalMotherID.AnimalID;
+      }
+
       axios
-        .put(this.url + "/" + this.form.AnimalID, this.form)
+        .put(this.url + "/" + this.form.AnimalID, {
+          ...this.form,
+          AnimalMotherID: AnimalMotherID,
+        })
 
         .then((res) => {
           if (this.form.AnimalImagePathGen !== undefined) {
@@ -2084,6 +2144,10 @@ export default {
 <style>
 .p-datatable .p-column-header-content {
   justify-content: center;
+}
+
+.vs__search {
+  padding: 6px !important;
 }
 </style>
 

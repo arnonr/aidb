@@ -166,6 +166,54 @@
               :options="selection.DistributionReasonID"
             />
           </div>
+
+          <!--  -->
+          <div
+            class="col-12 lg:col-6"
+            v-if="
+              data[index].DistributionType == 'SALE' ||
+              data[index].DistributionType == 'TRANSFER'
+            "
+          >
+            <label class="block text-600 text-sm font-bold mb-2">
+              ศูนย์วิจัย</label
+            >
+            <Dropdown
+              emptyMessage="ไม่มีข้อมูล"
+              emptyFilterMessage="ไม่พบข้อมูล"
+              class="w-full"
+              placeholder="เลือกศูนย์วิจัย"
+              optionLabel="AIZoneName"
+              optionValue="AIZoneID"
+              :filter="true"
+              v-model="search.AIZoneID"
+              :options="selection.AIZone"
+            />
+          </div>
+
+          <!-- <div
+            class="col-12 lg:col-6"
+            v-if="
+              data[index].DistributionType == 'SALE' ||
+              data[index].DistributionType == 'TRANSFER'
+            "
+          >
+            <label class="block text-600 text-sm font-bold mb-2">
+              จังหวัด</label
+            >
+            <Dropdown
+              emptyMessage="ไม่มีข้อมูล"
+              emptyFilterMessage="ไม่พบข้อมูล"
+              class="w-full"
+              placeholder="เลือกจังหวัด"
+              optionLabel="ProvinceName"
+              optionValue="ProvinceID"
+              :filter="true"
+              v-model="search.ProvinceID"
+              :options="selection.Province"
+            />
+          </div> -->
+
           <div
             class="col-12 lg:col-6"
             v-if="
@@ -181,7 +229,7 @@
               emptyFilterMessage="ไม่พบข้อมูล"
               class="w-full"
               placeholder="เลือกฟาร์มปลายทาง"
-              optionLabel="FarmName"
+              optionLabel="Fullname"
               optionValue="FarmID"
               :filter="true"
               v-model="data[index].DestinationFarmID"
@@ -258,17 +306,21 @@ export default {
     return {
       // API
       url: "/distribution",
+      urlFarm: "/farm/selection?includeAll=false",
+
       animal_url: "animal",
       // ID
       id: "DistributionID",
       // Name
       name: "การคัดจำหน่าย",
-
+      search: {},
       //load_selection
       LoadSelection: {
         Staff: "/staff/selection?includeAll=false&isActive=1",
         DistributionReasonID: "/distribution-reason",
         DestinationFarmID: "/farm/selection?includeAll=false&isActive=1",
+        AIZone: "/ai-zone/selection?isActive=1",
+        Province: "/province/selection?isActive=1",
       },
       show: {},
       // Selection
@@ -290,10 +342,10 @@ export default {
             header: "คัดทิ้ง",
             val: "DROP",
           },
-        //   {
-        //     header: "ย้าย",
-        //     val: "TRANSFER",
-        //   },
+          //   {
+          //     header: "ย้าย",
+          //     val: "TRANSFER",
+          //   },
         ],
       },
       // Table Field
@@ -374,11 +426,16 @@ export default {
         this.data = [];
       }
     },
+    "search.AIZoneID"() {
+      this.fetchFarm();
+    },
+    "search.ProvinceID"() {
+      this.fetchFarm();
+    },
   },
   computed: {
     ...mapGetters({
       user: "user",
-
       AnimalID: "AnimalID",
       animal_id: "animal_id",
       AnimalSecretStatus: "AnimalSecretStatus",
@@ -493,16 +550,15 @@ export default {
     load() {
       return new Promise((resolve) => {
         this.isLoading = true;
+
         axios
-          .get(`${this.url}?AnimalID=${this.AnimalID}`, {
-            signal: this.controller.signal,
-          })
+          .get(`${this.url}?AnimalID=${this.AnimalID}`)
           .then((response) => {
             this.data = response.data.rows.filter(
               (item) => item.AnimalID === this.AnimalID
             );
-            this.total = this.data.length;
 
+            this.total = this.data.length;
             for (let i = 0; i < this.data.length; i++) {
               this.data[i].show_id = i + 1;
             }
@@ -526,10 +582,9 @@ export default {
         axios
           .post(this.url, this.data[this.index])
           .then(() => {
-            setTimeout(() => {
-              this.load();
-            }, 1500);
             this.close();
+            this.load();
+
             this.$toast.add({
               severity: "success",
               summary: "สำเร็จ",
@@ -561,9 +616,7 @@ export default {
           )
           .then(() => {
             this.close();
-            setTimeout(() => {
-              this.load();
-            }, 1500);
+            this.load();
             this.$toast.add({
               severity: "success",
               summary: "สำเร็จ",
@@ -580,7 +633,7 @@ export default {
             });
           });
       }
-      this.$emit("refresh_secret_status");
+      // this.$emit("refresh_secret_status");
     },
     // remove data
     remove() {
@@ -603,7 +656,9 @@ export default {
       this.data.push({
         AnimalID: this.AnimalID,
       });
+
       this.data[this.index].ResponsibilityStaffID = this.user.StaffID;
+
       await axios
         .get(`animal?AnimalID=${this.AnimalID}`, {
           signal: this.controller.signal,
@@ -618,7 +673,7 @@ export default {
       this.display = true;
     },
     //form open edit
-    edit(id) {
+    async edit(id) {
       if (this.permit[0].IsUpdate == 0) {
         this.$toast.add({
           severity: "error",
@@ -631,6 +686,26 @@ export default {
       this.index = id;
       this.formheader = "แก้ไข";
       this.temp = JSON.parse(JSON.stringify(this.data[this.index]));
+
+      if (this.selection.DestinationFarmID != null) {
+        let Farm1 = this.selection.DestinationFarmID.find((x) => {
+          return (this.data[this.index].DestinationFarmID == x.FarmID);
+        });
+        this.search.AIZoneID = Farm1.AIZoneID;
+        // this.search.ProvinceID = Farm1.ProvinceID;
+      }
+
+      await axios
+        .get(`animal?AnimalID=${this.AnimalID}`, {
+          signal: this.controller.signal,
+        })
+        .then((response) => {
+          this.show.id = response.data.rows[0].AnimalEarID;
+          this.show.name = response.data.rows[0].AnimalName;
+          this.show.farm = `${response.data.rows[0].AnimalFarm.FarmIdentificationNumber}, ${response.data.rows[0].AnimalFarm.FarmName} `;
+          this.data[this.index].FarmID = response.data.rows[0].FarmID;
+        });
+
       this.display = true;
     },
     close() {
@@ -651,6 +726,48 @@ export default {
     },
     close_delete() {
       this.display_delete = false;
+    },
+    fetchFarm() {
+      this.isLoading = true;
+      if (this.search.AIZoneID == null) {
+        this.isLoading = false;
+        return;
+      }
+
+      let params = {
+        orderByField: "FarmID",
+        orderBy: "desc",
+      };
+
+      if (this.search.FarmAnimalType == null) {
+        this.search.FarmAnimalType = parseInt(this.animal_id);
+        params["FarmAnimalType"] = this.search.FarmAnimalType;
+      } else {
+        params["FarmAnimalType"] = this.search.FarmAnimalType;
+      }
+
+      // Province IN AIZOne
+      if (this.search.AIZoneID != null) {
+        if (this.search.AIZoneID != 99) {
+          params["AIZoneID"] = this.search.AIZoneID;
+        }
+      }
+
+      if (this.search.ProvinceID != null) {
+        params["FarmProvinceID"] = this.search.ProvinceID;
+      }
+
+      axios
+        .get(this.urlFarm, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          this.selection.DestinationFarmID = res.data.rows;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
     },
   },
   unmounted() {

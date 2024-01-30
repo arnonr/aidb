@@ -1497,7 +1497,7 @@ export default {
             life: 5000,
           });
         });
-      this.$emit("refresh_secret_status");
+    //   this.$emit("refresh_secret_status");
     },
     update() {
       // validation
@@ -1529,7 +1529,7 @@ export default {
             life: 5000,
           });
         });
-      this.$emit("refresh_secret_status");
+    //   this.$emit("refresh_secret_status");
     },
     remove() {
       axios.delete(this.url + "/" + this.form.id).then(() => {
@@ -1542,7 +1542,7 @@ export default {
           life: 5000,
         });
       });
-      this.$emit("refresh_secret_status");
+    //   this.$emit("refresh_secret_status");
     },
     // Modal
     open_add() {

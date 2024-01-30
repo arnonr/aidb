@@ -1127,7 +1127,7 @@ export default {
             });
           });
       }
-      this.$emit("refresh_secret_status");
+    //   this.$emit("refresh_secret_status");
     },
     // remove data
     remove() {
@@ -1141,7 +1141,7 @@ export default {
           life: 5000,
         });
       });
-      this.$emit("refresh_secret_status");
+    //   this.$emit("refresh_secret_status");
     },
     // form open add
     async open() {

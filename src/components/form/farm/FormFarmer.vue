@@ -27,9 +27,8 @@
         </div> -->
         <div class="field col-12 sm:col-12">
           <label class="block text-600 text-sm font-bold mb-2">
-            ค้นหาข้อมูลเกษตรกรจากเลขประจำตัวประชาชน/เลขหนังสือเดินทาง (Passport)/เลขประจำตัวคนต่างด้าว<span
-              class="text-red-500"
-            >
+            ค้นหาข้อมูลเกษตรกรจากเลขประจำตัวประชาชน/เลขหนังสือเดินทาง
+            (Passport)/เลขประจำตัวคนต่างด้าว<span class="text-red-500">
               *</span
             ></label
           >
@@ -1140,7 +1139,13 @@ export default {
             }
           )
           .then((res) => {
-            this.form = res.data.rows[0];
+            // this.form = res.data.rows[0];
+
+            if (Array.isArray(res.data.rows)) {
+              this.form = res.data.rows[0];
+            } else {
+              this.form = res.data.rows.res;
+            }
             this.checkSelect = 1;
 
             if (this.form.FarmerRegisterStatus == 0) {
@@ -1184,30 +1189,32 @@ export default {
 
                         text = text + "</table>";
 
-                        Swal.fire({
-                          title:
-                            "หมายเลขบัตรประชาชนนี้เคยขึ้นทะเบียนฟาร์มแล้ว ดังนี้",
-                          html: text,
-                          showDenyButton: true,
-                          showCancelButton: false,
-                          confirmButtonText: "เพิ่มฟาร์มใหม่",
-                          customClass: "swal-wide",
-                          denyButtonText: `ยกเลิก`,
-                        }).then((result) => {
-                          /* Read more about isConfirmed, isDenied below */
-                          if (result.isConfirmed) {
-                            this.$toast.add({
-                              severity: "success",
-                              summary: "สำเร็จ",
-                              detail: "พบข้อมูลเกษตกร",
-                              life: 2000,
-                            });
-                          } else if (result.isDenied) {
-                            //   Swal.fire("Changes are not saved", "", "info");
+                        if (farmCheck.length != 0) {
+                          Swal.fire({
+                            title:
+                              "หมายเลขบัตรประชาชนนี้เคยขึ้นทะเบียนฟาร์มแล้ว ดังนี้",
+                            html: text,
+                            showDenyButton: true,
+                            showCancelButton: false,
+                            confirmButtonText: "เพิ่มฟาร์มใหม่",
+                            customClass: "swal-wide",
+                            denyButtonText: `ยกเลิก`,
+                          }).then((result) => {
+                            /* Read more about isConfirmed, isDenied below */
+                            if (result.isConfirmed) {
+                              this.$toast.add({
+                                severity: "success",
+                                summary: "สำเร็จ",
+                                detail: "พบข้อมูลเกษตกร",
+                                life: 2000,
+                              });
+                            } else if (result.isDenied) {
+                              //   Swal.fire("Changes are not saved", "", "info");
 
-                            this.$router.push({ name: "farmall" });
-                          }
-                        });
+                              this.$router.push({ name: "farmall" });
+                            }
+                          });
+                        }
                       }
 
                       // return res;
@@ -1245,31 +1252,32 @@ export default {
                     });
 
                     text = text + "</table>";
+                    if (farmCheck.length != 0) {
+                      Swal.fire({
+                        title:
+                          "หมายเลขบัตรประชาชนนี้เคยขึ้นทะเบียนฟาร์มแล้ว ดังนี้",
+                        html: text,
+                        showDenyButton: true,
+                        showCancelButton: false,
+                        confirmButtonText: "เพิ่มฟาร์มใหม่",
+                        customClass: "swal-wide",
+                        denyButtonText: `ยกเลิก`,
+                      }).then((result) => {
+                        /* Read more about isConfirmed, isDenied below */
+                        if (result.isConfirmed) {
+                          this.$toast.add({
+                            severity: "success",
+                            summary: "สำเร็จ",
+                            detail: "พบข้อมูลเกษตกร",
+                            life: 2000,
+                          });
+                        } else if (result.isDenied) {
+                          //   Swal.fire("Changes are not saved", "", "info");
 
-                    Swal.fire({
-                      title:
-                        "หมายเลขบัตรประชาชนนี้เคยขึ้นทะเบียนฟาร์มแล้ว ดังนี้",
-                      html: text,
-                      showDenyButton: true,
-                      showCancelButton: false,
-                      confirmButtonText: "เพิ่มฟาร์มใหม่",
-                      customClass: "swal-wide",
-                      denyButtonText: `ยกเลิก`,
-                    }).then((result) => {
-                      /* Read more about isConfirmed, isDenied below */
-                      if (result.isConfirmed) {
-                        this.$toast.add({
-                          severity: "success",
-                          summary: "สำเร็จ",
-                          detail: "พบข้อมูลเกษตกร",
-                          life: 2000,
-                        });
-                      } else if (result.isDenied) {
-                        //   Swal.fire("Changes are not saved", "", "info");
-
-                        this.$router.push({ name: "farmall" });
-                      }
-                    });
+                          this.$router.push({ name: "farmall" });
+                        }
+                      });
+                    }
                   }
 
                   // return res;

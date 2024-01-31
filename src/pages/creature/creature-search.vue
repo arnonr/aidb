@@ -1641,6 +1641,11 @@ export default {
     if (this.$route.query.AIZoneID) {
       this.search.AIZoneID = Number(this.$route.query.AIZoneID);
     }
+
+    if (store.state.user.Staff.Organization.OrganizationZoneID) {
+      this.search.OrganizationZoneID =
+        store.state.user.Staff.Organization.OrganizationZoneID;
+    }
   },
   watch: {
     "search.AIZoneID"(val) {

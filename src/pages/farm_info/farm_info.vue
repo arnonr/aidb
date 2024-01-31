@@ -945,6 +945,11 @@ export default {
         this.farm = res.data.rows;
         this.loader = true;
       });
+
+    if (store.state.user.Staff.Organization.OrganizationZoneID) {
+      this.search.OrganizationZoneID =
+        store.state.user.Staff.Organization.OrganizationZoneID;
+    }
   },
   watch: {
     "search.AIZoneID"(val) {
@@ -1194,7 +1199,7 @@ export default {
         });
     },
     fetchProject() {
-      let params = {  };
+      let params = {};
 
       if (this.animal_id == 1) {
         params["AnimalTypeID"] = "[1,2,41,42]";
@@ -1218,7 +1223,7 @@ export default {
     },
     fetchProvince() {
       //  Fetch Province
-      let params = {  };
+      let params = {};
 
       if (this.search.AIZoneID != null) {
         params["AIZoneID"] = this.search.AIZoneID;
@@ -1248,7 +1253,7 @@ export default {
         return;
       }
 
-      let params = {  };
+      let params = {};
 
       if (this.search.ProvinceID != null) {
         params["ProvinceID"] = this.search.ProvinceID;
@@ -1275,7 +1280,7 @@ export default {
         return;
       }
 
-      let params = {  };
+      let params = {};
 
       if (this.search.AmphurID != null) {
         params["AmphurID"] = this.search.AmphurID;
@@ -1294,7 +1299,7 @@ export default {
         });
     },
     fetchOrganizationType() {
-      let params = { };
+      let params = {};
 
       axios
         .get(this.url.OrganizationType, {
@@ -1316,7 +1321,7 @@ export default {
         return;
       }
 
-      let params = {  };
+      let params = {};
 
       if (this.search.OrganizationTypeID != null) {
         params["OrganizationTypeID"] = this.search.OrganizationTypeID;

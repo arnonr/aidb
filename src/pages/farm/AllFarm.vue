@@ -1107,6 +1107,7 @@ import JsonExcel from "vue-json-excel3";
 import locale from "dayjs/locale/th";
 import { format } from "date-fns";
 import { th } from "date-fns/locale";
+import store from "@/service/Vuex";
 
 export default {
   components: {
@@ -1274,6 +1275,11 @@ export default {
     this.permit = this.permission.filter((item) => {
       return item.MenuID == 1;
     });
+
+    if (store.state.user.Staff.Organization.OrganizationZoneID) {
+      this.search.OrganizationZoneID =
+        store.state.user.Staff.Organization.OrganizationZoneID;
+    }
   },
   watch: {
     "search.AIZoneID"(val) {

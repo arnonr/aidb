@@ -2671,6 +2671,7 @@ export default {
 
       let params = {
         ...this.params,
+        isRemove: 0,
         size: this.rowPerPage,
         page: this.currentPage,
         orderByField: "FarmID",

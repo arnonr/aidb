@@ -111,7 +111,7 @@ export default {
   setup() {
     const breadcrumb = ref([
       { label: "กิจกรรม", to: "/" },
-      { label: "ข้อมูลสัตว์", to: "/activity/artificial" },
+      { label: "ข้อมูลสัตว์1", to: "/activity/artificial" },
     ]);
     const search = ref();
     return {

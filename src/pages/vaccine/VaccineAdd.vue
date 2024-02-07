@@ -357,9 +357,9 @@ export default {
     return {
       key: this.$route.params.id,
       url: "/animal?FarmID=" + this.$route.params.id,
-      apiPersonal: "/staff?isActive=1",
+      apiPersonal: "/staff/selection?includeAll=false",
       postVaccineActivity: "/vaccine-activity",
-      urlOrganization: "/organization",
+      urlOrganization: "/organization/selection?includeAll=false",
       VaccineNextMonth: [
         { label: "1 เดือน", id: 1 },
         { label: "2 เดือน", id: 2 },
@@ -460,7 +460,7 @@ export default {
   },
   async mounted() {
     await axios
-      .get("/staff", {
+      .get("/staff/selection?includeAll=false", {
         signal: this.controller.signal,
       })
       .then((response) => {

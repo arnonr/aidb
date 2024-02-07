@@ -150,27 +150,7 @@
             />
           </div>
 
-          <div class="col-12 sm:col-12 lg:col-12">
-            <label
-              for="searchSubDistrict"
-              class="block text-600 text-sm font-bold mb-2"
-            >
-              ฟาร์ม</label
-            >
-            <Dropdown
-              class="w-full"
-              v-model="search.FarmID"
-              :options="dropdown.Farms"
-              optionLabel="Fullname"
-              optionValue="FarmID"
-              :filter="true"
-              :showClear="true"
-              :virtualScrollerOptions="{ itemSize: 38 }"
-              placeholder="เลือกหมายเลขฟาร์ม"
-            >
-            </Dropdown>
-          </div>
-
+      
           <div class="col-12 sm:col-6 lg:col-6">
             <label
               for="FarmerFullName"
@@ -187,6 +167,10 @@
               />
             </span>
           </div>
+
+         
+
+
           <!-- 
             <div class="col-12 sm:col-6 lg:col-6">
               <label
@@ -224,6 +208,27 @@
               placeholder="เลือกโครงการ"
               display="chip"
             />
+          </div>
+
+          <div class="col-12 sm:col-12 lg:col-12">
+            <label
+              for="searchSubDistrict"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              ฟาร์ม</label
+            >
+            <Dropdown
+              class="w-full"
+              v-model="search.FarmID"
+              :options="dropdown.Farms"
+              optionLabel="Fullname"
+              optionValue="FarmID"
+              :filter="true"
+              :showClear="true"
+              :virtualScrollerOptions="{ itemSize: 38 }"
+              placeholder="เลือกหมายเลขฟาร์ม"
+            >
+            </Dropdown>
           </div>
 
           <!-- <div class="col-12 sm:col-6 lg:col-6">
@@ -490,16 +495,20 @@ export default {
     return {
       url: {
         vaccine: "/vaccine-activity",
-        Farm: "/farm",
+        // Farm: "/farm",
+        // AIZone: "/ai-zone",
         FarmStatus: "/farm-status",
-        AIZone: "/ai-zone",
-        OrganizationZone: "/organization-zone",
-        Province: "/province",
-        Amphur: "/amphur",
-        Tumbol: "/tumbol",
-        OrganizationType: "/organization-type",
-        Organization: "/organization",
-        Project: "/project",
+
+        AIZone: "/ai-zone/selection?includeAll=false",
+        Farm: "/farm/selection?includeAll=false",
+
+        OrganizationZone: "/organization-zone/selection?includeAll=false",
+        Province: "/province/selection?includeAll=false",
+        Amphur: "/amphur/selection?includeAll=false",
+        Tumbol: "/tumbol/selection?includeAll=false",
+        OrganizationType: "/organization-type/selection?includeAll=false",
+        Organization: "/organization/selection?includeAll=false",
+        Project: "/project/selection?includeAll=false",
       },
       dropdown: {
         AIZones: [],
@@ -585,6 +594,7 @@ export default {
   computed: {
     ...mapGetters({
       permission: "get_permission",
+      animal_id: "animal_id",
     }),
     set_farm() {
       return store.state.SetFarmVaccine;
@@ -593,7 +603,7 @@ export default {
   async mounted() {
     // this.load();
     this.loadDefault();
-    await dayjs.extend(buddhistEra);
+    dayjs.extend(buddhistEra);
     this.breadcrumb[0].label = this.name;
     // await axios
     //   .get("/farm", { signal: this.controller.signal })
@@ -860,7 +870,6 @@ export default {
       }
       if (this.search.FarmID) {
         url += "&FarmID=" + this.search.FarmID;
-        // console.log(url);
       } else if (this.set_farm) {
         url += "&FarmID=" + this.search.FarmID;
       }
@@ -877,7 +886,6 @@ export default {
               new Date(first.ThaiVaccineActivityDate)
           );
           this.data.show = response.data.rows;
-          // console.log(this.data);
           if (this.curpage == 0 || this.curpage == 1) {
             for (let i = 0; i < this.data.length; i++) {
               this.data[i].show_id = i + 1;
@@ -898,7 +906,7 @@ export default {
     },
 
     fetchAIZone() {
-      let params = { includeAll: false };
+      let params = {};
       //  Fetch AIZone
       axios
         .get(this.url.AIZone, {
@@ -912,15 +920,13 @@ export default {
             AIZoneID: 99,
             AIZoneName: "ทั้งหมด",
           });
-
-          console.log(this.dropdown.AIZones);
         })
         .finally(() => {
           this.isLoading = false;
         });
     },
     fetchOrganizationZone() {
-      let params = { includeAll: false, isActive: 1 };
+      let params = {};
       //  Fetch OrganizationZone
       axios
         .get(this.url.OrganizationZone, {
@@ -939,7 +945,7 @@ export default {
         });
     },
     fetchProject() {
-      let params = { includeAll: false };
+      let params = {};
 
       if (this.animal_id == 1) {
         params["AnimalTypeID"] = "[1,2,41,42]";
@@ -947,6 +953,8 @@ export default {
         params["AnimalTypeID"] = "[3,4,43,44]";
       } else if (this.animal_id == 3) {
         params["AnimalTypeID"] = "[17,18,45,46]";
+      } else {
+        console.log(this.animal_id);
       }
 
       axios
@@ -963,7 +971,7 @@ export default {
     },
     fetchProvince() {
       //  Fetch Province
-      let params = { includeAll: false };
+      let params = {};
 
       if (this.search.AIZoneID != null) {
         params["AIZoneID"] = this.search.AIZoneID;
@@ -993,7 +1001,7 @@ export default {
         return;
       }
 
-      let params = { includeAll: false };
+      let params = {};
 
       if (this.search.ProvinceID != null) {
         params["ProvinceID"] = this.search.ProvinceID;
@@ -1020,7 +1028,7 @@ export default {
         return;
       }
 
-      let params = { includeAll: false };
+      let params = {};
 
       if (this.search.AmphurID != null) {
         params["AmphurID"] = this.search.AmphurID;
@@ -1039,7 +1047,7 @@ export default {
         });
     },
     fetchOrganizationType() {
-      let params = { includeAll: false };
+      let params = {};
 
       axios
         .get(this.url.OrganizationType, {
@@ -1061,7 +1069,7 @@ export default {
         return;
       }
 
-      let params = { includeAll: false };
+      let params = {};
 
       if (this.search.OrganizationTypeID != null) {
         params["OrganizationTypeID"] = this.search.OrganizationTypeID;
@@ -1109,7 +1117,7 @@ export default {
 
     fetchFarmStatus() {
       //  Fetch Province
-      let params = { includeAll: false };
+      let params = {};
       axios
         .get(this.url.FarmStatus, {
           signal: this.controller.signal,
@@ -1226,39 +1234,40 @@ export default {
           },
         })
         .then((res) => {
-          this.dropdown.Farms = res.data.rows
-            .sort((a, b) =>
-              a.Province.ProvinceName.localeCompare(b.Province.ProvinceName)
-            )
-            .map((item) => {
-              let name = item.Farmer ? item.Farmer.FullName : "- ";
-              let number = item.FarmIdentificationNumber
-                ? item.FarmIdentificationNumber
-                : "- ";
-              let province = item.Province ? item.Province.ProvinceName : "- ";
-              let Organization = item.OrganizationZone
-                ? item.OrganizationZone.OrganizationZoneName
-                : "- ";
+          this.dropdown.Farms = res.data.rows;
+        //   res.data.rows
+        //     .sort((a, b) =>
+        //       a.Province.ProvinceName.localeCompare(b.Province.ProvinceName)
+        //     )
+        //     .map((item) => {
+        //       let name = item.Farmer ? item.Farmer.FullName : "- ";
+        //       let number = item.FarmIdentificationNumber
+        //         ? item.FarmIdentificationNumber
+        //         : "- ";
+        //       let province = item.Province ? item.Province.ProvinceName : "- ";
+        //       let Organization = item.OrganizationZone
+        //         ? item.OrganizationZone.OrganizationZoneName
+        //         : "- ";
 
-              return {
-                FarmID: item.FarmID,
-                FarmName: item.FarmName,
-                FarmIdentificationNumber: item.FarmIdentificationNumber,
-                Fullname:
-                  "ฟาร์ม " +
-                  item.FarmName +
-                  " (" +
-                  number +
-                  ")" +
-                  " | เจ้าของฟาร์ม " +
-                  name +
-                  " | จังหวัด " +
-                  province +
-                  " | " +
-                  Organization,
-                OrganizationZoneName: Organization,
-              };
-            });
+        //       return {
+        //         FarmID: item.FarmID,
+        //         FarmName: item.FarmName,
+        //         FarmIdentificationNumber: item.FarmIdentificationNumber,
+        //         Fullname:
+        //           "ฟาร์ม " +
+        //           item.FarmName +
+        //           " (" +
+        //           number +
+        //           ")" +
+        //           " | เจ้าของฟาร์ม " +
+        //           name +
+        //           " | จังหวัด " +
+        //           province +
+        //           " | " +
+        //           Organization,
+        //         OrganizationZoneName: Organization,
+        //       };
+        //     });
           //
         })
         .finally(() => {

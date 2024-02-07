@@ -914,6 +914,18 @@ export default {
       //  Fetch Province
 
       this.url.semen = "/semen/selection?includeAll=false&isActive=1";
+
+      if (this.animal_id == 1) {
+        this.url.semen +=
+          "&AnimalTypeID=[1,2,41,42]&orderByField=SemenNumber&orderBy=asc";
+      } else if (this.animal_id == 2) {
+        tthis.url.semen +=
+        "&AnimalTypeID=[3,4,43,44]&orderByField=SemenNumber&orderBy=asc";
+      } else if (this.animal_id == 3) {
+        this.url.semen +=
+        "&AnimalTypeID=[17,18,45,46]&orderByField=SemenNumber&orderBy=asc";
+      }
+
       axios
         .get(this.url.semen, {
           signal: this.controller.signal,

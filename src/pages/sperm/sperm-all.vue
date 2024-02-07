@@ -919,7 +919,7 @@ export default {
         this.url.semen +=
           "&AnimalTypeID=[1,2,41,42]&orderByField=SemenNumber&orderBy=asc";
       } else if (this.animal_id == 2) {
-        tthis.url.semen +=
+        this.url.semen +=
         "&AnimalTypeID=[3,4,43,44]&orderByField=SemenNumber&orderBy=asc";
       } else if (this.animal_id == 3) {
         this.url.semen +=

@@ -392,7 +392,7 @@
 
                   <div class="col-12" v-if="checkFirst == '0'">
                     <div class="formgrid grid">
-                      <div class="field col-12 sm:col-6">
+                      <!-- <div class="field col-12 sm:col-6">
                         <label class="block text-600 text-sm font-bold mb-2">
                           หมายเลขพ่อ<span class="text-red-500"> *</span></label
                         >
@@ -403,7 +403,7 @@
                           :options="animalfather"
                           optionLabel="AnimalEarIDAndName"
                           optionValue="AnimalID"
-                          placeholder="เลือกหมายเลขพ่อ"
+                          placeholder="เลือกหมายเลขพ่อ (พิมพ์ 3 ตัวอักษรเพื่อค้นหา)"
                           :showClear="true"
                           :filter="true"
                           v-model="form.AnimalFatherID"
@@ -414,6 +414,32 @@
                             user.GroupID != 15
                           "
                         />
+                      </div> -->
+
+                      <div class="field col-12 sm:col-6">
+                        <label class="block text-600 text-sm font-bold mb-2">
+                          หมายเลขพ่อ<span class="text-red-500"> *</span></label
+                        >
+
+                        <v-select
+                          :options="animalfather_temp"
+                          @search="fetchAnimalFatherOptions"
+                          label="AnimalEarIDAndName"
+                          value="AnimalID"
+                          v-model="form.AnimalFatherID"
+                          class="w-full"
+                          placeholder="เลือกหมายเลขพ่อหรือชื่อพ่อ (พิมพ์ 3 ตัวอักษรเพื่อค้นหา)"
+                          :disabled="
+                            user.GroupID != 1 &&
+                            user.GroupID != 16 &&
+                            user.GroupID != 15
+                          "
+                        ></v-select>
+
+                        <!-- <Select2
+                          v-model="myValue"
+                          :options="myOptions"
+                        /> -->
                       </div>
 
                       <div class="field col-12 sm:col-6">
@@ -447,7 +473,7 @@
                           value="AnimalID"
                           v-model="form.AnimalMotherID"
                           class="w-full"
-                          placeholder="เลือกหมายเลขแม่"
+                          placeholder="เลือกหมายเลขแม่หรือชื่อแม่ (พิมพ์ 3 ตัวอักษรเพื่อค้นหา)"
                           :disabled="
                             user.GroupID != 1 &&
                             user.GroupID != 16 &&
@@ -868,7 +894,6 @@ export default {
   data() {
     return {
       options: ["foo", "bar", "baz"],
-
       params: this.$route.params.id,
       url: "/animal",
       urlNumber: "/animal/generate-number",
@@ -902,6 +927,7 @@ export default {
       animalfather: [],
       animalmother: [],
       animalmother_temp: [],
+      animalfather_temp: [],
       animaltype: [],
       gennumber: [],
 
@@ -1394,6 +1420,16 @@ export default {
         this.animalmother_temp = [];
       }
     },
+    fetchAnimalFatherOptions(search, loading) {
+      console.log(loading);
+      if (search.length > 2) {
+        this.animalfather_temp = this.animalfather.filter((x) => {
+          return x.AnimalEarIDAndName.includes(search);
+        });
+      } else {
+        this.animalfather_temp = [];
+      }
+    },
     format(date) {
       const dayStart = date.getDate();
       const monthStart = date.getMonth();
@@ -1649,7 +1685,7 @@ export default {
               id.AnimalMotherID != null
                 ? {
                     AnimalID: id.AnimalMotherID,
-                    
+
                     AnimalEarIDAndName:
                       id.AnimalMother.AnimalEarID +
                       ", " +

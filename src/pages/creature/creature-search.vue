@@ -1412,6 +1412,7 @@ import JsonExcel from "vue-json-excel3";
 
 import dayjs from "dayjs";
 import buddhistEra from "dayjs/plugin/buddhistEra";
+
 // import locale from "dayjs/locale/th";
 
 export default {
@@ -1623,7 +1624,7 @@ export default {
     } else if (this.animal_id == 3) {
       this.apiProject += "&ProjectLevel=ANIMAL&AnimalTypeID=[17,18,45,46]";
     }
-    
+
     this.fetchAnimalSex();
     axios
       .get(this.apiProject, { signal: this.controller.signal })
@@ -3062,16 +3063,28 @@ export default {
       this.fetchAnimal();
     },
     remove() {
-      //   axios.delete(this.url.Animal + "/" + this.form.id).then(() => {
-      //     this.close_delete();
-      //     this.load();
-      //     this.$toast.add({
-      //       severity: "success",
-      //       summary: "สำเร็จ",
-      //       detail: "ลบข้อมูลเสร็จสิ้น",
-      //       life: 5000,
-      //     });
-      //   });
+      axios
+        .delete("/animal/with-check/" + this.form.id)
+        .then(() => {
+          this.close_delete();
+          this.load();
+          this.$toast.add({
+            severity: "success",
+            summary: "สำเร็จ",
+            detail: "ลบข้อมูลเสร็จสิ้น",
+            life: 5000,
+          });
+        })
+        .catch((error) =>{
+          this.close_delete();
+          this.$toast.add({
+            severity: "error",
+            summary: "ล้มเหลว",
+            detail: error.response.data.error.message,
+            life: 5000,
+          });
+          //
+        });
     },
     project_check(id) {
       let prepare_data = this.data.find(function (item) {

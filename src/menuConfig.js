@@ -101,6 +101,11 @@ export default [
               },
             ],
           },
+          {
+            label: "คัดจำหน่ายรายฝูง",
+            icon: "pi pi-fw pi-circle",
+            to: "/activity/distributions",
+          },
         ],
       },
       {

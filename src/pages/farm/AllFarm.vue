@@ -1770,7 +1770,6 @@ export default {
           this.isLoading = false;
         });
     },
-
     fetchFarmStatus() {
       //  Fetch Province
       let params = {};

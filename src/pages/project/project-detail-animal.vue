@@ -19,14 +19,13 @@
               emptyFilterMessage="ไม่พบข้อมูล"
               class="w-full"
               placeholder="ทั้งหมด"
-              :options="Projects"
+              :options="dropdown.Projects"
               optionLabel="ProjectName"
               optionValue="ProjectID"
               :filter="true"
-              v-model="search.Project"
+              v-model="search.ProjectIDArray"
               :virtualScrollerOptions="{ itemSize: 38 }"
             />
-            <!-- v-model="filtered.ProjectID" -->
           </div>
         </div>
       </div>
@@ -42,15 +41,221 @@
           <Button severity="secondary" label="กิจกรรมแจ้งเตือน" class="ml-2" />
         </router-link>
       </div>
+
       <div class="card mb-5">
         <div v-if="loader" class="grid">
           <div class="col-12">
-            <h1 class="text-xl mb-4 text-500">
-              เครื่องมือช่วยค้นหาทะเบียนสัตว์ (ผท.1)
-            </h1>
+            <h1 class="text-xl mb-4 text-500">เครื่องมือช่วยค้นหาสัตว์</h1>
           </div>
 
-          <div class="col-12 sm:col-12 lg:col-4">
+          <div class="col-12 sm:col-6 lg:col-6">
+            <label for="AIZoneID" class="block text-600 text-sm font-bold mb-2">
+              ศูนย์วิจัย</label
+            >
+            <Dropdown
+              class="w-full"
+              v-model="search.AIZoneID"
+              :options="dropdown.AIZones"
+              optionLabel="AIZoneName"
+              optionValue="AIZoneID"
+              :disabled="isSelectAIZoneDisabled"
+              :filter="true"
+              :showClear="true"
+              placeholder="-- โปรดเลือกศูนย์วิจัย --"
+            >
+            </Dropdown>
+          </div>
+
+          <div class="col-12 sm:col-6 lg:col-6">
+            <label
+              for="searchOrganizationZoneID"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              เขตพื้นที่ปศุสัตว์</label
+            >
+            <Dropdown
+              class="w-full"
+              v-model="search.OrganizationZoneID"
+              :options="dropdown.OrganizationZones"
+              optionLabel="OrganizationZoneName"
+              optionValue="OrganizationZoneID"
+              :disabled="isSelectOrganizationZoneDisabled"
+              :filter="true"
+              :showClear="true"
+              placeholder="-- เลือกเขตพื้นที่ปศุสัตว์ --"
+            >
+            </Dropdown>
+          </div>
+
+          <div class="col-12 sm:col-6 lg:col-4">
+            <label
+              for="searchProvinceID"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              จังหวัด</label
+            >
+            <Dropdown
+              class="w-full"
+              v-model="search.ProvinceID"
+              :options="dropdown.Provinces"
+              optionLabel="ProvinceName"
+              optionValue="ProvinceID"
+              :filter="true"
+              :showClear="true"
+              placeholder="ทั้งหมด"
+            >
+            </Dropdown>
+          </div>
+
+          <div class="col-12 sm:col-6 lg:col-4">
+            <label
+              for="searchAmphurID"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              อำเภอ</label
+            >
+            <Dropdown
+              class="w-full"
+              v-model="search.AmphurID"
+              :options="dropdown.Amphurs"
+              optionLabel="AmphurName"
+              optionValue="AmphurID"
+              :filter="true"
+              :showClear="true"
+              placeholder="ทั้งหมด"
+            >
+            </Dropdown>
+          </div>
+
+          <div class="col-12 sm:col-6 lg:col-4">
+            <label
+              for="searchTumbolID"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              ตำบล</label
+            >
+            <Dropdown
+              class="w-full"
+              v-model="search.TumbolID"
+              :options="dropdown.Tumbols"
+              optionLabel="TumbolName"
+              optionValue="TumbolID"
+              :filter="true"
+              :showClear="true"
+              placeholder="ทั้งหมด"
+            >
+            </Dropdown>
+          </div>
+
+          <div class="col-12 sm:col-12 lg:col-6">
+            <label
+              for="searchOrganizationID"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              ประเภทหน่วยงาน</label
+            >
+            <Dropdown
+              :showClear="true"
+              class="w-full"
+              placeholder="ทั้งหมด"
+              optionLabel="OrganizationTypeName"
+              optionValue="OrganizationTypeID"
+              :virtualScrollerOptions="{ itemSize: 38 }"
+              :options="dropdown.OrganizationTypes"
+              :filter="true"
+              v-model="search.OrganizationTypeID"
+            />
+          </div>
+
+          <div class="col-12 sm:col-12 lg:col-6">
+            <label
+              for="searchOrganizationID"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              หน่วยงาน</label
+            >
+            <Dropdown
+              :showClear="true"
+              class="w-full"
+              placeholder="ทั้งหมด"
+              optionLabel="OrganizationFull"
+              optionValue="OrganizationID"
+              :virtualScrollerOptions="{ itemSize: 38 }"
+              :options="dropdown.Organizations"
+              :filter="true"
+              v-model="search.OrganizationID"
+            />
+          </div>
+
+          <div class="col-12 sm:col-6 lg:col-6">
+            <label
+              for="searchSubDistrict"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              ฟาร์ม</label
+            >
+            <Dropdown
+              class="w-full"
+              v-model="search.FarmID"
+              :options="dropdown.Farms"
+              optionLabel="Fullname"
+              optionValue="FarmID"
+              :filter="true"
+              :showClear="true"
+              :virtualScrollerOptions="{ itemSize: 38 }"
+              placeholder="เลือกหมายเลขฟาร์ม"
+            >
+            </Dropdown>
+          </div>
+
+          <div class="col-12 sm:col-6 lg:col-3">
+            <label
+              for="selectedFarm"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              หมายเลขใบหู</label
+            >
+            <InputText
+              class="w-full"
+              type="text"
+              v-model="params.AnimalEarID"
+            />
+          </div>
+
+          <div class="col-12 sm:col-6 lg:col-3">
+            <label
+              for="selectedFarm"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              ชื่อสัตว์</label
+            >
+
+            <InputText class="w-full" type="text" v-model="params.AnimalName" />
+          </div>
+
+          <div class="col-12 sm:col-6 lg:col-3">
+            <label
+              for="animal_id"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              เพศ</label
+            >
+            <Dropdown
+              :showClear="true"
+              class="w-full"
+              id="selectedFarm"
+              placeholder="ทั้งหมด"
+              optionLabel="AnimalSexName"
+              optionValue="AnimalSexID"
+              :options="dropdown.AnimalSex"
+              :filter="true"
+              v-model="search.AnimalSexID"
+            />
+
+            <!-- @show="test()" -->
+          </div>
+
+          <!-- <div class="col-12 sm:col-12 lg:col-4">
             <label
               for="selectedUnit"
               class="block text-600 text-sm font-bold mb-2"
@@ -69,8 +274,8 @@
               :filter="true"
               v-model="search.FarmID"
             />
-          </div>
-
+          </div> -->
+          <!-- 
           <div
             class="col-12 sm:col-6 lg:col-4"
             v-if="this.user.GroupID == 1 || this.user.GroupID == 2"
@@ -175,8 +380,9 @@
               optionLabel="name"
               v-model="search.AnimalSource"
             />
-          </div>
-          <div class="col-12 sm:col-6 lg:col-4">
+          </div> -->
+
+          <!-- <div class="col-12 sm:col-6 lg:col-4">
             <label
               for="selectedScheme"
               class="block text-600 text-sm font-bold mb-2"
@@ -234,28 +440,31 @@
               v-model="search.OrganizationID"
             />
           </div>
-          <!-- <div class="col-12 sm:col-6 lg:col-8">
-              <label
-                for="selectedScheme"
-                class="block text-600 text-sm font-bold mb-2"
-              >
-                โครงการ</label
-              >
-              <MultiSelect
-                display="chip"
-                emptyMessage="ไม่มีข้อมูล"
-                emptyFilterMessage="ไม่พบข้อมูล"
-                class="w-full"
-                placeholder="ทั้งหมด"
-                :options="Projects"
-                optionLabel="ProjectName"
-                optionValue="ProjectID"
-                v-model="search.Project"
-                :filter="true"
-                :virtualScrollerOptions="{ itemSize: 38 }"
-              />
-            </div> -->
-          <div class="col-12 sm:col-6 lg:col-4">
+
+
+          <div class="col-12 sm:col-6 lg:col-8">
+            <label
+              for="selectedScheme"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              โครงการ</label
+            >
+            <MultiSelect
+              display="chip"
+              emptyMessage="ไม่มีข้อมูล"
+              emptyFilterMessage="ไม่พบข้อมูล"
+              class="w-full"
+              placeholder="ทั้งหมด"
+              :options="Projects"
+              optionLabel="ProjectName"
+              optionValue="ProjectID"
+              v-model="search.Project"
+              :filter="true"
+              :virtualScrollerOptions="{ itemSize: 38 }"
+            />
+          </div> -->
+
+          <div class="col-12 sm:col-6 lg:col-3">
             <label
               for="selectedFarm"
               class="block text-600 text-sm font-bold mb-2"
@@ -272,10 +481,38 @@
               optionValue="StatusID"
             />
           </div>
+
+          <div class="col-12 sm:col-6 lg:col-3">
+            <label
+              for="selectedFarm"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              นับจำนวนสัตว์โครงการ</label
+            >
+            <Dropdown
+              class="w-full"
+              id="selectedCountProjectType"
+              v-model="search.count_project_type"
+              placeholder="สัตว์ที่อยู่ในโครงการ"
+              :options="[
+                {
+                  id: 1,
+                  name: 'สัตว์ที่อยู่ในโครงการ',
+                },
+                {
+                  id: 2,
+                  name: 'สัตว์ที่ไม่ระบุโครงการ',
+                },
+              ]"
+              optionLabel="name"
+              optionValue="id"
+            />
+          </div>
+
           <Accordion class="col-12 sm:col-12 lg:col-12">
             <AccordionTab header="ค้นหาขั้นสูง">
               <div class="grid">
-                <div class="col-12 sm:col-6 lg:col-4">
+                <!-- <div class="col-12 sm:col-6 lg:col-4">
                   <label
                     for="FarmName"
                     class="block text-600 text-sm font-bold mb-2"
@@ -288,8 +525,8 @@
                     id="FarmName"
                     v-model="params.FarmName"
                   />
-                </div>
-                <div class="col-12 sm:col-6 lg:col-4">
+                </div> -->
+                <!-- <div class="col-12 sm:col-6 lg:col-4">
                   <label
                     for="FarmerName"
                     class="block text-600 text-sm font-bold mb-2"
@@ -302,7 +539,7 @@
                     id="FarmerName"
                     v-model="params.FarmerName"
                   />
-                </div>
+                </div> -->
                 <div class="col-12 sm:col-6 lg:col-4">
                   <label
                     for="Province"
@@ -399,7 +636,7 @@
                   />
                 </div>
                 <!-- <div class="col-12 sm:col-6 lg:col-4"></div> -->
-                <div class="col-12 sm:col-6 lg:col-4">
+                <!-- <div class="col-12 sm:col-6 lg:col-4">
                   <label
                     for="dateBirthRange"
                     class="block text-600 text-sm font-bold mb-2"
@@ -426,22 +663,52 @@
                     id="dateBirthRange"
                     v-model="params.AnimalAgeTo"
                   />
+                </div> -->
+
+                <div class="col-12 sm:col-6 lg:col-4">
+                  <label
+                    for="selectedFarm"
+                    class="block text-600 text-sm font-bold mb-2"
+                  >
+                    หมายเลขใบหูพ่อ</label
+                  >
+
+                  <InputText
+                    class="w-full"
+                    type="text"
+                    v-model="parents.AnimalFatherEarID"
+                  />
+                </div>
+
+                <div class="col-12 sm:col-6 lg:col-4">
+                  <label
+                    for="selectedFarm"
+                    class="block text-600 text-sm font-bold mb-2"
+                  >
+                    หมายเลขใบหูแม่</label
+                  >
+
+                  <InputText
+                    class="w-full"
+                    type="text"
+                    v-model="parents.AnimalMotherEarID"
+                  />
                 </div>
 
                 <!-- <div class="col-12 sm:col-6 lg:col-4">
-                      <label
-                        for="dateBirthRange"
-                        class="block text-600 text-sm font-bold mb-2"
-                      >
-                        ชื่อเกษตรกร
-                      </label>
-                      <InputText
-                        type="text"
-                        class="w-full"
-                        id="dateBirthRange"
-                        v-model="params.AnimalAgeTo"
-                      />
-                    </div> -->
+                  <label
+                    for="dateBirthRange"
+                    class="block text-600 text-sm font-bold mb-2"
+                  >
+                    ชื่อเกษตรกร
+                  </label>
+                  <InputText
+                    type="text"
+                    class="w-full"
+                    id="dateBirthRange"
+                    v-model="params.AnimalAgeTo"
+                  />
+                </div> -->
               </div>
             </AccordionTab>
           </Accordion>
@@ -719,8 +986,12 @@ import axios from "axios";
 import PageTitle from "@/components/PageTitle.vue";
 import store from "@/service/Vuex";
 import { mapGetters } from "vuex";
-import _ from "lodash";
+// import _ from "lodash";
 import VueCreatureInfo from "@/pages/farm_info/creature_info.vue";
+// import JsonExcel from "vue-json-excel3";
+
+// import dayjs from "dayjs";
+// import buddhistEra from "dayjs/plugin/buddhistEra";
 //   import RegisteredAnimalReport from "./RegisteredAnimalReport";
 // import JsonExcel from "vue-json-excel3";
 
@@ -732,27 +1003,31 @@ export default {
   },
   data() {
     return {
-      url: "/animal",
-      urlOrganization: "/organization/selection?includeAll=false&isActive=1",
-      urlOrganizationZone: "/organization-zone/selection?includeAll=false&isActive=1",
-      urlAIZone: "/ai-zone/selection?includeAll=false&isActive=1",
-      urlFarm: "/farm/selection?includeAll=false&isActive=1",
-      urlAnimalSex: "/animal-sex/selection?includeAll=false&isActive=1",
-      urlTumbol: "/tumbol/selection?includeAll=false&isActive=1",
-      urlAmphur: "/amphur/selection?includeAll=false&isActive=1",
-      urlProvince: "/province/selection?includeAll=false&isActive=1",
-      urlAnimalBreedID: "/animal-breed?includeAll=false&isActive=1",
-      urlProject: "/project/selection?includeAll=false&isActive=1",
-      apiProject: "/project/selection?includeAll=false&isActive=1",
-
+      rowPerPage: 10,
+      currentPage: 1,
+      url: {
+        AIZone: "/ai-zone/selection?includeAll=false",
+        OrganizationZone:
+          "/organization-zone/selection?includeAll=false&isActive=1",
+        OrganizationType:
+          "/organization-type/selection?includeAll=false&isActive=1",
+        Organization: "/organization/selection?includeAll=false&isActive=1",
+        Farm: "/farm/selection?includeAll=false&isActive=1",
+        Animal: "/animal",
+        AnimalSex: "/animal-sex/selection?includeAll=false&isActive=1",
+        ExportAnimal: "/animal/export-excel?isActive=1",
+        Province: "/province/selection?includeAll=false&isActive=1",
+        Amphur: "/amphur/selection?includeAll=false&isActive=1",
+        Tumbol: "/tumbol/selection?includeAll=false&isActive=1",
+        Project: "/project/selection?includeAll=false&isActive=1",
+        AnimalBreedID: "/animal-breed?includeAll=false&isActive=1",
+      },
       breadcrumb: [
         { label: "หน้าหลัก", to: "/" },
         { label: "ทะเบียนสัตว์ (ผท.1)", to: "" },
       ],
-
       // path รูป
       path: null,
-
       // load
       displaytab: false,
       data: [],
@@ -764,6 +1039,10 @@ export default {
       Tumbol: [],
       Amphur: [],
       Province: [],
+      parents: {
+        AnimalFatherEarID: null,
+        AnimalMotherEarID: null,
+      },
 
       // สถานะการโหลด
       loader: true,
@@ -812,26 +1091,43 @@ export default {
       // form.SourceFarm.FarmName
 
       // ผูกไว้ทำปุ่มค้นหา
+      dropdown: {
+        AIZones: [],
+        OrganizationZones: [],
+        Provinces: [],
+        Amphurs: [],
+        Tumbols: [],
+        OrganizationTypes: [],
+        Organizations: [],
+        Farms: [],
+        Projects: [],
+        FarmAnimalTypes: [
+          { name: "โค", id: 1 },
+          { name: "กระบือ", id: 2 },
+          { name: "แพะ", id: 3 },
+          { name: "ทุกประเภทสัตว์", id: 99 },
+          { name: "ยังไม่ได้เลือกชนิดสัตว์", id: 98 },
+        ],
+      },
       search: {
-        OrganizationID: "",
-        OrganizationZoneID: "",
-        FarmID: "",
+        FarmIdentificationNumber: "",
+        FarmName: "",
+        FarmerFullName: "",
+        dateRange: null,
+        AIZoneID: null,
+        OrganizationZoneID: null,
+        ProvinceID: null,
+        AmphurID: null,
+        TumbolID: null,
+        OrganizationTypeID: null,
+        OrganizationID: null,
+        FarmID: null,
+        FarmAnimalType: null,
         AnimalSexID: "",
         AnimalSource: "",
         StaffStartDate: "",
         StaffEndDate: "",
         Status: "",
-      },
-
-      // สำหรับตัวแปรในการส่ง api
-      filtered: {
-        OrganizationID: "",
-        OrganizationZoneID: "",
-        FarmID: "",
-        AnimalSexID: "",
-        AnimalSource: "",
-        StaffStartDate: "",
-        StaffEndDate: "",
       },
 
       // สร้างข้อมูลจำลอง
@@ -909,117 +1205,219 @@ export default {
       this.apiProject += "&ProjectLevel=ANIMAL&AnimalTypeID=[17,18,45,46]";
     }
     axios
-      .get(this.apiProject, { signal: this.controller.signal })
+      .get(this.url.Project, { signal: this.controller.signal })
       .then((response) => {
         this.project = response.data.rows;
       });
 
     this.form.isActive = this.status[0];
 
-    this.load_selection();
+    this.loadDefault();
     this.permit = this.permission.filter((item) => {
       return item.MenuID == 3;
     });
+
+    if (store.state.user.Staff.Organization.OrganizationZoneID) {
+      this.search.OrganizationZoneID =
+        store.state.user.Staff.Organization.OrganizationZoneID;
+    }
+    
   },
   watch: {
-    // ค้นหา
-    "search.OrganizationID"(val) {
+    "search.AIZoneID"(val) {
       if (val) {
-        this.params.OrganizationID = val;
+        this.search.OrganizationZoneID = null;
+        this.isSelectAIZoneDisabled = false;
+        this.isSelectOrganizationZoneDisabled = true;
       } else {
-        this.params.OrganizationID = null;
+        this.isSelectAIZoneDisabled = false;
+        this.isSelectOrganizationZoneDisabled = false;
       }
+
+      this.dropdown.Provinces = [];
+      this.dropdown.Amphurs = [];
+      this.dropdown.Tumbols = [];
+      this.dropdown.Organizations = [];
+      this.dropdown.Farms = [];
+      this.data = [];
+
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
-          this.load();
+          this.fetchProvince();
+          //   this.fetchOrganization();
+          this.fetchFarm();
+          this.fetchAnimal();
+          this.exportExcel();
+          this.search.AmphurID = null;
+          this.search.TumbolID = null;
+          this.search.OrganizationID = null;
+          this.search.FarmID = null;
+
           this.isLoading = false;
         }, 1000);
       }
     },
-    // ค้นหา
     "search.OrganizationZoneID"(val) {
       if (val) {
-        this.params.OrganizationZoneID = val;
+        this.search.AIZoneID = null;
+        this.isSelectAIZoneDisabled = true;
+        this.isSelectOrganizationZoneDisabled = false;
       } else {
-        this.params.OrganizationZoneID = null;
+        this.isSelectAIZoneDisabled = false;
+        this.isSelectOrganizationZoneDisabled = false;
       }
-      if (this.isLoading == false) {
-        this.isLoading = true;
-        setTimeout(() => {
-          this.load();
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
-    "search.AIZone"(val) {
-      if (val) {
-        this.params.AIZone = val;
-      } else {
-        this.params.AIZone = null;
-      }
-      if (this.isLoading == false) {
-        this.isLoading = true;
-        setTimeout(() => {
-          this.load();
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
-    "search.Project"(val) {
-      if (val) {
-        this.params.ProjectID = val;
-      } else {
-        this.params.ProjectID = null;
-      }
-      if (this.isLoading == false) {
-        this.isLoading = true;
-        setTimeout(() => {
-          this.load();
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
 
-    // ค้นหา
-    "search.FarmID"(val) {
-      if (val) {
-        this.params.FarmID = val;
-      } else {
-        this.params.FarmID = null;
-      }
+      this.dropdown.Provinces = [];
+      this.dropdown.Amphurs = [];
+      this.dropdown.Tumbols = [];
+      this.dropdown.Organizations = [];
+      this.dropdown.Farms = [];
+      this.data = [];
+
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
-          this.load();
+          this.fetchProvince();
+          this.fetchOrganization();
+          this.fetchFarm();
+          this.fetchAnimal();
+          this.exportExcel();
+          this.search.AmphurID = null;
+          this.search.TumbolID = null;
+          this.search.OrganizationID = null;
+          this.search.FarmID = null;
           this.isLoading = false;
         }, 1000);
       }
     },
+    "search.ProvinceID"() {
+      this.fetchAmphur();
+      this.fetchOrganization();
+      this.fetchFarm();
+      this.fetchAnimal();
+      this.dropdown.Amphurs = [];
+      this.dropdown.Tumbols = [];
 
-    "params.AnimalIdentificationID": _.debounce(function () {
-      this.load();
-    }, 500),
-    "params.AnimalEarID": _.debounce(function () {
-      this.load();
-    }, 500),
-    "params.AnimalNationalID": _.debounce(function () {
-      this.load();
-    }, 500),
-    "params.AnimalMicrochip": _.debounce(function () {
-      this.load();
-    }, 500),
-    "params.FarmName": _.debounce(function () {
-      this.load();
-    }, 500),
-    "params.FarmerName": _.debounce(function () {
-      this.load();
-    }, 500),
-    "params.Status": _.debounce(function () {
-      this.load();
-    }, 500),
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.search.AmphurID = null;
+          this.search.TumbolID = null;
+          //   this.search.OrganizationTypeID = null;
+          this.search.OrganizationID = null;
+          this.search.FarmID = null;
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+    "search.AmphurID"() {
+      this.fetchTumbol();
+      this.fetchOrganization();
+      this.fetchFarm();
+      this.fetchAnimal();
+      this.exportExcel();
+      this.dropdown.Tumbols = [];
 
-    // ค้นหา
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.search.TumbolID = null;
+          //   this.search.OrganizationTypeID = null;
+          this.search.OrganizationID = null;
+          this.search.FarmID = null;
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+    "search.TumbolID"() {
+      this.fetchOrganization();
+      this.fetchFarm();
+      this.fetchAnimal();
+      this.exportExcel();
+
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.search.OrganizationID = null;
+          this.search.FarmID = null;
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+    "search.OrganizationTypeID"() {
+      this.fetchOrganization();
+
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.search.OrganizationID = null;
+          this.search.FarmID = null;
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+    "search.OrganizationID"() {
+      this.fetchFarm();
+      this.fetchAnimal();
+      this.exportExcel();
+
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.search.OrganizationID = null;
+          this.search.FarmID = null;
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+    "search.FarmID"() {
+      this.fetchAnimal();
+      this.exportExcel();
+
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+    "search.ProjectIDArray"() {
+      this.fetchFarm();
+      this.fetchAnimal();
+      this.exportExcel();
+
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+    "search.count_project_type"() {
+      this.fetchAnimal();
+      this.exportExcel();
+
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+    // count_project_type
+    "search.FarmAnimalType"() {
+      this.fetchFarm();
+      this.fetchAnimal();
+      this.exportExcel();
+
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
     "search.AnimalSexID"(val) {
       if (val) {
         this.params.AnimalSexID = val;
@@ -1029,75 +1427,160 @@ export default {
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
-          this.load();
+          this.fetchAnimal();
+          this.exportExcel();
+
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+    "params.AnimalEarID"() {
+      this.fetchAnimal();
+      this.exportExcel();
+
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
           this.isLoading = false;
         }, 1000);
       }
     },
 
-    // ค้นหา
-    "search.Status"(val) {
-      if (val) {
-        this.params.isActive = val;
-      } else {
-        this.params.isActive = null;
-      }
+    "params.AnimalName"() {
+      this.fetchAnimal();
+      this.exportExcel();
+
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
-          this.load();
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
-    // ค้นหา
-    "search.AnimalSource"(val) {
-      if (val) {
-        this.params.AnimalSource = val.id;
-      } else {
-        this.params.AnimalSource = null;
-      }
-      if (this.isLoading == false) {
-        this.isLoading = true;
-        setTimeout(() => {
-          this.load();
           this.isLoading = false;
         }, 1000);
       }
     },
 
-    "params.AnimalName": _.debounce(function () {
-      this.load();
-    }, 500),
-    "params.AnimalAgeStart": _.debounce(function () {
-      this.load();
-    }, 500),
-    "params.AnimalAgeTo": _.debounce(function () {
-      this.load();
-    }, 500),
-    "params.AnimalBreedID1": _.debounce(function () {
-      this.load();
-    }, 500),
-    "params.AnimalBreedID2": _.debounce(function () {
-      this.load();
-    }, 500),
-    "params.AnimalBreedID3": _.debounce(function () {
-      this.load();
-    }, 500),
-    "params.AnimalBreedID4": _.debounce(function () {
-      this.load();
-    }, 500),
-    "params.AnimalBreedID5": _.debounce(function () {
-      this.load();
-    }, 500),
+    "params.AnimalSexID"() {
+      this.fetchAnimal();
+      this.exportExcel();
 
-    // ค้นหา
-    "search.StaffTumbolID"(val) {
-      this.filtered.StaffTumbolID = val;
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
-          this.load();
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+
+    "search.Status"() {
+      this.fetchAnimal();
+      this.exportExcel();
+
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+
+    "parents.AnimalFatherEarID"() {
+      this.fetchFather();
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+
+    "parents.AnimalMotherEarID"() {
+      this.fetchMother();
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+
+    "params.AnimalAgeStart"() {
+      this.fetchAnimal();
+      this.exportExcel();
+
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+
+    "params.AnimalAgeTo"() {
+      this.fetchAnimal();
+      this.exportExcel();
+
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+
+    "params.AnimalBreedID1"() {
+      this.fetchAnimal();
+      this.exportExcel();
+
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+
+    "params.AnimalBreedID2"() {
+      this.fetchAnimal();
+      this.exportExcel();
+
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+
+    "params.AnimalBreedID3"() {
+      this.fetchAnimal();
+      this.exportExcel();
+
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+
+    "params.AnimalBreedID4"() {
+      this.fetchAnimal();
+      this.exportExcel();
+
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+
+    "params.AnimalBreedID5"() {
+      this.fetchAnimal();
+      this.exportExcel();
+
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
           this.isLoading = false;
         }, 1000);
       }
@@ -1330,8 +1813,434 @@ export default {
         this.params.ProjectID = JSON.stringify(this.params.ProjectID);
       }
 
-      await axios
-        .get(this.url, { params: this.params, signal: this.controller.signal })
+      this.fetchAnimal();
+    },
+
+    fetchAIZone() {
+      let params = {};
+      //  Fetch AIZone
+      axios
+        .get(this.url.AIZone, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          this.dropdown.AIZones = res.data.rows;
+
+          this.dropdown.AIZones.push({
+            AIZoneID: 99,
+            AIZoneName: "ทั้งหมด",
+          });
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+    fetchOrganizationZone() {
+      let params = {};
+      //  Fetch OrganizationZone
+      axios
+        .get(this.url.OrganizationZone, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          this.dropdown.OrganizationZones = res.data.rows;
+          this.dropdown.OrganizationZones.push({
+            OrganizationZoneID: 99,
+            OrganizationZoneName: "ทั้งหมด",
+          });
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+    fetchProject() {
+      let params = {};
+
+      if (this.animal_id == 1) {
+        params["AnimalTypeID"] = "[1,2,41,42]";
+      } else if (this.animal_id == 2) {
+        params["AnimalTypeID"] = "[3,4,43,44]";
+      } else if (this.animal_id == 3) {
+        params["AnimalTypeID"] = "[17,18,45,46]";
+      }
+
+      axios
+        .get(this.url.Project, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          this.dropdown.Projects = res.data.rows;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+    fetchProvince() {
+      //  Fetch Province
+      let params = {};
+
+      if (this.search.AIZoneID != null) {
+        params["AIZoneID"] = this.search.AIZoneID;
+      }
+
+      if (this.search.OrganizationZoneID != null) {
+        params["OrganizationZoneID"] = this.search.OrganizationZoneID;
+      }
+      axios
+        .get(this.url.Province, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          this.dropdown.Provinces = res.data.rows;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+
+    fetchAnimalSex() {
+      //  Fetch Province
+      let params = {};
+
+      if (this.search.AIZoneID != null) {
+        params["AIZoneID"] = this.search.AIZoneID;
+      }
+
+      if (this.search.OrganizationZoneID != null) {
+        params["OrganizationZoneID"] = this.search.OrganizationZoneID;
+      }
+      axios
+        .get(this.url.AnimalSex, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          this.dropdown.AnimalSex = res.data.rows;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+    fetchAmphur() {
+      if (
+        this.search.AIZoneID == null &&
+        this.search.OrganizationZoneID == null &&
+        this.search.ProvinceID == null
+      ) {
+        return;
+      }
+
+      let params = {};
+
+      if (this.search.ProvinceID != null) {
+        params["ProvinceID"] = this.search.ProvinceID;
+      }
+
+      axios
+        .get(this.url.Amphur, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          this.dropdown.Amphurs = res.data.rows;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+    fetchTumbol() {
+      if (
+        this.search.AIZoneID == null &&
+        this.search.OrganizationZoneID == null &&
+        this.search.AmphurID == null
+      ) {
+        return;
+      }
+
+      let params = {};
+
+      if (this.search.AmphurID != null) {
+        params["AmphurID"] = this.search.AmphurID;
+      }
+
+      axios
+        .get(this.url.Tumbol, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          this.dropdown.Tumbols = res.data.rows;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+    fetchOrganizationType() {
+      let params = {};
+
+      axios
+        .get(this.url.OrganizationType, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          this.dropdown.OrganizationTypes = res.data.rows;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+    fetchOrganization() {
+      if (
+        this.search.AIZoneID == null &&
+        this.search.OrganizationZoneID == null
+      ) {
+        return;
+      }
+
+      let params = {};
+
+      if (this.search.OrganizationTypeID != null) {
+        params["OrganizationTypeID"] = this.search.OrganizationTypeID;
+      }
+
+      // Province IN AIZOne
+      if (this.search.AIZoneID != null) {
+        params["OrganizationAiZoneID"] = this.search.AIZoneID;
+      }
+
+      if (this.search.OrganizationZoneID != null) {
+        params["OrganizationZoneID"] = this.search.OrganizationZoneID;
+      }
+
+      if (this.search.ProvinceID != null) {
+        params["ProvinceID"] = this.search.ProvinceID;
+      }
+
+      if (this.search.AmphurID != null) {
+        params["FarmAmphurID"] = this.search.AmphurID;
+      }
+
+      if (this.search.TumbolID != null) {
+        params["FarmTumbolID"] = this.search.TumbolID;
+      }
+
+      axios
+        .get(this.url.Organization, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          this.dropdown.Organizations = res.data.rows.map((item) => {
+            return {
+              OrganizationID: item.OrganizationID,
+              OrganizationFull:
+                item.OrganizationCode + ", " + item.OrganizationName,
+            };
+          });
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+
+    fetchFarm() {
+      this.isLoading = true;
+      if (
+        this.search.AIZoneID == null &&
+        this.search.OrganizationZoneID == null
+      ) {
+        this.isLoading = false;
+        return;
+      }
+
+      let params = {
+        // size: this.rowPerPage,
+        // page: this.currentPage,
+        orderByField: "FarmID",
+        orderBy: "desc",
+        // includeAll: false,
+      };
+
+      if (this.search.FarmAnimalType == null) {
+        this.search.FarmAnimalType = parseInt(this.animal_id);
+        params["FarmAnimalType"] = this.search.FarmAnimalType;
+      } else {
+        params["FarmAnimalType"] = this.search.FarmAnimalType;
+      }
+
+      // Province IN AIZOne
+      if (this.search.AIZoneID != null) {
+        if (this.search.AIZoneID != 99) {
+          params["AIZoneID"] = this.search.AIZoneID;
+        }
+      }
+
+      if (this.search.OrganizationZoneID != null) {
+        if (this.search.OrganizationZoneID != 99) {
+          params["OrganizationZoneID"] = this.search.OrganizationZoneID;
+        }
+      }
+
+      if (this.search.ProvinceID != null) {
+        params["FarmProvinceID"] = this.search.ProvinceID;
+      }
+
+      if (this.search.AmphurID != null) {
+        params["FarmAmphurID"] = this.search.AmphurID;
+      }
+
+      if (this.search.TumbolID != null) {
+        params["FarmTumbolID"] = this.search.TumbolID;
+      }
+
+      if (this.search.OrganizationID != null) {
+        params["OrganizationID"] = this.search.OrganizationID;
+      }
+
+      if (this.search.ProjectIDArray) {
+        params["ProjectID"] = JSON.stringify(this.search.ProjectIDArray);
+      }
+
+      if (this.search.FarmerFullName) {
+        params["FullName"] = this.search.FarmerFullName;
+      }
+
+      axios
+        .get(this.url.Farm, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          this.dropdown.Farms = res.data.rows;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+
+    fetchAnimal() {
+      this.isLoading = true;
+      if (
+        this.search.AIZoneID == null &&
+        this.search.OrganizationZoneID == null
+      ) {
+        this.isLoading = false;
+        return;
+      }
+      let params = {
+        ...this.params,
+        size: this.rowPerPage,
+        page: this.currentPage,
+        orderByField: "FarmID",
+        orderBy: "desc",
+        // includeAll: false,
+      };
+      if (this.search.FarmAnimalType == null) {
+        this.search.FarmAnimalType = parseInt(this.animal_id);
+        params["FarmAnimalType"] = this.search.FarmAnimalType;
+      } else {
+        params["FarmAnimalType"] = this.search.FarmAnimalType;
+      }
+      // Province IN AIZOne
+      if (this.search.AIZoneID != null) {
+        if (this.search.AIZoneID != 99) {
+          params["AIZoneID"] = this.search.AIZoneID;
+        }
+      }
+      if (this.search.OrganizationZoneID != null) {
+        if (this.search.OrganizationZoneID != 99) {
+          params["OrganizationZoneID"] = this.search.OrganizationZoneID;
+        }
+      }
+      if (this.search.ProvinceID != null) {
+        params["FarmProvinceID"] = this.search.ProvinceID;
+      }
+      if (this.search.AmphurID != null) {
+        params["FarmAmphurID"] = this.search.AmphurID;
+      }
+      if (this.search.TumbolID != null) {
+        params["FarmTumbolID"] = this.search.TumbolID;
+      }
+      if (this.search.OrganizationID != null) {
+        params["OrganizationID"] = this.search.OrganizationID;
+      }
+      if (this.search.OrganizationID != null) {
+        params["OrganizationID"] = this.search.OrganizationID;
+      }
+      if (this.search.ProjectIDArray) {
+        params["ProjectID"] = JSON.stringify(this.search.ProjectIDArray);
+      }
+      if (this.search.FarmerFullName) {
+        params["FullName"] = this.search.FarmerFullName;
+      }
+
+      if (this.params.AnimalBreedID1) {
+        params["AnimalBreedID1"] = this.params.AnimalBreedID1;
+      }
+
+      if (this.params.AnimalBreedID2) {
+        params["AnimalBreedID2"] = this.params.AnimalBreedID2;
+      }
+
+      if (this.params.AnimalBreedID3) {
+        params["AnimalBreedID3"] = this.params.AnimalBreedID3;
+      }
+
+      if (this.params.AnimalBreedID4) {
+        params["AnimalBreedID4"] = this.params.AnimalBreedID4;
+      }
+
+      if (this.params.AnimalBreedID5) {
+        params["AnimalBreedID5"] = this.params.AnimalBreedID5;
+      }
+
+      console.log(this.params.AnimalFatherID);
+      if (this.params.AnimalFatherID) {
+        params["AnimalFatherID"] = this.params.AnimalFatherID;
+      }
+
+      if (this.params.AnimalMotherID) {
+        params["AnimalMotherID"] = this.params.AnimalMotherID;
+      }
+
+      if (this.search.Status) {
+        params["isActive"] = this.search.Status;
+      }
+
+      this.setParam();
+      if (this.animal_id == 1) {
+        params["AnimalTypeID"] = "[1,2,41,42]";
+      } else if (this.animal_id == 2) {
+        params["AnimalTypeID"] = "[3,4,43,44]";
+      } else if (this.animal_id == 3) {
+        params["AnimalTypeID"] = "[17,18,45,46]";
+      }
+      if (this.search.FarmID) {
+        params["FarmID"] = this.search.FarmID;
+      }
+      //   if (this.filtered.AnimalSource) {
+      //     this.params.AnimalSource = this.filtered.AnimalSource;
+      //   }
+      if (this.search.ProjectIDArray) {
+        params["ProjectID"] = JSON.stringify(this.search.ProjectIDArray);
+      }
+      this.params.ProjectID = JSON.stringify(this.params.ProjectID);
+
+      if (this.search.count_project_type) {
+        params["CountProjectType"] = this.search.count_project_type;
+      }
+
+      axios
+        .get(this.url.Animal, {
+          signal: this.controller.signal,
+          params: params,
+          size: 10,
+        })
         .then((response) => {
           let data = response.data;
           this.params.page = data.currPage;
@@ -1342,14 +2251,129 @@ export default {
         .finally(() => {
           this.isLoading = false;
         });
+    },
+
+    exportExcel() {
+      this.isLoading = true;
+      if (
+        this.search.AIZoneID == null &&
+        this.search.OrganizationZoneID == null
+      ) {
+        this.isLoading = false;
+        return;
+      }
+
+      let params = {
+        ...this.params,
+        isRemove: 0,
+        size: this.rowPerPage,
+        page: this.currentPage,
+        orderByField: "FarmID",
+        orderBy: "desc",
+        // includeAll: false,
+      };
+
+      if (this.search.FarmAnimalType == null) {
+        this.search.FarmAnimalType = parseInt(this.animal_id);
+        params["FarmAnimalType"] = this.search.FarmAnimalType;
+      } else {
+        params["FarmAnimalType"] = this.search.FarmAnimalType;
+      }
+
+      // Province IN AIZOne
+      if (this.search.AIZoneID != null) {
+        if (this.search.AIZoneID != 99) {
+          params["AIZoneID"] = this.search.AIZoneID;
+        }
+      }
+
+      if (this.search.OrganizationZoneID != null) {
+        if (this.search.OrganizationZoneID != 99) {
+          params["OrganizationZoneID"] = this.search.OrganizationZoneID;
+        }
+      }
+
+      if (this.search.ProvinceID != null) {
+        params["FarmProvinceID"] = this.search.ProvinceID;
+      }
+
+      if (this.search.AmphurID != null) {
+        params["FarmAmphurID"] = this.search.AmphurID;
+      }
+
+      if (this.search.TumbolID != null) {
+        params["FarmTumbolID"] = this.search.TumbolID;
+      }
+
+      if (this.search.OrganizationID != null) {
+        params["OrganizationID"] = this.search.OrganizationID;
+      }
+
+      if (this.search.OrganizationID != null) {
+        params["OrganizationID"] = this.search.OrganizationID;
+      }
+
+      if (this.search.ProjectIDArray) {
+        params["ProjectID"] = JSON.stringify(this.search.ProjectIDArray);
+      }
+
+      if (this.search.FarmerFullName) {
+        params["FullName"] = this.search.FarmerFullName;
+      }
+
+      this.setParam();
+
+      if (this.animal_id == 1) {
+        params["AnimalTypeID"] = "[1,2,41,42]";
+      } else if (this.animal_id == 2) {
+        params["AnimalTypeID"] = "[3,4,43,44]";
+      } else if (this.animal_id == 3) {
+        params["AnimalTypeID"] = "[17,18,45,46]";
+      }
+
+      if (this.search.FarmID) {
+        params["FarmID"] = this.search.FarmID;
+      }
+
+      //   if (this.filtered.AnimalSource) {
+      //     this.params.AnimalSource = this.filtered.AnimalSource;
+      //   }
+
+      if (this.search.ProjectIDArray) {
+        params["ProjectID"] = JSON.stringify(this.search.ProjectIDArray);
+      }
 
       axios
-        .get(this.urlAnimalBreedID, { signal: this.controller.signal })
+        .get(this.url.ExportAnimal, {
+          signal: this.controller.signal,
+          params: {
+            ...params,
+            size: 100000,
+            page: 1,
+            noEventLatest: true,
+            includeEventLatest: false,
+          },
+        })
+        .then((response) => {
+          this.json_data = response.data.rows;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+
+    fetchAnimalBreed() {
+      axios
+        .get(this.url.AnimalBreedID, { signal: this.controller.signal })
         .then((response) => {
           if (this.animal_id == 1) {
             this.AnimalBreed = response.data.rows
               .filter(
-                (item) => item.AnimalTypeID === 1 || item.AnimalTypeID === 2
+                (item) =>
+                  item.AnimalTypeID === 1 ||
+                  item.AnimalTypeID === 2 ||
+                  item.AnimalTypeID === 41 ||
+                  item.AnimalTypeID === 42
               )
               .map((item) => {
                 return {
@@ -1361,7 +2385,11 @@ export default {
           } else if (this.animal_id == 2) {
             this.AnimalBreed = response.data.rows
               .filter(
-                (item) => item.AnimalTypeID === 3 || item.AnimalTypeID === 4
+                (item) =>
+                  item.AnimalTypeID === 3 ||
+                  item.AnimalTypeID === 4 ||
+                  item.AnimalTypeID === 43 ||
+                  item.AnimalTypeID === 44
               )
               .map((item) => {
                 return {
@@ -1373,7 +2401,11 @@ export default {
           } else if (this.animal_id == 3) {
             this.AnimalBreed = response.data.rows
               .filter(
-                (item) => item.AnimalTypeID === 17 || item.AnimalTypeID === 18
+                (item) =>
+                  item.AnimalTypeID === 17 ||
+                  item.AnimalTypeID === 18 ||
+                  item.AnimalTypeID === 45 ||
+                  item.AnimalTypeID === 46
               )
               .map((item) => {
                 return {
@@ -1385,15 +2417,73 @@ export default {
           }
         });
     },
+
+    fetchFather() {
+      if (
+        this.parents.AnimalFatherEarID != null &&
+        this.parents.AnimalFatherEarID != ""
+      ) {
+        console.log(this.parents.AnimalFatherEarID);
+        axios
+          .get("/animal?includeAll=false", {
+            signal: this.controller.signal,
+            params: {
+              AnimalEarID: this.parents.AnimalFatherEarID,
+            },
+          })
+          .then((res) => {
+            if (res.data.rows.length != 0) {
+              this.params.AnimalFatherID = res.data.rows[0].AnimalID;
+            } else {
+              this.params.AnimalFatherID = 0;
+            }
+            this.fetchAnimal();
+            this.exportExcel();
+          });
+      } else {
+        this.params.AnimalFatherID = null;
+        this.fetchAnimal();
+        this.exportExcel();
+      }
+    },
+
+    fetchMother() {
+      if (
+        this.parents.AnimalMotherEarID != null &&
+        this.parents.AnimalMotherEarID != ""
+      ) {
+        axios
+          .get("/animal?includeAll=false", {
+            signal: this.controller.signal,
+            params: {
+              AnimalEarID: this.parents.AnimalMotherEarID,
+            },
+          })
+          .then((res) => {
+            if (res.data.rows.length != 0) {
+              this.params.AnimalMotherID = res.data.rows[0].AnimalID;
+            } else {
+              this.params.AnimalMotherID = 0;
+            }
+            this.fetchAnimal();
+            this.exportExcel();
+          });
+      } else {
+        this.params.AnimalMotherID = null;
+        this.fetchAnimal();
+        this.exportExcel();
+      }
+    },
+
     setParam() {
-      if (this.filtered.OrganizationZoneID) {
-        this.params.OrganizationZoneID = this.filtered.OrganizationZoneID;
+      if (this.search.OrganizationZoneID) {
+        this.params.OrganizationZoneID = this.search.OrganizationZoneID;
       }
-      if (this.filtered.FarmID) {
-        this.params.FarmID = this.filtered.FarmID;
+      if (this.search.FarmID) {
+        this.params.FarmID = this.search.FarmID;
       }
-      if (this.filtered.AnimalSource) {
-        this.params.AnimalSource = this.filtered.AnimalSource;
+      if (this.search.AnimalSource) {
+        this.params.AnimalSource = this.search.AnimalSource;
       }
 
       if (this.animal_id == 1) {
@@ -1404,123 +2494,21 @@ export default {
         this.params.AnimalTypeID = "[17,18,45,46]";
       }
     },
-    load_selection() {
-      const getOrganization = axios.get(this.urlOrganization, {
-        signal: this.controller.signal,
-      });
-      const getOrganizationZone = axios.get(this.urlOrganizationZone, {
-        signal: this.controller.signal,
-      });
-      const getAIZone = axios.get(this.urlAIZone, {
-        signal: this.controller.signal,
-      });
-      const getProject = axios.get(this.urlProject, {
-        signal: this.controller.signal,
-      });
-      const getFarm = axios
-        .get(this.urlFarm, {
-          signal: this.controller.signal,
-        })
-        .then((data) => {
-          this.Farm = data.data.rows;
-          console.log(this.Farm)
-          for (let i = 0; i < this.Farm.length; i++) {
-            this.Farm[i].show_id = i + 1;
-            this.Farm[i].FarmFull =
-              this.Farm[i].FarmIdentificationNumber +
-              ", " +
-              this.Farm[i].FarmName;
-          }
-        });
-
-      const getAnimalSex = axios.get(this.urlAnimalSex, {
-        signal: this.controller.signal,
-      });
-      const getTumbol = axios.get(this.urlTumbol, {
-        signal: this.controller.signal,
-      });
-      const getAmphur = axios.get(this.urlAmphur, {
-        signal: this.controller.signal,
-      });
-      const getProvince = axios.get(this.urlProvince, {
-        signal: this.controller.signal,
-      });
-
-      getFarm;
-
-      Promise.all([
-        getOrganization,
-        getOrganizationZone,
-        // getFarm,
-        getAnimalSex,
-        getTumbol,
-        getAmphur,
-        getProvince,
-        getAIZone,
-        getProject,
-      ])
-        .then((values) => {
-          this.Organization = values[0].data.rows;
-
-          for (let i = 0; i < this.Organization.length; i++) {
-            this.Organization[i].show_id = i + 1;
-            this.Organization[i].OrganizationFull =
-              this.Organization[i].OrganizationCode +
-              ", " +
-              this.Organization[i].OrganizationName;
-          }
-
-          this.OrganizationZone = values[1].data.rows;
-
-          for (let i = 0; i < this.OrganizationZone.length; i++) {
-            this.OrganizationZone[i].show_id = i + 1;
-            this.OrganizationZone[i].OrganizationZoneFull =
-              this.OrganizationZone[i].OrganizationZoneName;
-          }
-
-          //   this.Farm = values[2].data.rows;
-          //   for (let i = 0; i < this.Farm.length; i++) {
-          //     this.Farm[i].show_id = i + 1;
-          //     this.Farm[i].FarmFull =
-          //       this.Farm[i].FarmIdentificationNumber +
-          //       ", " +
-          //       this.Farm[i].FarmName;
-          //   }
-          this.AnimalSex = values[2].data.rows;
-
-          this.Tumbol = values[3].data.rows.map((item) => {
-            return {
-              TumbolID: item.TumbolID,
-              AmphurID: item.AmphurID,
-              TumbolCode: item.TumbolCode,
-              ProvinceID: item.ProvinceID,
-              TumbolName: item.TumbolName,
-              Fullname:
-                item.TumbolCode.substring(0, 6) + ", " + item.TumbolName,
-            };
-          });
-          this.TempTumbol = this.Tumbol;
-
-          this.Amphur = values[4].data.rows.map((item) => {
-            return {
-              AmphurID: item.AmphurID,
-              ProvinceID: item.ProvinceID,
-              AmphurCode: item.AmphurCode,
-              AmphurName: item.AmphurName,
-              Fullname:
-                item.AmphurCode.substring(0, 4) + ", " + item.AmphurName,
-            };
-          });
-          this.TempAmphur = this.Amphur;
-
-          this.Province = values[5].data.rows;
-
-          this.AIZone = values[6].data.rows;
-          this.Projects = values[7].data.rows;
-
-          // console.log(this.Projects);
-        })
-        .finally(() => (this.loader = true));
+    loadDefault() {
+      this.isLoading = true;
+      this.fetchAIZone();
+      //   this.fetchAnialBreed();
+      this.fetchOrganizationZone();
+      this.fetchProject();
+      this.fetchProvince();
+      this.fetchAmphur();
+      this.fetchTumbol();
+      this.fetchOrganizationType();
+      this.fetchOrganization();
+      this.fetchFarm();
+      this.fetchAnimalBreed();
+      this.fetchAnimalSex();
+      //   this.fetchAnimal();
     },
     // sort table
     sort($event) {
@@ -1708,43 +2696,43 @@ export default {
 //   url += this.curpage;
 // }
 
-// if (this.filtered.OrganizationID) {
-//   url += "&OrganizationID=" + this.filtered.OrganizationID;
+// if (this.search.OrganizationID) {
+//   url += "&OrganizationID=" + this.search.OrganizationID;
 // }
-// if (this.filtered.OrganizationZoneID) {
-//   url += "&OrganizationZoneID=" + this.filtered.OrganizationZoneID;
+// if (this.search.OrganizationZoneID) {
+//   url += "&OrganizationZoneID=" + this.search.OrganizationZoneID;
 // }
-// if (this.filtered.FarmID) {
-//   url += "&FarmID=" + this.filtered.FarmID;
+// if (this.search.FarmID) {
+//   url += "&FarmID=" + this.search.FarmID;
 // }
-// if (this.filtered.AnimalIdentificationID) {
+// if (this.search.AnimalIdentificationID) {
 //   url +=
-//     "&AnimalIdentificationID=" + this.filtered.AnimalIdentificationID;
+//     "&AnimalIdentificationID=" + this.search.AnimalIdentificationID;
 // }
-// if (this.filtered.AnimalEarID) {
-//   url += "&AnimalEarID=" + this.filtered.AnimalEarID;
+// if (this.search.AnimalEarID) {
+//   url += "&AnimalEarID=" + this.search.AnimalEarID;
 // }
-// if (this.filtered.AnimalName) {
-//   url += "&AnimalName=" + this.filtered.AnimalName;
+// if (this.search.AnimalName) {
+//   url += "&AnimalName=" + this.search.AnimalName;
 // }
-// if (this.filtered.AnimalNationalID) {
-//   url += "&AnimalNationalID=" + this.filtered.AnimalNationalID;
+// if (this.search.AnimalNationalID) {
+//   url += "&AnimalNationalID=" + this.search.AnimalNationalID;
 // }
-// if (this.filtered.AnimalMicrochip) {
-//   url += "&AnimalMicrochip=" + this.filtered.AnimalMicrochip;
+// if (this.search.AnimalMicrochip) {
+//   url += "&AnimalMicrochip=" + this.search.AnimalMicrochip;
 // }
-// if (this.filtered.AnimalSexID) {
-//   url += "&AnimalSexID=" + this.filtered.AnimalSexID;
+// if (this.search.AnimalSexID) {
+//   url += "&AnimalSexID=" + this.search.AnimalSexID;
 // }
-// if (this.filtered.AnimalSource) {
-//   url += "&AnimalSource=" + this.filtered.AnimalSource;
+// if (this.search.AnimalSource) {
+//   url += "&AnimalSource=" + this.search.AnimalSource;
 // }
 
-// if (this.filtered.StaffStartDate) {
-//   url += "&StaffStartDate=" + this.filtered.StaffStartDate;
+// if (this.search.StaffStartDate) {
+//   url += "&StaffStartDate=" + this.search.StaffStartDate;
 // }
-// if (this.filtered.StaffEndDate) {
-//   url += "&StaffEndDate=" + this.filtered.StaffEndDate;
+// if (this.search.StaffEndDate) {
+//   url += "&StaffEndDate=" + this.search.StaffEndDate;
 // }
 
 // if (this.data[i].AnimalBirthDate != null) {

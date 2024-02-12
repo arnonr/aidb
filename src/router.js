@@ -577,6 +577,48 @@ const routes = [
               // },
             ],
           },
+
+          // คัดจำหน่ายรายฝูง
+          {
+            path: "distributions",
+            beforeEnter: async (to, from, next) => {
+              let authorize = await menu_authorize(15, "IsPreview", {
+                from,
+                next,
+              });
+              if (authorize) {
+                return authorize;
+              }
+              return next();
+            },
+            children: [
+              {
+                path: "",
+                name: "distributions",
+                component: () => import("./pages/distributions/Distributions.vue"),
+              },
+              {
+                path: "add/:id/:farm",
+                name: "distributionsadd",
+                component: () => import("./pages/distributions/DistributionsAdd.vue"),
+              },
+              {
+                path: "edit/:id",
+                name: "distributionsedit",
+                component: () => import("./pages/distributions/DistributionsEdit.vue"),
+              },
+              {
+                path: "view/:id",
+                name: "distributionsview",
+                component: () => import("./pages/distributions/DistributionsView.vue"),
+              },
+              // {
+              //   path: "add",
+              //   name: "vaccuineaddnoid",
+              //   component: () => import("./pages/vaccine/VaccineAdd.vue"),
+              // },
+            ],
+          },
           //  ตรวจโรค
           {
             path: "diagnose",

@@ -31,13 +31,17 @@
       </div>
 
       <div class="field col-12 sm:col-12 md:col-12">
-        <router-link :to="'/project/detail?projects=' + search.Project">
+        <router-link :to="'/project/detail?projects=' + search.ProjectIDArray">
           <Button severity="secondary" label="ทะเบียนฟาร์ม" />
         </router-link>
-        <router-link :to="'/project/detail-animal?projects=' + search.Project">
+        <router-link
+          :to="'/project/detail-animal?projects=' + search.ProjectIDArray"
+        >
           <Button severity="primary" label="ทะเบียนสัตว์" class="ml-2" />
         </router-link>
-        <router-link :to="'/project/detail-diary?projects=' + search.Project">
+        <router-link
+          :to="'/project/detail-diary?projects=' + search.ProjectIDArray"
+        >
           <Button severity="secondary" label="กิจกรรมแจ้งเตือน" class="ml-2" />
         </router-link>
       </div>
@@ -1178,13 +1182,20 @@ export default {
       ) {
         console.log(this.$route.query.projects + "FREEDOM1");
         let pj = this.$route.query.projects.split(",");
+
         this.search.Project = pj.map((e) => {
           return parseInt(e);
         });
+        console.log(this.search.Project);
 
         this.params.ProjectID = pj.map((e) => {
           return parseInt(e);
         });
+
+        this.search.ProjectIDArray = pj.map((e) => {
+          return parseInt(e);
+        });
+        
       } else if (
         this.$route.query.projects == "null" ||
         this.$route.query.projects == ""
@@ -1197,13 +1208,13 @@ export default {
 
     this.load();
 
-    if (this.animal_id == 1) {
-      this.apiProject += "&ProjectLevel=ANIMAL&AnimalTypeID=[1,2,41,42]";
-    } else if (this.animal_id == 2) {
-      this.apiProject += "&ProjectLevel=ANIMAL&AnimalTypeID=[3,4,43,44]";
-    } else if (this.animal_id == 3) {
-      this.apiProject += "&ProjectLevel=ANIMAL&AnimalTypeID=[17,18,45,46]";
-    }
+    // if (this.animal_id == 1) {
+    //   this.url.Project += "&ProjectLevel=ANIMAL&AnimalTypeID=[1,2,41,42]";
+    // } else if (this.animal_id == 2) {
+    //   this.url.Project += "&ProjectLevel=ANIMAL&AnimalTypeID=[3,4,43,44]";
+    // } else if (this.animal_id == 3) {
+    //   this.url.Project += "&ProjectLevel=ANIMAL&AnimalTypeID=[17,18,45,46]";
+    // }
     axios
       .get(this.url.Project, { signal: this.controller.signal })
       .then((response) => {
@@ -1221,7 +1232,6 @@ export default {
       this.search.OrganizationZoneID =
         store.state.user.Staff.Organization.OrganizationZoneID;
     }
-    
   },
   watch: {
     "search.AIZoneID"(val) {
@@ -2170,7 +2180,7 @@ export default {
       if (this.search.OrganizationID != null) {
         params["OrganizationID"] = this.search.OrganizationID;
       }
-      
+
       if (this.search.ProjectIDArray) {
         params["ProjectID"] = JSON.stringify(this.search.ProjectIDArray);
       }

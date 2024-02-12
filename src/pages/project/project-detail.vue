@@ -30,16 +30,16 @@
       </div>
 
       <div class="field col-12 sm:col-12 md:col-12">
-        <router-link :to="'/project/detail?projects=' + search.ProjectID">
+        <router-link :to="'/project/detail?projects=' + search.ProjectIDArray">
           <Button severity="primary" label="ทะเบียนฟาร์ม" />
         </router-link>
         <router-link
-          :to="'/project/detail-animal?projects=' + search.ProjectID"
+          :to="'/project/detail-animal?projects=' + search.ProjectIDArray"
         >
           <Button severity="secondary" label="ทะเบียนสัตว์" class="ml-2" />
         </router-link>
         <router-link
-          :to="'/project/detail-diary?projects=' + search.ProjectID"
+          :to="'/project/detail-diary?projects=' + search.ProjectIDArray"
         >
           <Button severity="secondary" label="กิจกรรมแจ้งเตือน" class="ml-2" />
         </router-link>
@@ -1374,6 +1374,11 @@ export default {
         this.search.ProjectID = pj.map((e) => {
           return parseInt(e);
         });
+
+        this.search.ProjectIDArray = pj.map((e) => {
+          return parseInt(e);
+        });
+
       } else if (
         this.$route.query.projects == "null" ||
         this.$route.query.projects == ""

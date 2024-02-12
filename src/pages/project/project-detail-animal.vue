@@ -782,7 +782,7 @@
           :rowHover="true"
           :loading="isLoading"
           :paginator="true"
-          v-model:rows="params.size"
+          v-model:rows="this.rowPerPage"
           paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
           :rowsPerPageOptions="[10, 20, 50]"
           responsiveLayout="scroll"
@@ -2140,6 +2140,7 @@ export default {
         orderBy: "desc",
         // includeAll: false,
       };
+
       if (this.search.FarmAnimalType == null) {
         this.search.FarmAnimalType = parseInt(this.animal_id);
         params["FarmAnimalType"] = this.search.FarmAnimalType;
@@ -2169,9 +2170,7 @@ export default {
       if (this.search.OrganizationID != null) {
         params["OrganizationID"] = this.search.OrganizationID;
       }
-      if (this.search.OrganizationID != null) {
-        params["OrganizationID"] = this.search.OrganizationID;
-      }
+      
       if (this.search.ProjectIDArray) {
         params["ProjectID"] = JSON.stringify(this.search.ProjectIDArray);
       }

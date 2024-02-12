@@ -62,7 +62,7 @@
               <Dropdown
                 class="w-full"
                 v-model="search.AIZoneID"
-                :options="dropdown.AIZones.data"
+                :options="dropdown.AIZones"
                 optionLabel="AIZoneName"
                 optionValue="AIZoneID"
                 :disabled="isSelectAIZoneDisabled"

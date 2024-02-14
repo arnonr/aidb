@@ -497,14 +497,18 @@
               class="w-full"
               id="selectedCountProjectType"
               v-model="search.count_project_type"
-              placeholder="สัตว์ที่อยู่ในโครงการ"
+              placeholder="สัตว์ที่อยู่ในโครงการที่เลือก"
               :options="[
                 {
                   id: 1,
-                  name: 'สัตว์ที่อยู่ในโครงการ',
+                  name: 'สัตว์ที่อยู่ในโครงการที่เลือก',
                 },
                 {
                   id: 2,
+                  name: 'สัตว์ที่อยู่ในโครงการอื่น',
+                },
+                {
+                  id: 3,
                   name: 'สัตว์ที่ไม่ระบุโครงการ',
                 },
               ]"
@@ -778,6 +782,20 @@
       </div>
 
       <div class="card">
+        <div class="col-12 md:col-12 md:text-right">
+          <json-excel
+            :data="json_data"
+            style="display: inline-block"
+            class="btn"
+          >
+            <Button
+              label="ดาวน์โหลด"
+              icon="pi pi-download"
+              class="mb-3 p-button-raised p-button-raised p-button-success"
+            />
+          </json-excel>
+        </div>
+
         <DataTable
           class="text-sm"
           :value="data"
@@ -992,7 +1010,7 @@ import store from "@/service/Vuex";
 import { mapGetters } from "vuex";
 // import _ from "lodash";
 import VueCreatureInfo from "@/pages/farm_info/creature_info.vue";
-// import JsonExcel from "vue-json-excel3";
+import JsonExcel from "vue-json-excel3";
 
 // import dayjs from "dayjs";
 // import buddhistEra from "dayjs/plugin/buddhistEra";
@@ -1003,7 +1021,7 @@ export default {
   components: {
     PageTitle,
     VueCreatureInfo,
-    // JsonExcel,
+    JsonExcel,
   },
   data() {
     return {
@@ -1195,7 +1213,6 @@ export default {
         this.search.ProjectIDArray = pj.map((e) => {
           return parseInt(e);
         });
-        
       } else if (
         this.$route.query.projects == "null" ||
         this.$route.query.projects == ""

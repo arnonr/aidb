@@ -214,7 +214,7 @@
               >
               </Dropdown>
             </div>
-<!-- 
+            <!-- 
             <div class="col-12 sm:col-6 lg:col-6">
               <label
                 for="FarmerFullName"
@@ -334,6 +334,17 @@
                   class="p-button-raised p-button-raised p-button-success"
                   @click="exportCSV($event)"
                 /> -->
+              <json-excel
+                :data="json_data"
+                style="display: inline-block"
+                class="btn"
+              >
+                <Button
+                  label="ดาวน์โหลด"
+                  icon="pi pi-download"
+                  class="mb-3 p-button-raised p-button-raised p-button-success"
+                />
+              </json-excel>
             </div>
           </div>
           <div class="mt-3">
@@ -1172,10 +1183,7 @@
       :style="{ width: '70vw' }"
       :modal="true"
     >
-      <ProjectDialogAnimal
-        :FarmID="SendFarmID"
-        :projectID="search.ProjectID"
-      />
+      <ProjectDialogAnimal :FarmID="SendFarmID" :projectID="search.ProjectID" />
     </Dialog>
   </div>
 </template>
@@ -1191,6 +1199,7 @@ import { format } from "date-fns";
 import { th } from "date-fns/locale";
 import ProjectDialogAnimal from "@/components/dialog/ProjectDialogAnimal";
 import store from "@/service/Vuex";
+import JsonExcel from "vue-json-excel3";
 // import JsonExcel from "vue-json-excel3";
 // import Paginate from "vuejs-paginate";
 // import Paginator from "primevue/paginator"
@@ -1199,6 +1208,7 @@ export default {
   components: {
     PageTitle,
     ProjectDialogAnimal,
+    JsonExcel,
     // Paginate,
     // JsonExcel,
   },
@@ -1378,7 +1388,6 @@ export default {
         this.search.ProjectIDArray = pj.map((e) => {
           return parseInt(e);
         });
-
       } else if (
         this.$route.query.projects == "null" ||
         this.$route.query.projects == ""
@@ -1927,7 +1936,6 @@ export default {
         });
     },
 
-
     fetchTitle() {
       //  Fetch Province
       let params = {};
@@ -2071,10 +2079,10 @@ export default {
           this.isLoading = false;
         });
 
-        // if (this.search.FarmerFullName) {
-        //   url += "&FullName=" + this.search.FarmerFullName;
-        //   urlExcel += "&FullName=" + this.search.FarmerFullName;
-        // }
+      // if (this.search.FarmerFullName) {
+      //   url += "&FullName=" + this.search.FarmerFullName;
+      //   urlExcel += "&FullName=" + this.search.FarmerFullName;
+      // }
     },
 
     async exportExcel() {
@@ -2194,60 +2202,59 @@ export default {
         this.isLoading = false;
         return;
       }
-      
+
       this.fetchFarm();
 
       if (event) {
         this.currentPage = event.page + 1;
       }
 
+      //   if (this.search.dateRange) {
+      //     url += `&FarmRegisterStartDate=${this.search.dateRange[0]}&FarmRegisterEndDate=${this.search.dateRange[1]}`;
+      //     urlExcel += `&FarmRegisterStartDate=${this.search.dateRange[0]}&FarmRegisterEndDate=${this.search.dateRange[1]}`;
+      //   }
+      //   if (this.filtered.ProjectID) {
+      //     if (this.filtered.ProjectID.length === 0) {
+      //       url += `&ProjectID=`;
+      //       urlExcel += `&ProjectID=`;
+      //     } else {
+      //       url += `&ProjectID=${JSON.stringify(this.filtered.ProjectID)}`;
+      //       urlExcel += `&ProjectID=${JSON.stringify(this.filtered.ProjectID)}`;
+      //     }
+      //   }
 
-    //   if (this.search.dateRange) {
-    //     url += `&FarmRegisterStartDate=${this.search.dateRange[0]}&FarmRegisterEndDate=${this.search.dateRange[1]}`;
-    //     urlExcel += `&FarmRegisterStartDate=${this.search.dateRange[0]}&FarmRegisterEndDate=${this.search.dateRange[1]}`;
-    //   }
-    //   if (this.filtered.ProjectID) {
-    //     if (this.filtered.ProjectID.length === 0) {
-    //       url += `&ProjectID=`;
-    //       urlExcel += `&ProjectID=`;
-    //     } else {
-    //       url += `&ProjectID=${JSON.stringify(this.filtered.ProjectID)}`;
-    //       urlExcel += `&ProjectID=${JSON.stringify(this.filtered.ProjectID)}`;
-    //     }
-    //   }
+      //   axios
+      //     .get(url, { signal: this.controller.signal })
+      //     .then((response) => {
+      //       this.total = response.data.total;
+      //       this.data = response.data.rows;
 
-    //   axios
-    //     .get(url, { signal: this.controller.signal })
-    //     .then((response) => {
-    //       this.total = response.data.total;
-    //       this.data = response.data.rows;
+      //       if (this.curpage == 0 || this.curpage == 1) {
+      //         for (let i = 0; i < this.data.length; i++) {
+      //           this.data[i].show_id = i + 1;
+      //           if (this.data[i].FarmRegisterDate != null) {
+      //             this.data[i].FarmRegisterDate = dayjs(
+      //               this.data[i].FarmRegisterDate
+      //             )
+      //               .locale(locale)
+      //               .format("DD/MM/YYYY");
+      //           }
+      //         }
+      //       } else {
+      //         let start = (this.curpage - 1) * 15;
+      //         for (let i = 0; i < this.data.length; i++) {
+      //           this.data[i].show_id = i + 1 + start;
+      //         }
+      //       }
 
-    //       if (this.curpage == 0 || this.curpage == 1) {
-    //         for (let i = 0; i < this.data.length; i++) {
-    //           this.data[i].show_id = i + 1;
-    //           if (this.data[i].FarmRegisterDate != null) {
-    //             this.data[i].FarmRegisterDate = dayjs(
-    //               this.data[i].FarmRegisterDate
-    //             )
-    //               .locale(locale)
-    //               .format("DD/MM/YYYY");
-    //           }
-    //         }
-    //       } else {
-    //         let start = (this.curpage - 1) * 15;
-    //         for (let i = 0; i < this.data.length; i++) {
-    //           this.data[i].show_id = i + 1 + start;
-    //         }
-    //       }
-
-    //       this.totalPage = response.data.totalPage;
-    //       this.totalItems = response.data.totalData;
-    //       this.total = response.data.total;
-    //       console.log(this.total);
-    //     })
-    //     .finally(() => {
-    //       this.isLoading = false;
-    //     });
+      //       this.totalPage = response.data.totalPage;
+      //       this.totalItems = response.data.totalData;
+      //       this.total = response.data.total;
+      //       console.log(this.total);
+      //     })
+      //     .finally(() => {
+      //       this.isLoading = false;
+      //     });
     },
     add() {
       if (this.permit[0].IsAdd == 0) {

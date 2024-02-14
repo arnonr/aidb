@@ -6,10 +6,27 @@
       <div class="card">
         <h1 class="text-2xl text-600 mb-5">เพิ่มข้อมูลตรวจโรค</h1>
         <div v-if="loader" class="formgrid grid mb-3">
+          <!-- <div class="field col-12 sm:col-6">
+                        <label for="farmnumber" class="block text-600 text-sm font-bold mb-2">หมายเลขฟาร์ม</label>
+                        <InputText id="farmnumber" type="number" class="w-full" readonly />
+                    </div>
+                    <div class="field col-12 sm:col-6">
+                        <label for="farmname" class="block text-600 text-sm font-bold mb-2">ชื่อฟาร์ม</label>
+                        <InputText id="farmname" type="text" class="w-full" readonly />
+                    </div> -->
           <div class="field col-12 sm:col-12">
+            <!-- <label class="block text-600 text-sm font-bold mb-2">
+              หมายเลขฟาร์ม<span class="text-red-500"> *</span>
+            </label> -->
             <label class="block text-600 text-sm font-bold mb-2">
               ฟาร์ม<span class="text-red-500"> *</span>
             </label>
+            <!-- <InputText
+              v-if="form.FarmIdentificationNumber != null"
+              class="w-full"
+              v-model="form.FarmIdentificationNumber"
+              disabled
+            /> -->
             <InputText class="w-full" v-model="form.FullName" disabled />
             <!-- <Dropdown
               v-if="form.FarmID == null"
@@ -67,8 +84,37 @@
               :showClear="true"
               placeholder="เลือกหรือค้นหาโรคที่ตรวจ"
             />
+
+            <!-- <Dropdown
+              class="w-full"
+              v-model="form.DiseaseID"
+              :options="itemDisease.disease"
+              optionLabel="DiseaseName"
+              optionValue="DiseaseID"
+              :virtualScrollerOptions="{
+                lazy: true,
+                onLazyLoad: onLazyLoad,
+                itemSize: 38,
+                showLoader: true,
+                loading: loading,
+                delay: 250,
+              }"
+              :class="{ 'p-invalid': !form.DiseaseID && valid }"
+              :filter="true"
+              :showClear="true"
+              placeholder="เลือกหรือค้นหาโรคที่ตรวจ"
+            >
+              <template v-slot:loader="{ options }">
+                <div class="flex align-items-center p-2" style="height: 38px">
+                  <Skeleton
+                    :width="options.even ? '60%' : '50%'"
+                    height="1rem"
+                  />
+                </div>
+              </template>
+            </Dropdown> -->
           </div>
-          <div class="field col-12 sm:col-6">
+          <div class="field col-6 sm:col-6">
             <label
               for="chooseinspection"
               class="block text-600 text-sm font-bold mb-2"
@@ -87,18 +133,18 @@
             </Dropdown>
           </div>
 
-          <div class="field col-12 sm:col-6">
+          <div class="field col-6 sm:col-6">
             <label for="other" class="block text-600 text-sm font-bold mb-2"
               >วิธีอื่น ๆ</label
             >
             <InputText
               type="text"
-              v-model="form.DiseaseMethodOther"
+              v-model="form.Remark"
               class="w-full"
               placeholder="วิธีอื่น ๆ"
             />
           </div>
-          <!-- <div class="field col-12 sm:col-6" /> -->
+          <div class="field col-12 sm:col-6" />
 
           <div class="field col-12 sm:col-6">
             <label for="date" class="block text-600 text-sm font-bold mb-2"
@@ -126,24 +172,7 @@
               </template>
             </Datepicker>
           </div>
-
-          <div class="field col-12 sm:col-4">
-            <label class="block text-600 text-sm font-bold mb-2">
-              ระยะห่างการตรวจครั้งต่อไป
-            </label>
-            <Dropdown
-              class="w-full"
-              v-model="form.DiseaseNextMonth"
-              :options="DiseaseNextMonth"
-              optionLabel="label"
-              optionValue="id"
-              :class="{ 'p-invalid': valid }"
-              :showClear="true"
-              placeholder="ระยะห่างการตรวจครั้งต่อไป"
-            />
-          </div>
-
-          <div class="field col-12 sm:col-4">
+          <div class="field col-6 sm:col-6">
             <label for="nexttime" class="block text-600 text-sm font-bold mb-2"
               >วันที่ตรวจครั้งถัดไป<span class="text-red-500"> *</span></label
             >
@@ -169,13 +198,11 @@
             </Datepicker>
           </div>
 
-          <div class="field col-12 sm:col-4">
+          <div class="field col-12 sm:col-6">
             <label
               for="codeofficer"
               class="block text-600 text-sm font-bold mb-2"
-              >รหัสเจ้าหน้าที่รับผิดชอบ<span class="text-red-500">
-                *</span
-              ></label
+              >รหัสเจ้าหน้าที่<span class="text-red-500"> *</span></label
             >
             <Dropdown
               class="w-full"
@@ -187,7 +214,7 @@
               :filter="true"
               v-model="form.ResponsibilityStaffID"
               :class="{
-                'p-invalid': !form.StaffID && valid,
+                'p-invalid': !form.ResponsibilityStaffID && valid,
               }"
             />
           </div>
@@ -208,6 +235,34 @@
               :showClear="true"
               placeholder="เลือกหน่วยงาน"
             />
+
+            <!-- <Dropdown
+              class="w-full"
+              v-model="form.OrganizationID"
+              :options="organization"
+              optionLabel="OrganizationName"
+              optionValue="OrganizationID"
+              :virtualScrollerOptions="{
+                lazy: true,
+                onLazyLoad: onLazyLoad,
+                itemSize: 38,
+                showLoader: true,
+                loading: loading,
+                delay: 250,
+              }"
+              :filter="true"
+              :showClear="true"
+              placeholder="เลือกหน่วยงาน"
+            >
+              <template v-slot:loader="{ options }">
+                <div class="flex align-items-center p-2" style="height: 38px">
+                  <Skeleton
+                    :width="options.even ? '60%' : '50%'"
+                    height="1rem"
+                  />
+                </div>
+              </template>
+            </Dropdown> -->
           </div>
           <!-- <div class="field col-12 sm:col-6">
             <label class="block text-600 text-sm font-bold mb-2">
@@ -295,31 +350,6 @@
               :sortable="true"
             >
             </Column>
-            <Column
-              field="AnimalID"
-              header="ผลการตรวจ"
-              class="text-center"
-              :sortable="true"
-            >
-              <template #body="slotProps">
-                <div>
-                  <Dropdown
-                    v-model="slotProps.data.DiseaseResultID"
-                    :options="itemDisease.diseaseresult"
-                    optionLabel="DiseaseResultName"
-                    optionValue="DiseaseResultID"
-                    class="w-full"
-                    :class="{ 'p-invalid': !form.DiseaseResultID && valid }"
-                    :showClear="true"
-                    :disabled="!form.AnimalID.includes(slotProps.data.AnimalID)"
-                    placeholder="ผลการตรวจ"
-                    @change="selected($event, slotProps.data.AnimalID)"
-                    id="test"
-                  >
-                  </Dropdown>
-                </div>
-              </template>
-            </Column>
           </DataTable>
           <Paginator
             @page="page($event)"
@@ -369,17 +399,14 @@ export default {
     return {
       key: this.$route.params.id,
       url: "/animal?FarmID=" + this.$route.params.id,
-      apiPersonal: "/staff/selection?includeAll=false",
-      postDiseaseActivity: "/disease-activity",
-      urlOrganization: "/organization/selection?includeAll=false",
+
+      // url: "/animal",
       urlDisease: "/disease",
       urlDiseaseMethod: "/disease-method",
-      DiseaseNextMonth: [
-        { label: "1 เดือน", id: 1 },
-        { label: "2 เดือน", id: 2 },
-        { label: "3 เดือน", id: 3 },
-        { label: "6 เดือน", id: 6 },
-      ],
+      urlPersonal: "/staff",
+      urlOrganization: "/organization",
+      postDiseaseActivity: "/disease-activity",
+
       id: "AnimalID",
       columns: [
         {
@@ -411,6 +438,7 @@ export default {
           header: "สัตว์อยู่ที่ฟาร์ม...",
         },
       ],
+
       isLoading: false,
       loader: false,
       total: null,
@@ -418,70 +446,49 @@ export default {
       selection: false,
       loading: false,
       valid: false,
-      organization: [],
+      AnimalID: 1,
+      sortBy: [],
+      Farm: [],
 
+      controller: new AbortController(),
+      itemDisease: [],
+      // index: null,
+      // display: false,
+      // display_delete: false,
       form: {
         isActive: 1,
+        // AnimalID: [1,2],
         Animal: [],
         AnimalID: [],
         FarmID: this.$route.params.id,
         FarmIdentificationNumber: this.$route.params.farm,
-        DiseaseNextMonth: [],
       },
-      itemDisease: [],
-      data: [],
-      Farm: [],
       Lastactivity: null,
       breadcrumb: [
-        { label: "ข้อมูลสุขภาพ : ตรวจโรค", to: "/activity/disease" },
+        { label: "ข้อมูลสุขภาพ : ฉีดวัคซีน", to: "/activity/disease" },
         { label: "", to: "" },
       ],
-      controller: new AbortController(),
     };
   },
   loadLazyTimeout: null,
   watch: {
     "form.Animal"() {
       let val = [];
-      let res = [];
-
+      // let res = [];
       val = this.form.Animal;
+
       for (let index = 0; index < val.length; index++) {
-        res[index] = val[index].AnimalID;
+        this.form.AnimalID[index] = val[index].AnimalID;
       }
-      this.form.AnimalID = res;
 
-      //   console.log(this.form.AnimalID.value)
-
-      //   form.Animal.select = 1
-
+      // console.table(this.form.AnimalID);
+      // this.form.AnimalID = res;
       return this.form.AnimalID;
-    },
-    "form.DiseaseNextMonth"() {
-      if (this.form.DiseaseNextMonth == 1) {
-        this.form.DiseaseNextDate = dayjs(this.form.DiseaseActivityDate)
-          .add(1, "month")
-          .format("YYYY-MM-DD");
-      } else if (this.form.DiseaseNextMonth == 2) {
-        this.form.DiseaseNextDate = dayjs(this.form.DiseaseActivityDate)
-          .add(2, "month")
-          .format("YYYY-MM-DD");
-      } else if (this.form.DiseaseNextMonth == 3) {
-        this.form.DiseaseNextDate = dayjs(this.form.DiseaseActivityDate)
-          .add(3, "month")
-          .format("YYYY-MM-DD");
-      } else if (this.form.DiseaseNextMonth == 6) {
-        this.form.DiseaseNextDate = dayjs(this.form.DiseaseActivityDate)
-          .add(6, "month")
-          .format("YYYY-MM-DD");
-      } else {
-        console.log("ERROR");
-      }
     },
   },
   async mounted() {
     await axios
-      .get("/staff/selection?includeAll=false", {
+      .get("/staff", {
         signal: this.controller.signal,
       })
       .then((response) => {
@@ -496,11 +503,22 @@ export default {
       .finally(() => {
         this.loader = true;
       });
-    this.load();
+    await axios
+      .get(this.urlOrganization, {
+        signal: this.controller.signal,
+      })
+      .then((response) => {
+        this.organization = response.data.rows;
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
 
-    this.breadcrumb[1].label = this.name;
     this.form.ResponsibilityStaffID = this.user.StaffID;
     this.form.OrganizationID = this.user.Staff.StaffOrganizationID;
+
+    this.load();
+    this.breadcrumb[1].label = this.name;
   },
 
   methods: {
@@ -534,23 +552,33 @@ export default {
       this.curpage = $event.page + 1;
       this.load();
     },
-    async load() {
+    load() {
       this.isLoading = true;
-      let url = this.url + "&size=15";
+      let url = this.url + "?size=15";
       url += "&page=";
       if (this.curpage) {
         url += this.curpage;
       }
-      if (this.form.FarmID) {
-        url += "&FarmID=" + this.form.FarmID;
-      }
-
+      // if (this.sortBy.FarmID) {
+      //   url += "&FarmID=" + this.sortBy.FarmID;
+      // }
       if (this.animal_id == 1) {
-        url += "&AnimalTypeID=" + "[1,2,41,42]";
+        url += "&AnimalTypeID=" + "[1, 2]";
+        // this.data = response.data.rows.filter(
+        //   (item) => item.AnimalTypeID === 1 || item.AnimalTypeID === 2
+        // );
       } else if (this.animal_id == 2) {
-        url += "&AnimalTypeID=" + "[3,4,43,44]";
+        url += "&AnimalTypeID=" + "[3, 4]";
+
+        // this.data = response.data.rows.filter(
+        //   (item) => item.AnimalTypeID === 3 || item.AnimalTypeID === 4
+        // );
       } else if (this.animal_id == 3) {
-        url += "&AnimalTypeID=" + "[17,18,45,46]";
+        url += "&AnimalTypeID=" + "[17, 18]";
+
+        // this.data = response.data.rows.filter(
+        //   (item) => item.AnimalTypeID === 17 || item.AnimalTypeID === 18
+        // );
       }
 
       axios
@@ -558,10 +586,28 @@ export default {
         .then((response) => {
           this.total = response.data.total;
           this.data = response.data.rows;
+          // this.data = response.data.rows;
+          // if (this.animal_id == 1) {
+          //   this.data = response.data.rows.filter(
+          //     (item) => item.AnimalTypeID === 1 || item.AnimalTypeID === 2
+          //   );
+          // } else if (this.animal_id == 2) {
+          //   this.data = response.data.rows.filter(
+          //     (item) => item.AnimalTypeID === 3 || item.AnimalTypeID === 4
+          //   );
+          // } else if (this.animal_id == 3) {
+          //   this.data = response.data.rows.filter(
+          //     (item) => item.AnimalTypeID === 17 || item.AnimalTypeID === 18
+          //   );
+          // }
+          // console.log()
+
+          // this.data = this.data.filter(
+          //   (item) => item.AnimalFarm.FarmID === this.form.FarmID
+          // );
 
           if (this.curpage == 0 || this.curpage == 1) {
             for (let i = 0; i < this.data.length; i++) {
-              this.data[i].DiseaseResultID = 1;
               this.data[i].show_id = i + 1;
               if (this.data[i].AnimalBirthDate != null) {
                 // หาจำนวนเดือน
@@ -598,17 +644,18 @@ export default {
         .finally(() => {
           this.isLoading = false;
         });
-
       axios
         .get(this.urlDisease, {
           signal: this.controller.signal,
         })
         .then((res) => {
+          // console.log(res);
           this.itemDisease.disease = res.data.rows;
         })
         .finally(() => {
           this.isLoading = false;
         });
+
       axios
         .get(this.urlDiseaseMethod, {
           signal: this.controller.signal,
@@ -629,16 +676,16 @@ export default {
         .finally(() => {
           this.isLoading = false;
         });
-      await axios
-        .get(this.urlOrganization, {
-          signal: this.controller.signal,
-        })
-        .then((response) => {
-          this.organization = response.data.rows;
-        })
-        .finally(() => {
-          this.loader = true;
-        });
+      // axios
+      //   .get(this.urlPersonal, {
+      //     signal: this.controller.signal,
+      //   })
+      //   .then((response) => {
+      //     this.personal = response.data.rows;
+      //   })
+      //   .finally(() => {
+      //     this.isLoading = false;
+      //   });
 
       axios
         .get("/farm/" + this.form.FarmID, { signal: this.controller.signal })
@@ -673,6 +720,15 @@ export default {
         .finally(() => {
           this.loader = true;
         });
+      // axios
+      //   .get("/farm", { signal: this.controller.signal })
+      //   .then((res) => {
+      //     this.Farm.data = res.data.rows;
+      //     this.Farm.total = res.data.total;
+      //   })
+      //   .finally(() => {
+      //     this.isLoading = false;
+      //   });
     },
     validation() {
       if (
@@ -699,28 +755,23 @@ export default {
         return;
       }
 
+      // console.log(this.form);
+
       await axios
-        .post(this.postDiseaseActivity, this.form, {
-          signal: this.controller.signal,
-        })
+        .post(this.postDiseaseActivity, this.form)
         .then(() => {
           axios
             .get(this.postDiseaseActivity)
             .then((res) => {
+              // this.activity = res.data.rows;
               this.Lastactivity = res.data.rows.slice(-1)[0];
-
               for (let i = 0; i < this.form.AnimalID.length; i++) {
-
-                let DiseaseResultID = this.form.Animal.find((x) => {
-                  return x.AnimalID == this.form.AnimalID[i];
-                });
-
                 axios
                   .post("/disease-activity-animal", {
                     DiseaseActivityID: this.Lastactivity.DiseaseActivityID,
                     AnimalID: this.form.AnimalID[i],
-                    DiseaseResultID: DiseaseResultID.DiseaseResultID,
-                    Remark: this.Lastactivity.DiseaseMethodOther,
+                    DiseaseResultID: 1,
+                    Remark: "",
                     isActive: 1,
                   })
                   .then(() => {})
@@ -729,65 +780,34 @@ export default {
                     this.isLoading = false;
                   });
               }
-
-              //   this.load();
+              // this.load();
               this.$toast.add({
                 severity: "success",
                 summary: "สำเร็จ",
-                detail: "ข้อมูลตรวจโรคถูกบันทึก",
-                life: 2000,
+                detail: "ข้อมูลถูกบันทึก",
+                life: 5000,
               });
               setTimeout(() => {
                 this.$router.push("/activity/diagnose");
-              }, 3000);
+              }, 500);
             })
             .finally(() => {
               this.isLoading = false;
             });
         })
-        .catch((err) => {
+        .catch(() => {
+          // console.log(this.form.AnimalID);
           this.$toast.add({
             severity: "error",
             summary: "ล้มเหลว",
-            detail: err.response.data.error.message,
+            // detail: err.response.data.error.message,
+            detail: "โปรดตรวจสอบข้อมูล",
             life: 5000,
           });
         })
         .finally(() => {
           this.isLoading = false;
         });
-    },
-    selected($event, id) {
-      let item = this.form.Animal.find((x) => {
-        return x.AnimalID == id;
-      });
-
-      item["DiseaseResultID"] = $event.value;
-
-      console.log(this.form.Animal);
-
-      // this.DiseaseActivityAnimalResult = [
-      //     {
-      //         AnimalID: id,
-      //         DiseaseResultID: $event.value,
-      //     },
-      // ];
-
-      //   axios
-      //     .put("/disease-activity-animal/" + id, {
-      //       DiseaseResultID: $event.value,
-      //     })
-      //     .then(() => {
-      //       this.$toast.add({
-      //         severity: "success",
-      //         summary: "สำเร็จ",
-      //         detail: "อัพเดทข้อมูลเรียบร้อย",
-      //         life: 2000,
-      //       });
-      //     })
-      //     .finally(() => {
-      //       this.isLoading = false;
-      //     });
     },
 
     // onLazyLoad() {

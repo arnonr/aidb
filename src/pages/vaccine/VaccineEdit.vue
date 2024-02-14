@@ -373,6 +373,7 @@ export default {
       let val = [];
       let res = [];
       val = this.form.Animal;
+      console.log(val);
       for (let index = 0; index < val.length; index++) {
         res[index] = val[index].AnimalID;
       }

@@ -286,7 +286,7 @@
               </div>
             </div>
           </div>
-          <div class="mt-5">
+          <div v-if="form.FarmID" class="mt-5">
             <DataTable
               class="text-sm"
               :value="data"
@@ -335,6 +335,7 @@
     </div>
   </div>
 </template>
+
 <script>
 import axios from "axios";
 import dayjs from "dayjs";
@@ -411,14 +412,12 @@ export default {
         VaccineNextMonth: [],
       },
       itemsVaccine: [],
-
       data: [],
       Farm: [],
       breadcrumb: [
         { label: "ข้อมูลสุขภาพ : ฉีดวัคซีน", to: "/activity/vaccine" },
         { label: "", to: "" },
       ],
-
       controller: new AbortController(),
     };
   },
@@ -427,12 +426,12 @@ export default {
     "form.Animal"() {
       let val = [];
       let res = [];
+
       val = this.form.Animal;
       for (let index = 0; index < val.length; index++) {
         res[index] = val[index].AnimalID;
       }
       this.form.AnimalID = res;
-
       return this.form.AnimalID;
     },
 
@@ -521,18 +520,18 @@ export default {
         url += "&FarmID=" + this.form.FarmID;
       }
       if (this.animal_id == 1) {
-        url += "&AnimalTypeID=" + "[1, 2]";
+        url += "&AnimalTypeID=" + "[1, 2,41,42]";
         // this.data = response.data.rows.filter(
         //   (item) => item.AnimalTypeID === 1 || item.AnimalTypeID === 2
         // );
       } else if (this.animal_id == 2) {
-        url += "&AnimalTypeID=" + "[3, 4]";
+        url += "&AnimalTypeID=" + "[3, 4,43,44]";
 
         // this.data = response.data.rows.filter(
         //   (item) => item.AnimalTypeID === 3 || item.AnimalTypeID === 4
         // );
       } else if (this.animal_id == 3) {
-        url += "&AnimalTypeID=" + "[17, 18]";
+        url += "&AnimalTypeID=" + "[17, 18,45,46]";
 
         // this.data = response.data.rows.filter(
         //   (item) => item.AnimalTypeID === 17 || item.AnimalTypeID === 18

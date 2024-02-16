@@ -2873,7 +2873,7 @@ export default {
       ) {
         console.log(this.parents.AnimalFatherEarID);
         axios
-          .get("/animal?includeAll=false", {
+          .get("/animal?includeAll=false&isRemove=0", {
             signal: this.controller.signal,
             params: {
               AnimalEarID: this.parents.AnimalFatherEarID,
@@ -2901,7 +2901,7 @@ export default {
         this.parents.AnimalMotherEarID != ""
       ) {
         axios
-          .get("/animal?includeAll=false", {
+          .get("/animal?includeAll=false&isRemove=0", {
             signal: this.controller.signal,
             params: {
               AnimalEarID: this.parents.AnimalMotherEarID,

@@ -1465,7 +1465,7 @@ export default {
           .get(
             this.apiCheckBreed +
               "?AnimalFatherID=" +
-              this.checkFather +
+              this.checkFather.AnimalID +
               "&AnimalMotherID=" +
               this.checkMother.AnimalID,
             { signal: this.controller.signal }

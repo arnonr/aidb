@@ -1643,9 +1643,19 @@ export default {
       this.search.AIZoneID = Number(this.$route.query.AIZoneID);
     }
 
+    if (this.$route.query.OrganizationZoneID) {
+      this.search.OrganizationZoneID = Number(this.$route.query.OrganizationZoneID);
+    }
+
     if (store.state.user.Staff.Organization.OrganizationZoneID) {
       this.search.OrganizationZoneID =
         store.state.user.Staff.Organization.OrganizationZoneID;
+    }
+
+    if (this.$route.query.FarmID) {
+      console.log(this.$route.query.FarmID);
+      this.search.FarmID =  Number(this.$route.query.FarmID);
+      console.log(this.search.FarmID);
     }
   },
   watch: {
@@ -2626,7 +2636,7 @@ export default {
       }
 
       if (this.search.Status) {
-        params["isActive"] = this.search.Status;
+        params["AnimalAlive"] = this.search.Status;
       }
 
       this.setParam();
@@ -3075,7 +3085,7 @@ export default {
             life: 5000,
           });
         })
-        .catch((error) =>{
+        .catch((error) => {
           this.close_delete();
           this.$toast.add({
             severity: "error",

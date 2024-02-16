@@ -113,6 +113,7 @@
                     </Dropdown>
                   </div>
 
+
                   <div class="field col-12 sm:col-6">
                     <label class="block text-600 text-sm font-bold mb-2">
                       วัน-เดือน-ปี (เกิด)
@@ -178,6 +179,7 @@
                     />
                   </div> -->
 
+               
                   <div class="field col-12 sm:col-6">
                     <label class="block text-600 text-sm font-bold mb-2">
                       หมายเลขเบอร์หู
@@ -418,57 +420,227 @@
                     />
                   </div>
 
-                  <div class="col-12 formgrid grid" v-if="checkFirst == '0'">
-                    <div class="field col-12 sm:col-6">
-                      <label class="block text-600 text-sm font-bold mb-2">
-                        หมายเลขพ่อ<span class="text-red-500"> *</span></label
-                      >
+                  <div class="col-12" v-if="checkFirst == '0'">
+                    <div class="formgrid grid">
+                      <div class="field col-12 sm:col-6">
+                        <label class="block text-600 text-sm font-bold mb-2">
+                          หมายเลขพ่อ<span class="text-red-500"> *</span></label
+                        >
 
-                      <v-select
-                        :options="animalfather_temp"
-                        @search="fetchAnimalFatherOptions"
-                        label="AnimalEarIDAndName"
-                        value="AnimalID"
-                        v-model="form.AnimalFatherID"
-                        class="w-full"
-                        placeholder="เลือกหมายเลขพ่อหรือชื่อพ่อ (พิมพ์ 3 ตัวอักษรเพื่อค้นหา)"
-                        :disabled="
-                          user.GroupID != 1 &&
-                          user.GroupID != 16 &&
-                          user.GroupID != 15
-                        "
-                      ></v-select>
+                        <Dropdown
+                          class="w-full"
+                          id="selectedstatus"
+                          :options="animalfather"
+                          optionLabel="AnimalEarIDAndName"
+                          optionValue="AnimalID"
+                          placeholder="เลือกหมายเลขพ่อ"
+                          :showClear="true"
+                          :filter="true"
+                          :virtualScrollerOptions="{ itemSize: 38 }"
+                          v-model="form.AnimalFatherID"
+                        />
+                      </div>
 
-                      <!-- <Select2
-                          v-model="myValue"
-                          :options="myOptions"
-                        /> -->
+                      <div class="field col-12 sm:col-6">
+                        <label class="block text-600 text-sm font-bold mb-2">
+                          หมายเลขแม่<span class="text-red-500"> *</span></label
+                        >
+                        <Dropdown
+                          class="w-full"
+                          id="selectedstatus"
+                          :options="animalmother"
+                          optionLabel="AnimalEarIDAndName"
+                          optionValue="AnimalID"
+                          placeholder="เลือกหมายเลขแม่"
+                          :showClear="true"
+                          :filter="true"
+                          :virtualScrollerOptions="{ itemSize: 38 }"
+                          v-model="form.AnimalMotherID"
+                        />
+                      </div>
                     </div>
+                    <div class="formgrid grid">
+                      <div class="field col-12 sm:col-6">
+                        <label class="block text-600 text-sm font-bold mb-2"
+                          >สายพันธุ์ที่ 1</label
+                        >
+                        <Dropdown
+                          class="w-full"
+                          id="selectedstatus"
+                          :options="animalbreed"
+                          optionLabel="Fullname"
+                          optionValue="AnimalBreedID"
+                          placeholder="สายพันธุ์ที่ 1"
+                          :showClear="true"
+                          :filter="true"
+                          :disabled="true"
+                          v-model="form.AnimalBreedID1"
+                        />
+                      </div>
+                      <div class="field col-12 sm:col-6">
+                        <label class="block text-600 text-sm font-bold mb-2"
+                          >สัดส่วนสายพันธุ์ที่ 1 (%)</label
+                        >
 
-                    <div class="field col-12 sm:col-6">
-                      <label class="block text-600 text-sm font-bold mb-2">
-                        หมายเลขแม่<span class="text-red-500"> *</span></label
-                      >
-
-                      <v-select
-                        :options="animalmother_temp"
-                        @search="fetchAnimalMotherOptions"
-                        label="AnimalEarIDAndName"
-                        value="AnimalID"
-                        v-model="form.AnimalMotherID"
-                        class="w-full"
-                        placeholder="เลือกหมายเลขแม่หรือชื่อแม่ (พิมพ์ 3 ตัวอักษรเพื่อค้นหา)"
-                        :disabled="
-                          user.GroupID != 1 &&
-                          user.GroupID != 16 &&
-                          user.GroupID != 15
-                        "
-                      ></v-select>
-
-                      <!-- <Select2
-                          v-model="myValue"
-                          :options="myOptions"
+                        <!-- <InputNumber
+                          inputId="minmax"
+                          class="w-full"
+                          v-model="form.AnimalBreedPercent1"
+                          mode="decimal"
+                          :min="0"
+                          :max="100"
+                          readonly
                         /> -->
+
+                        <Dropdown
+                          class="w-full"
+                          :options="Percent"
+                          optionLabel="name"
+                          optionValue="id"
+                          placeholder="เลือกสัดส่วน"
+                          :showClear="true"
+                          :filter="true"
+                          v-model="form.AnimalBreedPercent1"
+                          :class="{
+                            'p-invalid': !form.AnimalBreedPercent1 && valid,
+                          }"
+                          readonly
+                        >
+                        </Dropdown>
+                      </div>
+                      <div
+                        class="field col-12 sm:col-6"
+                        v-if="form.AnimalBreedPercent1 != 100"
+                      >
+                        <label class="block text-600 text-sm font-bold mb-2"
+                          >สายพันธุ์ที่ 2</label
+                        >
+                        <Dropdown
+                          class="w-full"
+                          id="selectedstatus"
+                          optionLabel="Fullname"
+                          optionValue="AnimalBreedID"
+                          placeholder="สายพันธุ์ที่ 2"
+                          :showClear="true"
+                          :filter="true"
+                          v-model="form.AnimalBreedID2"
+                          :disabled="true"
+                        />
+                      </div>
+                      <div
+                        class="field col-12 sm:col-6"
+                        v-if="form.AnimalBreedPercent1 != 100"
+                      >
+                        <label class="block text-600 text-sm font-bold mb-2"
+                          >สัดส่วนสายพันธุ์ที่ 2 (%)</label
+                        >
+                        <InputNumber
+                          inputId="minmax"
+                          class="w-full"
+                          v-model="form.AnimalBreedPercent2"
+                          mode="decimal"
+                          :minFractionDigits="2"
+                          :min="0"
+                          :max="100"
+                          readonly
+                        />
+                      </div>
+                      <div class="field col-12 sm:col-6">
+                        <label class="block text-600 text-sm font-bold mb-2"
+                          >สายพันธุ์ที่ 3</label
+                        >
+                        <Dropdown
+                          class="w-full"
+                          id="selectedstatus"
+                          :options="animalbreedDefault"
+                          optionLabel="Fullname"
+                          optionValue="AnimalBreedID"
+                          placeholder="สายพันธุ์ที่ 3"
+                          :showClear="true"
+                          :filter="true"
+                          v-model="form.AnimalBreedID3"
+                          :disabled="true"
+                        />
+                      </div>
+                      <div class="field col-12 sm:col-6">
+                        <label class="block text-600 text-sm font-bold mb-2"
+                          >สัดส่วนสายพันธุ์ที่ 3 (%)</label
+                        >
+                        <InputNumber
+                          inputId="minmax"
+                          class="w-full"
+                          v-model="form.AnimalBreedPercent3"
+                          mode="decimal"
+                          :minFractionDigits="2"
+                          :min="0"
+                          :max="100"
+                          readonly
+                        />
+                      </div>
+                      <div class="field col-12 sm:col-6">
+                        <label class="block text-600 text-sm font-bold mb-2"
+                          >สายพันธุ์ที่ 4</label
+                        >
+                        <Dropdown
+                          class="w-full"
+                          id="selectedstatus"
+                          :options="animalbreedDefault"
+                          optionLabel="Fullname"
+                          optionValue="AnimalBreedID"
+                          placeholder="สายพันธุ์ที่ 4"
+                          :showClear="true"
+                          :filter="true"
+                          v-model="form.AnimalBreedID4"
+                          :disabled="true"
+                        />
+                      </div>
+                      <div class="field col-12 sm:col-6">
+                        <label class="block text-600 text-sm font-bold mb-2"
+                          >สัดส่วนสายพันธุ์ที่ 4 (%)</label
+                        >
+                        <InputNumber
+                          inputId="minmax"
+                          class="w-full"
+                          v-model="form.AnimalBreedPercent4"
+                          mode="decimal"
+                          :minFractionDigits="2"
+                          :min="0"
+                          :max="100"
+                          readonly
+                        />
+                      </div>
+                      <div class="field col-12 sm:col-6">
+                        <label class="block text-600 text-sm font-bold mb-2"
+                          >สายพันธุ์ที่ 5</label
+                        >
+                        <Dropdown
+                          class="w-full"
+                          id="selectedstatus"
+                          :options="animalbreedDefault"
+                          optionLabel="Fullname"
+                          optionValue="AnimalBreedID"
+                          placeholder="สายพันธุ์ที่ 5"
+                          :showClear="true"
+                          :filter="true"
+                          v-model="form.AnimalBreedID5"
+                          :disabled="true"
+                        />
+                      </div>
+                      <div class="field col-12 sm:col-6">
+                        <label class="block text-600 text-sm font-bold mb-2"
+                          >สัดส่วนสายพันธุ์ที่ 5 (%)</label
+                        >
+                        <InputNumber
+                          inputId="minmax"
+                          class="w-full"
+                          v-model="form.AnimalBreedPercent5"
+                          mode="decimal"
+                          :minFractionDigits="2"
+                          :min="0"
+                          :max="100"
+                          readonly
+                        />
+                      </div>
                     </div>
                   </div>
                   <div class="col-12" v-else-if="checkFirst == '1'">
@@ -779,13 +951,10 @@ import dayjs from "dayjs";
 import { mapGetters } from "vuex";
 import { format } from "date-fns";
 import { th } from "date-fns/locale";
-import vSelect from "vue-select";
-import "vue-select/dist/vue-select.css";
 
 export default {
   components: {
     PageTitle,
-    vSelect,
   },
   computed: {
     ...mapGetters({
@@ -815,10 +984,6 @@ export default {
         { label: "ทะเบียนสัตว์ (ผท.1)", to: "/agency/creature" },
         { label: "เพิ่มทะเบียนสัตว์", to: "" },
       ],
-      animalmother_temp: [],
-      animalfather_temp: [],
-      animalfather: [],
-      animalmother: [],
 
       // load
       data: [],
@@ -830,6 +995,7 @@ export default {
       personal: [],
       organization: [],
       organizationzone: [],
+      animalfather: [],
       animaltype: [],
       gennumber: [],
       animalbreedDefault: [],
@@ -1167,26 +1333,6 @@ export default {
     },
   },
   methods: {
-    fetchAnimalMotherOptions(search, loading) {
-      console.log(loading);
-      if (search.length > 2) {
-        this.animalmother_temp = this.animalmother.filter((x) => {
-          return x.AnimalEarIDAndName.includes(search);
-        });
-      } else {
-        this.animalmother_temp = [];
-      }
-    },
-    fetchAnimalFatherOptions(search, loading) {
-      console.log(loading);
-      if (search.length > 2) {
-        this.animalfather_temp = this.animalfather.filter((x) => {
-          return x.AnimalEarIDAndName.includes(search);
-        });
-      } else {
-        this.animalfather_temp = [];
-      }
-    },
     fetchFarm() {
       this.isLoading = true;
       if (
@@ -1299,9 +1445,9 @@ export default {
           .get(
             this.apiCheckBreed +
               "?AnimalFatherID=" +
-              this.checkFather.AnimalID +
+              this.checkFather +
               "&AnimalMotherID=" +
-              this.checkMother.AnimalID,
+              this.checkMother,
             { signal: this.controller.signal }
           )
           .then((response) => {
@@ -1446,11 +1592,11 @@ export default {
       //   });
 
       if (this.animal_id == 1) {
-        this.apiAnimalMotherID += "&AnimalTypeID=[1,2,41,42]&isRemove=0";
+        this.apiAnimalMotherID += "&AnimalTypeID=[1,2,42]";
       } else if (this.animal_id == 2) {
-        this.apiAnimalMotherID += "&AnimalTypeID=[3,4,43,44]&isRemove=0";
+        this.apiAnimalMotherID += "&AnimalTypeID=[3,4,44]";
       } else if (this.animal_id == 3) {
-        this.apiAnimalMotherID += "&AnimalTypeID=[17,18,45,46]&isRemove=0";
+        this.apiAnimalMotherID += "&AnimalTypeID=[17,18,46]";
       }
 
       axios
@@ -2160,23 +2306,9 @@ export default {
       let formData = new FormData();
       formData.append("photo_url", this.form.AnimalImagePathGen);
 
-      let AnimalMotherID = null;
-      if (this.form.AnimalFirstBreed == "0") {
-        AnimalMotherID = this.form.AnimalMotherID.AnimalID;
-      }
-
-      let AnimalFatherID = null;
-      if (this.form.AnimalFirstBreed == "0") {
-        AnimalFatherID = this.form.AnimalFatherID.AnimalID;
-      }
-
       // post
       axios
-        .post(this.url, {
-          ...this.form,
-          AnimalMotherID: AnimalMotherID,
-          AnimalFatherID: AnimalFatherID,
-        })
+        .post(this.url, this.form)
         .then((res) => {
           if (this.form.AnimalImagePathGen !== undefined) {
             this.uploadPhoto(res.data.AnimalID, formData);

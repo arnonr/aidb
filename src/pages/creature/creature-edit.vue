@@ -1171,11 +1171,16 @@ export default {
       });
 
     if (this.animal_id == 1) {
-      this.apiAnimalFatherID += "&AnimalTypeID=[1,2,41,42]&isActive=1";
+      this.apiAnimalFatherID +=
+        "&AnimalTypeID=[1,2,41,42]&isActive=1&isRemove=0";
     } else if (this.animal_id == 2) {
-      this.apiAnimalFatherID += "&AnimalTypeID=[3,4,43,44]&isActive=1";
+      this.apiAnimalFatherID +=
+        "&AnimalTypeID=[3,4,43,44]&isActive=1&isRemove=0";
     } else if (this.animal_id == 3) {
-      this.apiAnimalFatherID += "&AnimalTypeID=[17,18,45,46]&isActive=1";
+      this.apiAnimalFatherID +=
+        "&AnimalTypeID=[17,18,45,46]&isActive=1&isRemove=0";
+    } else {
+      this.apiAnimalFatherID += "&isRemove=0";
     }
 
     if (this.animal_id == 1) {
@@ -1471,7 +1476,6 @@ export default {
             { signal: this.controller.signal }
           )
           .then((response) => {
-            // console.log(response);
             let breed1tmp;
             for (let i = 0; i < response.data.length; i++) {
               if (i == 0) {
@@ -1589,6 +1593,14 @@ export default {
       //     //   };
       //     // });
       //   });
+
+      if (this.animal_id == 1) {
+        this.apiAnimalMotherID += "&AnimalTypeID=[1,2,41,42]&isRemove=0";
+      } else if (this.animal_id == 2) {
+        this.apiAnimalMotherID += "&AnimalTypeID=[3,4,43,44]&isRemove=0";
+      } else if (this.animal_id == 3) {
+        this.apiAnimalMotherID += "&AnimalTypeID=[17,18,45,46]&isRemove=0";
+      }
 
       axios
         .get(setUrl, { signal: this.controller.signal })
@@ -1828,14 +1840,6 @@ export default {
 
           if (this.form.AnimalFirstBreed) {
             if (this.form.AnimalFirstBreed.id == 0) {
-              if (this.animal_id == 1) {
-                this.apiAnimalMotherID += "&AnimalTypeID=[1,2]";
-              } else if (this.animal_id == 2) {
-                this.apiAnimalMotherID += "&AnimalTypeID=[3,4,42]";
-              } else if (this.animal_id == 3) {
-                this.apiAnimalMotherID += "&AnimalTypeID=[17,18]";
-              }
-
               axios
                 .get(this.apiAnimalMotherID, { signal: this.controller.signal })
                 .then((response) => {
@@ -2088,10 +2092,16 @@ export default {
         AnimalMotherID = this.form.AnimalMotherID.AnimalID;
       }
 
+      let AnimalFatherID = null;
+      if (this.form.AnimalFirstBreed == "0") {
+        AnimalFatherID = this.form.AnimalFatherID.AnimalID;
+      }
+
       axios
         .put(this.url + "/" + this.form.AnimalID, {
           ...this.form,
           AnimalMotherID: AnimalMotherID,
+          AnimalFatherID: AnimalFatherID,
         })
 
         .then((res) => {
@@ -2101,15 +2111,11 @@ export default {
           this.$toast.add({
             severity: "success",
             summary: "สำเร็จ",
-            detail: "เพิ่มข้อมูลเสร็จสิ้น",
+            detail: "แก้ไขข้อมูลเสร็จสิ้น",
             life: 5000,
           });
-
-          //   let farmNa = this.farm.find((x) => {
-          //     return (x.FarmID = this.form.FarmID);
-          //   });
-
-          //   this.$router.push("/agency/creature?AIZoneID=" + farmNa.AIZoneID);
+          
+          this.$router.push("/agency/creature?FarmID=" + this.form.FarmID);
         })
         // error
         .catch((err) => {

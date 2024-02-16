@@ -1680,7 +1680,17 @@ export default {
             // AIZoneID:
             // AIZoneID: id.FarmID,F
             AnimalFirstBreed: id.AnimalFirstBreed,
-            AnimalFatherID: id.AnimalFatherID,
+            AnimalFatherID:
+              id.AnimalFatherID != null
+                ? {
+                    AnimalID: id.AnimalFatherID,
+
+                    AnimalEarIDAndName:
+                      id.AnimalFather.AnimalEarID +
+                      ", " +
+                      id.AnimalFather.AnimalName,
+                  }
+                : null,
             AnimalMotherID:
               id.AnimalMotherID != null
                 ? {

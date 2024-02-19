@@ -432,11 +432,6 @@
                         v-model="form.AnimalFatherID"
                         class="w-full"
                         placeholder="เลือกหมายเลขพ่อหรือชื่อพ่อ (พิมพ์ 3 ตัวอักษรเพื่อค้นหา)"
-                        :disabled="
-                          user.GroupID != 1 &&
-                          user.GroupID != 16 &&
-                          user.GroupID != 15
-                        "
                       ></v-select>
 
                       <!-- <Select2
@@ -458,11 +453,6 @@
                         v-model="form.AnimalMotherID"
                         class="w-full"
                         placeholder="เลือกหมายเลขแม่หรือชื่อแม่ (พิมพ์ 3 ตัวอักษรเพื่อค้นหา)"
-                        :disabled="
-                          user.GroupID != 1 &&
-                          user.GroupID != 16 &&
-                          user.GroupID != 15
-                        "
                       ></v-select>
 
                       <!-- <Select2

@@ -1,12 +1,12 @@
 <template>
   <div class="grid">
     <div class="col-12">
-      <PageTitle title="ข้อมูลสุขภาพ : ตรวจโรค" :pages="breadcrumb" />
+      <PageTitle title="ข้อมูลสุขภาพ : ถ่ายพยาธิ" :pages="breadcrumb" />
       <div class="card mb-5">
         <div v-if="!loader" class="grid">
           <div class="col-12">
             <h1 class="text-xl mb-4 text-500">
-              เครื่องมือช่วยค้นหาข้อมูลสุขภาพ : ตรวจโรค
+              เครื่องมือช่วยค้นหาข้อมูลสุขภาพ : ถ่ายพยาธิ
             </h1>
           </div>
           <!--  -->
@@ -173,6 +173,7 @@
               >
               </Dropdown>
             </div>
+           
 
             <div class="col-6 sm:col-6 lg:col-6">
               <label
@@ -192,6 +193,7 @@
                 display="chip"
               />
             </div>
+
           </div>
         </div>
         <!--  -->
@@ -225,12 +227,12 @@
           <div class="grid flex align-items-center mb-5">
             <div class="col-12 md:col-6">
               <h1 class="text-2xl mb-0 text-600">
-                รายการข้อมูลสุขภาพ : ตรวจโรค
+                รายการข้อมูลสุขภาพ : ถ่ายพยาธิ
               </h1>
             </div>
             <div class="col-12 md:col-6 md:text-right">
               <Button
-                label="เพิ่มข้อมูลตรวจโรค"
+                label="เพิ่มข้อมูลถ่ายพยาธิ"
                 icon="pi pi-plus"
                 class="w-full md:w-auto"
                 @click="add"
@@ -269,11 +271,11 @@
               <Column header="จัดการ" style="width: 200px">
                 <template #body="slotProps">
                   <SplitButton
-                    @click="edit(slotProps.data.DiseaseActivityID)"
+                    @click="edit(slotProps.data.DewormActivityID)"
                     label="แก้ไข"
                     icon="pi pi-pencil"
                     class="p-button-sm p-button-outlined p-button-warning"
-                    :model="getItems(slotProps.data.DiseaseActivityID)"
+                    :model="getItems(slotProps.data.DewormActivityID)"
                   >
                   </SplitButton>
                 </template>
@@ -333,7 +335,7 @@ export default {
   data() {
     return {
       url: {
-        Disease: "/disease-activity",
+        Deworm: "/deworm-activity",
         Farm: "/farm",
         ExportFarm: "/farm/export-excel?isActive=1",
         AIZone: "/ai-zone/selection?isActive=1",
@@ -348,8 +350,8 @@ export default {
       urlFarm: "/farm/selection?includeAll=false",
       urlProvince: "/province/selection?includeAll=false",
       json_data: [],
-      id: "DiseaseActivityID",
-      name: "ข้อมูลสุขภาพ : ตรวจโรค",
+      id: "DewormActivityID",
+      name: "ข้อมูลสุขภาพ : ถ่ายพยาธิ",
       columns: [
         // {
         //   field: "show_id",
@@ -357,32 +359,28 @@ export default {
         // },
 
         {
-          field: "ThaiDiseaseActivityDate",
-          header: "วันที่ตรวจ",
+          field: "ThaiDewormActivityDate",
+          header: "วันที่ถ่ายพยาธิ",
         },
         {
-          field: "DiseaseName",
-          header: "โรคที่ตรวจ",
+          field: "DewormMedicineName",
+          header: "ชื่อยาถ่ายพยาธิ",
         },
         {
-          field: "OrganizationName",
-          header: "หน่วยงานที่ตรวจ",
-        },
-        // {
-        //   field: "DiseaseResultName",
-        //   header: "ผลการตรวจ",
-        // },
-        {
-          field: "ThaiDiseaseNextDate",
-          header: "วันที่ตรวจครั้งต่อไป",
+          field: "Organization.OrganizationName",
+          header: "หน่วยงานที่ฉีด",
         },
         {
-          field: "CountAnimal",
-          header: "จำนวนสัตว์ที่ตรวจ",
+          field: "ThaiDewormNextDate",
+          header: "วันที่ถ่ายพยาธิครั้งต่อไป",
+        },
+        {
+          field: "Animal.length",
+          header: "จำนวนสัตว์ถ่ายพยาธิ",
         },
         {
           field: "ResponsibilityStaffName",
-          header: "เจ้าหน้าที่ตรวจโรค",
+          header: "เจ้าหน้าที่ผู้รับผิดชอบ",
         },
       ],
       dropdown: {
@@ -470,7 +468,7 @@ export default {
       animal_id: "animal_id",
     }),
     set_farm() {
-      return store.state.SetFarmDiagnose;
+      return store.state.SetFarmDeworm;
     },
   },
   mounted() {
@@ -634,7 +632,7 @@ export default {
       }
     },
     "search.FarmID"() {
-      this.fetchDiagnose();
+      this.fetchDeworm();
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -674,20 +672,9 @@ export default {
         return;
       }
 
-      let getID = this.data.find((item) => item.DiseaseActivityID == id);
-      //   router.push({
-      //     path: `/activity/diagnose/edit/${getID.DiseaseActivityID}/`,
-      //   });
-
-      //   router.push({ name: "add-diagnose", params: { id, farm } });
-
-      store.dispatch("FarmDiagnose", {
-        id: this.search.FarmID,
-      });
-
-      router.push({
-        name: "edit-diagnose",
-        params: { id: getID.DiseaseActivityID },
+      let getID = this.data.find((item) => item.DewormActivityID == id);
+      await router.push({
+        path: `/activity/deworm/edit/${getID.DewormActivityID}`,
       });
     },
     project_check(id) {
@@ -732,9 +719,9 @@ export default {
     sort($event) {
       if ($event.sortField !== "show_id") {
         if ($event.sortOrder == 1) {
-          this.sortOrder = "desc";
-        } else {
           this.sortOrder = "asc";
+        } else {
+          this.sortOrder = "desc";
         }
         this.sortField = $event.sortField;
         this.load();
@@ -962,6 +949,7 @@ export default {
           this.isLoading = false;
         });
     },
+   
 
     fetchFarm() {
       this.isLoading = true;
@@ -1029,6 +1017,7 @@ export default {
         params["FarmID"] = this.search.FarmID;
       }
 
+
       //
       axios
         .get(this.urlFarm, {
@@ -1043,13 +1032,13 @@ export default {
         });
     },
 
-    fetchDiagnose() {
+    fetchDeworm() {
       this.isLoading = true;
 
       let params = {
         size: this.rowPerPage,
         page: this.currentPage,
-        orderByField: "DiseaseActivityID",
+        orderByField: "FarmID",
         orderBy: "desc",
         // includeAll: false,
       };
@@ -1061,14 +1050,15 @@ export default {
       }
 
       axios
-        .get(this.url.Disease, {
+        .get(this.url.Deworm, {
           signal: this.controller.signal,
           params: params,
         })
         .then((res) => {
           this.data = res.data.rows.sort(
             (a, b) =>
-              new Date(b.DiseaseActivityDate) - new Date(a.DiseaseActivityDate)
+              new Date(b.ThaiDewormActivityDate) -
+              new Date(a.ThaiDewormActivityDate)
           );
           this.totalPage = res.data.totalPage;
           this.totalItems = res.data.totalData;
@@ -1078,7 +1068,7 @@ export default {
           this.isLoading = false;
         });
 
-      store.dispatch("FarmDiagnose", {
+      store.dispatch("FarmDeworm", {
         id: this.search.FarmID,
       });
     },
@@ -1087,7 +1077,7 @@ export default {
         this.currentPage = event.page + 1;
       }
 
-      this.fetchDiagnose();
+      this.fetchDeworm();
     },
     add() {
       if (this.permit[0].IsAdd == 0) {
@@ -1106,7 +1096,7 @@ export default {
 
         const farm = item.FarmIdentificationNumber;
 
-        router.push({ name: "add-diagnose", params: { id, farm } });
+        router.push({ name: "dewormadd", params: { id, farm } });
       }
     },
 
@@ -1128,7 +1118,7 @@ export default {
     },
     // remove data
     remove() {
-      axios.delete("disease-activity/" + this.data.id).then(() => {
+      axios.delete("deworm-activity/" + this.data.id).then(() => {
         this.close_delete();
         this.load();
         this.$toast.add({

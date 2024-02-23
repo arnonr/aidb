@@ -672,12 +672,12 @@ const routes = [
               {
                 path: "",
                 name: "all-treatment",
-                component: () => import("./pages/treatment/AllDiagnose.vue"),
+                component: () => import("./pages/treatment/AllTreatment.vue"),
               },
               {
                 path: "add/:id/:farm",
                 name: "add-treatment",
-                component: () => import("./pages/treatment/AddDiagnose.vue"),
+                component: () => import("./pages/treatment/TreatmentAdd.vue"),
               },
             ],
           },
@@ -698,22 +698,22 @@ const routes = [
               {
                 path: "",
                 name: "all-deworm",
-                component: () => import("./pages/deworm/AllDeworm.vue"),
+                component: () => import("./pages/deworm/Deworm.vue"),
               },
               {
                 path: "view/:id",
                 name: "view-deworm",
-                component: () => import("./pages/deworm/ViewDeworm.vue"),
+                component: () => import("./pages/deworm/DewormView.vue"),
               },
               {
                 path: "add/:id/:farm",
-                name: "add-deworm",
-                component: () => import("./pages/deworm/AddDeworm.vue"),
+                name: "dewormadd",
+                component: () => import("./pages/deworm/DewormAdd.vue"),
               },
               {
                 path: "edit/:id",
-                name: "edit-deworm",
-                component: () => import("./pages/deworm/EditDeworm.vue"),
+                name: "dewormedit",
+                component: () => import("./pages/deworm/DewormEdit.vue"),
               },
             ],
           },

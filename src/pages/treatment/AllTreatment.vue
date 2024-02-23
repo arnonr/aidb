@@ -1,12 +1,12 @@
 <template>
   <div class="grid">
     <div class="col-12">
-      <PageTitle title="ข้อมูลสุขภาพ : ตรวจโรค" :pages="breadcrumb" />
+      <PageTitle title="ข้อมูลสุขภาพ : การรักษา" :pages="breadcrumb" />
       <div class="card mb-5">
         <div v-if="!loader" class="grid">
           <div class="col-12">
             <h1 class="text-xl mb-4 text-500">
-              เครื่องมือช่วยค้นหาข้อมูลสุขภาพ : ตรวจโรค
+              เครื่องมือช่วยค้นหาข้อมูลสุขภาพ : การรักษา
             </h1>
           </div>
           <!--  -->
@@ -225,14 +225,15 @@
           <div class="grid flex align-items-center mb-5">
             <div class="col-12 md:col-6">
               <h1 class="text-2xl mb-0 text-600">
-                รายการข้อมูลสุขภาพ : ตรวจโรค
+                รายการข้อมูลสุขภาพ : การรักษา
               </h1>
             </div>
             <div class="col-12 md:col-6 md:text-right">
               <Button
-                label="เพิ่มข้อมูลตรวจโรค"
+                label="เพิ่มข้อมูลการรักษา"
                 icon="pi pi-plus"
                 class="w-full md:w-auto"
+                v-if="search.FarmID"
                 @click="add"
               />
             </div>
@@ -269,11 +270,11 @@
               <Column header="จัดการ" style="width: 200px">
                 <template #body="slotProps">
                   <SplitButton
-                    @click="edit(slotProps.data.DiseaseActivityID)"
+                    @click="edit(slotProps.data.CureActivityID)"
                     label="แก้ไข"
                     icon="pi pi-pencil"
                     class="p-button-sm p-button-outlined p-button-warning"
-                    :model="getItems(slotProps.data.DiseaseActivityID)"
+                    :model="getItems(slotProps.data.CureActivityID)"
                   >
                   </SplitButton>
                 </template>
@@ -325,6 +326,8 @@ import PageTitle from "@/components/PageTitle.vue";
 import router from "@/router";
 import { mapGetters } from "vuex";
 import store from "@/service/Vuex";
+// import { format } from "date-fns";
+// import { th } from "date-fns/locale";
 
 export default {
   components: {
@@ -333,7 +336,7 @@ export default {
   data() {
     return {
       url: {
-        Disease: "/disease-activity",
+        Cure: "/cure-activity",
         Farm: "/farm",
         ExportFarm: "/farm/export-excel?isActive=1",
         AIZone: "/ai-zone/selection?isActive=1",
@@ -347,42 +350,39 @@ export default {
       },
       urlFarm: "/farm/selection?includeAll=false",
       urlProvince: "/province/selection?includeAll=false",
+      urlDisease: "/disease",
+      urlCureMethod: "/cure-method",
       json_data: [],
-      id: "DiseaseActivityID",
-      name: "ข้อมูลสุขภาพ : ตรวจโรค",
+      id: "CureActivityID",
+      name: "ข้อมูลสุขภาพ : การรักษา",
       columns: [
-        // {
-        //   field: "show_id",
-        //   header: "ลำดับ",
-        // },
-
         {
-          field: "ThaiDiseaseActivityDate",
-          header: "วันที่ตรวจ",
+          field: "Animal.AnimalEarID",
+          header: "หมายเลขสัตว์",
+        },
+        {
+          field: "Animal.AnimalName",
+          header: "ชื่อสัตว์",
+        },
+        {
+          field: "ThaiCureActivityDate",
+          header: "วันที่รักษา",
         },
         {
           field: "DiseaseName",
-          header: "โรคที่ตรวจ",
+          header: "โรคที่รักษา",
         },
         {
-          field: "OrganizationName",
-          header: "หน่วยงานที่ตรวจ",
-        },
-        // {
-        //   field: "DiseaseResultName",
-        //   header: "ผลการตรวจ",
-        // },
-        {
-          field: "ThaiDiseaseNextDate",
-          header: "วันที่ตรวจครั้งต่อไป",
+          field: "Remark",
+          header: "ผลการรักษา",
         },
         {
-          field: "CountAnimal",
-          header: "จำนวนสัตว์ที่ตรวจ",
+          field: "ThaiCureNextDate",
+          header: "วันที่ตรวจครั้งถัดไป",
         },
         {
           field: "ResponsibilityStaffName",
-          header: "เจ้าหน้าที่ตรวจโรค",
+          header: "เจ้าหน้าที่",
         },
       ],
       dropdown: {
@@ -470,7 +470,7 @@ export default {
       animal_id: "animal_id",
     }),
     set_farm() {
-      return store.state.SetFarmDiagnose;
+      return store.state.SetFarmCure;
     },
   },
   mounted() {
@@ -521,6 +521,7 @@ export default {
           this.fetchProvince();
           this.fetchOrganization();
           this.fetchFarm();
+          this.fetchCure();
           this.search.AmphurID = null;
           this.search.TumbolID = null;
           this.search.OrganizationID = null;
@@ -552,6 +553,7 @@ export default {
           this.fetchProvince();
           this.fetchOrganization();
           this.fetchFarm();
+          this.fetchCure();
           this.search.AmphurID = null;
           this.search.TumbolID = null;
           this.search.OrganizationID = null;
@@ -564,6 +566,7 @@ export default {
       this.fetchAmphur();
       this.fetchOrganization();
       this.fetchFarm();
+      this.fetchCure();
       this.dropdown.Amphurs = [];
       this.dropdown.Tumbols = [];
 
@@ -583,6 +586,7 @@ export default {
       this.fetchTumbol();
       this.fetchOrganization();
       this.fetchFarm();
+      this.fetchCure();
       this.dropdown.Tumbols = [];
 
       if (this.isLoading == false) {
@@ -599,6 +603,7 @@ export default {
     "search.TumbolID"() {
       this.fetchOrganization();
       this.fetchFarm();
+      this.fetchCure();
 
       if (this.isLoading == false) {
         this.isLoading = true;
@@ -623,6 +628,7 @@ export default {
     },
     "search.OrganizationID"() {
       this.fetchFarm();
+      this.fetchCure();
 
       if (this.isLoading == false) {
         this.isLoading = true;
@@ -634,7 +640,7 @@ export default {
       }
     },
     "search.FarmID"() {
-      this.fetchDiagnose();
+      this.fetchCure();
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -674,20 +680,9 @@ export default {
         return;
       }
 
-      let getID = this.data.find((item) => item.DiseaseActivityID == id);
-      //   router.push({
-      //     path: `/activity/diagnose/edit/${getID.DiseaseActivityID}/`,
-      //   });
-
-      //   router.push({ name: "add-diagnose", params: { id, farm } });
-
-      store.dispatch("FarmDiagnose", {
-        id: this.search.FarmID,
-      });
-
-      router.push({
-        name: "edit-diagnose",
-        params: { id: getID.DiseaseActivityID },
+      let getID = this.data.find((item) => item.CureActivityID == id);
+      await router.push({
+        path: `/activity/cure/edit/${getID.CureActivityID}`,
       });
     },
     project_check(id) {
@@ -732,9 +727,9 @@ export default {
     sort($event) {
       if ($event.sortField !== "show_id") {
         if ($event.sortOrder == 1) {
-          this.sortOrder = "desc";
-        } else {
           this.sortOrder = "asc";
+        } else {
+          this.sortOrder = "desc";
         }
         this.sortField = $event.sortField;
         this.load();
@@ -1043,32 +1038,80 @@ export default {
         });
     },
 
-    fetchDiagnose() {
+    fetchCure() {
       this.isLoading = true;
 
       let params = {
         size: this.rowPerPage,
         page: this.currentPage,
-        orderByField: "DiseaseActivityID",
+        orderByField: "CureActivityID",
         orderBy: "desc",
         // includeAll: false,
       };
 
-      if (this.search.FarmID) {
-        params["FarmID"] = this.search.FarmID;
-      } else {
+      if (
+        this.search.AIZoneID == null &&
+        this.search.OrganizationZoneID == null
+      ) {
+        this.isLoading = false;
         return;
       }
 
+      //
+      // Province IN AIZOne
+      if (this.search.AIZoneID != null) {
+        if (this.search.AIZoneID != 99) {
+          params["AIZoneID"] = this.search.AIZoneID;
+        }
+      }
+      if (this.search.OrganizationZoneID != null) {
+        if (this.search.OrganizationZoneID != 99) {
+          params["OrganizationZoneID"] = this.search.OrganizationZoneID;
+        }
+      }
+      if (this.search.ProvinceID != null) {
+        params["ProvinceID"] = this.search.ProvinceID;
+      }
+      if (this.search.AmphurID != null) {
+        params["AmphurID"] = this.search.AmphurID;
+      }
+      if (this.search.TumbolID != null) {
+        params["TumbolID"] = this.search.TumbolID;
+      }
+      if (this.search.OrganizationID != null) {
+        params["OrganizationID"] = this.search.OrganizationID;
+      }
+
+      if (this.search.ProjectIDArray) {
+        params["ProjectID"] = JSON.stringify(this.search.ProjectIDArray);
+      }
+
+      if (this.animal_id == 1) {
+        params["AnimalTypeID"] = "[1,2,41,42]";
+      } else if (this.animal_id == 2) {
+        params["AnimalTypeID"] = "[3,4,43,44]";
+      } else if (this.animal_id == 3) {
+        params["AnimalTypeID"] = "[17,18,45,46]";
+      }
+      if (this.search.FarmID) {
+        params["FarmID"] = this.search.FarmID;
+      }
+      
+      if (this.search.ProjectIDArray) {
+        params["ProjectID"] = JSON.stringify(this.search.ProjectIDArray);
+      }else{
+        params["ProjectID"] =  undefined
+      }
+
       axios
-        .get(this.url.Disease, {
+        .get(this.url.Cure, {
           signal: this.controller.signal,
           params: params,
         })
         .then((res) => {
           this.data = res.data.rows.sort(
             (a, b) =>
-              new Date(b.DiseaseActivityDate) - new Date(a.DiseaseActivityDate)
+              new Date(b.CureActivityDate) - new Date(a.CureActivityDate)
           );
           this.totalPage = res.data.totalPage;
           this.totalItems = res.data.totalData;
@@ -1078,7 +1121,7 @@ export default {
           this.isLoading = false;
         });
 
-      store.dispatch("FarmDiagnose", {
+      store.dispatch("FarmCure", {
         id: this.search.FarmID,
       });
     },
@@ -1087,7 +1130,7 @@ export default {
         this.currentPage = event.page + 1;
       }
 
-      this.fetchDiagnose();
+      this.fetchCure();
     },
     add() {
       if (this.permit[0].IsAdd == 0) {
@@ -1106,7 +1149,7 @@ export default {
 
         const farm = item.FarmIdentificationNumber;
 
-        router.push({ name: "add-diagnose", params: { id, farm } });
+        router.push({ name: "add-treatment", params: { id, farm } });
       }
     },
 
@@ -1128,7 +1171,7 @@ export default {
     },
     // remove data
     remove() {
-      axios.delete("disease-activity/" + this.data.id).then(() => {
+      axios.delete("cure-activity/" + this.data.id).then(() => {
         this.close_delete();
         this.load();
         this.$toast.add({

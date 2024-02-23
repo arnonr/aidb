@@ -1,77 +1,69 @@
 <template>
   <div class="grid">
     <div class="col-12">
-      <PageTitle title="เพิ่มข้อมูลตรวจโรค" :pages="breadcrumb" />
+      <PageTitle title="เพิ่มข้อมูลฉีดวัคซีน" :pages="breadcrumb" />
       <div class="card">
         <form>
           <div class="mb-5">
-            <h1 class="text-2xl mb-0 text-600">แก้ไขข้อมูลตรวจโรค</h1>
+            <h1 class="text-2xl mb-0 text-600">แก้ไขข้อมูลฉีดวัคซีน</h1>
           </div>
-          <div v-if="loader" class="formgrid grid mb-3">
+          <div v-if="loader" class="formgrid grid">
             <div class="field col-12 sm:col-12">
               <label class="block text-600 text-sm font-bold mb-2">
                 ฟาร์ม<span class="text-red-500"> *</span>
               </label>
               <InputText class="w-full" v-model="form.FullName" disabled />
             </div>
-            <div class="field col-12 sm:col-6">
-              <label
-                for="diseaseexamined"
-                class="block text-600 text-sm font-bold mb-2"
-                >โรคที่ทำการตรวจ<span class="text-red-500"> *</span></label
-              >
+            <div class="field col-12 sm:col-4">
+              <label class="block text-600 text-sm font-bold mb-2">
+                จุดประสงค์การฉีดวัคซีน<span class="text-red-500"> *</span>
+              </label>
               <Dropdown
                 class="w-full"
-                v-model="form.DiseaseID"
-                :options="itemDisease.disease"
-                optionLabel="DiseaseName"
-                optionValue="DiseaseID"
-                :class="{ 'p-invalid': !form.DiseaseID && valid }"
-                :filter="true"
+                :options="itemsVaccine.VaccineObjective"
+                optionLabel="VaccineObjectiveName"
+                optionValue="VaccineObjectiveID"
+                placeholder="เลือกจุดประสงค์"
                 :showClear="true"
-                placeholder="เลือกหรือค้นหาโรคที่ตรวจ"
+                :filter="true"
+                v-model="form.VaccineObjectiveID"
+                :class="{ 'p-invalid': !form.VaccineObjectiveID && valid }"
               />
             </div>
             <div class="field col-12 sm:col-6">
-              <label
-                for="chooseinspection"
-                class="block text-600 text-sm font-bold mb-2"
-                >เลือกวิธีการตรวจ</label
-              >
+              <label class="block text-600 text-sm font-bold mb-2">
+                ชนิดวัคซีน<span class="text-red-500"> *</span>
+              </label>
               <Dropdown
                 class="w-full"
-                v-model="form.DiseaseMethodID"
-                :options="itemDisease.diseasemethod"
-                optionLabel="DiseaseMethodName"
-                optionValue="DiseaseMethodID"
-                :filter="true"
+                v-model="form.VaccineID"
+                :options="itemsVaccine.Vaccine"
+                optionLabel="VaccineName"
+                optionValue="VaccineID"
+                :class="{ 'p-invalid': !form.VaccineID && valid }"
                 :showClear="true"
-                placeholder="เลือกหรือค้นหาวิธีการตรวจ"
-              >
-              </Dropdown>
+                placeholder="เลือกชนิด"
+              />
             </div>
-
-            <div class="field col-12 sm:col-6">
-              <label for="other" class="block text-600 text-sm font-bold mb-2"
-                >วิธีอื่น ๆ</label
-              >
+            <div class="field col-12 sm:col-2">
+              <label class="block text-600 text-sm font-bold mb-2">
+                LOT<span class="text-red-500"> *</span>
+              </label>
               <InputText
-                type="text"
-                v-model="form.DiseaseMethodOther"
                 class="w-full"
-                placeholder="วิธีอื่น ๆ"
+                type="text"
+                v-model="form.Lot"
+                placeholder=""
+                :class="{ 'p-invalid': !form.Lot && valid }"
               />
             </div>
-            <!-- <div class="field col-12 sm:col-6" /> -->
-
-            <div class="field col-12 sm:col-6">
-              <label for="date" class="block text-600 text-sm font-bold mb-2"
-                >วันที่ตรวจ<span class="text-red-500"> *</span></label
-              >
-
+            <div class="field col-12 sm:col-4">
+              <label class="block text-600 text-sm font-bold mb-2">
+                วันที่ฉีด<span class="text-red-500"> *</span>
+              </label>
               <Datepicker
-                v-model="form.DiseaseActivityDate"
-                :class="{ 'p-invalid': !form.DiseaseActivityDate && valid }"
+                v-model="form.VaccineActivityDate"
+                :class="{ 'p-invalid': !form.VaccineActivityDate && valid }"
                 id="dateRange"
                 locale="th"
                 :format="format"
@@ -80,7 +72,7 @@
                 :maxDate="new Date()"
                 cancelText="ยกเลิก"
                 selectText="ยืนยัน"
-                placeholder="เลือกวันที่"
+                placeholder="วันที่บันทึก"
               >
                 <template #year-overlay-value="{ text }">
                   {{ parseInt(text) + 543 }}
@@ -93,30 +85,35 @@
 
             <div class="field col-12 sm:col-4">
               <label class="block text-600 text-sm font-bold mb-2">
-                ระยะห่างการตรวจครั้งต่อไป
+                ระยะห่างการฉีดครั้งต่อไป
               </label>
               <Dropdown
                 class="w-full"
-                v-model="form.DiseaseNextMonth"
-                :options="DiseaseNextMonth"
+                v-model="form.VaccineNextMonth"
+                :options="VaccineNextMonth"
                 optionLabel="label"
                 optionValue="id"
                 :class="{ 'p-invalid': valid }"
                 :showClear="true"
-                placeholder="ระยะห่างการตรวจครั้งต่อไป"
+                placeholder="ระยะห่างการฉีดครั้งต่อไป"
               />
             </div>
 
             <div class="field col-12 sm:col-4">
-              <label
-                for="nexttime"
-                class="block text-600 text-sm font-bold mb-2"
-                >วันที่ตรวจครั้งถัดไป<span class="text-red-500"> *</span></label
-              >
+              <label class="block text-600 text-sm font-bold mb-2">
+                วันที่การฉีดครั้งต่อไป<span class="text-red-500"> *</span>
+              </label>
+              <!-- <Calendar
+                  class="w-full"
+                  v-model="form.VaccineNextDate"
+                  dateFormat="dd/mm/yy"
+                  :manualInput="false"
+                  :class="{ 'p-invalid': !form.VaccineNextDate && valid }"
+                /> -->
 
               <Datepicker
-                v-model="form.DiseaseNextDate"
-                :class="{ 'p-invalid': !form.DiseaseNextDate && valid }"
+                v-model="form.VaccineNextDate"
+                :class="{ 'p-invalid': !form.VaccineNextDate && valid }"
                 id="dateRange"
                 locale="th"
                 :format="format"
@@ -124,7 +121,7 @@
                 :enableTimePicker="false"
                 cancelText="ยกเลิก"
                 selectText="ยืนยัน"
-                placeholder="เลือกวันที่"
+                placeholder="วันที่บันทึก"
               >
                 <template #year-overlay-value="{ text }">
                   {{ parseInt(text) + 543 }}
@@ -135,21 +132,18 @@
               </Datepicker>
             </div>
 
-            <div class="field col-12 sm:col-4">
-              <label
-                for="codeofficer"
-                class="block text-600 text-sm font-bold mb-2"
-                >รหัสเจ้าหน้าที่รับผิดชอบ<span class="text-red-500">
-                  *</span
-                ></label
-              >
+            <div class="field col-12 sm:col-6">
+              <label class="block text-600 text-sm font-bold mb-2">
+                รหัสเจ้าหน้าที่รับผิดชอบ<span class="text-red-500"> *</span>
+              </label>
+
               <Dropdown
                 class="w-full"
                 :options="personal"
                 optionLabel="StaffFullName"
                 optionValue="StaffID"
                 placeholder="เลือกเจ้าหน้าที่ผู้รับผิดชอบ"
-                showClear="true"
+                :showClear="true"
                 :filter="true"
                 v-model="form.ResponsibilityStaffID"
                 :class="{
@@ -157,13 +151,10 @@
                 }"
               />
             </div>
-
             <div class="field col-12 sm:col-6">
-              <label
-                for="inspectionagency"
-                class="block text-600 text-sm font-bold mb-2"
-                >หน่วยงานที่ตรวจ</label
-              >
+              <label class="block text-600 text-sm font-bold mb-2">
+                หน่วยงานที่ตรวจ<span class="text-red-500"> *</span>
+              </label>
               <Dropdown
                 class="w-full"
                 v-model="form.OrganizationID"
@@ -175,13 +166,14 @@
                 placeholder="เลือกหน่วยงาน"
               />
             </div>
-            <!-- <div class="field col-12 sm:col-6">
-            <label class="block text-600 text-sm font-bold mb-2">
-              หมายเหตุ
-            </label>
-            <InputText class="w-full" type="text" v-model="form.Remark" />
-          </div> -->
+            <div class="field col-12 sm:col-6">
+              <label class="block text-600 text-sm font-bold mb-2">
+                หมายเหตุ
+              </label>
+              <InputText class="w-full" type="text" v-model="form.Remark" />
+            </div>
           </div>
+
           <div v-else class="grid">
             <div class="col-12">
               <Skeleton width="20rem" height="2rem" class="mb-4"></Skeleton>
@@ -239,7 +231,7 @@
               </div>
             </div>
           </div>
-          <div v-if="form.FarmID" class="mt-5">
+          <div class="mt-5">
             <DataTable
               class="text-sm"
               :value="data"
@@ -261,32 +253,6 @@
                 :sortable="true"
               >
               </Column>
-
-              <Column
-                field="AnimalID"
-                header="ผลการตรวจ"
-                class="text-center"
-                :sortable="true"
-              >
-                <template #body="slotProps">
-                  <div>
-                    <Dropdown
-                      v-model="slotProps.data.DiseaseResultID"
-                      :options="itemDisease.diseaseresult"
-                      optionLabel="DiseaseResultName"
-                      optionValue="DiseaseResultID"
-                      class="w-full"
-                      :class="{ 'p-invalid': !form.DiseaseResultID && valid }"
-                      :showClear="true"
-                      :disabled="!form.AnimalID?.includes(slotProps.data.AnimalID)"
-                      placeholder="ผลการตรวจ"
-                      @change="selected($event, slotProps.data.AnimalID)"
-                      id="test"
-                    >
-                    </Dropdown>
-                  </div>
-                </template>
-              </Column>
             </DataTable>
             <Paginator
               @page="page($event)"
@@ -294,7 +260,7 @@
               :totalRecords="total"
             ></Paginator>
             <div class="col-12 text-center mt-5">
-              <router-link to="/activity/disease">
+              <router-link to="/activity/vaccine">
                 <Button
                   label="ยกเลิก"
                   icon="pi pi-times"
@@ -337,17 +303,15 @@ export default {
       key: this.$route.params.id,
       url: "/animal?FarmID=",
       apiPersonal: "/staff/selection?includeAll=false",
-      putDiseaseActivity: "/disease-activity/" + this.$route.params.id,
-      DiseaseActivity: "/disease-activity",
+      postVaccineActivity: "/vaccine-activity",
       urlOrganization: "/organization/selection?includeAll=false",
-      urlDisease: "/disease",
-      urlDiseaseMethod: "/disease-method",
-      DiseaseNextMonth: [
+      VaccineNextMonth: [
         { label: "1 เดือน", id: 1 },
         { label: "2 เดือน", id: 2 },
         { label: "3 เดือน", id: 3 },
         { label: "6 เดือน", id: 6 },
       ],
+
       id: "AnimalID",
       columns: [
         {
@@ -374,10 +338,6 @@ export default {
           field: "AnimalStatus.AnimalStatusName",
           header: "สถานะ",
         },
-        {
-          field: "AnimalFarm.FarmName",
-          header: "สัตว์อยู่ที่ฟาร์ม...",
-        },
       ],
       isLoading: false,
       loader: false,
@@ -386,7 +346,6 @@ export default {
       selection: false,
       loading: false,
       valid: false,
-      organization: [],
 
       form: {
         isActive: 1,
@@ -394,14 +353,14 @@ export default {
         AnimalID: [],
         FarmID: null,
         FarmIdentificationNumber: null,
-        DiseaseNextMonth: [],
+        VaccineNextMonth: [],
       },
-      itemDisease: [],
+      itemsVaccine: [],
+
       data: [],
       Farm: [],
-      Lastactivity: null,
       breadcrumb: [
-        { label: "ข้อมูลสุขภาพ : ตรวจโรค", to: "/activity/disease" },
+        { label: "ข้อมูลสุขภาพ : ฉีดวัคซีน", to: "/activity/vaccine" },
         { label: "", to: "" },
       ],
 
@@ -413,44 +372,39 @@ export default {
     "form.Animal"() {
       let val = [];
       let res = [];
+      
       val = this.form.Animal;
-
-      if (this.form.Animal != undefined && this.form.Animal.length > 0) {
-        for (let index = 0; index < val.length; index++) {
-          res[index] = val[index].AnimalID;
-        }
-        this.form.AnimalID = res;
-
-        return this.form.AnimalID;
-      } else {
-        return;
+      for (let index = 0; index < val.length; index++) {
+        res[index] = val[index].AnimalID;
       }
+      this.form.AnimalID = res;
+
+      return this.form.AnimalID;
     },
 
-    "form.DiseaseNextMonth"() {
-      if (this.form.DiseaseNextMonth == 1) {
-        this.form.DiseaseNextDate = dayjs(this.form.DiseaseActivityDate)
+    "form.VaccineNextMonth"() {
+      if (this.form.VaccineNextMonth == 1) {
+        this.form.VaccineNextDate = dayjs(this.form.VaccineActivityDate)
           .add(1, "month")
           .format("YYYY-MM-DD");
-      } else if (this.form.DiseaseNextMonth == 2) {
-        this.form.DiseaseNextDate = dayjs(this.form.DiseaseActivityDate)
+      } else if (this.form.VaccineNextMonth == 2) {
+        this.form.VaccineNextDate = dayjs(this.form.VaccineActivityDate)
           .add(2, "month")
           .format("YYYY-MM-DD");
-      } else if (this.form.DiseaseNextMonth == 3) {
-        this.form.DiseaseNextDate = dayjs(this.form.DiseaseActivityDate)
+      } else if (this.form.VaccineNextMonth == 3) {
+        this.form.VaccineNextDate = dayjs(this.form.VaccineActivityDate)
           .add(3, "month")
           .format("YYYY-MM-DD");
-      } else if (this.form.DiseaseNextMonth == 6) {
-        this.form.DiseaseNextDate = dayjs(this.form.DiseaseActivityDate)
+      } else if (this.form.VaccineNextMonth == 6) {
+        this.form.VaccineNextDate = dayjs(this.form.VaccineActivityDate)
           .add(6, "month")
           .format("YYYY-MM-DD");
       } else {
-        console.log("ERROR");
+        console.log("ERROR1");
       }
     },
   },
   async mounted() {
-    this.fetchDiseaseActivity();
     await axios
       .get("/staff/selection?includeAll=false", {
         signal: this.controller.signal,
@@ -468,21 +422,21 @@ export default {
         this.loader = true;
       });
 
-    this.breadcrumb[1].label = this.name;
+    this.fetchVaccineActivity();
 
-    console.log(this.form)
-    console.log("FREEDOM")
-    // this.form.ResponsibilityStaffID = this.user.StaffID;
-    // this.form.OrganizationID = this.user.Staff.StaffOrganizationID;
+    this.breadcrumb[1].label = this.name;
+    this.form.ResponsibilityStaffID = this.user.StaffID;
+    this.form.OrganizationID = this.user.Staff.StaffOrganizationID;
   },
   methods: {
-    fetchDiseaseActivity() {
+    fetchVaccineActivity() {
       axios
-        .get(this.DiseaseActivity, {
+        .get(this.postVaccineActivity, {
           signal: this.controller.signal,
-          params: { DiseaseActivityID: this.$route.params.id },
+          params: { VaccineActivityID: this.$route.params.id },
         })
         .then((response) => {
+          console.log(response);
           this.form = response.data.rows[0];
           this.load();
         });
@@ -516,28 +470,33 @@ export default {
       this.load();
     },
     async load() {
-      let url = this.url;
-      if (this.form.FarmID) {
-        url += this.form.FarmID;
-      } else {
-        return;
-      }
-
       this.isLoading = true;
-      url += "&size=15";
+      let url = this.url + "&size=15";
       url += "&page=";
       if (this.curpage) {
         url += this.curpage;
       }
-
-      if (this.animal_id == 1) {
-        url += "&AnimalTypeID=" + "[1,2,41,42]";
-      } else if (this.animal_id == 2) {
-        url += "&AnimalTypeID=" + "[3,4,43,44]";
-      } else if (this.animal_id == 3) {
-        url += "&AnimalTypeID=" + "[17,18,45,46]";
+      if (this.form.FarmID) {
+        url += "&FarmID=" + this.form.FarmID;
       }
+      if (this.animal_id == 1) {
+        url += "&AnimalTypeID=" + "[1, 2, 41, 42]";
+        // this.data = response.data.rows.filter(
+        //   (item) => item.AnimalTypeID === 1 || item.AnimalTypeID === 2
+        // );
+      } else if (this.animal_id == 2) {
+        url += "&AnimalTypeID=" + "[3, 4, 43, 44]";
 
+        // this.data = response.data.rows.filter(
+        //   (item) => item.AnimalTypeID === 3 || item.AnimalTypeID === 4
+        // );
+      } else if (this.animal_id == 3) {
+        url += "&AnimalTypeID=" + "[17, 18, 45, 46]";
+
+        // this.data = response.data.rows.filter(
+        //   (item) => item.AnimalTypeID === 17 || item.AnimalTypeID === 18
+        // );
+      }
       axios
         .get(url, { signal: this.controller.signal })
         .then((response) => {
@@ -546,7 +505,6 @@ export default {
 
           if (this.curpage == 0 || this.curpage == 1) {
             for (let i = 0; i < this.data.length; i++) {
-              this.data[i].DiseaseResultID = 1;
               this.data[i].show_id = i + 1;
               if (this.data[i].AnimalBirthDate != null) {
                 // หาจำนวนเดือน
@@ -580,65 +538,25 @@ export default {
             }
           }
         })
-        .finally(async () => {
-          await axios
-            .get("/disease-activity-animal?DiseaseActivityID=" + this.key, {
-              signal: this.controller.signal,
-            })
-            .then((response) => {
-              this.form.Animal = response.data.rows.map((item) => {
-                let animal = item.Animal;
-                animal["DiseaseResultID"] = item.DiseaseResultID;
-                return animal;
-              });
-
-              this.data = this.data.map((x) => {
-                let check = this.form.Animal.find((e) => {
-                  return e.AnimalID == x.AnimalID;
-                });
-
-                if (check) {
-                  x["DiseaseResultID"] = check.DiseaseResultID;
-                }
-
-                return x;
-              });
-            })
-            .finally(() => {
-              this.isLoading = false;
-            });
+        .finally(() => {
           this.isLoading = false;
         });
 
       axios
-        .get(this.urlDisease, {
-          signal: this.controller.signal,
-        })
+        .get("/vaccine-objective", { signal: this.controller.signal })
         .then((res) => {
-          this.itemDisease.disease = res.data.rows;
+          this.itemsVaccine.VaccineObjective = res.data.rows;
         })
         .finally(() => {
-          this.isLoading = false;
+          this.loader = true;
         });
       axios
-        .get(this.urlDiseaseMethod, {
-          signal: this.controller.signal,
-        })
+        .get("/vaccine", { signal: this.controller.signal })
         .then((res) => {
-          this.itemDisease.diseasemethod = res.data.rows;
+          this.itemsVaccine.Vaccine = res.data.rows;
         })
         .finally(() => {
-          this.isLoading = false;
-        });
-      axios
-        .get("/disease-result", {
-          signal: this.controller.signal,
-        })
-        .then((res) => {
-          this.itemDisease.diseaseresult = res.data.rows;
-        })
-        .finally(() => {
-          this.isLoading = false;
+          this.loader = true;
         });
       await axios
         .get(this.urlOrganization, {
@@ -650,7 +568,6 @@ export default {
         .finally(() => {
           this.loader = true;
         });
-
       await axios
         .get("/farm/" + this.form.FarmID, { signal: this.controller.signal })
         .then((res) => {
@@ -665,12 +582,13 @@ export default {
             ? item.OrganizationZone.OrganizationZoneName
             : "- ";
           this.form.FarmOwner = item.Farmer ? item.Farmer.FullName : "- ";
+          // console.log(this.form.FarmOrganizationZone);
 
           this.form.FullName =
             "ฟาร์ม " +
             this.form.FarmName +
             " (" +
-            this.form.FarmIdentificationNumber +
+            this.$route.params.farm +
             ")" +
             " | เจ้าของฟาร์ม " +
             this.form.FarmOwner +
@@ -686,10 +604,13 @@ export default {
     },
     validation() {
       if (
-        !this.form.DiseaseID ||
-        !this.form.DiseaseActivityDate ||
-        !this.form.DiseaseNextDate ||
+        !this.form.VaccineID ||
+        !this.form.VaccineObjectiveID ||
+        !this.form.Lot ||
+        !this.form.VaccineActivityDate ||
+        !this.form.VaccineNextDate ||
         !this.form.ResponsibilityStaffID ||
+        !this.form.OrganizationID ||
         !this.form.AnimalID
       ) {
         this.valid = true;
@@ -708,43 +629,32 @@ export default {
       if (this.validation() == false) {
         return;
       }
+      // this.form.VaccineActivityDate = new Date(
+      //   this.form.VaccineActivityDate
+      // ).toLocaleDateString();
+      // this.form.VaccineNextDate = new Date(
+      //   this.form.VaccineNextDate
+      // ).toLocaleDateString();
+
       axios
-        .put(this.putDiseaseActivity, this.form, {
-          signal: this.controller.signal,
-        })
-        .then(async () => {
-          await axios.delete(`/disease-activity-animal/delete-with-disease-activity/${this.form.DiseaseActivityID}`);
-
-          for (let i = 0; i < this.form.AnimalID.length; i++) {
-            let DiseaseResultID = this.form.Animal.find((x) => {
-              return x.AnimalID == this.form.AnimalID[i];
-            });
-
-            await axios
-              .post("/disease-activity-animal", {
-                DiseaseActivityID: this.form.DiseaseActivityID,
-                AnimalID: this.form.AnimalID[i],
-                DiseaseResultID: DiseaseResultID.DiseaseResultID,
-                Remark: this.form.DiseaseMethodOther,
-                isActive: 1,
-              })
-              .then(() => {})
-
-              .finally(() => {
-                this.isLoading = false;
-              });
+        .put(
+          this.postVaccineActivity + "/" + this.$route.params.id,
+          this.form,
+          {
+            signal: this.controller.signal,
           }
-
-          //   this.load();
+        )
+        .then(() => {
+          this.load();
           this.$toast.add({
             severity: "success",
             summary: "สำเร็จ",
-            detail: "ข้อมูลตรวจโรคถูกบันทึก",
+            detail: "ข้อมูลวัคซีนถูกบันทึก",
             life: 2000,
           });
           setTimeout(() => {
-            this.$router.push("/activity/diagnose");
-          }, 3000);
+            this.$router.push("/activity/vaccine");
+          }, 2000);
         })
         .catch((err) => {
           this.$toast.add({
@@ -758,13 +668,17 @@ export default {
           this.isLoading = false;
         });
     },
-    selected($event, id) {
-      let item = this.form.Animal.find((x) => {
-        return x.AnimalID == id;
-      });
+    // onLazyLoad() {
+    //   this.loading = true;
 
-      item["DiseaseResultID"] = $event.value;
-    },
+    //   if (this.loadLazyTimeout) {
+    //     clearTimeout(this.loadLazyTimeout);
+    //   }
+
+    //   this.loadLazyTimeout = setTimeout(() => {
+    //     this.loading = false;
+    //   }, Math.random() * 1000 + 250);
+    // },
   },
   unmounted() {
     this.controller.abort();

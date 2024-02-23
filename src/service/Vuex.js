@@ -39,6 +39,7 @@ export default createStore({
     itemtab: {},
     SetFarmDiagnose: null,
     SetFarmVaccine: null,
+    SetFarmCure: null,
     SetFarmDeworm: null,
     Alert_AnimalID: null,
     SetFarmDistribution: null,
@@ -107,6 +108,9 @@ export default createStore({
     },
     FarmVaccine(state) {
       return state.SetFarmVaccine;
+    },
+    FarmCure(state) {
+      return state.SetFarmCure;
     },
     FarmDeworm(state) {
       return state.SetFarmDeworm;
@@ -182,6 +186,9 @@ export default createStore({
     },
     set_farm_vaccine(state, item) {
       state.SetFarmVaccine = item;
+    },
+    set_farm_cure(state, item) {
+      state.SetFarmCure = item;
     },
     set_farm_deworm(state, item) {
       state.SetFarmDeworm = item;
@@ -413,6 +420,9 @@ export default createStore({
     },
     FarmVaccine({ commit }, category) {
       commit("set_farm_vaccine", category);
+    },
+    FarmCure({ commit }, category) {
+      commit("set_farm_cure", category);
     },
     FarmDeworm({ commit }, category) {
       commit("set_farm_deworm", category);

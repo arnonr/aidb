@@ -2596,9 +2596,7 @@ export default {
       if (this.search.OrganizationID != null) {
         params["OrganizationID"] = this.search.OrganizationID;
       }
-      if (this.search.OrganizationID != null) {
-        params["OrganizationID"] = this.search.OrganizationID;
-      }
+      
       if (this.search.ProjectIDArray) {
         params["ProjectID"] = JSON.stringify(this.search.ProjectIDArray);
       }

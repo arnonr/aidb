@@ -679,6 +679,11 @@ const routes = [
                 name: "add-treatment",
                 component: () => import("./pages/treatment/TreatmentAdd.vue"),
               },
+              {
+                path: "edit/:id",
+                name: "edit-treatment",
+                component: () => import("./pages/treatment/TreatmentEdit.vue"),
+              },
             ],
           },
           //  ถ่ายพยาธิ

@@ -68,8 +68,8 @@
                 placeholder="เลือกสัตว์"
                 :showClear="true"
                 :filter="true"
-                v-model="form.AnimalID"
-                :class="{ 'p-invalid': !form.AnimalID && valid }"
+                v-model="form.AnimalChoose"
+                :class="{ 'p-invalid': !form.AnimalChoose && valid }"
               />
             </div>
             <!-- <div class="field col-12 sm:col-6">
@@ -230,34 +230,53 @@
               />
             </div>
 
-
             <div class="field col-12 sm:col-12">
               <label class="block text-600 text-sm font-bold mb-2">
-                หมายเหตุ
+                ผลการรักษา
               </label>
               <InputText class="w-full" type="text" v-model="form.Remark" />
             </div>
-            <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2">
-                ยาที่ใช้รักษา<span class="text-red-500"> *</span>
-              </label>
-              <Dropdown
-                class="w-full"
-                :options="itemsCureAntibiotic.CureAntibiotic"
-                optionLabel="CureAntibioticName"
-                optionValue="CureAntibioticID"
-                placeholder="เลือกยาที่ใช้รักษา"
-                :showClear="true"
-                :filter="true"
-                v-model="form.CureAntibioticID"
-                :class="{ 'p-invalid': !form.CureAntibioticID && valid }"
+
+            <div
+              class="field col-12 sm:col-12 grid"
+              v-for="i in antibiotic"
+              :key="i"
+            >
+              <div class="field col-12 sm:col-6">
+                <label class="block text-600 text-sm font-bold mb-2">
+                  ยาที่ใช้รักษา {{ i }}<span class="text-red-500"> *</span>
+                </label>
+                <Dropdown
+                  class="w-full"
+                  :options="itemsCureAntibiotic.CureAntibiotic"
+                  optionLabel="CureAntibioticName"
+                  optionValue="CureAntibioticID"
+                  placeholder="เลือกยาที่ใช้รักษา"
+                  :showClear="true"
+                  :filter="true"
+                  v-model="form.CureAntibioticID[i - 1][0]"
+                  :class="{ 'p-invalid': !form.CureAntibioticID && valid }"
+                />
+              </div>
+              <div class="field col-12 sm:col-6">
+                <label class="block text-600 text-sm font-bold mb-2">
+                  ปริมาณที่ใช้<span class="text-red-500"> *</span>
+                </label>
+                <InputText
+                  class="w-full"
+                  type="text"
+                  v-model="form.CureAntibioticID[i - 1][1]"
+                  placeholder="ระบุปริมาณที่ใช้"
+                />
+              </div>
+            </div>
+
+            <div class="field col-12 sm:col-12">
+              <Button
+                label="เพิ่มยา"
+                icon="pi pi-plus"
+                @click="plus_antibiotic()"
               />
-            </div>
-            <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2">
-                ปริมาณที่ใช้<span class="text-red-500"> *</span>
-              </label>
-              <InputText class="w-full" type="text" v-model="form.Remark" />
             </div>
           </div>
 
@@ -321,7 +340,7 @@
           <div v-if="form.FarmID" class="mt-5">
             <DataTable
               class="text-sm"
-              :value="data"
+              :value="animal"
               :loading="isLoading"
               v-model:selection="form.Animal"
               :dataKey="id"
@@ -330,7 +349,7 @@
               currentPageReportTemplate="แสดง {first} ถึง {last} จาก {totalRecords}"
               @sort="sort($event)"
             >
-              <Column selectionMode="multiple" class="text-center"></Column>
+              <!-- <Column selectionMode="multiple" class="text-center"></Column> -->
               <Column
                 v-for="col of columns"
                 :field="col.field"
@@ -391,10 +410,10 @@ export default {
       key: this.$route.params.id,
       url: "/animal?FarmID=" + this.$route.params.id,
       apiPersonal: "/staff/selection?includeAll=false",
-      postVaccineActivity: "/cure-activity",
+      postCureActivity: "/cure-activity",
       urlDisease: "/disease",
       urlCureAntibiotic: "/cure-antibiotic",
-      
+
       urlOrganization: "/organization/selection?includeAll=false",
       CureNextMonth: [
         { label: "1 เดือน", id: 1 },
@@ -405,10 +424,10 @@ export default {
 
       id: "AnimalID",
       columns: [
-        {
-          field: "show_id",
-          header: "ลำดับ",
-        },
+        // {
+        //   field: "show_id",
+        //   header: "ลำดับ",
+        // },
         {
           field: "AnimalEarID",
           header: "หมายเลขสัตว์",
@@ -437,7 +456,6 @@ export default {
       selection: false,
       loading: false,
       valid: false,
-
       form: {
         isActive: 1,
         Animal: [],
@@ -445,12 +463,15 @@ export default {
         FarmID: this.$route.params.id,
         FarmIdentificationNumber: this.$route.params.farm,
         CureNextMonth: [],
+        CureAntibioticID: [[]],
       },
       itemsCureMethod: [],
       itemsCureAntibiotic: [],
       itemsDisease: [],
       itemsAnimal: [],
+      antibiotic: 1,
       data: [],
+      animal: [],
       Farm: [],
       breadcrumb: [
         { label: "ข้อมูลสุขภาพ : การรักษา", to: "/activity/vaccine" },
@@ -463,6 +484,13 @@ export default {
         FarmAnimalTypes: [
           { name: "โค", id: 1 },
           { name: "กระบือ", id: 2 },
+          { name: "แพะ", id: 3 },
+          { name: "ทุกประเภทสัตว์", id: 99 },
+          { name: "ยังไม่ได้เลือกชนิดสัตว์", id: 98 },
+        ],
+        CureAnitibioticTypes: [
+          { name: "ยา", id: 1 },
+          { name: "ฮอร์โมน", id: 2 },
           { name: "แพะ", id: 3 },
           { name: "ทุกประเภทสัตว์", id: 99 },
           { name: "ยังไม่ได้เลือกชนิดสัตว์", id: 98 },
@@ -482,6 +510,19 @@ export default {
         res[index] = val[index].AnimalID;
       }
       this.form.AnimalID = res;
+      return this.form.AnimalID;
+    },
+
+    "form.AnimalChoose"() {
+      let res = [];
+
+      res[0] = this.form.AnimalChoose;
+      this.form.AnimalID = res;
+
+      this.animal = this.data.filter((x) => {
+        return x.AnimalID == this.form.AnimalChoose;
+      });
+
       return this.form.AnimalID;
     },
 
@@ -544,6 +585,11 @@ export default {
       );
       return `${formatStart}`;
     },
+
+    plus_antibiotic() {
+      this.antibiotic += 1;
+      this.form.CureAntibioticID.push([]);
+    },
     sort($event) {
       if ($event.sortField !== "show_id") {
         if ($event.sortOrder == 1) {
@@ -561,7 +607,7 @@ export default {
     },
     async load() {
       this.isLoading = true;
-      let url = this.url + "&size=15";
+      let url = this.url + "&isRemove=0&size=500";
       url += "&page=";
       if (this.curpage) {
         url += this.curpage;
@@ -570,18 +616,18 @@ export default {
         url += "&FarmID=" + this.form.FarmID;
       }
       if (this.animal_id == 1) {
-        url += "&AnimalTypeID=" + "[1, 2,41,42]";
+        url += "&AnimalTypeID=" + "[1,2,41,42]";
         // this.data = response.data.rows.filter(
         //   (item) => item.AnimalTypeID === 1 || item.AnimalTypeID === 2
         // );
       } else if (this.animal_id == 2) {
-        url += "&AnimalTypeID=" + "[3, 4,43,44]";
+        url += "&AnimalTypeID=" + "[3,4,43,44]";
 
         // this.data = response.data.rows.filter(
         //   (item) => item.AnimalTypeID === 3 || item.AnimalTypeID === 4
         // );
       } else if (this.animal_id == 3) {
-        url += "&AnimalTypeID=" + "[17, 18,45,46]";
+        url += "&AnimalTypeID=" + "[17,18,45,46]";
 
         // this.data = response.data.rows.filter(
         //   (item) => item.AnimalTypeID === 17 || item.AnimalTypeID === 18
@@ -620,49 +666,49 @@ export default {
                     " เดือน ";
                 }
               }
-
-         
             }
-            this.itemsAnimal.Animal = this.data
           } else {
             let start = (this.curpage - 1) * 15;
             for (let i = 0; i < this.data.length; i++) {
               this.data[i].show_id = i + 1 + start;
             }
-
-           
           }
+
+          this.animal = [];
+          this.itemsAnimal.Animal = [...this.data];
         })
         .finally(() => {
           this.isLoading = false;
         });
 
       axios
-        .get("/cure-method", { signal: this.controller.signal,params: {AnimalTypeID: '[1]'} })
+        .get("/cure-method", {
+          signal: this.controller.signal,
+          params: { AnimalTypeID: "[1]" },
+        })
         .then((res) => {
-            this.itemsCureMethod.CureMethod = res.data.rows
+          this.itemsCureMethod.CureMethod = res.data.rows;
 
-        //   this.itemsCureMethod.CureMethod = res.data.rows.filter((x) => {
-        //     return x == true
-        //   });
+          //   this.itemsCureMethod.CureMethod = res.data.rows.filter((x) => {
+          //     return x == true
+          //   });
         })
         .finally(() => {
           this.loader = true;
         });
-
 
       axios
-        .get("/cure-antibiotic", { signal: this.controller.signal,params: {AnimalTypeID: '[1]'} })
+        .get("/cure-antibiotic", {
+          signal: this.controller.signal,
+          params: { AnimalTypeID: "[1]" },
+        })
         .then((res) => {
-            this.itemsCureAntibiotic.CureAntibiotic = res.data.rows
+          this.itemsCureAntibiotic.CureAntibiotic = res.data.rows;
         })
         .finally(() => {
           this.loader = true;
         });
 
-
-
-        
       axios
         .get("/disease", { signal: this.controller.signal })
         .then((res) => {
@@ -671,7 +717,6 @@ export default {
         .finally(() => {
           this.loader = true;
         });
-
 
       await axios
         .get(this.urlOrganization, {
@@ -719,11 +764,9 @@ export default {
     },
     validation() {
       if (
-        !this.form.VaccineID ||
-        !this.form.VaccineObjectiveID ||
-        !this.form.Lot ||
-        !this.form.VaccineActivityDate ||
-        !this.form.VaccineNextDate ||
+        !this.form.CureMethodID ||
+        !this.form.CureActivityDate ||
+        !this.form.CureNextDate ||
         !this.form.ResponsibilityStaffID ||
         !this.form.OrganizationID ||
         !this.form.AnimalID
@@ -740,20 +783,33 @@ export default {
         return true;
       }
     },
-    add() {
+    async add() {
       if (this.validation() == false) {
         return;
       }
-      // this.form.VaccineActivityDate = new Date(
-      //   this.form.VaccineActivityDate
-      // ).toLocaleDateString();
-      // this.form.VaccineNextDate = new Date(
-      //   this.form.VaccineNextDate
-      // ).toLocaleDateString();
+
+      console.log(this.form)
+
       axios
-        .post(this.postVaccineActivity, this.form, {
-          signal: this.controller.signal,
-        })
+        .post(
+          "/cure-activity",
+          {
+            CureActivityDate: this.form.CureActivityDate,
+            AnimalID: this.form.AnimalID[0],
+            DiseaseID: this.form.DiseaseID,
+            CureMethodID: this.form.CureMethodID,
+            CureMethodOther: this.form.CureMethodOther,
+            CureNextDate: this.form.CureNextDate,
+            CureAntibioticID: this.form.CureAntibioticID,
+            OrganizationID: this.form.OrganizationID,
+            ResponsibilityStaffID: this.form.ResponsibilityStaffID,
+            Remark: this.form.Remark,
+            // DiseaseActivityDate: this.form.DiseaseActivityDate,
+            // CureNextDateOption: this.form.CureNextDateOption,
+            // FarmID: this.form.FarmID,
+            // VaccineID: this.form.VaccineID,
+          },
+        )
         .then(() => {
           this.load();
           this.$toast.add({
@@ -763,7 +819,7 @@ export default {
             life: 2000,
           });
           setTimeout(() => {
-            this.$router.push("/activity/vaccine");
+            this.$router.push("/activity/treatment");
           }, 2000);
         })
         .catch((err) => {

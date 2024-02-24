@@ -682,7 +682,7 @@ export default {
 
       let getID = this.data.find((item) => item.CureActivityID == id);
       await router.push({
-        path: `/activity/cure/edit/${getID.CureActivityID}`,
+        path: `/activity/treatment/edit/${getID.CureActivityID}`,
       });
     },
     project_check(id) {

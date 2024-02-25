@@ -872,7 +872,7 @@
           <span class="font-semibold ml-2">
             {{
               detailInfo.Farmer && detailInfo.Farmer.FarmerRegisterDate != null
-                ? dayjs(FarmerRegisterDate).locale(locale).format("DD/MM/YYYY")
+                ? detailInfo.Farmer.FarmerRegisterDate
                 : "-"
             }}
           </span>
@@ -1632,8 +1632,7 @@ export default {
 
     mapAmphursTemp(id) {
       if (id != null) {
-        return this.dropdown.Amphurs_temp.find((item) => item.AmphurID == id)
-          .AmphurName;
+        return this.dropdown.Amphurs_temp.find((item) => item.AmphurID == id).AmphurName;
       } else {
         return null;
       }

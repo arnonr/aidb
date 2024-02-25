@@ -1,1113 +1,1710 @@
 <template>
   <div class="grid">
-    <!-- start main page -->
     <div class="col-12">
       <PageTitle title="ทะเบียนเกษตรกร" :pages="breadcrumb" />
       <div class="card mb-5">
-        <div class="grid">
+        <div v-if="!loader" class="grid">
           <div class="col-12">
             <h1 class="text-xl mb-4 text-500">
               เครื่องมือช่วยค้นหาทะเบียนเกษตรกร
             </h1>
           </div>
-          <div class="col-12 sm:col-12 lg:col-4">
-            <label
-              for="selectedUnit"
-              class="block text-600 text-sm font-bold mb-2"
-            >
-              รหัสบัตรประชาชน</label
-            >
+          <!--  -->
+          <div class="grid">
+            <div class="col-12 sm:col-6 lg:col-6">
+              <label
+                for="AIZoneID"
+                class="block text-600 text-sm font-bold mb-2"
+              >
+                ศูนย์วิจัย</label
+              >
+              <Dropdown
+                class="w-full"
+                v-model="search.AIZoneID"
+                :options="dropdown.AIZones"
+                optionLabel="AIZoneName"
+                optionValue="AIZoneID"
+                :disabled="isSelectAIZoneDisabled"
+                :filter="true"
+                :showClear="true"
+                placeholder="-- โปรดเลือกศูนย์วิจัย --"
+              >
+              </Dropdown>
+            </div>
 
-            <InputMask
-              class="w-full"
-              mask="9-9999-99999-99-9"
-              unmask="true"
-              v-model="search.IdentificationNumber"
-            />
-          </div>
+            <div class="col-12 sm:col-6 lg:col-6">
+              <label
+                for="searchOrganizationZoneID"
+                class="block text-600 text-sm font-bold mb-2"
+              >
+                เขตพื้นที่ปศุสัตว์</label
+              >
+              <Dropdown
+                class="w-full"
+                v-model="search.OrganizationZoneID"
+                :options="dropdown.OrganizationZones"
+                optionLabel="OrganizationZoneName"
+                optionValue="OrganizationZoneID"
+                :disabled="isSelectOrganizationZoneDisabled"
+                :filter="true"
+                :showClear="true"
+                placeholder="-- เลือกเขตพื้นที่ปศุสัตว์ --"
+              >
+              </Dropdown>
+            </div>
 
-          <div class="col-12 sm:col-12 lg:col-4">
-            <label
-              for="selectedUnit"
-              class="block text-600 text-sm font-bold mb-2"
-            >
-              ชื่อ</label
-            >
-            <InputText class="w-full" type="text" v-model="search.GivenName" />
-          </div>
+            <div class="col-12 sm:col-6 lg:col-4">
+              <label
+                for="searchProvinceID"
+                class="block text-600 text-sm font-bold mb-2"
+              >
+                จังหวัด</label
+              >
+              <Dropdown
+                class="w-full"
+                v-model="search.ProvinceID"
+                :options="dropdown.Provinces"
+                optionLabel="ProvinceName"
+                optionValue="ProvinceID"
+                :filter="true"
+                :showClear="true"
+                placeholder="ทั้งหมด"
+              >
+              </Dropdown>
+            </div>
 
-          <div class="col-12 sm:col-12 lg:col-4">
-            <label
-              for="selectedUnit"
-              class="block text-600 text-sm font-bold mb-2"
-            >
-              นามสกุล</label
-            >
-            <InputText class="w-full" type="text" v-model="search.Surname" />
-          </div>
-          <div class="col-12 sm:col-6 lg:col-4">
-            <label
-              for="selectedFarm"
-              class="block text-600 text-sm font-bold mb-2"
-            >
-              จังหวัด</label
-            >
-            <Dropdown
-              :showClear="true"
-              class="w-full"
-              id="selectedFarm"
-              placeholder="ทั้งหมด"
-              optionLabel="ProvinceName"
-              optionValue="ProvinceID"
-              :options="Province"
-              :filter="true"
-              v-model="search.HouseProvinceID"
-            />
-          </div>
-          <div class="col-12 sm:col-6 lg:col-4">
-            <label
-              for="animal_id"
-              class="block text-600 text-sm font-bold mb-2"
-            >
-              อำเภอ</label
-            >
-            <Dropdown
-              :showClear="true"
-              class="w-full"
-              id="selectedFarm"
-              placeholder="ทั้งหมด"
-              optionLabel="AmphurName"
-              optionValue="AmphurID"
-              :options="Amphur"
-              :filter="true"
-              v-model="search.HouseAmphurID"
-            />
-          </div>
+            <div class="col-12 sm:col-6 lg:col-4">
+              <label
+                for="searchAmphurID"
+                class="block text-600 text-sm font-bold mb-2"
+              >
+                อำเภอ</label
+              >
+              <Dropdown
+                class="w-full"
+                v-model="search.AmphurID"
+                :options="dropdown.Amphurs"
+                optionLabel="AmphurName"
+                optionValue="AmphurID"
+                :filter="true"
+                :showClear="true"
+                placeholder="ทั้งหมด"
+              >
+              </Dropdown>
+            </div>
 
-          <div class="col-12 sm:col-6 lg:col-4">
-            <label
-              for="dateRange"
-              class="block text-600 text-sm font-bold mb-2"
-            >
-              ตำบล</label
-            >
-            <Dropdown
-              :showClear="true"
-              class="w-full"
-              id="selectedFarm"
-              placeholder="ทั้งหมด"
-              optionLabel="TumbolName"
-              optionValue="TumbolID"
-              :options="Tumbol"
-              :filter="true"
-              v-model="search.HouseTumbolID"
-            />
+            <div class="col-12 sm:col-6 lg:col-4">
+              <label
+                for="searchTumbolID"
+                class="block text-600 text-sm font-bold mb-2"
+              >
+                ตำบล</label
+              >
+              <Dropdown
+                class="w-full"
+                v-model="search.TumbolID"
+                :options="dropdown.Tumbols"
+                optionLabel="TumbolName"
+                optionValue="TumbolID"
+                :filter="true"
+                :showClear="true"
+                placeholder="ทั้งหมด"
+              >
+              </Dropdown>
+            </div>
+
+            <div class="col-12 sm:col-12 lg:col-6">
+              <label
+                for="searchOrganizationID"
+                class="block text-600 text-sm font-bold mb-2"
+              >
+                ประเภทหน่วยงาน</label
+              >
+              <Dropdown
+                :showClear="true"
+                class="w-full"
+                placeholder="ทั้งหมด"
+                optionLabel="OrganizationTypeName"
+                optionValue="OrganizationTypeID"
+                :virtualScrollerOptions="{ itemSize: 38 }"
+                :options="dropdown.OrganizationTypes"
+                :filter="true"
+                v-model="search.OrganizationTypeID"
+              />
+            </div>
+
+            <div class="col-12 sm:col-12 lg:col-6">
+              <label
+                for="searchOrganizationID"
+                class="block text-600 text-sm font-bold mb-2"
+              >
+                หน่วยงาน</label
+              >
+              <Dropdown
+                :showClear="true"
+                class="w-full"
+                placeholder="ทั้งหมด"
+                optionLabel="OrganizationFull"
+                optionValue="OrganizationID"
+                :virtualScrollerOptions="{ itemSize: 38 }"
+                :options="dropdown.Organizations"
+                :filter="true"
+                v-model="search.OrganizationID"
+              />
+            </div>
+
+            <div class="col-12 sm:col-6 lg:col-6">
+              <label
+                for="searchSubDistrict"
+                class="block text-600 text-sm font-bold mb-2"
+              >
+                ฟาร์ม</label
+              >
+              <Dropdown
+                class="w-full"
+                v-model="search.FarmID"
+                :options="dropdown.Farms"
+                optionLabel="Fullname"
+                optionValue="FarmID"
+                :filter="true"
+                :showClear="true"
+                :virtualScrollerOptions="{ itemSize: 38 }"
+                placeholder="เลือกหมายเลขฟาร์ม"
+              >
+              </Dropdown>
+            </div>
+
+            <div class="col-12 sm:col-6 lg:col-6">
+              <label
+                for="IdentificationNumber"
+                class="block text-600 text-sm font-bold mb-2"
+              >
+                หมายเลขบัตรประชาชน
+              </label>
+              <span class="p-input-icon-right w-full">
+                <i class="pi pi-search" />
+                <InputText
+                  type="text"
+                  class="w-full"
+                  v-model="search.IdentificationNumber"
+                />
+              </span>
+            </div>
+
+            <div class="col-12 sm:col-6 lg:col-6">
+              <label
+                for="FarmerFullName"
+                class="block text-600 text-sm font-bold mb-2"
+              >
+                ชื่อนามสกุลเกษตรกร
+              </label>
+              <span class="p-input-icon-right w-full">
+                <i class="pi pi-search" />
+                <InputText
+                  type="text"
+                  class="w-full"
+                  v-model="search.FarmerFullName"
+                />
+              </span>
+            </div>
+            <!-- 
+              <div class="col-12 sm:col-6 lg:col-6">
+                <label
+                  for="selectedStatus"
+                  class="block text-600 text-sm font-bold mb-2"
+                >
+                  สถานะฟาร์ม</label
+                >
+                <Dropdown
+                  :showClear="true"
+                  emptyMessage="ไม่มีข้อมูล"
+                  emptyFilterMessage="ไม่พบข้อมูล"
+                  class="w-full"
+                  placeholder="ทั้งหมด"
+                  :options="selection.farmStatus"
+                  optionLabel="FarmStatusName"
+                  optionValue="FarmStatusID"
+                  v-model="filtered.FarmStatusID"
+                />
+              </div> -->
+
+            <div class="col-12 sm:col-6 lg:col-6">
+              <label
+                for="selectedStatus"
+                class="block text-600 text-sm font-bold mb-2"
+              >
+                ชนิดของสัตว์ที่อยู่ในฟาร์ม</label
+              >
+              <Dropdown
+                :showClear="true"
+                emptyMessage="ไม่มีข้อมูล"
+                emptyFilterMessage="ไม่พบข้อมูล"
+                class="w-full"
+                placeholder="ยังไม่ได้เลือกชนิดสัตว์"
+                :options="dropdown.FarmAnimalTypes"
+                optionLabel="name"
+                optionValue="id"
+                v-model="search.FarmAnimalType"
+              />
+            </div>
+
+            <div class="col-6 sm:col-6 lg:col-6">
+              <label
+                for="searchSubDistrict"
+                class="block text-600 text-sm font-bold mb-2"
+              >
+                โครงการ</label
+              >
+              <MultiSelect
+                style="max-width: 900px"
+                v-model="search.ProjectIDArray"
+                class="w-full"
+                :options="dropdown.Projects"
+                optionLabel="ProjectName"
+                optionValue="ProjectID"
+                placeholder="เลือกโครงการ"
+                display="chip"
+              />
+            </div>
+
+            <div class="col-12 sm:col-6 lg:col-6">
+              <label
+                for="searchFarmStatus"
+                class="block text-600 text-sm font-bold mb-2"
+              >
+                สถานะฟาร์ม</label
+              >
+              <Dropdown
+                class="w-full"
+                v-model="search.FarmStatusID"
+                :options="dropdown.FarmStatuses"
+                optionLabel="FarmStatusName"
+                optionValue="FarmStatusID"
+                :filter="true"
+                :showClear="true"
+                :virtualScrollerOptions="{ itemSize: 38 }"
+                placeholder="เลือกสถานะฟาร์ม"
+              >
+              </Dropdown>
+            </div>
+
+            <div class="col-12 sm:col-6 lg:col-6">
+              <label
+                for="searchFarmStatus"
+                class="block text-600 text-sm font-bold mb-2"
+              >
+                สถานะการขึ้นทะเบียนเกษตรกร</label
+              >
+              <Dropdown
+                class="w-full"
+                v-model="search.FarmerRegisterStatus"
+                :options="dropdown.FarmerRegisterStatuses"
+                optionLabel="FarmerRegisterStatusName"
+                optionValue="FarmerRegisterStatusID"
+                :filter="true"
+                :showClear="true"
+                :virtualScrollerOptions="{ itemSize: 38 }"
+                placeholder="เลือกสถานะการขึ้นทะเบียนเกษตรกร"
+              >
+              </Dropdown>
+            </div>
+          </div>
+        </div>
+
+        <!--  -->
+        <!--  -->
+        <div v-else class="grid">
+          <div class="col-12">
+            <Skeleton width="20rem" height="2rem" class="mb-4"></Skeleton>
           </div>
           <div class="col-12 sm:col-6 lg:col-4">
-            <label
-              for="selectedFarm"
-              class="block text-600 text-sm font-bold mb-2"
-            >
-              สถานะการขึ้นทะเบียนเกษตรกร</label
-            >
-            <Dropdown
-              class="w-full"
-              id="selectedFarm"
-              v-model="search.FarmerRegisterStatus"
-              placeholder="ทั้งหมด"
-              :options="drop.RegisterStatus"
-              optionLabel="name"
-              optionValue="is_on"
-            />
+            <Skeleton width="5rem" class="mb-2"></Skeleton>
+            <Skeleton height="2rem"></Skeleton>
           </div>
           <div class="col-12 sm:col-6 lg:col-4">
-            <label
-              for="selectedFarm"
-              class="block text-600 text-sm font-bold mb-2"
-            >
-              สถานะ</label
-            >
-            <Dropdown
-              class="w-full"
-              id="selectedFarm"
-              v-model="search.status"
-              placeholder="ทั้งหมด"
-              :options="drop.status"
-              optionLabel="name"
-              optionValue="is_on"
-            />
+            <Skeleton width="5rem" class="mb-2"></Skeleton>
+            <Skeleton height="2rem"></Skeleton>
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <Skeleton width="5rem" class="mb-2"></Skeleton>
+            <Skeleton height="2rem"></Skeleton>
+          </div>
+          <div class="col-12">
+            <Skeleton width="5rem" class="mb-2"></Skeleton>
+            <Skeleton height="2rem"></Skeleton>
+          </div>
+          <div class="col-12">
+            <Skeleton height="2rem" class="mb-2"></Skeleton>
           </div>
         </div>
       </div>
       <div class="card">
-        <div class="grid flex align-items-center mb-5">
-          <div class="col-12 md:col-6">
-            <h1 class="text-2xl mb-0 text-600">ทะเบียนเกษตรกร</h1>
+        <div>
+          <div class="grid flex align-items-center mb-5">
+            <div class="col-12 md:col-6">
+              <h1 class="text-2xl mb-0 text-600">ทะเบียนเกษตรกร</h1>
+            </div>
+            <div class="col-12 md:col-6 md:text-right">
+              <json-excel
+                :data="json_data"
+                style="display: inline-block"
+                class="btn"
+              >
+                <Button
+                  label="ดาวน์โหลด"
+                  icon="pi pi-download"
+                  class="mb-3 p-button-raised p-button-raised p-button-success"
+                />
+              </json-excel>
+            </div>
           </div>
-          <div class="col-12 md:col-6 md:text-right">
-            <Button
-              label="ดาวน์โหลด"
-              icon="pi pi-download"
-              class="mb-3 p-button-raised p-button-raised p-button-success"
-              @click="exportCSV($event)"
-            />
+          <div class="mt-3">
+            <DataTable
+              class="text-sm"
+              :value="data"
+              :exportable="true"
+              ref="dt"
+              :rowHover="true"
+              :loading="isLoading"
+              :paginator="true"
+              v-model:rows="this.rowPerPage"
+              paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+              :rowsPerPageOptions="[10, 20, 50]"
+              responsiveLayout="scroll"
+              currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
+              :totalRecords="total"
+              @page="load"
+              @sort="sort($event)"
+              lazy
+            >
+              <Column
+                field="Farmer.FarmerNumber"
+                header="ทะเบียนเกษตรกร"
+                :sortable="true"
+                style="width: 200px"
+                exportFooter="&#8203;"
+              >
+                <template #body="slotProps">
+                  <div
+                    class="cursor-pointer"
+                    @click="openDetail(slotProps.data.FarmID)"
+                  >
+                    <span class="text-blue-400">
+                      <u>{{ slotProps.data.Farmer.FarmerNumber }}</u>
+                    </span>
+                  </div>
+                </template>
+              </Column>
+
+              <Column
+                field="Farmer.IdentificationNumber"
+                header="หมายเลขบัตรประชาชน"
+                :sortable="true"
+                style="width: 200px"
+                exportFooter="&#8203;"
+              >
+                <template #body="slotProps">
+                  <div
+                    class="cursor-pointer"
+                    @click="openDetail(slotProps.data.FarmID)"
+                  >
+                    <span class="text-blue-400">
+                      <u>{{ slotProps.data.Farmer.IdentificationNumber }}</u>
+                    </span>
+                  </div>
+                </template>
+              </Column>
+              <Column
+                v-for="col of columns"
+                :field="col.field"
+                :header="col.header"
+                :key="col.field"
+                :sortable="true"
+                style="width: 150px"
+                exportFooter="&#8203;"
+              >
+              </Column>
+              <Column
+                field="Farmer.FarmerRegisterStatus"
+                header="สถานะ"
+                :sortable="true"
+                exportFooter="&#8203;"
+              >
+                <template #body="slotProps">
+                  <div
+                    v-if="
+                      slotProps.data.Farmer.FarmerRegisterStatus ==
+                        dropdown.FarmerRegisterStatuses[0] ||
+                      slotProps.data.Farmer.FarmerRegisterStatus == 2
+                    "
+                  >
+                    <Tag class="w-full" severity="success">ขึ้นทะเบียนแล้ว</Tag>
+                  </div>
+
+                  <div v-else>
+                    <Tag class="w-full bg-gray-500">ยังไม่ขึ้นทะเบียน</Tag>
+                  </div>
+                </template>
+              </Column>
+
+              <!-- <Column
+                  field="FarmRegisterDate"
+                  header="สถานะ"
+                  :sortable="true"
+                  exportFooter="&#8203;"
+                >
+                  <template #body="slotProps">
+                    <div v-if="slotProps.data.FarmRegisterDate">
+                      {{
+                        dayjs(slotProps.data.FarmRegisterDate)
+                          .locale(locale)
+                          .format("DD/MM/YYYY")
+                      }}
+                    </div>
+  
+                    <div v-else>-</div>
+                  </template>
+                </Column> -->
+
+              <!-- <Column header="จัดการ" style="width: 200px">
+                  <template #body="slotProps">
+                    <SplitButton
+                      label="แก้ไข"
+                      icon="pi pi-pencil"
+                      @click="edit(slotProps.data.FarmID)"
+                      class="p-button-sm p-button-outlined p-button-warning"
+                      :model="getItems(slotProps.data.FarmID)"
+                    >
+                    </SplitButton>
+                  </template>
+                </Column> -->
+              <template #empty> ไม่พบข้อมูล </template>
+              <template #loading>
+                <h1 class="text-white text-center">กรุณารอสักครู่...</h1>
+              </template>
+            </DataTable>
           </div>
         </div>
-        <DataTable
-          class="text-sm"
-          :value="data"
-          :loading="isLoading"
-          ref="dt"
-          :rowHover="true"
-          :exportable="true"
-          paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
-          responsiveLayout="scroll"
-          currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
-          @sort="sort($event)"
-        >
-          <!-- <Column
-              field="show_id"
-              header="ลำดับ"
-              class="text-center"
-              :sortable="true"
-            >
-            </Column> -->
-
-          <Column
-            field="FarmerNumber"
-            header="หมายเลขเกษตรกร"
-            class="text-center"
-            :sortable="true"
-          ></Column>
-
-          <Column
-            field="GivenName"
-            header="ชื่อ"
-            class="text-center"
-            :sortable="true"
-          ></Column>
-
-          <Column
-            field="Surname"
-            header="นามสกุล"
-            class="text-center"
-            :sortable="true"
-          ></Column>
-          <Column
-            field="MobilePhoneNumber"
-            header="เบอร์โทรศัพท์"
-            class="text-center"
-            :sortable="true"
-          ></Column>
-          <Column
-            field="Email"
-            header="อีเมล"
-            class="text-center"
-            :sortable="true"
-          ></Column>
-          <Column
-            field="Tumbol.TumbolName"
-            header="ตำบล"
-            class="text-center"
-            :sortable="true"
-          ></Column>
-          <Column
-            field="Amphur.AmphurName"
-            header="อำเภอ"
-            class="text-center"
-            :sortable="true"
-          ></Column>
-          <Column
-            field="Province.ProvinceName"
-            header="จังหวัด"
-            class="text-center"
-            :sortable="true"
-          ></Column>
-          <Column
-            field="FarmerRegisterDate"
-            header="วันที่ขึ้นทะเบียน"
-            class="text-center"
-            :sortable="true"
-          ></Column>
-          <Column
-            field="FarmerRegisterStatus"
-            header="สถานะการขึ้นทะเบียนเกษตรกร"
-            class="text-center"
-            :sortable="true"
-          >
-            <template #body="slotProps">
-              <div
-                v-if="
-                  slotProps.data.FarmerRegisterStatus == 2 ||
-                  slotProps.data.FarmerRegisterStatus == status[0]
-                "
-              >
-                <Tag class="w-full" severity="success">ขึ้นทะเบียนแล้ว</Tag>
-              </div>
-              <div v-else>
-                <Tag class="w-full bg-gray-500">ยังไม่ขึ้นทะเบียน</Tag>
-              </div>
-            </template>
-          </Column>
-          <!-- <Column
-              field="isActive"
-              header="สถานะ"
-              class="text-center"
-              :sortable="true"
-            >
-              <template #body="slotProps">
-                <div
-                  v-if="
-                    slotProps.data.isActive == 1 ||
-                    slotProps.data.isActive == status[0]
-                  "
-                >
-                  <Tag class="w-full" severity="success">เปิดใช้งาน</Tag>
-                </div>
-                <div v-else>
-                  <Tag class="w-full bg-gray-500">ปิดใช้งาน</Tag>
-                </div>
-              </template>
-            </Column> -->
-          <Column header="จัดการ" class="text-center">
-            <template #body="slotProp">
-              <Button
-                icon="pi pi-eye"
-                @click="openShowModal(slotProp.data.FarmerID)"
-                class="p-button-rounded p-button-text"
-              />
-            </template>
-          </Column>
-        </DataTable>
-        <Paginator
-          @page="page($event)"
-          :rows="15"
-          :totalRecords="total"
-        ></Paginator>
       </div>
     </div>
-    <!-- end main page -->
-    <!-- Show Dialog -->
+    <!-- Start Delete Dialog -->
     <Dialog
-      header="รายละเอียดทะเบียนเกษตรกร"
-      v-model:visible="displayShowModal"
-      :style="{ width: '75vw' }"
+      header="ตรวจสอบข้อมูล"
+      v-model:visible="display_delete"
+      :style="{ width: '350px' }"
       :modal="true"
     >
-      <h1 class="text-2xl mt-2">ข้อมูลทั่วไปของเกษตรกร</h1>
-      <form class="grid">
-        <div class="col-12 lg:col-12">
-          <div class="formgrid grid">
-            <!-- <div class="field col-12 sm:col-6 lg:col-6">
-              <label class="block text-600 text-sm font-bold mb-2">
-                รหัสอ้างอิงฟาร์ม
-              </label>
-              <InputText
-              
-                type="text"
-                class="w-full"
-                v-model="detail.Farm.FarmIdentificationNumber"
-                
-              />
-            </div> -->
-            <!-- <div class="field col-12 sm:col-6 lg:col-6">
-              <label class="block text-600 text-sm font-bold mb-2">
-                ชื่อฟาร์ม
-              </label>
-              <InputText
-              
-                type="text"
-                class="w-full"
-                v-model="detail.Farm.FarmName"
-                
-              />
-            </div> -->
-            <div class="field col-12 sm:col-6 lg:col-3">
-              <label class="block text-600 text-sm font-bold mb-2">
-                เลขบัตรประจำตัวประชาชน
-              </label>
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="detail.IdentificationNumber"
-                disabled
-              />
+      <div class="confirmation-content text-center">
+        <i class="pi pi-trash" style="font-size: 5rem" />
+        <br />
+        <span class="text-xl">คุณต้องการลบข้อมูลใช่หรือไม่</span>
+      </div>
+      <template #footer>
+        <div class="col-12 text-center flex justify-content-between">
+          <Button
+            label="ยกเลิก"
+            @click="close_delete()"
+            class="p-button-secondary w-full mr-3"
+          />
+          <Button
+            label="ยืนยัน"
+            @click="remove()"
+            class="p-button-danger w-full ml-3"
+          />
+        </div>
+      </template>
+    </Dialog>
+    <!-- End Delete Dialog -->
+    <!-- Start Detail Dialog -->
+    <Dialog
+      header="รายละเอียด"
+      v-model:visible="displayDetail"
+      :breakpoints="{ '960px': '75vw', '640px': '90vw' }"
+      :style="{ width: '70vw' }"
+      :modal="true"
+    >
+      <h4 class="text-2xl mb-4 font-light">ข้อมูลฟาร์ม</h4>
+      <div class="grid">
+        <div class="col-12">
+          <div class="grid">
+            <div class="col-6 lg:col-4">
+              <span class="font-medium text-700">พื้นที่เขตปศุสัตว์</span>
+              <span class="font-semibold ml-2">
+                {{
+                  detailInfo.OrganizationZone &&
+                  detailInfo.OrganizationZone.OrganizationZoneName
+                    ? detailInfo.OrganizationZone.OrganizationZoneName
+                    : "-"
+                }}
+              </span>
             </div>
-            <div class="field col-12 sm:col-6 lg:col-3">
-              <label class="block text-600 text-sm font-bold mb-2">
-                คำนำหน้า
-              </label>
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="detail.title_tmp"
-                disabled
-              />
+            <div class="col-6 lg:col-4">
+              <span class="font-medium text-700">จังหวัด</span>
+              <span class="font-semibold ml-2">
+                {{
+                  detailInfo.Province && detailInfo.Province.ProvinceName
+                    ? detailInfo.Province.ProvinceName
+                    : "-"
+                }}
+              </span>
             </div>
-            <div class="field col-12 sm:col-6 lg:col-3">
-              <label class="block text-600 text-sm font-bold mb-2"> ชื่อ</label>
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="detail.GivenName"
-                disabled
-              />
+            <div class="col-6 lg:col-4">
+              <span class="font-medium text-700">อำเภอ</span>
+              <span class="font-semibold ml-2">
+                {{
+                  detailInfo.Amphur && detailInfo.Amphur.AmphurName
+                    ? detailInfo.Amphur.AmphurName
+                    : "-"
+                }}
+              </span>
             </div>
-
-            <div
-              v-if="detail.MiddleName != null"
-              class="field col-12 sm:col-6 lg:col-3"
-            >
-              <label class="block text-600 text-sm font-bold mb-2">
-                ชื่อกลาง
-              </label>
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="detail.MiddleName"
-                disabled
-              />
+            <div class="col-6 lg:col-4">
+              <span class="font-medium text-700">ตำบล</span>
+              <span class="font-semibold ml-2">
+                {{
+                  detailInfo.Tumbol && detailInfo.Tumbol.TumbolName
+                    ? detailInfo.Tumbol.TumbolName
+                    : "-"
+                }}
+              </span>
             </div>
-
-            <div class="field col-12 sm:col-6 lg:col-3">
-              <label class="block text-600 text-sm font-bold mb-2">
-                นามสกุล
-              </label>
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="detail.Surname"
-                disabled
-              />
+            <div class="col-6 lg:col-4">
+              <span class="font-medium text-700">รหัสไปรษณีย์</span>
+              <span class="font-semibold ml-2">
+                {{
+                  detailInfo.Tumbol && detailInfo.Tumbol.Zipcode
+                    ? detailInfo.Tumbol.Zipcode
+                    : "-"
+                }}
+              </span>
             </div>
-            <div class="field col-12 sm:col-6" v-if="detail.Gender">
-              <label class="block text-600 text-sm font-bold mb-2"> เพศ </label>
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="detail.Gender.GenderName"
-                disabled
-              />
+            <div class="col-12">
+              <span class="font-medium text-700">ศูนย์วิจัย</span>
+              <span class="font-semibold ml-2">
+                {{
+                  detailInfo.AIZone && detailInfo.AIZone.AIZoneName
+                    ? detailInfo.AIZone.AIZoneName
+                    : "-"
+                }}
+              </span>
             </div>
-            <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2">
-                วันเดือนปีเกิด
-              </label>
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="detail.BirthDate"
-                disabled
-              />
+            <div class="col-6 lg:col-4">
+              <span class="font-medium text-700">หน่วยงาน</span>
+              <span class="font-semibold ml-2">
+                {{
+                  detailInfo.Organization &&
+                  detailInfo.Organization.OrganizationName
+                    ? detailInfo.Organization.OrganizationName
+                    : "-"
+                }}
+              </span>
             </div>
-
-            <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2">
-                หมายเลขโทรศัพท์
-              </label>
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="detail.TelephoneNumber"
-                disabled
-              />
+            <div class="col-6 lg:col-4">
+              <span class="font-medium text-700">ประเภทหน่วยงาน</span>
+              <span class="font-semibold ml-2">
+                {{
+                  detailInfo.Organization &&
+                  detailInfo.Organization.OrganizationTypeID
+                    ? detailOrganization(
+                        detailInfo.Organization.OrganizationTypeID
+                      )
+                    : "-"
+                }}
+              </span>
             </div>
-
-            <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2">
-                หมายเลขโทรศัพท์มือถือ
-              </label>
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="detail.MobilePhoneNumber"
-                disabled
-              />
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="grid">
+            <div class="col-6 lg:col-4">
+              <span class="font-medium text-700">เลขทะเบียนฟาร์ม</span>
+              <span class="font-semibold ml-2">
+                {{
+                  detailInfo.FarmIdentificationNumber
+                    ? detailInfo.FarmIdentificationNumber
+                    : "-"
+                }}
+              </span>
             </div>
-            <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2">
-                ระดับการศึกษา
-              </label>
-              <div v-for="item in Education" :key="item.EducationID">
-                <InputText
-                  v-if="item.EducationID == detail.EducationID"
-                  :placeholder="item.EducationName"
-                  type="text"
-                  class="w-full"
-                />
+            <div class="col-6 lg:col-8">
+              <span class="font-medium text-700">ชื่อฟาร์ม</span>
+              <span class="font-semibold ml-2">
+                {{ detailInfo.FarmName ? detailInfo.FarmName : "-" }}
+              </span>
+            </div>
+            <div class="col-6 lg:col-4">
+              <span class="font-medium text-700">วันที่ขึ้นทะเบียนฟาร์ม</span>
+              <span class="font-semibold ml-2">
+                {{
+                  detailInfo.ThaiFarmRegisterDate
+                    ? detailInfo.ThaiFarmRegisterDate
+                    : "-"
+                }}
+              </span>
+            </div>
+            <div class="col-6 lg:col-4">
+              <span class="font-medium text-700">ประเภทฟาร์ม</span>
+              <span class="font-semibold ml-2">
+                {{ detailInfo.FarmType ? detailInfo.FarmType : "-" }}
+              </span>
+            </div>
+            <div class="col-6 lg:col-4">
+              <span class="font-medium text-700">สถานะฟาร์ม</span>
+              <div class="ml-2 inline-block">
+                <div v-if="detailInfo.FarmStatus.FarmStatusID === 1">
+                  <Tag severity="success">{{
+                    detailInfo.FarmStatus.FarmStatusName
+                  }}</Tag>
+                </div>
+                <div v-else-if="detailInfo.FarmStatus.FarmStatusID === 3">
+                  <Tag class="bg-gray-500">{{
+                    detailInfo.FarmStatus.FarmStatusName
+                  }}</Tag>
+                </div>
+                <div v-else>
+                  <Tag class="bg-gray-500">{{
+                    detailInfo.FarmStatus.FarmStatusName
+                  }}</Tag>
+                </div>
               </div>
             </div>
-            <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2">
-                อีเมล
-              </label>
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="detail.Email"
-                disabled
-              />
+            <div class="col-12">
+              <span class="font-medium text-700">ที่อยู่</span>
+              <span class="font-semibold ml-2">
+                {{ detailInfo.FarmAddress ? detailInfo.FarmAddress : "-" }}
+              </span>
             </div>
-            <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2">
-                ไอดีไลน์
-              </label>
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="detail.IDLine"
-                disabled
-              />
+            <div class="col-6 lg:col-4">
+              <span class="font-medium text-700">หมู่</span>
+              <span class="font-semibold ml-2">
+                {{ detailInfo.FarmMoo ? detailInfo.FarmMoo : "-" }}
+              </span>
             </div>
-            <div class="field col-12 sm:col-6" v-if="detail.Occupation">
-              <label class="block text-600 text-sm font-bold mb-2">
-                อาชีพหลัก
-              </label>
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="detail.Occupation.OccupationName"
-                disabled
-              />
+            <div class="col-6 lg:col-8">
+              <span class="font-medium text-700">ถนน</span>
+              <span class="font-semibold ml-2">
+                {{ detailInfo.FarmStreet ? detailInfo.FarmStreet : "-" }}
+              </span>
             </div>
-            <div class="field col-12 sm:col-6" v-if="detail.SecondOccupation">
-              <label class="block text-600 text-sm font-bold mb-2">
-                อาชีพรอง
-              </label>
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="detail.SecondOccupation.OccupationName"
-                disabled
-              />
+            <div class="col-6 lg:col-4">
+              <span class="font-medium text-700">ละติจูด</span>
+              <span class="font-semibold ml-2">
+                {{
+                  detailInfo.ResidenceLatitude
+                    ? detailInfo.ResidenceLatitude
+                    : "-"
+                }}
+              </span>
             </div>
-          </div>
-        </div>
-      </form>
-
-      <h1 class="text-2xl mt-2">ที่อยู่เกษตรกรตามทะเบียนบ้าน</h1>
-      <form class="grid">
-        <div class="col-12 lg:col-12">
-          <div class="formgrid grid">
-            <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2">
-                เลขที่บ้าน (ที่อยู่ตามทะเบียนบ้าน)
-              </label>
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="detail.HouseBuildingNumber"
-                disabled
-              />
+            <div class="col-6 lg:col-4">
+              <span class="font-medium text-700">ลองจิจูด</span>
+              <span class="font-semibold ml-2">
+                {{
+                  detailInfo.ResidenceLongitude
+                    ? detailInfo.ResidenceLongitude
+                    : "-"
+                }}
+              </span>
             </div>
-            <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2">
-                หมู่ที่</label
-              >
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="detail.HouseMoo"
-                disabled
-              />
+            <div class="col-6 lg:col-4">
+              <span class="font-medium text-700">ลิงก์จาก Google Map</span>
+              <span class="font-semibold ml-2">
+                {{
+                  detailInfo.FarmLinkGoogleMap
+                    ? detailInfo.FarmLinkGoogleMap
+                    : "-"
+                }}
+              </span>
             </div>
-            <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2">
-                ชื่อหมู่บ้าน/อาคาร
-              </label>
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="detail.HouseVillageName"
-                disabled
-              />
+            <div class="col-12">
+              <span class="font-medium text-700">โครงการ</span>
+              <span class="font-semibold ml-2">
+                {{
+                  detailInfo.Projects === "undefined" &&
+                  detailInfo.Projects.length === 0
+                    ? formatArray(detailInfo.Projects)
+                    : "-"
+                }}
+              </span>
             </div>
-            <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2">
-                ชั้น
-              </label>
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="detail.HouseFloor"
-                disabled
-              />
+            <div class="col-12 lg:col-4">
+              <span class="font-medium text-700">เบอร์โทรศัพท์</span>
+              <span class="font-semibold ml-2">
+                {{
+                  detailInfo.FarmTelephoneNumber
+                    ? detailInfo.FarmTelephoneNumber
+                    : "-"
+                }}
+              </span>
             </div>
-            <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2"> ถนน </label>
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="detail.HouseStreet"
-                disabled
-              />
-            </div>
-
-            <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2">
-                ตรอก
-              </label>
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="detail.HouseSubLane"
-                disabled
-              />
-            </div>
-            <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2"> ซอย </label>
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="detail.HouseLane"
-                placeholder="100"
-                disabled
-              />
-            </div>
-            <div class="field col-12 sm:col-6" v-if="detail.Tumbol">
-              <label class="block text-600 text-sm font-bold mb-2">
-                ตำบล/แขวง
-              </label>
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="detail.Tumbol.TumbolName"
-                disabled
-              />
-            </div>
-            <div class="field col-12 sm:col-6" v-if="detail.Amphur">
-              <label class="block text-600 text-sm font-bold mb-2">
-                อำเภอ/เขต
-              </label>
-              <InputText
-                type="text"
-                class="w-full"
-                placeholder=""
-                v-model="detail.Amphur.AmphurName"
-                disabled
-              />
-            </div>
-
-            <div class="field col-12 sm:col-6" v-if="detail.Province">
-              <label class="block text-600 text-sm font-bold mb-2">
-                จังหวัด
-              </label>
-              <InputText
-                type="text"
-                class="w-full"
-                placeholder=""
-                v-model="detail.Province.ProvinceName"
-                disabled
-              />
-            </div>
-            <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2">
-                รหัสไปรษณีย์
-              </label>
-              <InputText
-                type="text"
-                class="w-full"
-                placeholder=""
-                v-model="detail.HouseZipCode"
-                disabled
-              />
-            </div>
-            <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2">
-                เลขรหัสประจำบ้าน
-              </label>
-              <InputText
-                type="text"
-                class="w-full"
-                placeholder=""
-                v-model="detail.HouseAddressIdentification"
-                disabled
-              />
-            </div>
-            <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2">
-                ละติจูด
-              </label>
-              <InputText
-                type="text"
-                class="w-full"
-                placeholder=""
-                v-model="detail.HouseLatitude"
-                disabled
-              />
-            </div>
-            <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2">
-                ลองจิจูด
-              </label>
-              <InputText
-                type="text"
-                class="w-full"
-                placeholder=""
-                v-model="detail.HouseLongitude"
-                disabled
-              />
+            <div class="col-12 lg:col-4">
+              <span class="font-medium text-700">เบอร์โทรศัพท์มือถือ</span>
+              <span class="font-semibold ml-2">
+                {{
+                  detailInfo.FarmMobilePhoneNumber
+                    ? detailInfo.FarmMobilePhoneNumber
+                    : "-"
+                }}
+              </span>
             </div>
           </div>
         </div>
-      </form>
-      <h1 class="text-2xl mt-2">ที่อยู่เกษตรกรที่ติดต่อได้</h1>
-      <form class="grid">
-        <div class="col-12 lg:col-12">
-          <div class="formgrid grid">
-            <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2">
-                บ้านเลขที่
-              </label>
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="detail.ResidenceBuildingNumber"
-                disabled
-              />
-            </div>
-            <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold"> หมู่ที่</label>
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="detail.ResidenceMoo"
-                disabled
-              />
-            </div>
-            <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2">
-                ชื่อหมู่บ้าน/อาคาร
-              </label>
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="detail.ResidenceVillageName"
-                disabled
-              />
-            </div>
-            <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2">
-                ชั้น
-              </label>
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="detail.ResidenceFloor"
-                disabled
-              />
-            </div>
-            <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2"> ถนน </label>
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="detail.ResidenceStreet"
-                disabled
-              />
-            </div>
+      </div>
+      <h4 class="text-2xl mt-4 mb-4 font-light">ข้อมูลเกษตรกร</h4>
 
-            <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2">
-                ตรอก
-              </label>
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="detail.ResidenceSubLane"
-                disabled
-              />
-            </div>
-            <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2"> ซอย </label>
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="detail.ResidenceLane"
-                disabled
-                placeholder="100"
-              />
-            </div>
-            <div class="field col-12 sm:col-6" v-if="detail.ResidenceTumbol">
-              <label class="block text-600 text-sm font-bold mb-2">
-                ตำบล/แขวง
-              </label>
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="detail.ResidenceTumbol.TumbolName"
-                disabled
-              />
-            </div>
-            <div class="field col-12 sm:col-6" v-if="detail.ResidenceAmphur">
-              <label class="block text-600 text-sm font-bold mb-2">
-                อำเภอ/เขต
-              </label>
-              <InputText
-                type="text"
-                class="w-full"
-                placeholder=""
-                v-model="detail.ResidenceAmphur.AmphurName"
-                disabled
-              />
-            </div>
-
-            <div class="field col-12 sm:col-6" v-if="detail.ResidenceProvince">
-              <label class="block text-600 text-sm font-bold mb-2">
-                จังหวัด
-              </label>
-              <InputText
-                type="text"
-                class="w-full"
-                placeholder=""
-                v-model="detail.ResidenceProvince.ProvinceName"
-                disabled
-              />
-            </div>
-            <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2">
-                รหัสไปรษณีย์
-              </label>
-              <InputText
-                type="text"
-                class="w-full"
-                placeholder=""
-                v-model="detail.ResidenceZipCode"
-                disabled
-              />
-            </div>
-            <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2">
-                เลขรหัสประจำบ้าน
-              </label>
-              <InputText
-                type="text"
-                class="w-full"
-                placeholder=""
-                v-model="detail.ResidenceAddressIdentification"
-                disabled
-              />
-            </div>
-            <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2">
-                ละติจูด
-              </label>
-              <InputText
-                type="text"
-                class="w-full"
-                placeholder=""
-                v-model="detail.ResidenceLatitude"
-                disabled
-              />
-            </div>
-            <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2">
-                ลองจิจูด
-              </label>
-              <InputText
-                type="text"
-                class="w-full"
-                placeholder=""
-                v-model="detail.ResidenceLongitude"
-                disabled
-              />
-            </div>
-          </div>
+      <h5 class="text-xl mb-4 font-light">ข้อมูลบุคคล</h5>
+      <div class="grid">
+        <div class="col-6 lg:col-4">
+          <span class="font-medium text-700">เลขทะเบียนเกษตรกร</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.FarmerNumber
+                ? detailInfo.Farmer.FarmerNumber
+                : "-"
+            }}
+          </span>
         </div>
-      </form>
+        <div class="col-12 lg:col-8">
+          <span class="font-medium text-700">เลขบัตรประจำตัวประชาชน</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.IdentificationNumber
+                ? detailInfo.Farmer.IdentificationNumber
+                : "-"
+            }}
+          </span>
+        </div>
+        <!-- <div class="col-6 lg:col-4">
+            <span class="font-medium text-700">คำนำหน้า</span>
+            <span class="font-semibold ml-2">
+              {{
+                detailInfo.Farmer && detailInfo.Farmer.TitleID
+                  ? detailTitle(detailInfo.Farmer.TitleID)
+                  : "-"
+              }}
+            </span>
+          </div> -->
+        <div class="col-6 lg:col-4">
+          <span class="font-medium text-700">ชื่อ - นามสกุล</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.FullName
+                ? detailInfo.Farmer.FullName
+                : "-"
+            }}
+          </span>
+        </div>
+        <!-- <div class="col-6 lg:col-4">
+            <span class="font-medium text-700">เพศ</span>
+            <span class="font-semibold ml-2">
+              {{
+                detailInfo.Farmer && detailInfo.Farmer.GenderID
+                  ? detailGender(detailInfo.Farmer.GenderID)
+                  : "-"
+              }}
+            </span>
+          </div> -->
+        <div class="col-6 lg:col-12">
+          <span class="font-medium text-700">วันเดือนปีเกิด</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.BirthDate
+                ? detailFormatBirthDate(detailInfo.Farmer.BirthDate)
+                : "-"
+            }}
+          </span>
+        </div>
+        <div class="col-6 lg:col-4">
+          <span class="font-medium text-700">หมายเลขโทรศัพท์</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.TelephoneNumber
+                ? detailInfo.Farmer.TelephoneNumber
+                : "-"
+            }}
+          </span>
+        </div>
+        <div class="col-6 lg:col-8">
+          <span class="font-medium text-700">หมายเลขโทรศัพท์มือถือ</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.MobilePhoneNumber
+                ? detailInfo.Farmer.MobilePhoneNumber
+                : "-"
+            }}
+          </span>
+        </div>
+        <div class="col-12 lg:col-4">
+          <span class="font-medium text-700">อีเมล</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.Email
+                ? detailInfo.Farmer.Email
+                : "-"
+            }}
+          </span>
+        </div>
+        <div class="col-12 lg:col-8">
+          <span class="font-medium text-700">ไอดีไลน์</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.IDLine
+                ? detailInfo.Farmer.IDLine
+                : "-"
+            }}
+          </span>
+        </div>
+        <div class="col-12 lg:col-4">
+          <span class="font-medium text-700">สถานะเกษตรกร</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer &&
+              detailInfo.Farmer.FarmerRegisterStatus != null
+                ? detailFarmerRegisterStatus(
+                    detailInfo.Farmer.FarmerRegisterStatus
+                  )
+                : "-"
+            }}
+          </span>
+        </div>
+        <div class="col-12 lg:col-8">
+          <span class="font-medium text-700">วันที่ขึ้นทะเบียนเกษตรกร</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.FarmerRegisterDate != null
+                ? dayjs(FarmerRegisterDate).locale(locale).format("DD/MM/YYYY")
+                : "-"
+            }}
+          </span>
+        </div>
+      </div>
+      <h5 class="text-xl mt-4 mb-4 font-light">ที่อยู่เกษตรกรตามทะเบียนบ้าน</h5>
+      <div class="grid">
+        <div class="col-6 lg:col-4">
+          <span class="font-medium text-700">เลขที่บ้าน</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.HouseBuildingNumber
+                ? detailInfo.Farmer.HouseBuildingNumber
+                : "-"
+            }}
+          </span>
+        </div>
+        <div class="col-6 lg:col-4">
+          <span class="font-medium text-700">หมู่ที่</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.HouseMoo
+                ? detailInfo.Farmer.HouseMoo
+                : "-"
+            }}
+          </span>
+        </div>
+        <div class="col-12">
+          <span class="font-medium text-700">ชื่อหมู่บ้าน/อาคาร</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.HouseVillageName
+                ? detailInfo.Farmer.HouseVillageName
+                : "-"
+            }}
+          </span>
+        </div>
+        <div class="col-6 lg:col-4">
+          <span class="font-medium text-700">ชั้น</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.HouseFloor
+                ? detailInfo.Farmer.HouseFloor
+                : "-"
+            }}
+          </span>
+        </div>
+        <div class="col-6 lg:col-4">
+          <span class="font-medium text-700">ถนน</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.HouseStreet
+                ? detailInfo.Farmer.HouseStreet
+                : "-"
+            }}
+          </span>
+        </div>
+        <div class="col-6 lg:col-4">
+          <span class="font-medium text-700">ตรอก</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.HouseSubLane
+                ? detailInfo.Farmer.HouseSubLane
+                : "-"
+            }}
+          </span>
+        </div>
+        <div class="col-6 lg:col-4">
+          <span class="font-medium text-700">ซอย</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.HouseLane
+                ? detailInfo.Farmer.HouseLane
+                : "-"
+            }}
+          </span>
+        </div>
+        <div class="col-6 lg:col-4">
+          <span class="font-medium text-700">จังหวัด</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.HouseProvinceID
+                ? mapProvincesTemp(detailInfo.Farmer.HouseProvinceID)
+                : "-"
+            }}
+          </span>
+        </div>
+        <div class="col-6 lg:col-4">
+          <span class="font-medium text-700">อำเภอ/เขต</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.HouseAmphurID
+                ? mapAmphursTemp(detailInfo.Farmer.HouseAmphurID)
+                : "-"
+            }}
+          </span>
+        </div>
+        <div class="col-6 lg:col-4">
+          <span class="font-medium text-700">ตำบล</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.HouseTumbolID
+                ? mapTumbolsTemp(detailInfo.Farmer.HouseTumbolID)
+                : "-"
+            }}
+          </span>
+        </div>
+        <div class="col-6 lg:col-4">
+          <span class="font-medium text-700">รหัสไปรษณีย์</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.HouseZipCode
+                ? detailInfo.Farmer.HouseZipCode
+                : "-"
+            }}
+          </span>
+        </div>
+        <div class="col-12">
+          <span class="font-medium text-700">เลขรหัสประจำบ้าน</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.HouseAddressIdentification
+                ? detailInfo.Farmer.HouseAddressIdentification
+                : "-"
+            }}
+          </span>
+        </div>
+        <div class="col-6 lg:col-4">
+          <span class="font-medium text-700">ละติจูด</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.HouseLatitude
+                ? detailInfo.Farmer.HouseLatitude
+                : "-"
+            }}
+          </span>
+        </div>
+        <div class="col-6 lg:col-4">
+          <span class="font-medium text-700">ลองจิจูด</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.HouseLongitude
+                ? detailInfo.Farmer.HouseLongitude
+                : "-"
+            }}
+          </span>
+        </div>
+      </div>
+      <hr />
+      <h5 class="text-xl mt-4 mb-4 font-light">ที่อยู่เกษตรกรที่ติดต่อได้</h5>
+      <div class="grid">
+        <div class="col-6 lg:col-4">
+          <span class="font-medium text-700">เลขที่บ้าน</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.ResidenceBuildingNumber
+                ? detailInfo.Farmer.ResidenceBuildingNumber
+                : "-"
+            }}
+          </span>
+        </div>
+        <div class="col-6 lg:col-4">
+          <span class="font-medium text-700">หมู่ที่</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.ResidenceMoo
+                ? detailInfo.Farmer.ResidenceMoo
+                : "-"
+            }}
+          </span>
+        </div>
+        <div class="col-12">
+          <span class="font-medium text-700">ชื่อหมู่บ้าน/อาคาร</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.ResidenceVillageName
+                ? detailInfo.Farmer.ResidenceVillageName
+                : "-"
+            }}
+          </span>
+        </div>
+        <div class="col-6 lg:col-4">
+          <span class="font-medium text-700">ชั้น</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.ResidenceFloor
+                ? detailInfo.Farmer.ResidenceFloor
+                : "-"
+            }}
+          </span>
+        </div>
+        <div class="col-6 lg:col-4">
+          <span class="font-medium text-700">ถนน</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.ResidenceStreet
+                ? detailInfo.Farmer.ResidenceStreet
+                : "-"
+            }}
+          </span>
+        </div>
+        <div class="col-6 lg:col-4">
+          <span class="font-medium text-700">ตรอก</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.ResidenceSubLane
+                ? detailInfo.Farmer.ResidenceSubLane
+                : "-"
+            }}
+          </span>
+        </div>
+        <div class="col-6 lg:col-4">
+          <span class="font-medium text-700">ซอย</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.ResidenceLane
+                ? detailInfo.Farmer.ResidenceLane
+                : "-"
+            }}
+          </span>
+        </div>
+        <div class="col-6 lg:col-4">
+          <span class="font-medium text-700">จังหวัด</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.ResidenceProvinceID
+                ? mapProvincesTemp(detailInfo.Farmer.ResidenceProvinceID)
+                : "-"
+            }}
+          </span>
+        </div>
+        <div class="col-6 lg:col-4">
+          <span class="font-medium text-700">อำเภอ/เขต</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.ResidenceAmphurID
+                ? mapAmphursTemp(detailInfo.Farmer.ResidenceAmphurID)
+                : "-"
+            }}
+          </span>
+        </div>
+        <div class="col-6 lg:col-4">
+          <span class="font-medium text-700">ตำบล</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.ResidenceTumbolID
+                ? mapTumbolsTemp(detailInfo.Farmer.ResidenceTumbolID)
+                : "-"
+            }}
+          </span>
+        </div>
+        <div class="col-6 lg:col-4">
+          <span class="font-medium text-700">รหัสไปรษณีย์</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.ResidenceZipCode
+                ? detailInfo.Farmer.ResidenceZipCode
+                : "-"
+            }}
+          </span>
+        </div>
+        <div class="col-12">
+          <span class="font-medium text-700">เลขรหัสประจำบ้าน</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer &&
+              detailInfo.Farmer.ResidenceAddressIdentification
+                ? detailInfo.Farmer.ResidenceAddressIdentification
+                : "-"
+            }}
+          </span>
+        </div>
+        <div class="col-12">
+          <span class="font-medium text-700">วันที่ขึ้นทะเบียนเกษตรกร</span>
+          <span class="font-semibold ml-2">
+            {{
+              detailInfo.Farmer && detailInfo.Farmer.FarmerRegisterDate
+                ? detailInfo.Farmer.FarmerRegisterDate
+                : "-"
+            }}
+          </span>
+        </div>
+      </div>
     </Dialog>
+    <!-- End Detail Dialog -->
   </div>
 </template>
-
 <script>
 import axios from "axios";
-import PageTitle from "@/components/PageTitle.vue";
 import dayjs from "dayjs";
-import locale from "dayjs/locale/th";
 import buddhistEra from "dayjs/plugin/buddhistEra";
+import PageTitle from "@/components/PageTitle.vue";
+import router from "@/router";
+import { mapGetters } from "vuex";
+import JsonExcel from "vue-json-excel3";
+import locale from "dayjs/locale/th";
+import { format } from "date-fns";
+import { th } from "date-fns/locale";
+import store from "@/service/Vuex";
 
 export default {
   components: {
     PageTitle,
+    JsonExcel,
   },
   data() {
     return {
-      url: "/farmer",
-      urlTitle: "/title?isActive=1",
-      urlGender: "/gender?isActive=1",
-      urlMariedStatus: "/married-status?isActive=1",
-      urlOrganization: "/organization/selection?isActive=1&includeAll=false",
-      urlPositionType: "/position-type?isActive=1",
-      urlPosition: "/position?isActive=1",
-      urlTumbol: "/tumbol/selection?isActive=1&includeAll=false",
-      urlAmphur: "/amphur/selection?isActive=1&includeAll=false",
-      urlProvince: "/province/selection?includeAll=false",
-      urlEducation: "/education?isActive=1",
-      urlMajor: "/major?isActive=1",
-      breadcrumb: [
-        { label: "หน้าหลัก", to: "/" },
-        { label: "ทะเบียนเกษตรกร", to: "/agency/all" },
+      json_data: [],
+      id: "FarmID",
+      name: "ทะเบียนฟาร์ม (ผท.3)",
+      orderByField: "FarmID",
+      columns: [
+        {
+          field: "Farmer.FullName",
+          header: "ชื่อ-นามสกุลเกษตรกร",
+        },
+        {
+          field: "FarmIdentificationNumber",
+          header: "ทะเบียนฟาร์ม",
+        },
+        {
+          field: "FarmName",
+          header: "ชื่อฟาร์ม",
+        },
+
+        {
+          field: "Province.ProvinceName",
+          header: "จังหวัด",
+        },
+        {
+          field: "Amphur.AmphurName",
+          header: "อำเภอ",
+        },
+        {
+          field: "Tumbol.TumbolName",
+          header: "ตำบล",
+        },
+
+        {
+          field: "Organization.OrganizationName",
+          header: "หน่วยงาน",
+        },
+
+        {
+          field: "Farmer.FarmerRegisterDate",
+          header: "วันที่ขึ้นทะเบียน",
+        },
+
+        {
+          field: "Farmer.MobilePhoneNumber",
+          header: "เบอร์โทรศัพท์",
+        },
       ],
 
-      path: null,
-      search: {},
-      filtered: {
-        User: "",
+      urlFarm: "/farm/selection?includeAll=false",
+      urlProvince: "/province/selection?includeAll=false",
+      url: {
+        Farm: "/farm",
+        ExportFarm: "/farm/export-excel-with-farmer?isActive=1",
+        FarmStatus: "/farm-status/selection?isActive=1",
+        AIZone: "/ai-zone/selection?isActive=1",
+        OrganizationZone: "/organization-zone/selection?isActive=1",
+        Province: "/province/selection?isActive=1",
+        Amphur: "/amphur/selection?isActive=1",
+        Tumbol: "/tumbol/selection?isActive=1",
+        OrganizationType: "/organization-type/selection?isActive=1",
+        Organization: "/organization/selection?isActive=1",
+        Project: "/project/selection?includeAll=false&isActive=1",
+      },
+      dropdown: {
+        AIZones: [],
+        OrganizationZones: [],
+        Provinces: [],
+        Amphurs: [],
+        Tumbols: [],
+        Provinces_temp: [],
+        Amphurs_temp: [],
+        Tumbols_temp: [],
+        OrganizationTypes: [],
+        Organizations: [],
+        Farms: [],
+        Projects: [],
+        FarmAnimalTypes: [
+          { name: "โค", id: 1 },
+          { name: "กระบือ", id: 2 },
+          { name: "แพะ", id: 3 },
+          { name: "ทุกประเภทสัตว์", id: 99 },
+          { name: "ยังไม่ได้เลือกชนิดสัตว์", id: 98 },
+        ],
+        FarmerRegisterStatuses: [
+          {
+            FarmerRegisterStatusName: "ขึ้นทะเบียนแล้ว",
+            key: "A",
+            FarmerRegisterStatusID: 2,
+          },
+          {
+            FarmerRegisterStatusName: "ยังไม่ขึ้นทะเบียน",
+            key: "B",
+            FarmerRegisterStatusID: 0,
+          },
+        ],
+        FarmStatuses: [],
+      },
+      search: {
         IdentificationNumber: "",
-        FullName: "",
-        GivenName: "",
-        MiddleName: "",
-        Surname: "",
-        FarmerRegisterStatus: "",
-        FarmID: "",
-        status: "",
-        HouseProvinceID: "",
-        HouseAmphurID: "",
-        HouseTumbolID: "",
+        FarmIdentificationNumber: "",
+        FarmName: "",
+        FarmerFullName: "",
+        dateRange: null,
+        AIZoneID: null,
+        OrganizationZoneID: null,
+        ProvinceID: null,
+        AmphurID: null,
+        TumbolID: null,
+        OrganizationTypeID: null,
+        OrganizationID: null,
+        FarmID: null,
+        FarmAnimalType: null,
       },
-
-      // dropdown item
-      drop: {
-        RegisterStatus: [
-          {
-            name: "ทั้งหมด",
-            is_on: "",
-          },
-          {
-            name: "ขึ้นทะเบียนแล้ว",
-            is_on: "2",
-          },
-          {
-            name: "ยังไม่ขึ้นทะเบียน",
-            is_on: "0",
-          },
-        ],
-        status: [
-          {
-            name: "ทั้งหมด",
-            is_on: "",
-          },
-          {
-            name: "เปิดใช้งาน",
-            is_on: "1",
-          },
-          {
-            name: "ปิดใช้งาน",
-            is_on: "0",
-          },
-        ],
-      },
-      // load
+      // Static Data
+      isLoading: false,
+      loader: false,
+      total: null,
       data: [],
-      Title: [],
-      Gender: [],
-      MariedStatus: [],
-      Organization: [],
-      PositionType: [],
-      Position: [],
-      Tumbol: [],
-      Amphur: [],
-      Province: [],
-      Education: [],
-      Major: [],
+      valid: false,
+      index: null,
+      display: false,
+      display_delete: false,
+      detailInfo: {},
+      displayDetail: false,
+      temp: [],
       curpage: 0,
       formheader: "",
       sortField: "",
       sortOrder: "",
-      isLoading: false,
-
-      // form
-      valid: false,
-      detail: [],
-      form: {
-        FarmStatusCode: "",
-        FarmStatusName: "",
-        FarmStatusNameEN: "",
-        isActive: "",
-      },
-
-      status: [
-        { name: "เปิดใช้งาน", key: "A", value: 1 },
-        { name: "ปิดใช้งาน", key: "B", value: 0 },
+      items: [
+        {
+          label: "ดูข้อมูลฟาร์ม",
+          icon: "pi pi-eye",
+        },
+        //   {
+        //     label: "แก้ไข",
+        //     icon: "pi pi-pencil",
+        //   },
+        //   {
+        //     label: "ลบ",
+        //     icon: "pi pi-times",
+        //   },
       ],
-
-      //  cancel requests
+      breadcrumb: [
+        { label: "ข้อมูลพื้นฐานระบบ", to: "/user_center/dashboard" },
+        { label: "", to: "" },
+      ],
+      permit: null,
+      //
+      rowPerPage: 20,
+      currentPage: 1,
+      totalPage: 1,
+      totalItems: 0,
+      isOverlay: true,
+      orderBy: "created_at",
+      order: "desc",
+      //
       controller: new AbortController(),
-
-      // Modal
-      displayShowModal: false,
     };
   },
+  computed: {
+    ...mapGetters({
+      permission: "get_permission",
+      user: "user",
+      AnimalID: "AnimalID",
+      animal_id: "animal_id",
+    }),
+  },
   mounted() {
+    if (store.state.user.Staff.Organization.OrganizationZoneID) {
+      this.search.OrganizationZoneID =
+        store.state.user.Staff.Organization.OrganizationZoneID;
+    }
+
+    if (this.search.FarmAnimalType == null) {
+      this.search.FarmAnimalType = parseInt(this.animal_id);
+    }
+
+    this.dropdown.FarmAnimalTypes = this.dropdown.FarmAnimalTypes.filter(
+      (x) => {
+        return x.id == this.animal_id || x.id == 98 || x.id == 99;
+      }
+    );
+
+    this.loadDefault();
     this.load();
-    this.loadEducation();
     dayjs.extend(buddhistEra);
-    axios.get(this.urlTumbol).then((response) => {
-      this.Tumbol = response.data.rows.map((item) => {
-        return {
-          TumbolID: item.TumbolID,
-          AmphurID: item.AmphurID,
-          TumbolCode: item.TumbolCode,
-          ProvinceID: item.ProvinceID,
-          TumbolName: item.TumbolName,
-          Fullname: item.TumbolCode.substring(0, 6) + ", " + item.TumbolName,
-        };
+    this.breadcrumb[1].label = this.name;
+    this.permit = this.permission.filter((item) => {
+      return item.MenuID == 1;
+    });
+
+    axios
+      .get(this.url.Province, {
+        signal: this.controller.signal,
+      })
+      .then((res) => {
+        this.dropdown.Provinces_temp = res.data.rows;
+      })
+      .finally(() => {
+        this.isLoading = false;
       });
-      this.TempTumbol = this.Tumbol;
-    });
-    // อำเภอ
-    axios.get(this.urlAmphur).then((response) => {
-      this.Amphur = response.data.rows.map((item) => {
-        return {
-          AmphurID: item.AmphurID,
-          ProvinceID: item.ProvinceID,
-          AmphurCode: item.AmphurCode,
-          AmphurName: item.AmphurName,
-          Fullname: item.AmphurCode.substring(0, 4) + ", " + item.AmphurName,
-        };
+
+    axios
+      .get(this.url.Amphur, {
+        signal: this.controller.signal,
+      })
+      .then((res) => {
+        this.dropdown.Amphurs_temp = res.data.rows;
+      })
+      .finally(() => {
+        this.isLoading = false;
       });
-      this.TempAmphur = this.Amphur;
-    });
-    // จังหวัด
-    axios.get(this.urlProvince).then((response) => {
-      this.Province = response.data.rows;
-    });
-    this.form.isActive = this.status[0];
+
+    axios
+      .get(this.url.Tumbol, {
+        signal: this.controller.signal,
+      })
+      .then((res) => {
+        this.dropdown.Tumbols_temp = res.data.rows;
+      })
+      .finally(() => {
+        this.isLoading = false;
+      });
   },
   watch: {
-    // "search.User"(val) {
-    //   this.filtered.User = val;
-    //   if (this.isLoading == false) {
-    //     this.isLoading = true;
-    //     setTimeout(() => {
-    //       this.filtered.StaffID = "";
-    //       this.load();
-    //       this.isLoading = false;
-    //     }, 1000);
-    //   }
-    // },
+    "search.AIZoneID"(val) {
+      if (val) {
+        this.search.OrganizationZoneID = null;
+        this.isSelectAIZoneDisabled = false;
+        this.isSelectOrganizationZoneDisabled = true;
+      } else {
+        this.isSelectAIZoneDisabled = false;
+        this.isSelectOrganizationZoneDisabled = false;
+      }
 
-    "search.FarmerRegisterStatus"(val) {
-      this.filtered.FarmerRegisterStatus = val;
-      if (this.isLoading == false) {
-        this.isLoading = true;
-        setTimeout(() => {
-          this.load();
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
+      this.dropdown.Provinces = [];
+      this.dropdown.Amphurs = [];
+      this.dropdown.Tumbols = [];
+      this.dropdown.Organizations = [];
+      this.dropdown.Farms = [];
+      this.data = [];
 
-    "search.status"(val) {
-      this.filtered.status = val;
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
-          this.load();
+          this.fetchProvince();
+          this.fetchOrganization();
+          this.fetchFarm();
+          this.exportExcel();
+          this.search.AmphurID = null;
+          this.search.TumbolID = null;
+          this.search.OrganizationID = null;
+          this.search.FarmID = null;
           this.isLoading = false;
         }, 1000);
       }
     },
+    "search.OrganizationZoneID"(val) {
+      if (val) {
+        this.search.AIZoneID = null;
+        this.isSelectAIZoneDisabled = true;
+        this.isSelectOrganizationZoneDisabled = false;
+      } else {
+        this.isSelectAIZoneDisabled = false;
+        this.isSelectOrganizationZoneDisabled = false;
+      }
 
-    "search.GivenName"(val) {
-      this.filtered.GivenName = val;
-      if (this.isLoading == false) {
-        this.isLoading = true;
-        setTimeout(() => {
-          this.load();
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
-    "search.MiddleName"(val) {
-      this.filtered.MiddleName = val;
-      if (this.isLoading == false) {
-        this.isLoading = true;
-        setTimeout(() => {
-          this.load();
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
-    "search.Surname"(val) {
-      this.filtered.Surname = val;
-      if (this.isLoading == false) {
-        this.isLoading = true;
-        setTimeout(() => {
-          this.load();
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
+      this.dropdown.Provinces = [];
+      this.dropdown.Amphurs = [];
+      this.dropdown.Tumbols = [];
+      this.dropdown.Organizations = [];
+      this.dropdown.Farms = [];
+      this.data = [];
 
-    "search.HouseProvinceID"(val) {
-      this.filtered.HouseProvinceID = val;
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
-          this.load();
+          this.fetchProvince();
+          this.fetchOrganization();
+          this.fetchFarm();
+          this.exportExcel();
+          this.search.AmphurID = null;
+          this.search.TumbolID = null;
+          this.search.OrganizationID = null;
+          this.search.FarmID = null;
           this.isLoading = false;
         }, 1000);
       }
     },
-    // ค้นหา
-    "search.HouseAmphurID"(val) {
-      this.filtered.HouseAmphurID = val;
-      if (this.isLoading == false) {
-        this.isLoading = true;
-        setTimeout(() => {
-          this.load();
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
-    // ค้นหา
-    "search.HouseTumbolID"(val) {
-      this.filtered.HouseTumbolID = val;
-      if (this.isLoading == false) {
-        this.isLoading = true;
-        setTimeout(() => {
-          this.load();
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
+    "search.ProvinceID"() {
+      this.fetchAmphur();
+      this.fetchOrganization();
+      this.fetchFarm();
+      this.exportExcel();
+      this.dropdown.Amphurs = [];
+      this.dropdown.Tumbols = [];
 
-    "search.IdentificationNumber"(val) {
-      this.filtered.IdentificationNumber = val;
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
-          this.load();
+          this.search.AmphurID = null;
+          this.search.TumbolID = null;
+          //   this.search.OrganizationTypeID = null;
+          this.search.OrganizationID = null;
+          this.search.FarmID = null;
           this.isLoading = false;
         }, 1000);
       }
     },
-    // "search.IdentificationNumber"(val) {
-    //   // this.filtered.IdentificationNumber = val;
-    //   if (!isNaN(val)) {
-    //     this.filtered.IdentificationNumber = val;
-    //   } else {
-    //     this.filtered.GivenName = val.split(" ")[0];
-    //     if (val.split(" ")[1]) {
-    //       this.filtered.Surname = val.split(" ")[2];
-    //     } else {
-    //       this.filtered.MiddleName = "";
-    //       this.filtered.Surname = "";
-    //     }
-    //   }
+    "search.AmphurID"() {
+      this.fetchTumbol();
+      this.fetchOrganization();
+      this.fetchFarm();
+      this.exportExcel();
+      this.dropdown.Tumbols = [];
 
-    //   if (this.isLoading == false) {
-    //     this.isLoading = true;
-    //     setTimeout(() => {
-    //       this.filtered.FullName = null;
-    //       this.load();
-    //       this.isLoading = false;
-    //     }, 1000);
-    //   }
-    // },
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.search.TumbolID = null;
+          //   this.search.OrganizationTypeID = null;
+          this.search.OrganizationID = null;
+          this.search.FarmID = null;
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+    "search.TumbolID"() {
+      this.fetchOrganization();
+      this.fetchFarm();
+      this.exportExcel();
+
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.search.OrganizationID = null;
+          this.search.FarmID = null;
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+    "search.OrganizationTypeID"() {
+      this.fetchOrganization();
+
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.search.OrganizationID = null;
+          this.search.FarmID = null;
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+    "search.OrganizationID"() {
+      this.fetchFarm();
+      this.exportExcel();
+
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.search.OrganizationID = null;
+          this.search.FarmID = null;
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+    "search.FarmID"() {
+      this.fetchFarm();
+      this.exportExcel();
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+    "search.ProjectIDArray"() {
+      this.fetchFarm();
+      this.exportExcel();
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+    "search.FarmAnimalType"() {
+      this.fetchFarm();
+      this.exportExcel();
+
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+    "search.FarmerFullName"() {
+      this.fetchFarm();
+      this.exportExcel();
+
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+    "search.FarmStatusID"() {
+      this.fetchFarm();
+      this.exportExcel();
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+    "search.IdentificationNumber"() {
+      this.fetchFarm();
+      this.exportExcel();
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+    "search.FarmerRegisterStatus"() {
+      this.fetchFarm();
+      this.exportExcel();
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
   },
   methods: {
+    mapProvincesTemp(id) {
+      if (id != null) {
+        return this.dropdown.Provinces_temp.find(
+          (item) => item.ProvinceID == id
+        ).ProvinceName;
+      } else {
+        return null;
+      }
+    },
+
+    mapAmphursTemp(id) {
+      if (id != null) {
+        return this.dropdown.Amphurs_temp.find((item) => item.AmphurID == id)
+          .AmphurName;
+      } else {
+        return null;
+      }
+    },
+
+    mapTumbolsTemp(id) {
+      console.log(id);
+      if (id != null) {
+        return this.dropdown.Tumbols_temp.find((item) => item.TumbolID == id)
+          .TumbolName;
+      } else {
+        return id;
+      }
+    },
+    async edit(id) {
+      if (this.permit[0].IsUpdate == 0) {
+        this.$toast.add({
+          severity: "error",
+          summary: "ล้มเหลว",
+          detail: "ไม่มีสิทธิ์แก้ไข",
+          life: 5000,
+        });
+        return;
+      }
+      // let getID = this.data.find((item) => item.FarmID == id);
+      // await router.push({
+      //   path: `/farm/edit/${getID.FarmID}`,
+      // });
+      // console.log(getID);
+      if (this.project_check(id)) {
+        await this.$router.push("/farm/edit/" + id);
+      }
+    },
+    project_check(id) {
+      let prepare_data = this.data.find(function (item) {
+        return item.FarmID == id;
+      });
+      let project_id = prepare_data.ProjectID;
+      let projects = prepare_data.Projects;
+
+      if (this.user.GroupID == 1 || this.user.GroupID == 2) {
+        return true;
+      } else {
+        if (project_id == 21) {
+          this.$toast.add({
+            severity: "error",
+            summary: "ไม่มีสามารถแก้ไขได้",
+            detail: "เนื่องจากอยู่ใน " + projects.toString(),
+            life: 5000,
+          });
+          return false;
+        } else {
+          return true;
+        }
+      }
+    },
+    getItems(id) {
+      const items = [
+        {
+          label: "ลบ",
+          icon: "pi pi-trash",
+          command: () => {
+            this.open_delete(id);
+          },
+        },
+      ];
+      return items;
+    },
+    formatArray(value) {
+      return value.toLocaleString();
+    },
     // sort table
     sort($event) {
       if ($event.sortField !== "show_id") {
@@ -1117,147 +1714,887 @@ export default {
           this.sortOrder = "desc";
         }
         this.sortField = $event.sortField;
+        this.orderByField = $event.sortField;
         this.load();
       }
     },
-    // page change
-    page($event) {
-      this.curpage = $event.page + 1;
-      this.load();
-    },
 
-    // Axios
-    load() {
+    loadDefault() {
       this.isLoading = true;
-
-      let url = this.url + "?size=15";
-
-      url += "&page=";
-      if (this.curpage) {
-        url += this.curpage;
-      }
-
-      if (this.filtered.IdentificationNumber) {
-        url += "&IdentificationNumber=" + this.filtered.IdentificationNumber;
-      }
-
-      if (this.filtered.GivenName || this.filtered.Surname) {
-        url +=
-          "&GivenName=" +
-          this.filtered.GivenName +
-          "&Surname=" +
-          this.filtered.Surname;
-      }
-
-      if (this.filtered.FarmerRegisterStatus) {
-        url +=
-          "&FarmerRegisterStatus=" + this.filtered.FarmerRegisterStatus ?? "0";
-      }
-
-      if (this.filtered.status) {
-        url += "&isActive=" + this.filtered.status ?? "0";
-      }
-
-      if (this.sortField && this.sortOrder) {
-        url += "&sortField=" + this.sortField + "&sortOrder=" + this.sortOrder;
-      }
-      if (this.filtered.HouseProvinceID) {
-        url += "&HouseProvinceID=" + this.filtered.HouseProvinceID;
-      }
-      if (this.filtered.HouseAmphurID) {
-        url += "&HouseAmphurID=" + this.filtered.HouseAmphurID;
-      }
-      if (this.filtered.HouseTumbolID) {
-        url += "&HouseTumbolID=" + this.filtered.HouseTumbolID;
-      }
+      this.fetchAIZone();
+      this.fetchOrganizationZone();
+      this.fetchProject();
+      this.fetchProvince();
+      this.fetchAmphur();
+      this.fetchTumbol();
+      this.fetchOrganizationType();
+      this.fetchOrganization();
+      this.fetchFarmStatus();
+      this.fetchFarm();
+      this.exportExcel();
+    },
+    fetchAIZone() {
+      let params = {};
+      //  Fetch AIZone
       axios
-        .get(url, {
+        .get(this.url.AIZone, {
           signal: this.controller.signal,
+          params: params,
         })
         .then((res) => {
-          this.total = res.data.total;
-          this.data = res.data.rows;
-          if (this.curpage == 0 || this.curpage == 1) {
-            for (let i = 0; i < this.data.length; i++) {
-              this.data[i].show_id = i + 1;
-              if (this.data[i].FarmerRegisterDate != null) {
-                this.data[i].FarmerRegisterDate = dayjs(
-                  this.data[i].FarmerRegisterDate
-                )
-                  .locale(locale)
-                  .format("DD/MM/YYYY");
-              }
-            }
-          } else {
-            let start = (this.curpage - 1) * 15;
-            for (let i = 0; i < this.data.length; i++) {
-              this.data[i].show_id = i + 1 + start;
-            }
-          }
+          this.dropdown.AIZones = res.data.rows;
 
-          // function search user
-          if (res.data.rows.length == 0) {
-            if (this.filtered.User) {
-              axios
-                .get(
-                  this.url +
-                    "&GivenName=" +
-                    this.filtered.GivenName +
-                    "&Surname=" +
-                    this.filtered.Surname,
-                  {
-                    signal: this.controller.signal,
-                  }
-                )
-                .then((res) => {
-                  if (res.data.rows.length > 0) {
-                    this.filtered.FullName = res.data.rows[0].FarmerID;
-                    this.load();
-                  } else {
-                    return;
-                  }
-                });
-            }
-          }
-          // end function search user
+          this.dropdown.AIZones.push({
+            AIZoneID: 99,
+            AIZoneName: "ทั้งหมด",
+          });
+
+          console.log(this.dropdown.AIZones);
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+    fetchOrganizationZone() {
+      let params = {};
+      //  Fetch OrganizationZone
+      axios
+        .get(this.url.OrganizationZone, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          this.dropdown.OrganizationZones = res.data.rows;
+          this.dropdown.OrganizationZones.push({
+            OrganizationZoneID: 99,
+            OrganizationZoneName: "ทั้งหมด",
+          });
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+    fetchProject() {
+      let params = {};
+
+      if (this.animal_id == 1) {
+        params["AnimalTypeID"] = "[1,2,41,42]";
+      } else if (this.animal_id == 2) {
+        params["AnimalTypeID"] = "[3,4,43,44]";
+      } else if (this.animal_id == 3) {
+        params["AnimalTypeID"] = "[17,18,45,46]";
+      }
+
+      axios
+        .get(this.url.Project, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          this.dropdown.Projects = res.data.rows;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+    fetchProvince() {
+      //  Fetch Province
+      let params = {};
+
+      if (this.search.AIZoneID != null) {
+        params["AIZoneID"] = this.search.AIZoneID;
+      }
+
+      if (this.search.OrganizationZoneID != null) {
+        params["OrganizationZoneID"] = this.search.OrganizationZoneID;
+      }
+      axios
+        .get(this.urlProvince, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          this.dropdown.Provinces = res.data.rows;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+    fetchAmphur() {
+      if (
+        this.search.AIZoneID == null &&
+        (this.search.OrganizationZoneID == null) &
+          (this.search.ProvinceID == null)
+      ) {
+        return;
+      }
+
+      let params = {};
+
+      if (this.search.ProvinceID != null) {
+        params["ProvinceID"] = this.search.ProvinceID;
+      }
+
+      axios
+        .get(this.url.Amphur, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          this.dropdown.Amphurs = res.data.rows;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+    fetchTumbol() {
+      if (
+        this.search.AIZoneID == null &&
+        (this.search.OrganizationZoneID == null) &
+          (this.search.AmphurID == null)
+      ) {
+        return;
+      }
+
+      let params = {};
+
+      if (this.search.AmphurID != null) {
+        params["AmphurID"] = this.search.AmphurID;
+      }
+
+      axios
+        .get(this.url.Tumbol, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          this.dropdown.Tumbols = res.data.rows;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+    fetchOrganizationType() {
+      let params = {};
+
+      axios
+        .get(this.url.OrganizationType, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          this.dropdown.OrganizationTypes = res.data.rows;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+    fetchOrganization() {
+      if (
+        this.search.AIZoneID == null &&
+        this.search.OrganizationZoneID == null
+      ) {
+        return;
+      }
+
+      let params = {};
+
+      if (this.search.OrganizationTypeID != null) {
+        params["OrganizationTypeID"] = this.search.OrganizationTypeID;
+      }
+
+      // Province IN AIZOne
+      if (this.search.AIZoneID != null) {
+        params["OrganizationAiZoneID"] = this.search.AIZoneID;
+      }
+
+      if (this.search.OrganizationZoneID != null) {
+        params["OrganizationZoneID"] = this.search.OrganizationZoneID;
+      }
+
+      if (this.search.ProvinceID != null) {
+        params["ProvinceID"] = this.search.ProvinceID;
+      }
+
+      if (this.search.AmphurID != null) {
+        params["FarmAmphurID"] = this.search.AmphurID;
+      }
+
+      if (this.search.TumbolID != null) {
+        params["FarmTumbolID"] = this.search.TumbolID;
+      }
+
+      axios
+        .get(this.url.Organization, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          this.dropdown.Organizations = res.data.rows.map((item) => {
+            return {
+              OrganizationID: item.OrganizationID,
+              OrganizationFull:
+                item.OrganizationCode + ", " + item.OrganizationName,
+            };
+          });
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+    fetchFarmStatus() {
+      //  Fetch Province
+      let params = {};
+      axios
+        .get(this.url.FarmStatus, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          this.dropdown.FarmStatuses = res.data.rows;
         })
         .finally(() => {
           this.isLoading = false;
         });
     },
 
-    loadEducation() {
-      axios
-        .get(this.urlEducation, {
-          signal: this.controller.signal,
-        })
-        .then((res) => {
-          this.Education = res.data.rows;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
+    fetchFarm() {
+      this.isLoading = true;
+      if (
+        this.search.AIZoneID == null &&
+        this.search.OrganizationZoneID == null
+      ) {
+        this.isLoading = false;
+        return;
+      }
 
-    openShowModal(id) {
-      this.detail = this.data.find((item) => item.FarmerID == id);
+      let params = {
+        size: this.rowPerPage,
+        page: this.currentPage,
+        orderByField: this.orderByField,
+        orderBy: this.sortOrder,
+        // includeAll: false,
+      };
 
-      if (this.detail.Title) {
-        this.detail.title_tmp = this.detail.Title.TitleName;
+      if (this.orderByField == "Province.ProvinceName") {
+        params["orderByField"] = "FarmProvinceID";
+      }
+
+      if (this.orderByField == "Amphur.AmphurName") {
+        params["orderByField"] = "FarmAmphurID";
+      }
+
+      if (this.orderByField == "Tumbol.TumbolName") {
+        params["orderByField"] = "TumbolProvinceID";
+      }
+
+      if (this.orderByField == "Organization.OrganizationName") {
+        params["orderByField"] = "OrganizationID";
+      }
+
+      if (this.orderByField == "Farmer.FarmerRegisterStatus") {
+        params["orderByField"] = "FarmerID";
+      }
+
+      if (this.orderByField == "Farmer.FarmerRegisterDate") {
+        params["orderByField"] = "FarmerID";
+      }
+
+      if (this.orderByField == "Farmer.MobilePhoneNumber") {
+        params["orderByField"] = "FarmerID";
+      }
+
+      if (
+        this.orderByField == "Farmer.FullName" ||
+        this.orderByField == "Farmer.IdentificationNumber" ||
+        this.orderByField == "Farmer.FarmerNumber"
+      ) {
+        params["orderByField"] = "FarmerID";
+      }
+
+      if (this.search.FarmAnimalType == null) {
+        this.search.FarmAnimalType = parseInt(this.AnimalID);
+        params["FarmAnimalType"] = this.search.FarmAnimalType;
       } else {
-        this.detail.title_tmp = "";
+        params["FarmAnimalType"] = this.search.FarmAnimalType;
       }
-      this.displayShowModal = true;
+
+      // Province IN AIZOne
+      if (this.search.AIZoneID != null) {
+        if (this.search.AIZoneID != 99) {
+          params["AIZoneID"] = this.search.AIZoneID;
+        }
+      }
+
+      if (this.search.OrganizationZoneID != null) {
+        if (this.search.OrganizationZoneID != 99) {
+          params["OrganizationZoneID"] = this.search.OrganizationZoneID;
+        }
+      }
+
+      if (this.search.ProvinceID != null) {
+        params["FarmProvinceID"] = this.search.ProvinceID;
+      }
+
+      if (this.search.AmphurID != null) {
+        params["FarmAmphurID"] = this.search.AmphurID;
+      }
+
+      if (this.search.TumbolID != null) {
+        params["FarmTumbolID"] = this.search.TumbolID;
+      }
+
+      if (this.search.OrganizationID != null) {
+        params["OrganizationID"] = this.search.OrganizationID;
+      }
+
+      if (this.search.OrganizationID != null) {
+        params["OrganizationID"] = this.search.OrganizationID;
+      }
+
+      if (this.search.ProjectIDArray) {
+        params["ProjectID"] = JSON.stringify(this.search.ProjectIDArray);
+      }
+
+      if (this.search.FarmerFullName) {
+        params["FullName"] = this.search.FarmerFullName;
+      }
+
+      if (this.search.FarmID) {
+        params["FarmID"] = this.search.FarmID;
+      }
+
+      if (this.search.FarmStatusID) {
+        params["FarmStatusID"] = this.search.FarmStatusID;
+      }
+
+      if (this.search.IdentificationNumber) {
+        params["FarmerIdentificationNumber"] = this.search.IdentificationNumber;
+      }
+
+      if (this.search.FarmerRegisterStatus) {
+        params["FarmerRegisterStatus"] = this.search.FarmerRegisterStatus;
+      }
+
+      axios
+        .get(this.url.Farm, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          this.data = res.data.rows
+            .sort((a, b) =>
+              a.Province.ProvinceName.localeCompare(b.Province.ProvinceName)
+            )
+            .map((item) => {
+              item.FarmRegisterDate = dayjs(item.FarmRegisterDate)
+                .locale(locale)
+                .format("DD/MM/YYYY");
+
+              item.Farmer.FarmerRegisterDate = item.Farmer.FarmerRegisterDate
+                ? dayjs(item.Farmer.FarmerRegisterDate)
+                    .locale(locale)
+                    .format("DD/MM/YYYY")
+                : "-";
+
+              return item;
+            });
+          this.totalPage = res.data.totalPage;
+          this.totalItems = res.data.totalData;
+          this.total = res.data.total;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+
+      //
+      axios
+        .get(this.urlFarm, {
+          signal: this.controller.signal,
+          params: { ...params, size: undefined, page: 1 },
+        })
+        .then((res) => {
+          this.dropdown.Farms = res.data.rows;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+
+      //   if (this.search.FarmerFullName) {
+      //     url += "&FullName=" + this.search.FarmerFullName;
+      //     urlExcel += "&FullName=" + this.search.FarmerFullName;
+      //   }
+    },
+
+    async exportExcel() {
+      this.isLoading = true;
+      if (
+        this.search.AIZoneID == null &&
+        this.search.OrganizationZoneID == null
+      ) {
+        this.isLoading = false;
+        return;
+      }
+
+      let params = {
+        size: this.rowPerPage,
+        page: this.currentPage,
+        orderByField: this.orderByField,
+        orderBy: this.sortOrder,
+        // includeAll: false,
+      };
+
+      if (this.orderByField == "Province.ProvinceName") {
+        params["orderByField"] = "FarmProvinceID";
+      }
+
+      if (this.orderByField == "Amphur.AmphurName") {
+        params["orderByField"] = "FarmAmphurID";
+      }
+
+      if (this.orderByField == "Tumbol.TumbolName") {
+        params["orderByField"] = "TumbolProvinceID";
+      }
+
+      if (this.orderByField == "Organization.OrganizationName") {
+        params["orderByField"] = "OrganizationID";
+      }
+
+      if (this.orderByField == "Farmer.FarmerRegisterStatus") {
+        params["orderByField"] = "FarmerID";
+      }
+
+      if (this.orderByField == "Farmer.FarmerRegisterDate") {
+        params["orderByField"] = "FarmerID";
+      }
+
+      if (this.orderByField == "Farmer.MobilePhoneNumber") {
+        params["orderByField"] = "FarmerID";
+      }
+
+      if (
+        this.orderByField == "Farmer.FullName" ||
+        this.orderByField == "Farmer.IdentificationNumber" ||
+        this.orderByField == "Farmer.FarmerNumber"
+      ) {
+        params["orderByField"] = "FarmerID";
+      }
+
+      if (this.search.FarmAnimalType == null) {
+        this.search.FarmAnimalType = parseInt(this.AnimalID);
+        params["FarmAnimalType"] = this.search.FarmAnimalType;
+      } else {
+        params["FarmAnimalType"] = this.search.FarmAnimalType;
+      }
+
+      // Province IN AIZOne
+      if (this.search.AIZoneID != null) {
+        if (this.search.AIZoneID != 99) {
+          params["AIZoneID"] = this.search.AIZoneID;
+        }
+      }
+
+      if (this.search.OrganizationZoneID != null) {
+        if (this.search.OrganizationZoneID != 99) {
+          params["OrganizationZoneID"] = this.search.OrganizationZoneID;
+        }
+      }
+
+      if (this.search.ProvinceID != null) {
+        params["FarmProvinceID"] = this.search.ProvinceID;
+      }
+
+      if (this.search.AmphurID != null) {
+        params["FarmAmphurID"] = this.search.AmphurID;
+      }
+
+      if (this.search.TumbolID != null) {
+        params["FarmTumbolID"] = this.search.TumbolID;
+      }
+
+      if (this.search.OrganizationID != null) {
+        params["OrganizationID"] = this.search.OrganizationID;
+      }
+
+      if (this.search.OrganizationID != null) {
+        params["OrganizationID"] = this.search.OrganizationID;
+      }
+
+      if (this.search.ProjectIDArray) {
+        params["ProjectID"] = JSON.stringify(this.search.ProjectIDArray);
+      }
+
+      if (this.search.FarmerFullName) {
+        params["FullName"] = this.search.FarmerFullName;
+      }
+
+      if (this.search.FarmID) {
+        params["FarmID"] = this.search.FarmID;
+      }
+
+      if (this.search.FarmStatusID) {
+        params["FarmStatusID"] = this.search.FarmStatusID;
+      }
+
+      await axios
+        .get(this.url.ExportFarm, {
+          signal: this.controller.signal,
+          params: {
+            ...params,
+            size: 10000000,
+            page: 1,
+          },
+        })
+        .then((response) => {
+          this.json_data = response.data.rows;
+
+          //   .map((e) => {
+          //     return {
+          //       หมายเลขฟาร์ม: e.FarmIdentificationNumber,
+          //       ชื่อฟาร์ม: e.FarmName,
+          //       ชื่อนามสกุลเกษตรกร: e.Farmer ? e.Farmer.FullName : "-",
+          //       จังหวัด: e.Province.ProvinceName,
+          //       อำเภอ: e.Amphur.AmphurName,
+          //       ตำบล: e.Tumbol.TumbolName,
+          //       หน่วยงาน: e.Organization ? e.Organization.OrganizationName : "-",
+          //       วันที่ขึ้นทะเบียน: e.FarmRegisterDate
+          //         ? dayjs(e.FarmRegisterDate).locale(locale).format("DD/MM/YYYY")
+          //         : "",
+          //     };
+          //   });
+          return response.data.rows;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+
+    load(event) {
+      if (event) {
+        this.currentPage = event.page + 1;
+      }
+
+      this.fetchFarm();
+      this.exportExcel();
+      //   this.isLoading = true;
+      //   if (event) {
+      //     this.currentPage = event.page + 1;
+      //   }
+      //   let url =
+      //     this.url.Farm +
+      //     `?orderByField=FarmID&orderBy=desc&size=` +
+      //     this.rowPerPage +
+      //     `&page=` +
+      //     this.currentPage;
+      //   let urlExcel =
+      //     this.url.Farm +
+      //     `?orderByField=FarmID&orderBy=desc&size=100000&page=` +
+      //     this.currentPage;
+      //   if (event) {
+      //     this.curpage = event.page + 1;
+      //   }
+      //   //   if (this.filtered.FarmAnimalType == null) {
+      //   //     this.filtered.FarmAnimalType = parseInt(this.AnimalID);
+      //   //   }
+      //   url += "&FarmAnimalType=" + this.filtered.FarmAnimalType;
+      //   if (this.filtered.FarmIdentificationNumber || this.filtered.FarmName) {
+      //     url +=
+      //       "&FarmIdentificationNumber=" +
+      //       this.filtered.FarmIdentificationNumber +
+      //       "&FarmName=" +
+      //       this.filtered.FarmName;
+      //     urlExcel +=
+      //       "&FarmIdentificationNumber=" +
+      //       this.filtered.FarmIdentificationNumber +
+      //       "&FarmName=" +
+      //       this.filtered.FarmName;
+      //   }
+      //   if (this.search.FarmerFullName) {
+      //     url += "&FullName=" + this.search.FarmerFullName;
+      //     urlExcel += "&FullName=" + this.search.FarmerFullName;
+      //   }
+      //   if (this.filtered.OrganizationID) {
+      //     url += "&OrganizationID=" + this.filtered.OrganizationID;
+      //     urlExcel += "&OrganizationID=" + this.filtered.OrganizationID;
+      //   }
+      //   if (this.filtered.OrganizationZone) {
+      //     url += "&OrganizationZoneID=" + this.filtered.OrganizationZone;
+      //     urlExcel += "&OrganizationZoneID=" + this.filtered.OrganizationZone;
+      //   }
+      //   if (this.filtered.FarmStatusID) {
+      //     url += "&FarmStatusID=" + this.filtered.FarmStatusID;
+      //     urlExcel += "&FarmStatusID=" + this.filtered.FarmStatusID;
+      //   }
+      //   if (this.filtered.FarmProvinceID) {
+      //     url += "&FarmProvinceID=" + this.filtered.FarmProvinceID;
+      //     urlExcel += "&FarmProvinceID=" + this.filtered.FarmProvinceID;
+      //   }
+      //   if (this.filtered.FarmAmphurID) {
+      //     url += "&FarmAmphurID=" + this.filtered.FarmAmphurID;
+      //     urlExcel += "&FarmAmphurID=" + this.filtered.FarmAmphurID;
+      //   }
+      //   if (this.filtered.FarmTumbolID) {
+      //     url += "&FarmTumbolID=" + this.filtered.FarmTumbolID;
+      //     urlExcel += "&FarmTumbolID=" + this.filtered.FarmTumbolID;
+      //   }
+      //   if (this.search.dateRange) {
+      //     url += `&FarmRegisterStartDate=${this.search.dateRange[0]}&FarmRegisterEndDate=${this.search.dateRange[1]}`;
+      //     urlExcel += `&FarmRegisterStartDate=${this.search.dateRange[0]}&FarmRegisterEndDate=${this.search.dateRange[1]}`;
+      //   }
+      //   if (this.filtered.ProjectID) {
+      //     if (this.filtered.ProjectID.length === 0) {
+      //       url += `&ProjectID=`;
+      //       urlExcel += `&ProjectID=`;
+      //     } else {
+      //       url += `&ProjectID=${JSON.stringify(this.filtered.ProjectID)}`;
+      //       urlExcel += `&ProjectID=${JSON.stringify(this.filtered.ProjectID)}`;
+      //     }
+      //   }
+      //   axios
+      //     .get(url, { signal: this.controller.signal })
+      //     .then((response) => {
+      //       this.total = response.data.total;
+      //       this.data = response.data.rows;
+      //       if (this.curpage == 0 || this.curpage == 1) {
+      //         for (let i = 0; i < this.data.length; i++) {
+      //           this.data[i].show_id = i + 1;
+      //           if (this.data[i].FarmRegisterDate != null) {
+      //             this.data[i].FarmRegisterDate = dayjs(
+      //               this.data[i].FarmRegisterDate
+      //             )
+      //               .locale(locale)
+      //               .format("DD/MM/YYYY");
+      //           }
+      //         }
+      //       } else {
+      //         let start = (this.curpage - 1) * 15;
+      //         for (let i = 0; i < this.data.length; i++) {
+      //           this.data[i].show_id = i + 1 + start;
+      //         }
+      //       }
+      //       this.totalPage = response.data.totalPage;
+      //       this.totalItems = response.data.totalData;
+      //       this.total = response.data.total;
+      //       console.log(this.total);
+      //     })
+      //     .finally(() => {
+      //       this.isLoading = false;
+      //     });
+      //   axios
+      //     .get(urlExcel, { signal: this.controller.signal })
+      //     .then((response) => {
+      //       this.json_data = response.data.rows.map((e) => {
+      //         return {
+      //           หมายเลขฟาร์ม: e.FarmIdentificationNumber,
+      //           ชื่อฟาร์ม: e.FarmName,
+      //           ชื่อนามสกุลเกษตรกร: e.Farmer ? e.Farmer.FullName : "-",
+      //           จังหวัด: e.Province.ProvinceName,
+      //           อำเภอ: e.Amphur.AmphurName,
+      //           ตำบล: e.Tumbol.TumbolName,
+      //           หน่วยงาน: e.Organization ? e.Organization.OrganizationName : "-",
+      //           วันที่ขึ้นทะเบียน: e.FarmRegisterDate
+      //             ? dayjs(e.FarmRegisterDate).locale(locale).format("DD/MM/YYYY")
+      //             : "",
+      //         };
+      //       });
+      //     })
+      //     .finally(() => {
+      //       this.isLoading = false;
+      //     });
+    },
+    add() {
+      if (this.permit[0].IsAdd == 0) {
+        this.$toast.add({
+          severity: "error",
+          summary: "ล้มเหลว",
+          detail: "ไม่มีสิทธิ์เพิ่ม",
+          life: 5000,
+        });
+        return;
+      } else {
+        router.push({ name: "farmerinfo" });
+      }
+    },
+    detailOrganization(id) {
+      const { OrganizationTypeName } = this.dropdown.OrganizationTypes.find(
+        (val) => val.OrganizationTypeID === id
+      );
+
+      return OrganizationTypeName;
+    },
+
+    detailTitle(id) {
+      console.log(id);
+      //   const { TitleName } = this.selection.TitleName.data.find(
+      //     (val) => val.TitleID === id
+      //   );
+
+      //   return TitleName;
+    },
+    detailGender(id) {
+      console.log(id);
+      //   const { GenderName } = this.dropdown.Gender.find(
+      //     (val) => val.GenderID === id
+      //   );
+
+      //   return GenderName;
+    },
+    detailFormatBirthDate(date) {
+      return format(new Date(date), "dd/MM/yyyy", {
+        locale: th,
+      });
+    },
+    detailFarmerRegisterStatus(id) {
+      if (id == 2) {
+        return "ขึ้นทะเบียนแล้ว";
+      } else {
+        return "ยังไม่ขึ้นทะเบียน";
+      }
+    },
+    openDetail(id) {
+      this.displayDetail = true;
+      let farmId = this.data.find((val) => val.FarmID === id);
+      if (!farmId) {
+        this.displayDetail = false;
+        this.detailInfo = {};
+      } else {
+        if (this.permit[0].IsPreview == 0) {
+          this.$toast.add({
+            severity: "error",
+            summary: "ล้มเหลว",
+            detail: "ไม่มีสิทธิ์ดูข้อมูล",
+            life: 5000,
+          });
+          return;
+        } else {
+          this.detailInfo = farmId;
+        }
+      }
+    },
+    closeDetail() {
+      this.displayDetail = false;
+      this.detailInfo = {};
+    },
+    open_delete(id) {
+      if (this.permit[0].IsDelete == 0) {
+        this.$toast.add({
+          severity: "error",
+          summary: "ล้มเหลว",
+          detail: "ไม่มีสิทธิ์ลบ",
+          life: 5000,
+        });
+        return;
+      }
+      this.data.id = id;
+      this.display_delete = true;
+    },
+    close_delete() {
+      this.display_delete = false;
+    },
+    // remove data
+    remove() {
+      axios.delete("farm/" + this.data.id).then(() => {
+        this.close_delete();
+        this.load();
+        this.$toast.add({
+          severity: "success",
+          summary: "สำเร็จ",
+          detail: "ลบข้อมูลเสร็จสิ้น",
+          life: 5000,
+        });
+      });
     },
     exportCSV() {
       this.$refs.dt.exportCSV();
     },
+
+    // filterProvince($event) {
+    //   let val = $event.value;
+    //   if (val) {
+    //     this.selection.Province.data = this.selection.Province.temp;
+    //     this.selection.Province.data = this.selection.Province.data.filter(
+    //       (item) => item.AIZoneID == val
+    //     );
+    //   } else {
+    //     this.selection.Province.data = this.selection.Province.temp;
+    //   }
+    // },
+    // filterAmphur($event) {
+    //   let val = $event.value;
+    //   if (val) {
+    //     this.selection.Amphur.data = this.selection.Amphur.temp;
+    //     this.selection.Amphur.data = this.selection.Amphur.data.filter(
+    //       (item) => item.ProvinceID == val
+    //     );
+    //   } else {
+    //     this.selection.Amphur.data = this.selection.Amphur.temp;
+    //   }
+    // },
+    // filterTumbol($event) {
+    //   let val = $event.value;
+    //   if (val) {
+    //     this.selection.Tumbol.data = this.selection.Tumbol.temp;
+    //     this.selection.Tumbol.data = this.selection.Tumbol.data.filter(
+    //       (item) => item.AmphurID == val
+    //     );
+    //   } else {
+    //     this.selection.Tumbol.data = this.selection.Tumbol.temp;
+    //   }
+    // },
+  },
+  unmounted() {
+    // this.controller.abort();
   },
 };
 </script>
 
 <style>
-.p-datatable .p-column-header-content {
-  justify-content: center;
+.styled-table {
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.9em;
+  min-width: 400px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+.styled-table thead tr {
+  background-color: #009879;
+  color: #ffffff;
+  text-align: left;
+}
+.styled-table th,
+.styled-table td {
+  padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+  border-bottom: 2px solid #009879;
+}
+/* .styled-table tbody tr.active-row { */
+/* font-weight: bold; */
+/* color: #009879; */
+/* } */
+
+.pagination-container {
+  display: flex;
+  column-gap: 10px;
+}
+.active-page {
+  background-color: #3498db;
+  border: 1px solid #3498db;
+  color: white;
+}
+.active-page:hover {
+  background-color: #2988c8;
+}
+.p-button:focus {
+  box-shadow: #fff;
 }
 </style>

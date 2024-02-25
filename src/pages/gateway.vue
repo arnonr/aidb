@@ -57,10 +57,16 @@
               "
             >
               <template #header>
-                <img src="layout/images/cow.png" alt="cow" class="max-w-full" />
+                <img
+                  src="layout/images/cow_new.png"
+                  alt="cow"
+                  class="max-w-full"
+                />
               </template>
               <template #content>
-                <h1 class="font-bold text-3xl text-900 mb-2 text-center">โคเนื้อ</h1>
+                <h1 class="font-bold text-3xl text-900 mb-2 text-center">
+                  โคเนื้อ
+                </h1>
               </template>
             </card>
           </div>
@@ -85,10 +91,16 @@
               "
             >
               <template #header>
-                <img src="layout/images/buff.png" alt="buffalo" class="max-w-full" />
+                <img
+                  src="layout/images/buff_new.png"
+                  alt="buffalo"
+                  class="max-w-full"
+                />
               </template>
               <template #content>
-                <h1 class="font-bold text-3xl text-900 mb-2 text-center">กระบือ</h1>
+                <h1 class="font-bold text-3xl text-900 mb-2 text-center">
+                  กระบือ
+                </h1>
               </template>
             </card>
           </div>
@@ -113,10 +125,16 @@
               "
             >
               <template #header>
-                <img src="layout/images/goat2.png" alt="goat" class="max-w-full" />
+                <img
+                  src="layout/images/goat_new.png"
+                  alt="goat"
+                  class="max-w-full"
+                />
               </template>
               <template #content>
-                <h1 class="font-bold text-3xl text-900 mb-2 text-center">แพะ</h1>
+                <h1 class="font-bold text-3xl text-900 mb-2 text-center">
+                  แพะ
+                </h1>
               </template>
             </card>
           </div>
@@ -133,13 +151,21 @@
           >
             <card
               class="card-animal cursor-pointer shadow-none"
-              @click="selectAdmin({ colorPrimary: '#0097FA', colorText: '#fff' })"
+              @click="
+                selectAdmin({ colorPrimary: '#0097FA', colorText: '#fff' })
+              "
             >
               <template #header>
-                <img src="layout/images/admin3.png" alt="admin" class="max-w-full" />
+                <img
+                  src="layout/images/admin_new.png"
+                  alt="admin"
+                  class="max-w-full"
+                />
               </template>
               <template #content>
-                <h1 class="font-bold text-3xl text-900 mb-2 text-center">ผู้ดูแล</h1>
+                <h1 class="font-bold text-3xl text-900 mb-2 text-center">
+                  ผู้ดูแล
+                </h1>
               </template>
             </card>
           </div>

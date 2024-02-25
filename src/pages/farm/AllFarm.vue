@@ -2217,7 +2217,7 @@ export default {
       this.detailInfo = {};
     },
     open_delete(id) {
-      if (this.permit[0].IsDelete == 0) {
+      if (store.state.user.GroupID > 2) {
         this.$toast.add({
           severity: "error",
           summary: "ล้มเหลว",

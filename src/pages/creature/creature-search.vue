@@ -951,116 +951,45 @@
             </div>
             <div class="col-12 sm:col-12 lg:col-8 grid">
               <div class="field col-12 sm:col-6">
-                <label class="block text-600 text-sm font-bold mb-2">
-                  หมายเลขใบหู</label
-                >
-                <InputText
-                  type="text"
-                  class="w-full"
-                  v-model="form.AnimalEarID"
-                  disabled
-                />
+                <span> หมายเลขใบหู : </span>
+                <span> {{ form.AnimalEarID }}</span>
               </div>
 
               <div class="field col-12 sm:col-6">
-                <label
-                  for="selectedUnit"
-                  class="block text-600 text-sm font-bold mb-2"
-                >
-                  หมายเลข NID</label
-                >
-                <InputText
-                  type="text"
-                  class="w-full"
-                  v-model="form.AnimalNationalID"
-                  disabled
-                />
-              </div>
-              <div class="field col-12 sm:col-6">
-                <label
-                  for="selectedUnit"
-                  class="block text-600 text-sm font-bold mb-2"
-                >
-                  หมายเลข RFID</label
-                >
-                <InputText
-                  type="text"
-                  class="w-full"
-                  v-model="form.AnimalMicrochip"
-                  disabled
-                />
-              </div>
-              <div class="field col-12 sm:col-6">
-                <label
-                  for="selectedUnit"
-                  class="block text-600 text-sm font-bold mb-2"
-                >
-                  ชื่อสัตว์</label
-                >
-                <InputText
-                  type="text"
-                  class="w-full"
-                  v-model="form.AnimalName"
-                  disabled
-                />
+                <span> หมายเลข NID : </span>
+                <span> {{ form.AnimalNationalID }}</span>
               </div>
 
               <div class="field col-12 sm:col-6">
-                <label
-                  for="selectedUnit"
-                  class="block text-600 text-sm font-bold mb-2"
-                >
-                  สถานะ</label
-                >
-                <InputText
-                  type="text"
-                  class="w-full"
-                  v-model="form.AnimalStatus.AnimalStatusName"
-                  disabled
-                />
+                <span> หมายเลข RFID : </span>
+                <span> {{ form.AnimalMicrochip }}</span>
               </div>
+
               <div class="field col-12 sm:col-6">
-                <label
-                  for="selectedUnit"
-                  class="block text-600 text-sm font-bold mb-2"
-                >
-                  เพศ</label
-                >
-                <InputText
-                  type="text"
-                  class="w-full"
-                  v-model="form.AnimalSex.AnimalSexName"
-                  disabled
-                />
+                <span> ชื่อสัตว์ : </span>
+                <span> {{ form.AnimalName }}</span>
               </div>
+
               <div class="field col-12 sm:col-6">
-                <label
-                  for="selectedUnit"
-                  class="block text-600 text-sm font-bold mb-2"
-                >
-                  ชนิดสัตว์</label
-                >
-                <InputText
-                  type="text"
-                  class="w-full"
-                  v-model="form.AnimalType.AnimalTypeName"
-                  disabled
-                />
+                <span> สถานะ : </span>
+                <span> {{ form.AnimalStatus.AnimalStatusName }}</span>
               </div>
+
               <div class="field col-12 sm:col-6">
-                <label
-                  for="selectedUnit"
-                  class="block text-600 text-sm font-bold mb-2"
-                >
-                  ฟาร์ม</label
-                >
-                <InputText
-                  type="text"
-                  class="w-full"
-                  v-model="form.AnimalFarm.FarmName"
-                  disabled
-                />
+                <span> สถานะการผสม : </span>
+                <span> {{ form.ProductionStatus.ProductionStatusName }}</span>
               </div>
+
+              <div class="field col-12 sm:col-6">
+                <span> เพศ : </span>
+                <span> {{ form.AnimalSex.AnimalSexName }}</span>
+              </div>
+
+              <div class="field col-12 sm:col-6">
+                <span> ชนิดสัตว์ : </span>
+                <span> {{ form.AnimalType.AnimalTypeName }}</span>
+              </div>
+
             </div>
           </div>
 
@@ -1068,332 +997,64 @@
           <div class="text-xl">ข้อมูลสัตว์เบื้องต้น</div>
           <div class="formgrid grid mt-2">
             <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2">
-                น้ำหนักแรกเกิด (กก.)</label
-              >
-              <InputText
-                type="number"
-                class="w-full"
-                v-model="form.AnimalBornWeight"
-                min="0"
-                disabled
-              />
-            </div>
-            <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2">
-                ท้องที่</label
-              >
-              <InputText
-                type="number"
-                class="w-full"
-                v-model="form.AnimalPar"
-                disabled
-              />
+              <span> อายุ : </span>
+              <span> {{ form.AnimalAge }}</span>
             </div>
 
             <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2"
-                >แหล่งที่มา</label
-              >
-              <!-- <Dropdown
-                class="w-full"
-                :options="AnimalSource"
-                optionLabel="name"
-                :filter="true"
-                placeholder="เลือกแหล่งที่มา"
-                v-model="form.AnimalSource"
-              /> -->
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="form.AnimalSourceName"
-                disabled
-              />
-            </div>
-            <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2"
-                >รูปแบบการเกิด</label
-              >
-
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="form.AnimalBornTypeName"
-                disabled
-              />
-            </div>
-            <div class="field col-12 sm:col-6 md:col-6">
-              <label class="block text-600 text-sm font-bold mb-2">
-                ฟาร์มต้นทาง</label
-              >
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="form.SourceFarm.FarmName"
-                disabled
-              />
+              <span> สายพันธุ์ : </span>
+              <span> {{ form.AnimalBreedAll }}</span>
             </div>
 
             <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2"
-                >แหล่งที่มา (ระบุ)</label
-              >
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="form.SourceText"
-                disabled
-              />
+              <span> วันเกิด : </span>
+              <span> {{ form.ThaiAnimalBirthDate }}</span>
+            </div>
+            <!-- <div class="field col-12 sm:col-6">
+              <span> วันที่เข้าฝูง : </span>
+              <span> {{ form.AnimalDateJoin }}</span>
+            </div> -->
+            <div class="field col-12 sm:col-6">
+              <span> น้ำหนักแรกเกิด (กก.) : </span>
+              <span> {{ form.AnimalBornWeight }}</span>
             </div>
 
             <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2">
-                โครงการ</label
-              >
-              <MultiSelect
-                class="w-full"
-                :options="project"
-                optionLabel="ProjectName"
-                optionValue="ProjectID"
-                placeholder="เลือกโครงการ"
-                display="chip"
-                v-model="form.ProjectID"
-                disabled
-              />
+              <span> ท้องที่ : </span>
+              <span> {{ form.AnimalPar }}</span>
             </div>
+
+            <div class="field col-12 sm:col-12">
+              <span> โครงการ : </span>
+              <span v-for="pj,idx in form.Projects" :key="idx">
+                {{ pj.ProjectName + " " }}</span
+              >
+            </div>
+
+
             <div class="field col-12 sm:col-6">
-              <label class="block text-600 text-sm font-bold mb-2"
-                >ตั้งต้นสายเลือด</label
-              >
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="form.AnimalFirstBreedName"
-                disabled
-              />
-            </div>
+                <span> ฟาร์ม : </span>
+                <span> {{ form.AnimalFarm.FarmName }}</span>
+              </div>
+
+              <div class="field col-12 sm:col-6">
+                <span> ทะเบียนฟาร์ม : </span>
+                <span> {{ form.AnimalFarm.FarmIdentificationNumber }}</span>
+              </div>
+
+              <div class="field col-12 sm:col-6">
+                <span> ศูนย์วิจัย : </span>
+                <span> {{ form.AnimalFarm.AIZone.AIZoneName }}</span>
+              </div>
+
+              <div class="field col-12 sm:col-6">
+                <span> หน่วยงาน : </span>
+                <span>
+                  {{ form.AnimalFarm.Organization.OrganizationName }}</span
+                >
+              </div>
           </div>
           <hr />
-          <div class="text-xl">ข้อมูลสายพันธุ์</div>
-          <div class="formgrid grid mt-2">
-            <div
-              class="field col-12 sm:col-6"
-              v-if="form.AnimalFirstBreed == '0'"
-            >
-              <label class="block text-600 text-sm font-bold mb-2">
-                หมายเลขพ่อ</label
-              >
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="form.AnimalFather.Fullname"
-                disabled
-              />
-            </div>
-            <div
-              class="field col-12 sm:col-6"
-              v-if="form.AnimalFirstBreed == '0'"
-            >
-              <label class="block text-600 text-sm font-bold mb-2">
-                หมายเลขแม่</label
-              >
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="form.AnimalMother.Fullname"
-                disabled
-              />
-            </div>
-            <div class="field col-12 sm:col-6" v-if="form.AnimalBreedID1">
-              <label class="block text-600 text-sm font-bold mb-2"
-                >สายพันธุ์ที่ 1</label
-              >
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="form.AnimalBreed1.AnimalBreedName"
-                disabled
-              />
-
-              <!-- <Dropdown
-                class="w-full"
-                id="selectedstatus"
-                optionLabel="Fullname"
-                optionValue="AnimalBreedID"
-                :options="AnimalBreed"
-                placeholder="เลือกสายพันธุ์ที่"
-                :showClear="true"
-                :filter="true"
-                v-model="form.AnimalBreedID1"
-                disabled
-              /> -->
-            </div>
-            <div class="field col-12 sm:col-6" v-if="form.AnimalBreedID1">
-              <label class="block text-600 text-sm font-bold mb-2"
-                >สัดส่วนสายพันธุ์ที่ 1 (%)
-              </label>
-              <InputText
-                type="number"
-                class="w-full"
-                v-model="form.AnimalBreedPercent1"
-                disabled
-              />
-            </div>
-            <div class="field col-12 sm:col-6" v-if="form.AnimalBreedID2">
-              <label class="block text-600 text-sm font-bold mb-2"
-                >สายพันธุ์ที่ 2</label
-              >
-              <!-- <Dropdown
-                class="w-full"
-                id="selectedstatus"
-                optionLabel="Fullname"
-                optionValue="AnimalBreedID"
-                :options="AnimalBreed"
-                placeholder="เลือกสายพันธุ์ที่"
-                :showClear="true"
-                :filter="true"
-                v-model="form.AnimalBreedID2"
-                disabled
-              /> -->
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="form.AnimalBreed2.AnimalBreedName"
-                disabled
-              />
-            </div>
-            <div class="field col-12 sm:col-6" v-if="form.AnimalBreedID2">
-              <label class="block text-600 text-sm font-bold mb-2"
-                >สัดส่วนสายพันธุ์ที่ 2 (%)</label
-              >
-              <InputText
-                type="number"
-                class="w-full"
-                v-model="form.AnimalBreedPercent2"
-                disabled
-              />
-            </div>
-            <div
-              class="field col-12 sm:col-6"
-              v-if="form.AnimalBreedID3 || checkAnimal > 2"
-            >
-              <label class="block text-600 text-sm font-bold mb-2"
-                >สายพันธุ์ที่ 3</label
-              >
-              <!-- <Dropdown
-                class="w-full"
-                id="selectedstatus"
-                optionLabel="Fullname"
-                optionValue="AnimalBreedID"
-                :options="AnimalBreed"
-                placeholder="เลือกสายพันธุ์ที่"
-                :showClear="true"
-                :filter="true"
-                v-model="form.AnimalBreedID3"
-                disabled
-              /> -->
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="form.AnimalBreed3.AnimalBreedName"
-                disabled
-              />
-            </div>
-            <div
-              class="field col-12 sm:col-6"
-              v-if="form.AnimalBreedID3 || checkAnimal > 2"
-            >
-              <label class="block text-600 text-sm font-bold mb-2"
-                >สัดส่วนสายพันธุ์ที่ 3 (%)</label
-              >
-              <InputText
-                type="number"
-                class="w-full"
-                v-model="form.AnimalBreedPercent3"
-                disabled
-              />
-            </div>
-            <div
-              class="field col-12 sm:col-6"
-              v-if="form.AnimalBreedID4 || checkAnimal > 3"
-            >
-              <label class="block text-600 text-sm font-bold mb-2"
-                >สายพันธุ์ที่ 4</label
-              >
-              <!-- <Dropdown
-                class="w-full"
-                id="selectedstatus"
-                optionLabel="Fullname"
-                optionValue="AnimalBreedID"
-                :options="AnimalBreed"
-                placeholder="เลือกสายพันธุ์ที่"
-                :showClear="true"
-                :filter="true"
-                v-model="form.AnimalBreedID4"
-                disabled
-              /> -->
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="form.AnimalBreed4.AnimalBreedName"
-                disabled
-              />
-            </div>
-            <div
-              class="field col-12 sm:col-6"
-              v-if="form.AnimalBreedID4 || checkAnimal > 3"
-            >
-              <label class="block text-600 text-sm font-bold mb-2"
-                >สัดส่วนสายพันธุ์ที่ 4 (%)</label
-              >
-              <InputText
-                type="number"
-                class="w-full"
-                v-model="form.AnimalBreedPercent4"
-                disabled
-              />
-            </div>
-            <div
-              class="field col-12 sm:col-6"
-              v-if="form.AnimalBreedID5 || checkAnimal > 4"
-            >
-              <label class="block text-600 text-sm font-bold mb-2"
-                >สายพันธุ์ที่ 5</label
-              >
-              <!-- <Dropdown
-                class="w-full"
-                id="selectedstatus"
-                optionLabel="Fullname"
-                optionValue="AnimalBreedID"
-                :options="AnimalBreed"
-                placeholder="เลือกสายพันธุ์ที่"
-                :showClear="true"
-                :filter="true"
-                v-model="form.AnimalBreedID5"
-                disabled
-              /> -->
-              <InputText
-                type="text"
-                class="w-full"
-                v-model="form.AnimalBreed5.AnimalBreedName"
-                disabled
-              />
-            </div>
-            <div
-              class="field col-12 sm:col-6"
-              v-if="form.AnimalBreedID5 || checkAnimal > 4"
-            >
-              <label class="block text-600 text-sm font-bold mb-2"
-                >สัดส่วนสายพันธุ์ที่ 5 (%)</label
-              >
-              <InputText
-                type="number"
-                class="w-full"
-                v-model="form.AnimalBreedPercent5"
-                disabled
-              />
-            </div>
-          </div>
         </div>
       </form>
     </Dialog>
@@ -1644,7 +1305,9 @@ export default {
     }
 
     if (this.$route.query.OrganizationZoneID) {
-      this.search.OrganizationZoneID = Number(this.$route.query.OrganizationZoneID);
+      this.search.OrganizationZoneID = Number(
+        this.$route.query.OrganizationZoneID
+      );
     }
 
     if (store.state.user.Staff.Organization.OrganizationZoneID) {
@@ -1654,7 +1317,7 @@ export default {
 
     if (this.$route.query.FarmID) {
       console.log(this.$route.query.FarmID);
-      this.search.FarmID =  Number(this.$route.query.FarmID);
+      this.search.FarmID = Number(this.$route.query.FarmID);
       console.log(this.search.FarmID);
     }
   },
@@ -2596,7 +2259,7 @@ export default {
       if (this.search.OrganizationID != null) {
         params["OrganizationID"] = this.search.OrganizationID;
       }
-      
+
       if (this.search.ProjectIDArray) {
         params["ProjectID"] = JSON.stringify(this.search.ProjectIDArray);
       }

@@ -195,7 +195,7 @@
               @onclear_display="clear_display"
             />
           </TabPanel>
-          <TabPanel header="คลอด">
+          <TabPanel header="คลอด/ติดตามลูก">
             <TabBirth
               :permit="permit"
               @refresh_secret_status="refresh_secret_status"
@@ -203,7 +203,7 @@
               @onclear_display="clear_display"
             />
           </TabPanel>
-          <TabPanel header="ติดตามลูกหลังคลอด">
+          <TabPanel :header="'ลูก' + AnimalNameGlobal">
             <TabFollowAfterBirth
               :permit="permit"
               @refresh_secret_status="refresh_secret_status"
@@ -356,6 +356,7 @@ export default {
       return item.MenuID == 12;
     });
 
+    this.AnimalNameGlobal = this.animal_id == 1 ? "โค" : this.animal_id == 2 ? "กระบือ" : "แพะ"
 
     // if (this.tabAnimal.id >= 10) {
     //   let x = 0;
@@ -381,9 +382,9 @@ export default {
         AnimalBreed3: {},
         AnimalBreed4: {},
         AnimalFarm: {},
-        AnimalName: null
+        AnimalName: null,
       },
-      
+      AnimalNameGlobal: "",
       permit: null,
       active: 0,
       isProjectThaiBlack: false,
@@ -423,7 +424,7 @@ export default {
           if (response.data.rows.length > 0) {
             if (this.search == response.data.rows[0].AnimalEarID) {
               this.data = response.data.rows[0];
-              console.log(this.data)
+              console.log(this.data);
 
               // ป้องกันค้นหาเลขสัตว์อื่นแล้วเจอ
               if (this.animal_id == 1) {
@@ -461,7 +462,7 @@ export default {
                 }
               }
 
-              console.log(this.data)
+              console.log(this.data);
 
               store.dispatch(
                 "selectAnimalSecretStatus",

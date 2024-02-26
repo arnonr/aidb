@@ -42,7 +42,16 @@
       <template #body="slotProps">
         <div class="flex justify-content-center align-items-center">
           <div class="mx-1">
-            {{ slotProps.data.CountChildAnimal }}/{{ slotProps.data.Amount }}
+            <span
+              v-if="
+                slotProps.data.BabyStatus == 2 || slotProps.data.BabyStatus == 3
+              "
+            >
+              {{ slotProps.data.Amount }}/{{ slotProps.data.Amount }}
+            </span>
+            <span v-else>
+              {{ slotProps.data.CountChildAnimal }}/{{ slotProps.data.Amount }}
+            </span>
           </div>
           <Button
             icon="pi pi-eye p-1"
@@ -72,7 +81,27 @@
     >
       <template #body="slotProps">
         <div class="flex justify-content-center align-items-center">
-          <Button
+          <SplitButton
+            v-if="
+              slotProps.data.CountChildAnimal < slotProps.data.Amount &&
+              slotProps.data.BabyStatus == null
+            "
+            label="จัดการ"
+            icon="pi pi-book"
+            @click="edit(slotProps.index)"
+            class="p-button-sm p-button-outlined p-button-success"
+            :model="
+              getItems2(
+                slotProps.data.GiveBirthID,
+                slotProps.data.GiveBirthDate,
+                slotProps.index
+              )
+            "
+          >
+          </SplitButton>
+          <span v-else> เสร็จสิ้น </span>
+
+          <!-- <Button
             label="ลูกเกิด"
             v-if="slotProps.data.CountChildAnimal < slotProps.data.Amount"
             icon="pi pi-plus"
@@ -85,7 +114,7 @@
                 'add'
               )
             "
-          />
+          /> -->
         </div>
       </template>
     </Column>
@@ -370,6 +399,73 @@
       </div>
     </template>
   </Dialog>
+  <!-- Sell -->
+  <Dialog
+    header="ตรวจสอบข้อมูล"
+    v-model:visible="display_sell"
+    :style="{ width: '350px' }"
+    :modal="true"
+  >
+    <div class="confirmation-content text-center">
+      <i class="pi pi-arrows-h" style="font-size: 5rem" />
+      <br />
+      <span class="text-xl">คุณต้องการแจ้งขายลูกที่คลอดใช่หรือไม่</span>
+      <br />  <br />    
+      <label>ระบุน้ำหนัก (KG)</label>
+      <InputText v-model="BabyWeight" class="w-full"  />
+    </div>
+    <template #footer>
+      <div class="col-12 text-center flex justify-content-between">
+        <Button
+          label="ยกเลิก"
+          @click="
+            () => {
+              display_sell = false;
+            }
+          "
+          class="p-button-secondary w-full mr-3"
+        />
+        <Button
+          label="ยืนยัน"
+          @click="sellanddeath(2)"
+          class="p-button-danger w-full ml-3"
+        />
+      </div>
+    </template>
+  </Dialog>
+  <Dialog
+    header="ตรวจสอบข้อมูล"
+    v-model:visible="display_death"
+    :style="{ width: '350px' }"
+    :modal="true"
+  >
+    <div class="confirmation-content text-center">
+      <i class="pi pi-times" style="font-size: 5rem" />
+      <br />
+      <span class="text-xl">คุณต้องการแจ้งตายลูกที่คลอดใช่หรือไม่</span>
+      <br />  <br />    
+      <label>ระบุน้ำหนัก (KG)</label>
+      <InputText v-model="BabyWeight" class="w-full"  />
+    </div>
+    <template #footer>
+      <div class="col-12 text-center flex justify-content-between">
+        <Button
+          label="ยกเลิก"
+          @click="
+            () => {
+              display_death = false;
+            }
+          "
+          class="p-button-secondary w-full mr-3"
+        />
+        <Button
+          label="ยืนยัน"
+          @click="sellanddeath(3)"
+          class="p-button-danger w-full ml-3"
+        />
+      </div>
+    </template>
+  </Dialog>
   <!-- Modal เพิ่มจำนวนลูกที่คลอด -->
   <Dialog
     header="เพิ่มจำนวนลูกที่คลอด"
@@ -451,15 +547,43 @@
           >ลูกที่เพิ่มข้อมูลมาแล้ว
           {{ `${this.data[this.index].CountChildAnimal}` }} ตัว</Tag
         >
-        <Tag class="text-md p-2"
+
+        <Tag class="text-md p-2 mb-2 lg:mb-0 mr-2 text-md p-2"
           >ลูกที่คลอดทั้งหมด {{ `${this.data[this.index].Amount}` }} ตัว</Tag
+        >
+
+        <Tag
+          severity="warning"
+          class="text-md mb-2 lg:mb-0 mr-2 text-md p-2"
+          v-if="this.data[this.index].BabyStatus == 2"
+          >ลูกที่ขาย {{ `${this.data[this.index].Amount}` }} ตัว</Tag
+        >
+
+        <Tag
+          severity="error"
+          class="text-md mb-2 lg:mb-0 mr-2 text-md p-2"
+          v-if="this.data[this.index].BabyStatus == 3"
+          >ลูกที่ตาย {{ `${this.data[this.index].Amount}` }} ตัว</Tag
         >
       </div>
       <div class="col-6 text-right">
-        {{ `${this.data[this.index].CountChildAnimal}` }}/{{
-          `${this.data[this.index].Amount}`
-        }}
-        ตัว
+        <span
+          v-if="
+            this.data[this.index].BabyStatus == 2 ||
+            this.data[this.index].BabyStatus == 3
+          "
+        >
+          {{ `${this.data[this.index].Amount}` }}/{{
+            `${this.data[this.index].Amount}`
+          }}
+          ตัว
+        </span>
+        <span v-else>
+          {{ `${this.data[this.index].CountChildAnimal}` }}/{{
+            `${this.data[this.index].Amount}`
+          }}
+          ตัว
+        </span>
       </div>
     </div>
     <div class="grid row-gap-3 mt-3">
@@ -624,6 +748,7 @@ export default {
       // Name
       name: "คลอด",
       disabledPar: true,
+      BabyWeight: null,
       limitPar: 2,
       textBirth: "",
       show: {
@@ -732,6 +857,8 @@ export default {
       index: null,
       display: false,
       display_delete: false,
+      display_sell: false,
+      display_death: false,
       displayAddBaby: false,
       displayViewBaby: false,
       displayViewConfirmBirth: false,
@@ -872,6 +999,33 @@ export default {
           icon: "pi pi-trash",
           command: () => {
             this.open_delete(id);
+          },
+        },
+      ];
+      return items;
+    },
+
+    getItems2(GiveBirthID, GiveBirthDate, index) {
+      const items = [
+        {
+          label: "ลงทะเบียนลูก",
+          icon: "pi pi-plus",
+          command: () => {
+            this.openRegister(GiveBirthID, GiveBirthDate, index, "add");
+          },
+        },
+        {
+          label: "ขาย",
+          icon: "pi pi-arrows-h",
+          command: () => {
+            this.open_sell(index);
+          },
+        },
+        {
+          label: "ตาย",
+          icon: "pi pi-times",
+          command: () => {
+            this.open_death(index);
           },
         },
       ];
@@ -1127,7 +1281,7 @@ export default {
             });
           });
       }
-    //   this.$emit("refresh_secret_status");
+      //   this.$emit("refresh_secret_status");
     },
     // remove data
     remove() {
@@ -1141,7 +1295,7 @@ export default {
           life: 5000,
         });
       });
-    //   this.$emit("refresh_secret_status");
+      //   this.$emit("refresh_secret_status");
     },
     // form open add
     async open() {
@@ -1215,6 +1369,7 @@ export default {
       this.index = id;
       this.display_delete = true;
     },
+
     close_delete() {
       this.display_delete = false;
     },
@@ -1223,6 +1378,16 @@ export default {
     },
     closeAddBaby() {
       this.displayAddBaby = false;
+    },
+
+    open_sell(id) {
+      this.index = id;
+      this.display_sell = true;
+    },
+
+    open_death(id) {
+      this.index = id;
+      this.display_death = true;
     },
     async openConfirmBirth() {
       // console.log(this.lastInformation.AIDate);
@@ -1535,6 +1700,19 @@ export default {
     },
     editAnimal(id) {
       this.$router.push("/creaturebaby/edit/" + id);
+    },
+
+    async sellanddeath(type) {
+      await axios
+        .post(`give-birth/baby-sell-and-death`, {
+          BabyStatus: type,
+          BabyWeight: Number(this.BabyWeight),
+          id: this.data[this.index].GiveBirthID,
+        })
+        .then(() => {
+          this.display_death = false;
+          this.display_sell = false;
+        });
     },
   },
   unmounted() {

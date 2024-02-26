@@ -20,10 +20,10 @@
           <TabPanel header="แท้ง">
             <TabAbortion :permit="permit" />
           </TabPanel>
-          <TabPanel header="คลอด">
+          <TabPanel header="คลอด/ติดตามลูก">
             <TabBirth :permit="permit" />
           </TabPanel>
-          <TabPanel header="ติดตามลูกหลังคลอด">
+          <TabPanel header="ลูก">
             <TabFollowAfterBirth :permit="permit" />
           </TabPanel>
           <TabPanel header="หย่านม">

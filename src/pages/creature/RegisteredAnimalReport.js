@@ -7,7 +7,7 @@ import logo from "@/assets/images/logo-2.png";
 
 const RegisteredAnimalReport = async (id) => {
   const result = await axios
-    .get("/animal/" + id + "/export-registered-animal")
+    .get("/animal/export-registered-animal/"+id)
     .then((res) => {
       return res.data;
     });

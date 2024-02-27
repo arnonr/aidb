@@ -972,12 +972,12 @@
 
               <div class="field col-12 sm:col-6">
                 <span> สถานะ : </span>
-                <span> {{ form.AnimalStatus.AnimalStatusName }}</span>
+                <span> {{ form.AnimalStatus?.AnimalStatusName }}</span>
               </div>
 
               <div class="field col-12 sm:col-6">
                 <span> สถานะการผสม : </span>
-                <span> {{ form.ProductionStatus.ProductionStatusName }}</span>
+                <span> {{ form.ProductionStatus?.ProductionStatusName }}</span>
               </div>
 
               <div class="field col-12 sm:col-6">

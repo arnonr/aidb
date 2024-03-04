@@ -325,7 +325,7 @@
                     />
                   </div>
 
-                  <div class="field col-12 sm:col-6">
+                  <div class="field col-12 sm:col-12">
                     <label class="block text-600 text-sm font-bold mb-2"
                       >ตั้งต้นสายเลือด</label
                     >
@@ -342,7 +342,51 @@
                     />
                   </div>
 
-                  <div class="col-12">
+                  <div class="col-12 formgrid grid">
+                    <div class="field col-12 sm:col-6">
+                      <label class="block text-600 text-sm font-bold mb-2">
+                        หมายเลขพ่อ<span class="text-red-500"> *</span></label
+                      >
+
+                      <InputText
+                        type="text"
+                        class="w-full"
+                        v-model="form.AnimalFatherName"
+                        readonly
+                      />
+                    </div>
+
+                    <div class="field col-12 sm:col-6">
+                      <label class="block text-600 text-sm font-bold mb-2">
+                        หมายเลขแม่<span class="text-red-500"> *</span></label
+                      >
+
+                      <InputText
+                        type="text"
+                        class="w-full"
+                        v-model="form.AnimalMotherName"
+                        readonly
+                      />
+
+                      <!-- <v-select
+                        :options="animalmother_temp"
+                        @search="fetchAnimalMotherOptions"
+                        label="Fullname"
+                        value="AnimalID"
+                        :disabled="true"
+                        v-model="form.AnimalMotherID"
+                        class="w-full"
+                        placeholder="เลือกหมายเลขแม่หรือชื่อแม่ (พิมพ์ 3 ตัวอักษรเพื่อค้นหา)"
+                      ></v-select> -->
+
+                      <!-- <Select2
+                          v-model="myValue"
+                          :options="myOptions"
+                        /> -->
+                    </div>
+                  </div>
+
+                  <!-- <div class="col-12">
                     <div class="formgrid grid">
                       <div class="field col-12 sm:col-6">
                         <label class="block text-600 text-sm font-bold mb-2">
@@ -381,7 +425,8 @@
                         />
                       </div>
                     </div>
-                  </div>
+                  </div> -->
+
                   <div class="col-12" v-if="checkFirst == '1'">
                     <div class="formgrid grid">
                       <div class="field col-12 sm:col-6">
@@ -634,8 +679,8 @@ export default {
       apiFarm: "/farm?isActive=1",
       apiPersonal: "/staff?isActive=1",
       apiAnimalSex: "/animal-sex?isActive=1",
-      apiAnimalFatherID: "/animal/id-and-name?",
-      apiAnimalMotherID: "/animal/id-and-name?",
+      apiAnimalFatherID: "/animal/id-and-name?isActive=1",
+      apiAnimalMotherID: "/animal/id-and-name?isActive=1",
       apiAnimalBreedID: "/animal-breed?isActive=1",
       apiOrganizationID: "/organization?isActive=1",
       apiOrganizationZoneID: "/organization-zone?isActive=1",
@@ -647,6 +692,8 @@ export default {
         { label: "ข้อมูลสัตว์ (การคลอด)", to: "/activity/creature_info" },
         { label: "ลงทะเบียนลูกเกิดใหม่", to: "" },
       ],
+      animalmother_temp: [],
+      animalfather_temp: [],
 
       // load
       data: [],
@@ -677,6 +724,10 @@ export default {
         AnimalNationalID: null,
         AnimalEarID: null,
         AnimalMicrochip: null,
+        AnimalFatherName: null,
+        AnimalMotherName: null,
+        AnimalMotherID: null,
+        AnimalFatherID: null,
       },
 
       BornType: [
@@ -865,6 +916,26 @@ export default {
     },
   },
   methods: {
+    fetchAnimalMotherOptions(search, loading) {
+      console.log(loading);
+      if (search.length > 2) {
+        this.animalmother_temp = this.animalmother.filter((x) => {
+          return x.AnimalEarIDAndName.includes(search);
+        });
+      } else {
+        this.animalmother_temp = [];
+      }
+    },
+    fetchAnimalFatherOptions(search, loading) {
+      console.log(loading);
+      if (search.length > 2) {
+        this.animalfather_temp = this.animalfather.filter((x) => {
+          return x.AnimalEarIDAndName.includes(search);
+        });
+      } else {
+        this.animalfather_temp = [];
+      }
+    },
     callCheckBreed() {
       if (this.checkMother != null && this.checkFather != null) {
         axios
@@ -1021,6 +1092,14 @@ export default {
           this.animalfather = response.data.rows;
           if (this.bornItem) {
             this.form.AnimalFatherID = this.bornItem.FatherID;
+
+            let fa = this.animalfather.find((x) => {
+              return x.AnimalID == this.form.AnimalFatherID;
+            });
+
+            if (fa) {
+              this.form.AnimalFatherName = fa.AnimalEarIDAndName;
+            }
           }
         });
 
@@ -1041,6 +1120,13 @@ export default {
           this.animalmother = response.data.rows;
           if (this.bornItem) {
             this.form.AnimalMotherID = this.bornItem.AnimalID;
+            let mo = this.animalmother.find((x) => {
+              return x.AnimalID == this.form.AnimalMotherID;
+            });
+
+            if (mo) {
+              this.form.AnimalMotherName = mo.AnimalEarIDAndName;
+            }
           }
         });
 

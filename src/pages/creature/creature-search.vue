@@ -2781,6 +2781,9 @@ export default {
       }
     },
     async open_edit(id) {
+            
+    
+    
       if (this.permit[0].IsUpdate == 0) {
         this.$toast.add({
           severity: "error",

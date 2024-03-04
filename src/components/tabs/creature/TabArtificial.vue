@@ -1832,16 +1832,16 @@ export default {
                 "&includeAll=false&isActive=1";
             }
             // console.log(555);
-            if (this.LoadSelection[i] == "/semen") {
+            if (this.LoadSelection[i] == "/semen/selection?includeAll=false&isActive=1") {
               if (this.animal_id == 1) {
                 this.LoadSelection.Semen +=
-                  "?AnimalTypeID=[1,2,41,42]&includeAll=false&isActive=1&orderByField=SemenNumber&orderBy=asc";
+                  "&AnimalTypeID=[1,2,41,42]&orderByField=SemenNumber&orderBy=asc";
               } else if (this.animal_id == 2) {
                 this.LoadSelection.Semen +=
-                  "?AnimalTypeID=[3,4,43,44]&includeAll=false&isActive=1&orderByField=SemenNumber&orderBy=asc";
+                  "&AnimalTypeID=[3,4,43,44]&orderByField=SemenNumber&orderBy=asc";
               } else if (this.animal_id == 3) {
                 this.LoadSelection.Semen +=
-                  "?AnimalTypeID=[17,18,45,46]&includeAll=false&isActive=1&orderByField=SemenNumber&orderBy=asc";
+                  "&AnimalTypeID=[17,18,45,46]&orderByField=SemenNumber&orderBy=asc";
               }
             }
 

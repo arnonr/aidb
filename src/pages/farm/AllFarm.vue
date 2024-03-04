@@ -419,9 +419,13 @@
                   <SplitButton
                     label="แก้ไข"
                     icon="pi pi-pencil"
-                    @click="edit(slotProps.data.FarmID)"
+                    @click="
+                      edit(slotProps.data.FarmID, slotProps.data.AIZoneID)
+                    "
                     class="p-button-sm p-button-outlined p-button-warning"
-                    :model="getItems(slotProps.data.FarmID)"
+                    :model="
+                      getItems(slotProps.data.FarmID, slotProps.data.AIZoneID)
+                    "
                   >
                   </SplitButton>
                 </template>
@@ -1477,7 +1481,20 @@ export default {
     },
   },
   methods: {
-    async edit(id) {
+    async edit(id, AIZoneID) {
+      if (
+        this.user.GroupID == 2 &&
+        this.Staff.Organization.OrganizationAiZoneID != AIZoneID
+      ) {
+        this.$toast.add({
+          severity: "error",
+          summary: "ล้มเหลว",
+          detail: "ไม่มีสิทธิ์แก้ไข",
+          life: 5000,
+        });
+        return;
+      }
+
       if (this.permit[0].IsUpdate == 0) {
         this.$toast.add({
           severity: "error",
@@ -1519,13 +1536,13 @@ export default {
         }
       }
     },
-    getItems(id) {
+    getItems(id, AIZoneID) {
       const items = [
         {
           label: "ลบ",
           icon: "pi pi-trash",
           command: () => {
-            this.open_delete(id);
+            this.open_delete(id, AIZoneID);
           },
         },
       ];
@@ -2216,7 +2233,20 @@ export default {
       this.displayDetail = false;
       this.detailInfo = {};
     },
-    open_delete(id) {
+    open_delete(id, AIZoneID) {
+      if (
+        this.user.GroupID == 2 &&
+        this.Staff.Organization.OrganizationAiZoneID != AIZoneID
+      ) {
+        this.$toast.add({
+          severity: "error",
+          summary: "ล้มเหลว",
+          detail: "ไม่มีสิทธิ์แก้ไข",
+          life: 5000,
+        });
+        return;
+      }
+
       if (store.state.user.GroupID > 2) {
         this.$toast.add({
           severity: "error",

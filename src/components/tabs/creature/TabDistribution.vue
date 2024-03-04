@@ -153,7 +153,7 @@
           </div>
           <div class="col-12 lg:col-6">
             <label class="block text-600 text-sm font-bold mb-2">
-              สาเหตุที่คัดจำหน่าย</label
+              สาเหตุการคัดจำหน่าย</label
             >
             <Dropdown
               emptyMessage="ไม่มีข้อมูล"
@@ -224,17 +224,15 @@
             <label class="block text-600 text-sm font-bold mb-2">
               ฟาร์มปลายทาง</label
             >
-            <Dropdown
-              emptyMessage="ไม่มีข้อมูล"
-              emptyFilterMessage="ไม่พบข้อมูล"
-              class="w-full"
-              placeholder="เลือกฟาร์มปลายทาง"
-              optionLabel="Fullname"
-              optionValue="FarmID"
-              :filter="true"
+            <v-select
               v-model="data[index].DestinationFarmID"
-              :options="selection.DestinationFarmID"
-            />
+              :options="selection.DestinationFarmIDFilter"
+              @search="fetchDestinationFarmOptions"
+              label="FarmName"
+              value="FarmID"
+              class="w-full"
+              placeholder="เลือกฟาร์มปลายทาง (พิมพ์ 3 ตัวอักษรเพื่อค้นหา)"
+            ></v-select>
           </div>
         </div>
       </div>
@@ -289,7 +287,13 @@ import axios from "axios";
 import { format } from "date-fns";
 import { th } from "date-fns/locale";
 import Swal from "sweetalert2";
+import vSelect from "vue-select";
+import "vue-select/dist/vue-select.css";
+
 export default {
+  components: {
+    vSelect,
+  },
   emits: ["refresh_secret_status", "onclear_display"],
   props: {
     permit: {
@@ -329,6 +333,7 @@ export default {
         Staff: null,
         DistributionReasonID: null,
         DestinationFarmID: null,
+        DestinationFarmIDFilter: [],
         DistributionType: [
           {
             header: "ตาย",
@@ -647,7 +652,7 @@ export default {
           life: 5000,
         });
       });
-    //   this.$emit("refresh_secret_status");
+      //   this.$emit("refresh_secret_status");
     },
     // form open add
     async open() {
@@ -689,7 +694,7 @@ export default {
 
       if (this.selection.DestinationFarmID != null) {
         let Farm1 = this.selection.DestinationFarmID.find((x) => {
-          return (this.data[this.index].DestinationFarmID == x.FarmID);
+          return this.data[this.index].DestinationFarmID == x.FarmID;
         });
         this.search.AIZoneID = Farm1.AIZoneID;
         // this.search.ProvinceID = Farm1.ProvinceID;
@@ -726,6 +731,16 @@ export default {
     },
     close_delete() {
       this.display_delete = false;
+    },
+    fetchDestinationFarmOptions(search) {
+        if (search.length > 3) {
+          this.selection.DestinationFarmIDFilter =
+            this.selection.DestinationFarmID.filter((x) => {
+              return x.FarmName.includes(search);
+            });
+        } else {
+          this.selection.DestinationFarmIDFilter = [];
+        }
     },
     fetchFarm() {
       this.isLoading = true;
@@ -775,3 +790,9 @@ export default {
   },
 };
 </script>
+
+<style>
+.vs__search {
+  padding: 6px !important;
+}
+</style>

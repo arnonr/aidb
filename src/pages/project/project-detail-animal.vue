@@ -1198,13 +1198,11 @@ export default {
         this.$route.query.projects != "undefined" &&
         this.$route.query.projects != ""
       ) {
-        console.log(this.$route.query.projects + "FREEDOM1");
         let pj = this.$route.query.projects.split(",");
 
         this.search.Project = pj.map((e) => {
           return parseInt(e);
         });
-        console.log(this.search.Project);
 
         this.params.ProjectID = pj.map((e) => {
           return parseInt(e);
@@ -1323,6 +1321,7 @@ export default {
       this.fetchOrganization();
       this.fetchFarm();
       this.fetchAnimal();
+      this.exportExcel();
       this.dropdown.Amphurs = [];
       this.dropdown.Tumbols = [];
 
@@ -1831,6 +1830,7 @@ export default {
       // สำหรับเปลี่ยนหน้า
       if (event) {
         this.params.page = event.page + 1;
+        this.currentPage = event.page + 1;
       }
 
       // กำหนด parameter
@@ -2168,6 +2168,8 @@ export default {
         // includeAll: false,
       };
 
+      console.log(this.currentPage);
+
       if (this.search.FarmAnimalType == null) {
         this.search.FarmAnimalType = parseInt(this.animal_id);
         params["FarmAnimalType"] = this.search.FarmAnimalType;
@@ -2225,7 +2227,6 @@ export default {
         params["AnimalBreedID5"] = this.params.AnimalBreedID5;
       }
 
-      console.log(this.params.AnimalFatherID);
       if (this.params.AnimalFatherID) {
         params["AnimalFatherID"] = this.params.AnimalFatherID;
       }
@@ -2449,7 +2450,6 @@ export default {
         this.parents.AnimalFatherEarID != null &&
         this.parents.AnimalFatherEarID != ""
       ) {
-        console.log(this.parents.AnimalFatherEarID);
         axios
           .get("/animal?includeAll=false", {
             signal: this.controller.signal,
@@ -2538,7 +2538,6 @@ export default {
     },
     // sort table
     sort($event) {
-      // console.log($event);
       if ($event.sortField !== "show_id") {
         if ($event.sortOrder == 1) {
           this.params.orderBy = "asc";
@@ -2551,6 +2550,7 @@ export default {
     },
     // page change
     page($event) {
+      this.currentPage = $event.page + 1;
       this.curpage = $event.page + 1;
       this.load();
     },
@@ -2605,8 +2605,6 @@ export default {
       }
     },
     async open_detail(id) {
-      // console.log(id);
-
       this.form = null;
       if (this.permit[0].IsPreview == 0) {
         this.$toast.add({

@@ -144,8 +144,14 @@
           <label class="block text-600 text-sm font-bold mb-2">
             หน่วยงาน<span class="text-red-500"> *</span>
           </label>
+        
           <Dropdown
             class="w-full"
+           :disabled="
+              store.state.user.GroupID === 1 || store.state.user.GroupID === 2
+                ? false
+                : true
+            "
             v-model="form.OrganizationID"
             :options="organization_tmp"
             optionLabel="OrganizationName"
@@ -391,6 +397,7 @@ import axios from "axios";
 import { mapGetters } from "vuex";
 import { format } from "date-fns";
 import { th } from "date-fns/locale";
+// import store from "@/service/Vuex";
 export default {
   computed: {
     ...mapGetters({
@@ -401,7 +408,8 @@ export default {
     return {
       // Organization Load
       urlOrganization: "/organization/selection?includeAll=false&isActive=1",
-      urlOrganizationZone: "/organization-zone/selection?includeAll=false&isActive=1",
+      urlOrganizationZone:
+        "/organization-zone/selection?includeAll=false&isActive=1",
       urlProvince: "/province/selection?includeAll=false&isActive=1",
       urlTumbol: "/tumbol/selection?includeAll=false&isActive=1",
       urlAmphur: "/amphur/selection?includeAll=false&isActive=1",
@@ -497,7 +505,6 @@ export default {
           this.form.OrganizationZoneID = getAIZone[0].OrganizationZoneID;
         }
 
-
         // this.form.FarmAmphurID = null;
         // this.form.FarmTumbolID = null;
         // this.form.OrganizationID = null;
@@ -508,12 +515,12 @@ export default {
       }
     },
     "form.FarmAmphurID"() {
-    //   this.organization_tmp = this.organization.filter((item) => {
-    //     return (
-    //       item.OrganizationAmphurID == val &&
-    //       (item.OrganizationTypeID == "2" || item.OrganizationTypeID == "11")
-    //     );
-    //   });
+      //   this.organization_tmp = this.organization.filter((item) => {
+      //     return (
+      //       item.OrganizationAmphurID == val &&
+      //       (item.OrganizationTypeID == "2" || item.OrganizationTypeID == "11")
+      //     );
+      //   });
     },
   },
 
@@ -536,7 +543,10 @@ export default {
       if (val) {
         axios
           .get(
-            "/farm/generate-number?OrganizationID=" + this.form.OrganizationID+"&TumbolID="+this.form.FarmTumbolID,
+            "/farm/generate-number?OrganizationID=" +
+              this.form.OrganizationID +
+              "&TumbolID=" +
+              this.form.FarmTumbolID,
             {
               signal: this.controller.signal,
             }
@@ -583,12 +593,12 @@ export default {
       }
     },
     filterZipcode($event) {
-     console.log($event.value);
-    //   if (val) {
-    //     this.form.FarmZipCode = this.tumbol.temp[val].Zipcode;
-    //   } else {
-    //     this.form.FarmZipCode = "";
-    //   }
+      console.log($event.value);
+      //   if (val) {
+      //     this.form.FarmZipCode = this.tumbol.temp[val].Zipcode;
+      //   } else {
+      //     this.form.FarmZipCode = "";
+      //   }
     },
     validation() {
       if (

@@ -1,6 +1,6 @@
 <template>
   <div class="mb-5">
-    <h1 class="text-xl mb-2 font-light">ข้อมูลฟาร์ม</h1>
+    <h1 class="text-xl mb-2 font-light">ข้อมูลฟาร์มๅๅๅ</h1>
     <p class="p-0 m-0 text-500">ป้อนรายละเอียดฟาร์ม</p>
   </div>
   <form class="grid">

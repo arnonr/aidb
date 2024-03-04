@@ -837,13 +837,13 @@ const RegisteredAnimalReport = async (id) => {
                     style: "textTable",
                   },
                   {
-                    text: "ลงชื่อเจ้าของสัตว์",
+                    text: "ลงชื่อเจ้าหน้าที่ผสมเทียม",
                     bold: true,
                     alignment: "right",
                     style: "textTable",
                   },
                   {
-                    text: "....................................................",
+                    text: "......................................................",
                     bold: true,
                     alignment: "left",
                     style: "textTable",
@@ -869,7 +869,7 @@ const RegisteredAnimalReport = async (id) => {
                     style: "textTable",
                   },
                   {
-                    text: "(....................................................)",
+                    text: "(.....................................................)",
                     bold: true,
                     alignment: "left",
                     style: "textTable",
@@ -895,7 +895,7 @@ const RegisteredAnimalReport = async (id) => {
                     style: "textTable",
                   },
                   {
-                    text: "....................................................",
+                    text: "......................................................",
                     bold: true,
                     alignment: "left",
                     style: "textTable",

@@ -228,7 +228,7 @@
               v-model="data[index].DestinationFarmID"
               :options="selection.DestinationFarmIDFilter"
               @search="fetchDestinationFarmOptions"
-              label="FarmName"
+              label="Fullname"
               value="FarmID"
               class="w-full"
               placeholder="เลือกฟาร์มปลายทาง (พิมพ์ 3 ตัวอักษรเพื่อค้นหา)"
@@ -736,7 +736,7 @@ export default {
         if (search.length > 3) {
           this.selection.DestinationFarmIDFilter =
             this.selection.DestinationFarmID.filter((x) => {
-              return x.FarmName.includes(search);
+              return x.Fullname.includes(search); //|| x.FarmIdentificationNumber.includes(search);
             });
         } else {
           this.selection.DestinationFarmIDFilter = [];

@@ -1037,7 +1037,7 @@ export default {
         Farm: "/farm/selection?includeAll=false&isActive=1",
         Animal: "/animal",
         AnimalSex: "/animal-sex/selection?includeAll=false&isActive=1",
-        ExportAnimal: "/animal/export-excel?isActive=1",
+        ExportAnimal: "/animal/export-excel",
         Province: "/province/selection?includeAll=false&isActive=1",
         Amphur: "/amphur/selection?includeAll=false&isActive=1",
         Tumbol: "/tumbol/selection?includeAll=false&isActive=1",
@@ -2165,6 +2165,7 @@ export default {
         page: this.currentPage,
         orderByField: "FarmID",
         orderBy: "desc",
+        isRemove: 0,
         // includeAll: false,
       };
 
@@ -2300,6 +2301,8 @@ export default {
         // includeAll: false,
       };
 
+      
+
       if (this.search.FarmAnimalType == null) {
         this.search.FarmAnimalType = parseInt(this.animal_id);
         params["FarmAnimalType"] = this.search.FarmAnimalType;
@@ -2369,6 +2372,11 @@ export default {
       if (this.search.ProjectIDArray) {
         params["ProjectID"] = JSON.stringify(this.search.ProjectIDArray);
       }
+
+      if (this.search.Status) {
+        params["isActive"] = this.search.Status;
+      }
+
 
       axios
         .get(this.url.ExportAnimal, {

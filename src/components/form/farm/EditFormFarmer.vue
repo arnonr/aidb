@@ -25,7 +25,14 @@
           <label class="block text-600 text-sm font-bold mb-2">
             เลขบัตรประจำตัวประชาชน<span class="text-red-500"> *</span>
           </label>
-          <InputMask
+          <InputText
+            type="text"
+            class="w-full"
+            v-model="form.IdentificationNumber"
+            :readonly="checkSelect == 1"
+            :class="{ 'p-invalid': !form.IdentificationNumber && valid }"
+          />
+          <!-- <InputMask
             type="text"
             mask="9-9999-99999-99-9"
             class="w-full"
@@ -33,7 +40,7 @@
             v-model="form.IdentificationNumber"
             :readonly="checkSelect == 1"
             :class="{ 'p-invalid': !form.IdentificationNumber && valid }"
-          />
+          /> -->
           <!-- <InputText
             type="text"
             class="w-full"

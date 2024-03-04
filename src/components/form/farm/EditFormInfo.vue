@@ -144,14 +144,10 @@
           <label class="block text-600 text-sm font-bold mb-2">
             หน่วยงาน<span class="text-red-500"> *</span>
           </label>
-        
+
           <Dropdown
             class="w-full"
-           :disabled="
-              store.state.user.GroupID === 1 || store.state.user.GroupID === 2
-                ? false
-                : true
-            "
+            :disabled="checkTypeUser"
             v-model="form.OrganizationID"
             :options="organization_tmp"
             optionLabel="OrganizationName"
@@ -397,7 +393,7 @@ import axios from "axios";
 import { mapGetters } from "vuex";
 import { format } from "date-fns";
 import { th } from "date-fns/locale";
-// import store from "@/service/Vuex";
+import store from "@/service/Vuex";
 export default {
   computed: {
     ...mapGetters({
@@ -406,6 +402,7 @@ export default {
   },
   data() {
     return {
+      checkTypeUser: true,
       // Organization Load
       urlOrganization: "/organization/selection?includeAll=false&isActive=1",
       urlOrganizationZone:
@@ -479,6 +476,10 @@ export default {
 
   mounted() {
     this.load();
+
+    if (store.state.user.GroupID === 1 || store.state.user.GroupID === 2) {
+      this.checkTypeUser = false;
+    }
   },
 
   watch: {

@@ -1482,7 +1482,6 @@ export default {
   },
   methods: {
     async edit(id, AIZoneID) {
-
       console.log(this.user.Staff);
       if (
         this.user.GroupID == 2 &&
@@ -2247,9 +2246,6 @@ export default {
     },
     open_delete(id, AIZoneID) {
       console.log(this.user.Staff);
-
-        //
-
       if (
         this.user.GroupID == 2 &&
         this.user.Staff.Organization.OrganizationAiZoneID != AIZoneID
@@ -2257,7 +2253,7 @@ export default {
         this.$toast.add({
           severity: "error",
           summary: "ล้มเหลว",
-          detail: "ไม่มีสิทธิ์แก้ไข",
+          detail: "ไม่มีสิทธิ์ลบ",
           life: 5000,
         });
         return;
@@ -2280,16 +2276,29 @@ export default {
     },
     // remove data
     remove() {
-      axios.delete("farm/" + this.data.id).then(() => {
-        this.close_delete();
-        this.load();
-        this.$toast.add({
-          severity: "success",
-          summary: "สำเร็จ",
-          detail: "ลบข้อมูลเสร็จสิ้น",
-          life: 5000,
+      axios
+        .delete("farm/" + this.data.id)
+        .then(() => {
+          this.close_delete();
+          this.load();
+          this.$toast.add({
+            severity: "success",
+            summary: "สำเร็จ",
+            detail: "ลบข้อมูลเสร็จสิ้น",
+            life: 5000,
+          });
+        })
+        .catch((error) => {
+          if (error.response) {
+            this.$toast.add({
+              severity: "error",
+              summary: "ไม่สำเร็จ",
+              detail: error.response.data.error.message,
+              life: 5000,
+            });
+            this.close_delete();
+          }
         });
-      });
     },
     exportCSV() {
       this.$refs.dt.exportCSV();

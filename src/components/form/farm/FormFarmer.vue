@@ -147,25 +147,34 @@
           <label class="block text-600 text-sm font-bold mb-2">
             เลขบัตรประจำตัวประชาชน<span class="text-red-500"> *</span>
           </label>
-          <InputMask
+
+          <InputText
             type="text"
-            class="w-full"
-            mask="9-9999-99999-99-9"
             v-if="form.FarmerPIDType == 1 || form.FarmerPIDType == null"
-            unmask="true"
+            class="w-full"
+            maxlength="13"
+            minlength="13"
             v-model="form.IdentificationNumber"
             :class="{ 'p-invalid': !form.IdentificationNumber && valid }"
             :readonly="checkSelect == 1"
           />
 
-          <InputMask
+          <InputText
             type="text"
-            class="w-full"
-            mask="9999999999999"
             v-if="form.FarmerPIDType == 3"
-            unmask="true"
+            class="w-full"
+            maxlength="13"
+            minlength="13"
             v-model="form.IdentificationNumber"
             :class="{ 'p-invalid': !form.IdentificationNumber && valid }"
+            :readonly="checkSelect == 1"
+          />
+
+          <InputText
+            type="text"
+            v-if="form.FarmerPIDType == 3"
+            class="w-full"
+            v-model="form.IdentificationNumber"
             :readonly="checkSelect == 1"
           />
 

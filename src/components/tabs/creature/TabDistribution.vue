@@ -584,6 +584,9 @@ export default {
         !this.data[this.index].CreatedUserID
       ) {
         //create data
+        let DesFarmID = this.data[this.index].DestinationFarmID.FarmID;
+        this.data[this.index].DestinationFarmID = DesFarmID;
+
         axios
           .post(this.url, this.data[this.index])
           .then(() => {
@@ -614,6 +617,10 @@ export default {
         delete this.data[this.index].Staff;
         delete this.data[this.index].BCS;
         delete this.data[this.index].show_id;
+
+        let DesFarmID = this.data[this.index].DestinationFarmID.FarmID;
+        this.data[this.index].DestinationFarmID = DesFarmID;
+
         axios
           .put(
             this.url + "/" + this.data[this.index][this.id],
@@ -733,14 +740,14 @@ export default {
       this.display_delete = false;
     },
     fetchDestinationFarmOptions(search) {
-        if (search.length > 3) {
-          this.selection.DestinationFarmIDFilter =
-            this.selection.DestinationFarmID.filter((x) => {
-              return x.Fullname.includes(search); //|| x.FarmIdentificationNumber.includes(search);
-            });
-        } else {
-          this.selection.DestinationFarmIDFilter = [];
-        }
+      if (search.length > 3) {
+        this.selection.DestinationFarmIDFilter =
+          this.selection.DestinationFarmID.filter((x) => {
+            return x.Fullname.includes(search); //|| x.FarmIdentificationNumber.includes(search);
+          });
+      } else {
+        this.selection.DestinationFarmIDFilter = [];
+      }
     },
     fetchFarm() {
       this.isLoading = true;

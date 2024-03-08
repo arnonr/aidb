@@ -2234,7 +2234,7 @@ export default {
       this.detailInfo = {};
     },
     open_delete(id, AIZoneID) {
-        console.log(this.Staff)
+      console.log(this.Staff);
       if (
         this.user.GroupID == 2 &&
         this.user.Staff.Organization.OrganizationAiZoneID != AIZoneID
@@ -2248,7 +2248,7 @@ export default {
         return;
       }
 
-      if (store.state.user.GroupID > 2) {
+      if (store.state.user.GroupID > 1) {
         this.$toast.add({
           severity: "error",
           summary: "ล้มเหลว",

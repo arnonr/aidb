@@ -592,6 +592,12 @@
             exportFooter="&#8203;"
           ></Column>
           <Column
+            field="SemenBreedAll"
+            header="สายพันธุ์น้ำเชื้อ"
+            class="text-center"
+            exportFooter="&#8203;"
+          ></Column>
+          <Column
             field="PregnancyCheckStatusName"
             header="ผลตรวจท้อง"
             class="text-center"
@@ -679,11 +685,13 @@ export default {
       provinceAICount: [],
       url: {
         AIZone: "/ai-zone/selection?includeAll=false&isActive=1",
-        OrganizationZone: "/organization-zone/selection?includeAll=false&isActive=1",
+        OrganizationZone:
+          "/organization-zone/selection?includeAll=false&isActive=1",
         Province: "/province/selection?includeAll=false&isActive=1",
         Amphur: "/amphur/selection?includeAll=false&isActive=1",
         Tumbol: "/tumbol/selection?includeAll=false&isActive=1",
-        OrganizationType: "/organization-type/selection?includeAll=false&isActive=1",
+        OrganizationType:
+          "/organization-type/selection?includeAll=false&isActive=1",
         Organization: "/organization/selection?includeAll=false&isActive=1",
         Farm: "/farm/selection?includeAll=false&isActive=1",
         Report: "/report/report21",
@@ -1176,7 +1184,7 @@ export default {
     },
 
     fetchAIZone() {
-      let params = { };
+      let params = {};
       //  Fetch AIZone
       axios
         .get(this.url.AIZone, {
@@ -1191,7 +1199,7 @@ export default {
         });
     },
     fetchOrganizationZone() {
-      let params = {  isActive: 1 };
+      let params = { isActive: 1 };
       //  Fetch OrganizationZone
       axios
         .get(this.url.OrganizationZone, {
@@ -1206,7 +1214,7 @@ export default {
         });
     },
     fetchProject() {
-      let params = {  };
+      let params = {};
 
       if (this.animal_id == 1) {
         params["AnimalTypeID"] = "[1,2,41,42]";
@@ -1231,7 +1239,7 @@ export default {
     },
     fetchProvince() {
       //  Fetch Province
-      let params = {  };
+      let params = {};
 
       if (this.search.AIZoneID != null) {
         params["AIZoneID"] = this.search.AIZoneID;
@@ -1268,7 +1276,7 @@ export default {
         return;
       }
 
-      let params = {  };
+      let params = {};
 
       if (this.search.ProvinceID != null) {
         params["ProvinceID"] = this.search.ProvinceID;
@@ -1296,7 +1304,7 @@ export default {
         return;
       }
 
-      let params = { };
+      let params = {};
 
       if (this.search.AmphurID != null) {
         params["AmphurID"] = this.search.AmphurID;
@@ -1316,7 +1324,7 @@ export default {
         });
     },
     fetchOrganizationType() {
-      let params = {  };
+      let params = {};
 
       axios
         .get(this.url.OrganizationType, {
@@ -1339,7 +1347,7 @@ export default {
         return;
       }
 
-      let params = { };
+      let params = {};
 
       if (this.search.OrganizationTypeID != null) {
         params["OrganizationTypeID"] = this.search.OrganizationTypeID;
@@ -1394,7 +1402,7 @@ export default {
         return;
       }
 
-      let params = {  includeOrganization: true };
+      let params = { includeOrganization: true };
 
       // Province IN AIZOne
       //   if (this.search.AIZoneID != null) {
@@ -1545,6 +1553,7 @@ export default {
           params: params,
         })
         .then((res) => {
+          this.totalStatus.all = 0;
           this.data.main = res.data.data.map((x) => {
             let status1 = 0;
             let status2 = 0;
@@ -1563,15 +1572,12 @@ export default {
                 //   if (check.PregnancyCheckStatusName == "ไม่ท้อง") {
                 //     status2 = status2 - 1;
                 //   }
-
                 //   if (check.PregnancyCheckStatusName == "รอตรวจซ้ำ") {
                 //     status3 = status3 - 1;
                 //   }
-
                 //   if (check.PregnancyCheckStatusName == "") {
                 //     status4 = status4 - 1;
                 //   }
-
                 //   if (e.PregnancyCheckStatusName == "ท้อง") {
                 //     status1 = status1 + 1;
                 //   } else if (e.PregnancyCheckStatusName == "ไม่ท้อง") {
@@ -1737,7 +1743,15 @@ export default {
     },
 
     fetchReportAnimal(AnimalID) {
-      this.data.animal_main = AnimalID;
+      this.data.animal_main = AnimalID.sort((a, b) => {
+        let check = dayjs(a.AIDateReal).isAfter(dayjs(b.AIDateReal));
+
+        if (check) {
+          return -1;
+        } else {
+          return 1;
+        }
+      });
     },
   },
 

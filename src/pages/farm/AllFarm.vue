@@ -1482,6 +1482,8 @@ export default {
   },
   methods: {
     async edit(id, AIZoneID) {
+
+      console.log(this.Staff);
       if (
         this.user.GroupID == 2 &&
         this.Staff.Organization.OrganizationAiZoneID != AIZoneID
@@ -1490,6 +1492,16 @@ export default {
           severity: "error",
           summary: "ล้มเหลว",
           detail: "ไม่มีสิทธิ์แก้ไข",
+          life: 5000,
+        });
+        return;
+      }
+
+      if (store.state.user.GroupID > 2) {
+        this.$toast.add({
+          severity: "error",
+          summary: "ล้มเหลว",
+          detail: "ไม่มีสิทธิ์ลบ",
           life: 5000,
         });
         return;
@@ -2235,6 +2247,9 @@ export default {
     },
     open_delete(id, AIZoneID) {
       console.log(this.Staff);
+
+        //
+
       if (
         this.user.GroupID == 2 &&
         this.user.Staff.Organization.OrganizationAiZoneID != AIZoneID
@@ -2248,7 +2263,7 @@ export default {
         return;
       }
 
-      if (store.state.user.GroupID > 1) {
+      if (store.state.user.GroupID > 2) {
         this.$toast.add({
           severity: "error",
           summary: "ล้มเหลว",

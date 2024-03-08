@@ -418,7 +418,7 @@
           ></Column>
           <Column
             field="status4"
-            header="ไม่พบข้อมูล"
+            header="ยังไม่ได้ตรวจท้อง"
             class="text-center"
             exportFooter="&#8203;"
           ></Column>
@@ -560,7 +560,9 @@
             header="หมายเลขโค"
             class="text-center"
             exportFooter="&#8203;"
-          ></Column>
+          >
+        
+        </Column>
           <Column
             field="AnimalName"
             header="ชื่อโค"

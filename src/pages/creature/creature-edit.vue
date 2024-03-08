@@ -1015,6 +1015,14 @@ export default {
           id: 100,
           name: "100.00",
         },
+        {
+          id: 875,
+          name: "87.50",
+        },
+        {
+          id: 125,
+          name: "12.50",
+        },
       ],
 
       //  cancel requests
@@ -1489,6 +1497,12 @@ export default {
                   breed1tmp = this.Percent[1].name;
                 } else if (response.data[i].AnimalBreedPercent == "100.000") {
                   breed1tmp = this.Percent[2].name;
+                } else if (response.data[i].AnimalBreedPercent == "87.500") {
+                  breed1tmp = this.Percent[3].name;
+                } else if (response.data[i].AnimalBreedPercent == "12.500") {
+                  breed1tmp = this.Percent[4].name;
+                } else {
+                    breed1tmp = Number(response.data[i].AnimalBreedPercent)
                 }
                 console.log(breed1tmp);
                 this.form.AnimalBreedPercent1 = breed1tmp;
@@ -2114,7 +2128,7 @@ export default {
             detail: "แก้ไขข้อมูลเสร็จสิ้น",
             life: 5000,
           });
-          
+
           this.$router.push("/agency/creature?FarmID=" + this.form.FarmID);
         })
         // error

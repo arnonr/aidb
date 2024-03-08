@@ -1483,10 +1483,10 @@ export default {
   methods: {
     async edit(id, AIZoneID) {
 
-      console.log(this.Staff);
+      console.log(this.user.Staff);
       if (
         this.user.GroupID == 2 &&
-        this.Staff.Organization.OrganizationAiZoneID != AIZoneID
+        this.user.Staff.Organization.OrganizationAiZoneID != AIZoneID
       ) {
         this.$toast.add({
           severity: "error",
@@ -2246,7 +2246,7 @@ export default {
       this.detailInfo = {};
     },
     open_delete(id, AIZoneID) {
-      console.log(this.Staff);
+      console.log(this.user.Staff);
 
         //
 

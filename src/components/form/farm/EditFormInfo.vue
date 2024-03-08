@@ -539,37 +539,38 @@ export default {
       );
       return `${formatStart}`;
     },
-    gennumber($event) {
-      let val = $event.value;
-      if (val) {
-        axios
-          .get(
-            "/farm/generate-number?OrganizationID=" +
-              this.form.OrganizationID +
-              "&TumbolID=" +
-              this.form.FarmTumbolID,
-            {
-              signal: this.controller.signal,
-            }
-          )
-          .then((res) => {
-            this.form.FarmIdentificationNumber = res.data.FarmNumberGenerate;
-            axios
-              .get("/organization/" + this.form.OrganizationID, {
-                signal: this.controller.signal,
-              })
-              .then((res) => {
-                let item = res.data.OrganizationType;
-                this.form.OrganizationType = item.OrganizationTypeName;
-              })
-              .finally(() => {
-                this.isLoading = false;
-              });
-          })
-          .finally(() => {
-            this.isLoading = false;
-          });
-      }
+    gennumber() {
+        // $event
+    //   let val = $event.value;
+    //   if (val) {
+    //     axios
+    //       .get(
+    //         "/farm/generate-number?OrganizationID=" +
+    //           this.form.OrganizationID +
+    //           "&TumbolID=" +
+    //           this.form.FarmTumbolID,
+    //         {
+    //           signal: this.controller.signal,
+    //         }
+    //       )
+    //       .then((res) => {
+    //         this.form.FarmIdentificationNumber = res.data.FarmNumberGenerate;
+    //         axios
+    //           .get("/organization/" + this.form.OrganizationID, {
+    //             signal: this.controller.signal,
+    //           })
+    //           .then((res) => {
+    //             let item = res.data.OrganizationType;
+    //             this.form.OrganizationType = item.OrganizationTypeName;
+    //           })
+    //           .finally(() => {
+    //             this.isLoading = false;
+    //           });
+    //       })
+    //       .finally(() => {
+    //         this.isLoading = false;
+    //       });
+    //   }
     },
     filterAmphur($event) {
       let val = $event.value;

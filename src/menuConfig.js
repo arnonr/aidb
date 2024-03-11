@@ -310,11 +310,11 @@ export default [
         //       },
         //     ],
         //   },
-          {
-            label: "รายงานการเจริญเติบโต",
-            icon: "pi pi-fw pi-circle",
-            to: "/report/growup",
-          },
+        //   {
+        //     label: "รายงานการเจริญเติบโต",
+        //     icon: "pi pi-fw pi-circle",
+        //     to: "/report/growup",
+        //   },
           {
             label: "รายงานผลปฏิบัติการ",
             icon: "pi pi-fw pi-circle",

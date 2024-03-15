@@ -270,6 +270,13 @@
           >
           </Column>
           <Column
+            field="StaffOrganization"
+            header="หน่วยงาน"
+            class="text-center"
+            style="width: 20%"
+          >
+          </Column>
+          <Column
             field="r1"
             header="จำนวนที่ผสม (ตัว)"
             class="text-center"

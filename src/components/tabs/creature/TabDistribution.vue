@@ -584,8 +584,12 @@ export default {
         !this.data[this.index].CreatedUserID
       ) {
         //create data
-        let DesFarmID = this.data[this.index].DestinationFarmID.FarmID;
-        this.data[this.index].DestinationFarmID = DesFarmID;
+        console.log(this.data[this.index].DistributionType)
+        if(this.data[this.index].DistributionType == 'SALE'){
+            let DesFarmID = this.data[this.index].DestinationFarmID.FarmID;
+            this.data[this.index].DestinationFarmID = DesFarmID;
+        }
+
 
         axios
           .post(this.url, this.data[this.index])

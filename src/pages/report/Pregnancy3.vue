@@ -547,6 +547,13 @@
             class="text-center"
             exportFooter="&#8203;"
           ></Column>
+
+          <Column
+            field="SemenBreedAll"
+            header="สายพันธุ์น้ำเชื้อ"
+            class="text-center"
+            exportFooter="&#8203;"
+          ></Column>
           <Column
             field="GiveBirthDate"
             header="วันที่คลอด"
@@ -616,11 +623,13 @@ export default {
       provinceAICount: [],
       url: {
         AIZone: "/ai-zone/selection?includeAll=false&isActive=1",
-        OrganizationZone: "/organization-zone/selection?includeAll=false&isActive=1",
+        OrganizationZone:
+          "/organization-zone/selection?includeAll=false&isActive=1",
         Province: "/province/selection?includeAll=false&isActive=1",
         Amphur: "/amphur/selection?includeAll=false&isActive=1",
         Tumbol: "/tumbol/selection?includeAll=false&isActive=1",
-        OrganizationType: "/organization-type/selection?includeAll=false&isActive=1",
+        OrganizationType:
+          "/organization-type/selection?includeAll=false&isActive=1",
         Organization: "/organization/selection?includeAll=false&isActive=1",
         Farm: "/farm/selection?includeAll=false&isActive=1",
         Report: "/report/report17",
@@ -706,6 +715,12 @@ export default {
         this.isSelectAIZoneDisabled = false;
         this.isSelectOrganizationZoneDisabled = false;
       }
+
+
+      this.search.ProvinceID = null;
+      this.search.AmphurID = null;
+      this.search.TumbolID = null;
+
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -733,6 +748,10 @@ export default {
         this.isSelectAIZoneDisabled = false;
         this.isSelectOrganizationZoneDisabled = false;
       }
+      this.search.ProvinceID = null;
+      this.search.AmphurID = null;
+      this.search.TumbolID = null;
+
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -857,6 +876,7 @@ export default {
 
   methods: {
     toggleLock(data) {
+      this.locked1 = [];
       this.locked1.push(data);
     },
     exportCSV() {
@@ -1098,7 +1118,7 @@ export default {
     },
 
     fetchAIZone() {
-      let params = {  };
+      let params = {};
       //  Fetch AIZone
       axios
         .get(this.url.AIZone, {
@@ -1128,7 +1148,7 @@ export default {
         });
     },
     fetchProject() {
-      let params = {  };
+      let params = {};
 
       if (this.animal_id == 1) {
         params["AnimalTypeID"] = "[1,2,41,42]";
@@ -1153,7 +1173,7 @@ export default {
     },
     fetchProvince() {
       //  Fetch Province
-      let params = {  };
+      let params = {};
 
       if (this.search.AIZoneID != null) {
         params["AIZoneID"] = this.search.AIZoneID;
@@ -1190,7 +1210,7 @@ export default {
         return;
       }
 
-      let params = {  };
+      let params = {};
 
       if (this.search.ProvinceID != null) {
         params["ProvinceID"] = this.search.ProvinceID;
@@ -1218,7 +1238,7 @@ export default {
         return;
       }
 
-      let params = {  };
+      let params = {};
 
       if (this.search.AmphurID != null) {
         params["AmphurID"] = this.search.AmphurID;
@@ -1238,7 +1258,7 @@ export default {
         });
     },
     fetchOrganizationType() {
-      let params = {  };
+      let params = {};
 
       axios
         .get(this.url.OrganizationType, {
@@ -1261,7 +1281,7 @@ export default {
         return;
       }
 
-      let params = {  };
+      let params = {};
 
       if (this.search.OrganizationTypeID != null) {
         params["OrganizationTypeID"] = this.search.OrganizationTypeID;
@@ -1316,7 +1336,7 @@ export default {
         return;
       }
 
-      let params = {  includeOrganization: true };
+      let params = { includeOrganization: true };
 
       // Province IN AIZOne
       //   if (this.search.AIZoneID != null) {
@@ -1444,10 +1464,13 @@ export default {
           params: params,
         })
         .then((res) => {
+          this.data.main = [];
+          let animalCount = 0;
           this.data.main = res.data.data.map((x) => {
             let child = 0;
             let male = 0;
             let female = 0;
+            animalCount = animalCount + x.AnimalCount;
 
             x.AnimalID.forEach((e) => {
               child = child + e.Amount;
@@ -1465,18 +1488,18 @@ export default {
             return x;
           });
 
-          if (this.data.main.length != 0) {
-            this.totalStatus.all = 0;
-            this.totalStatus.child = 0;
-            this.totalStatus.male = 0;
-            this.totalStatus.female = 0;
-            this.totalStatus.farm = 0;
-            let AnimalIDAll = [];
+          this.totalStatus.all = 0;
+          this.totalStatus.child = 0;
+          this.totalStatus.male = 0;
+          this.totalStatus.female = 0;
+          this.totalStatus.farm = 0;
+          let AnimalIDAll = [];
 
+          if (this.data.main.length != 0) {
             this.data.main.forEach((x) => {
               this.totalStatus.farm = this.totalStatus.farm + x.FarmCount;
               x.AnimalID.forEach((e) => {
-                AnimalIDAll.push(e)
+                AnimalIDAll.push(e);
                 this.totalStatus.all = this.totalStatus.all + 1;
                 this.totalStatus.child = this.totalStatus.child + e.Amount;
 
@@ -1488,21 +1511,18 @@ export default {
                 }
               });
             });
-
-            this.toggleLock({
-              id: 0,
-              AnimalBreedName: "สายพันธุ์ทั้งหมด",
-              AnimalCount: this.totalStatus.all,
-              Child: this.totalStatus.child,
-              Male: this.totalStatus.male,
-              Female: this.totalStatus.female,
-              FarmCount: this.totalStatus.farm,
-              AnimalID: AnimalIDAll,
-            });
-            // this.locked1 = {
-
-            // };
           }
+          this.totalStatus.all = animalCount;
+          this.toggleLock({
+            id: 0,
+            AnimalBreedName: "สายพันธุ์ทั้งหมด",
+            AnimalCount: this.totalStatus.all,
+            Child: this.totalStatus.child,
+            Male: this.totalStatus.male,
+            Female: this.totalStatus.female,
+            FarmCount: this.totalStatus.farm,
+            AnimalID: AnimalIDAll,
+          });
 
           let e = this.dropdown.AIZones.find((x) => {
             return x.AIZoneID == this.search.AIZoneID;
@@ -1550,6 +1570,7 @@ export default {
             staff_name: s ? s.StaffFullName : "",
             projects: "",
           };
+          this.data.animal_main = [];
         })
         .finally(() => {
           this.isLoading = false;

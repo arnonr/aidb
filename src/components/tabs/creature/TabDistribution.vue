@@ -584,12 +584,11 @@ export default {
         !this.data[this.index].CreatedUserID
       ) {
         //create data
-        console.log(this.data[this.index].DistributionType)
-        if(this.data[this.index].DistributionType == 'SALE'){
-            let DesFarmID = this.data[this.index].DestinationFarmID.FarmID;
-            this.data[this.index].DestinationFarmID = DesFarmID;
+        console.log(this.data[this.index].DistributionType);
+        if (this.data[this.index].DistributionType == "SALE") {
+          let DesFarmID = this.data[this.index].DestinationFarmID.FarmID;
+          this.data[this.index].DestinationFarmID = DesFarmID;
         }
-
 
         axios
           .post(this.url, this.data[this.index])
@@ -622,8 +621,12 @@ export default {
         delete this.data[this.index].BCS;
         delete this.data[this.index].show_id;
 
-        let DesFarmID = this.data[this.index].DestinationFarmID.FarmID;
-        this.data[this.index].DestinationFarmID = DesFarmID;
+        if (this.data[this.index].DistributionType == "SALE") {
+          let DesFarmID = this.data[this.index].DestinationFarmID.FarmID;
+          this.data[this.index].DestinationFarmID = DesFarmID;
+        }
+
+        this.data[this.index].CreatedUserID = undefined;
 
         axios
           .put(
@@ -704,11 +707,14 @@ export default {
       this.temp = JSON.parse(JSON.stringify(this.data[this.index]));
 
       if (this.selection.DestinationFarmID != null) {
-        let Farm1 = this.selection.DestinationFarmID.find((x) => {
-          return this.data[this.index].DestinationFarmID == x.FarmID;
-        });
-        this.search.AIZoneID = Farm1.AIZoneID;
-        // this.search.ProvinceID = Farm1.ProvinceID;
+        if (this.data[this.index].DestinationFarmID != null) {
+          console.log(this.selection.DestinationFarmID);
+          console.log(this.data[this.index].DestinationFarmID);
+          let Farm1 = this.selection.DestinationFarmID.find((x) => {
+            return this.data[this.index].DestinationFarmID == x.FarmID;
+          });
+          this.search.AIZoneID = Farm1.AIZoneID;
+        }
       }
 
       await axios

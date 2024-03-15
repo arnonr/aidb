@@ -507,7 +507,7 @@
           ></Column>
           <Column
             field="FarmName"
-            header="เจ้าของฟาร์ม"
+            header="ชื่อฟาร์ม"
             class="text-center"
             exportFooter="&#8203;"
           ></Column>
@@ -1101,7 +1101,7 @@ export default {
                   " (" +
                   number +
                   ")" +
-                  " | เจ้าของฟาร์ม " +
+                  " | ชื่อฟาร์ม " +
                   name +
                   " | จังหวัด " +
                   province +

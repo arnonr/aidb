@@ -2541,6 +2541,7 @@ export default {
   data() {
     return {
       url: "/staff/all-count",
+      urlEditStaff: "/staff",
       urlTitle: "/title?isActive=1",
       urlGender: "/gender?isActive=1",
       urlMariedStatus: "/married-status?isActive=1",
@@ -3267,7 +3268,7 @@ export default {
       // change data
       this.form.isActive = this.form.isActive.value;
       axios
-        .put(this.url + "/" + this.form.StaffID, this.form)
+        .put(this.urlEditStaff + "/" + this.form.StaffID, this.form)
         .then(() => {
           this.load();
           this.close_edit();

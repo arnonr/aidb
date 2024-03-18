@@ -145,34 +145,6 @@
             />
           </div>
 
-          <div class="col-12 sm:col-6 lg:col-6">
-            <label
-              for="dateRange"
-              class="block text-600 text-sm font-bold mb-2"
-            >
-              ช่วงวันที่รายงาน</label
-            >
-            <Datepicker
-              v-model="search.day"
-              range
-              id="dateRange"
-              locale="th"
-              :format="format"
-              utc
-              :enableTimePicker="false"
-              cancelText="ยกเลิก"
-              selectText="ยืนยัน"
-              placeholder="ตั้งแต่วันที่ - จนถึงวันที่"
-            >
-              <template #year-overlay-value="{ text }">
-                {{ parseInt(text) + 543 }}
-              </template>
-              <template #year="{ year }">
-                {{ year + 543 }}
-              </template>
-            </Datepicker>
-          </div>
-
           <div class="col-12 sm:col-12 lg:col-6">
             <label
               for="searchStaffID"
@@ -193,7 +165,7 @@
             />
           </div>
 
-          <div class="col-12 sm:col-12 lg:col-12">
+          <div class="col-12 sm:col-6 lg:col-6">
             <label
               for="searchSubDistrict"
               class="block text-600 text-sm font-bold mb-2"
@@ -210,6 +182,68 @@
               display="chip"
             />
           </div>
+
+          <div class="col-12 sm:col-12 lg:col-12">
+            <hr />
+          </div>
+
+          <!-- <div class="col-12 sm:col-6 lg:col-6">
+            <label
+              for="dateRange"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              ช่วงวันที่บันทึกข้อมูล</label
+            >
+            <Datepicker
+              v-model="search.created_day"
+              range
+              :disabled="isSelectCreatedDayDisabled"
+              id="dateRange"
+              locale="th"
+              :format="format"
+              utc
+              :enableTimePicker="false"
+              cancelText="ยกเลิก"
+              selectText="ยืนยัน"
+              placeholder="ตั้งแต่วันที่ - จนถึงวันที่"
+            >
+              <template #year-overlay-value="{ text }">
+                {{ parseInt(text) + 543 }}
+              </template>
+              <template #year="{ year }">
+                {{ year + 543 }}
+              </template>
+            </Datepicker>
+          </div> -->
+          <!-- 
+          <div class="col-12 sm:col-6 lg:col-6">
+            <label
+              for="dateRange"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              ช่วงวันที่ตรวจท้อง</label
+            >
+            <Datepicker
+              v-model="search.day"
+              range
+              :disabled="isSelectDayDisabled"
+              id="dateRange"
+              locale="th"
+              :format="format"
+              utc
+              :enableTimePicker="false"
+              cancelText="ยกเลิก"
+              selectText="ยืนยัน"
+              placeholder="ตั้งแต่วันที่ - จนถึงวันที่"
+            >
+              <template #year-overlay-value="{ text }">
+                {{ parseInt(text) + 543 }}
+              </template>
+              <template #year="{ year }">
+                {{ year + 543 }}
+              </template>
+            </Datepicker>
+          </div> -->
         </div>
       </div>
     </div>
@@ -814,21 +848,6 @@ export default {
 
       let ai = this.user.Staff.Organization.OrganizationAiZoneID || 1;
 
-    //   axios.get(this.url.Organization).then((res) => {
-    //     this.dropdown.Organization = res.data.rows;
-    //     this.dropdown.organization_total = res.data.total;
-    //   });
-
-    //   axios
-    //     .get(this.url.OrganizationType, { signal: this.controller.signal })
-    //     .then((res) => {
-    //       this.dropdown.OrganizationTypes = res.data.rows;
-    //       this.dropdown.organization_type_total = res.data.total;
-    //     })
-    //     .finally(() => {
-    //       this.isLoading = false;
-    //     });
-
       axios
         .get(this.url.OrganizationZone, { signal: this.controller.signal })
         .then((res) => {
@@ -1021,7 +1040,7 @@ export default {
     },
 
     fetchAIZone() {
-      let params = {};
+      let params = { };
       //  Fetch AIZone
       axios
         .get(this.url.AIZone, {
@@ -1051,7 +1070,7 @@ export default {
         });
     },
     fetchProject() {
-      let params = {};
+      let params = {  };
 
       if (this.animal_id == 1) {
         params["AnimalTypeID"] = "[1,2,41,42]";
@@ -1076,7 +1095,7 @@ export default {
     },
     fetchProvince() {
       //  Fetch Province
-      let params = {};
+      let params = {  };
 
       if (this.search.AIZoneID != null) {
         params["AIZoneID"] = this.search.AIZoneID;
@@ -1113,7 +1132,7 @@ export default {
         return;
       }
 
-      let params = {};
+      let params = {  };
 
       if (this.search.ProvinceID != null) {
         params["ProvinceID"] = this.search.ProvinceID;
@@ -1141,7 +1160,7 @@ export default {
         return;
       }
 
-      let params = {};
+      let params = {  };
 
       if (this.search.AmphurID != null) {
         params["AmphurID"] = this.search.AmphurID;
@@ -1161,7 +1180,7 @@ export default {
         });
     },
     fetchOrganizationType() {
-      let params = {};
+      let params = {  };
 
       axios
         .get(this.url.OrganizationType, {
@@ -1184,7 +1203,7 @@ export default {
         return;
       }
 
-      let params = {};
+      let params = {  };
 
       if (this.search.OrganizationTypeID != null) {
         params["OrganizationTypeID"] = this.search.OrganizationTypeID;

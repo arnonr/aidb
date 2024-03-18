@@ -587,6 +587,7 @@
           </div>
           <DataTable
             class="text-sm"
+            v-model:filters="searchTable"
             :value="animal"
             :paginator="true"
             :rows="10"
@@ -605,7 +606,7 @@
                 <span class="p-input-icon-left">
                   <i class="pi pi-search" />
                   <InputText
-                    v-model="search['global'].value"
+                    v-model="searchTable['global'].value"
                     placeholder="ค้นหา"
                   />
                 </span>
@@ -918,7 +919,9 @@ export default {
         FarmAnimalType: 1,
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
       },
-
+      searchTable: {
+        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+      },
       checkSearch: 1,
       params: {
         // page: 1,

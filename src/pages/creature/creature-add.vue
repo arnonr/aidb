@@ -1308,6 +1308,8 @@ export default {
                   this.form.AnimalBreedPercent1 = 75;
                 } else if (response.data[i].AnimalBreedPercent == "100.000") {
                   this.form.AnimalBreedPercent1 = 100;
+                }else{
+                    this.form.AnimalBreedPercent1 = response.data[i].AnimalBreedPercent
                 }
                 // console.log(this.form.AnimalBreedID1);
                 // this.form.AnimalBreedPercent1 =
@@ -2031,6 +2033,12 @@ export default {
       if (this.form.AnimalBreedPercent5) {
         total += parseFloat(this.form.AnimalBreedPercent5);
       }
+
+      console.log(this.form.AnimalBreedPercent1)
+      console.log(this.form.AnimalBreedPercent2)
+      console.log(this.form.AnimalBreedPercent3)
+      console.log(this.form.AnimalBreedPercent4)
+      console.log(this.form.AnimalBreedPercent5)
 
       // console.log(
       //   this.form.AnimalBreedPercent2 + this.form.AnimalBreedPercent3

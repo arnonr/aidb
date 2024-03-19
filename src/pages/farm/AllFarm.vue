@@ -1508,15 +1508,15 @@ export default {
         return;
       }
 
-      if (this.permit[0].IsUpdate == 0) {
-        this.$toast.add({
-          severity: "error",
-          summary: "ล้มเหลว",
-          detail: "ไม่มีสิทธิ์แก้ไข",
-          life: 5000,
-        });
-        return;
-      }
+    //   if (this.permit[0].IsUpdate == 0) {
+    //     this.$toast.add({
+    //       severity: "error",
+    //       summary: "ล้มเหลว",
+    //       detail: "ไม่มีสิทธิ์แก้ไข",
+    //       life: 5000,
+    //     });
+    //     return;
+    //   }
       // let getID = this.data.find((item) => item.FarmID == id);
       // await router.push({
       //   path: `/farm/edit/${getID.FarmID}`,

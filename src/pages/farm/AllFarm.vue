@@ -1484,7 +1484,9 @@ export default {
     async edit(id, AIZoneID) {
       console.log(this.user.Staff);
       if (
-        this.user.GroupID == 2 &&
+        (this.user.GroupID == 2 ||
+          this.user.GroupID == 3 ||
+          this.user.GroupID == 4) &&
         this.user.Staff.Organization.OrganizationAiZoneID != AIZoneID
       ) {
         this.$toast.add({

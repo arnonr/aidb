@@ -206,7 +206,6 @@
           <div class="col-12 sm:col-12 lg:col-12">
             <hr />
           </div>
-
         </div>
       </div>
     </div>
@@ -448,7 +447,6 @@
             :sortable="true"
           ></Column>
 
-
           <Column
             field="Birthdate"
             header="วันคลอด"
@@ -456,7 +454,6 @@
             exportFooter="&#8203;"
             :sortable="true"
           ></Column>
-
 
           <Column
             field="ChildGender"
@@ -616,11 +613,13 @@ export default {
       provinceAICount: [],
       url: {
         AIZone: "/ai-zone/selection?includeAll=false&isActive=1",
-        OrganizationZone: "/organization-zone/selection?includeAll=false&isActive=1",
+        OrganizationZone:
+          "/organization-zone/selection?includeAll=false&isActive=1",
         Province: "/province/selection?includeAll=false&isActive=1",
         Amphur: "/amphur/selection?includeAll=false&isActive=1",
         Tumbol: "/tumbol/selection?includeAll=false&isActive=1",
-        OrganizationType: "/organization-type/selection?includeAll=false&isActive=1",
+        OrganizationType:
+          "/organization-type/selection?includeAll=false&isActive=1",
         Organization: "/organization/selection?includeAll=false&isActive=1",
         Farm: "/farm/selection?includeAll=false&isActive=1",
         Report: "/report/report19",
@@ -744,6 +743,8 @@ export default {
           this.fetchFarm();
           //   this.fetchStaff();
           this.fetchReport();
+
+          this.search.ProvinceID = null;
           this.dropdown.Amphurs = [];
           this.dropdown.Tumbols = [];
           this.search.AmphurID = null;
@@ -772,6 +773,8 @@ export default {
           this.fetchFarm();
           //   this.fetchStaff();
           this.fetchReport();
+
+          this.search.ProvinceID = null;
           this.search.AmphurID = null;
           this.search.TumbolID = null;
           //   this.search.OrganizationTypeID = null;
@@ -1311,7 +1314,7 @@ export default {
     },
 
     fetchAIZone() {
-      let params = {  };
+      let params = {};
       //  Fetch AIZone
       axios
         .get(this.url.AIZone, {
@@ -1326,7 +1329,7 @@ export default {
         });
     },
     fetchOrganizationZone() {
-      let params = {  isActive: 1 };
+      let params = { isActive: 1 };
       //  Fetch OrganizationZone
       axios
         .get(this.url.OrganizationZone, {
@@ -1341,7 +1344,7 @@ export default {
         });
     },
     fetchProject() {
-      let params = {  };
+      let params = {};
 
       if (this.animal_id == 1) {
         params["AnimalTypeID"] = "[1,2,41,42]";
@@ -1403,7 +1406,7 @@ export default {
         return;
       }
 
-      let params = { };
+      let params = {};
 
       if (this.search.ProvinceID != null) {
         params["ProvinceID"] = this.search.ProvinceID;
@@ -1431,7 +1434,7 @@ export default {
         return;
       }
 
-      let params = { };
+      let params = {};
 
       if (this.search.AmphurID != null) {
         params["AmphurID"] = this.search.AmphurID;
@@ -1451,7 +1454,7 @@ export default {
         });
     },
     fetchOrganizationType() {
-      let params = {  };
+      let params = {};
 
       axios
         .get(this.url.OrganizationType, {
@@ -1474,7 +1477,7 @@ export default {
         return;
       }
 
-      let params = { };
+      let params = {};
 
       if (this.search.OrganizationTypeID != null) {
         params["OrganizationTypeID"] = this.search.OrganizationTypeID;
@@ -1621,7 +1624,9 @@ export default {
         .then((res) => {
           this.dropdown.Farms = res.data.rows
             .sort((a, b) =>
-              a.Province.ProvinceName.localeCompare(b.Province.ProvinceName)
+              a.Province
+                ? a.Province.ProvinceName.localeCompare(b.Province.ProvinceName)
+                : false
             )
             .map((item) => {
               let name = item.Farmer ? item.Farmer.FullName : "- ";

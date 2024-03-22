@@ -1478,6 +1478,8 @@ export default {
         setTimeout(() => {
           this.fetchProvince();
           this.fetchOrganization();
+
+          this.search.ProvinceID = null;
           this.search.AmphurID = null;
           this.search.TumbolID = null;
           this.search.OrganizationID = null;
@@ -1508,6 +1510,8 @@ export default {
           this.fetchProvince();
           this.fetchOrganization();
           this.fetchUser();
+
+          this.search.ProvinceID = null;
           this.search.AmphurID = null;
           this.search.TumbolID = null;
           this.search.OrganizationID = null;

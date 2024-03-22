@@ -740,6 +740,8 @@ export default {
           this.fetchReport();
           this.dropdown.Amphurs = [];
           this.dropdown.Tumbols = [];
+
+          this.search.ProvinceID = null;
           this.search.AmphurID = null;
           this.search.TumbolID = null;
           //   this.search.OrganizationTypeID = null;
@@ -766,6 +768,8 @@ export default {
           this.fetchFarm();
           //   this.fetchStaff();
           this.fetchReport();
+
+          this.search.ProvinceID = null;
           this.search.AmphurID = null;
           this.search.TumbolID = null;
           //   this.search.OrganizationTypeID = null;

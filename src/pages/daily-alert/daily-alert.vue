@@ -437,6 +437,7 @@ export default {
           this.fetchFarm();
           this.dropdown.Amphurs = [];
           this.dropdown.Tumbols = [];
+          this.search.ProvinceID = null;
           this.search.AmphurID = null;
           this.search.TumbolID = null;
           //   this.search.OrganizationTypeID = null;
@@ -459,6 +460,7 @@ export default {
           this.fetchProvince();
           this.fetchOrganization();
           this.fetchAnimal();
+          this.search.ProvinceID = null;
           this.search.AmphurID = null;
           this.search.TumbolID = null;
           //   this.search.OrganizationTypeID = null;

@@ -1347,6 +1347,7 @@ export default {
           this.fetchFarm();
           this.fetchAnimal();
           this.exportExcel();
+          this.search.ProvinceID = null;
           this.search.AmphurID = null;
           this.search.TumbolID = null;
           this.search.OrganizationID = null;

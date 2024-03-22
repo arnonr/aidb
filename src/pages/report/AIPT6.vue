@@ -801,6 +801,8 @@ export default {
           this.fetchOrganization();
           //   this.fetchStaff();
           this.fetchReport();
+
+          this.search.ProvinceID = null;
           this.dropdown.Amphurs = [];
           this.dropdown.Tumbols = [];
           this.search.AmphurID = null;
@@ -828,6 +830,7 @@ export default {
           this.fetchOrganization();
           //   this.fetchStaff();
           this.fetchReport();
+          this.search.ProvinceID = null;
           this.search.AmphurID = null;
           this.search.TumbolID = null;
           //   this.search.OrganizationTypeID = null;

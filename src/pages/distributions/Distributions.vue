@@ -677,6 +677,7 @@ export default {
           this.fetchProvince();
           this.fetchOrganization();
           this.fetchFarm();
+          this.search.ProvinceID = null;
           this.search.AmphurID = null;
           this.search.TumbolID = null;
           this.search.OrganizationID = null;
@@ -708,6 +709,7 @@ export default {
           this.fetchProvince();
           this.fetchOrganization();
           this.fetchFarm();
+          this.search.ProvinceID = null;
           this.search.AmphurID = null;
           this.search.TumbolID = null;
           this.search.OrganizationID = null;

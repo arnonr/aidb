@@ -522,6 +522,8 @@ export default {
           this.fetchOrganization();
           this.fetchFarm();
           this.fetchCure();
+
+          this.search.ProvinceID = null;
           this.search.AmphurID = null;
           this.search.TumbolID = null;
           this.search.OrganizationID = null;
@@ -554,6 +556,8 @@ export default {
           this.fetchOrganization();
           this.fetchFarm();
           this.fetchCure();
+
+          this.search.ProvinceID = null;
           this.search.AmphurID = null;
           this.search.TumbolID = null;
           this.search.OrganizationID = null;

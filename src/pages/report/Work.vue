@@ -483,6 +483,8 @@ export default {
         this.isSelectAIZoneDisabled = false;
         this.isSelectOrganizationZoneDisabled = false;
       }
+
+
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -492,6 +494,7 @@ export default {
           this.fetchReport();
           this.dropdown.Amphurs = [];
           this.dropdown.Tumbols = [];
+          this.search.ProvinceID = null;
           this.search.AmphurID = null;
           this.search.TumbolID = null;
           //   this.search.OrganizationTypeID = null;
@@ -510,6 +513,8 @@ export default {
         this.isSelectAIZoneDisabled = false;
         this.isSelectOrganizationZoneDisabled = false;
       }
+
+
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -517,6 +522,7 @@ export default {
           this.fetchOrganization();
           //   this.fetchStaff();
           this.fetchReport();
+          this.search.ProvinceID = null;
           this.search.AmphurID = null;
           this.search.TumbolID = null;
           //   this.search.OrganizationTypeID = null;

@@ -1741,8 +1741,6 @@ export default {
             AIZoneID: 99,
             AIZoneName: "ทั้งหมด",
           });
-
-          console.log(this.dropdown.AIZones);
         })
         .finally(() => {
           this.isLoading = false;

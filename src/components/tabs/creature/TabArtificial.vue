@@ -186,17 +186,11 @@
               }"
             />
           </div>
-          <div class="col-12 lg:col-6">
+          <!-- <div class="col-12 lg:col-6">
             <label class="block text-600 text-sm font-bold mb-2">
               ประมาณการวันคลอด</label
             >
-            <!-- <Calendar
-              v-model="data[index].EstimateBirthDate"
-              dateFormat="dd/mm/yy"
-              class="w-full"
-              :disabled="true"
-            /> -->
-          </div>
+          </div> -->
           <div class="col-12 lg:col-6">
             <label class="block text-600 text-sm font-bold mb-2">
               คะแนนร่างกาย</label

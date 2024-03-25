@@ -156,7 +156,6 @@
             :showClear="true"
             placeholder="เลือกหน่วยงาน"
             :virtualScrollerOptions="{ itemSize: 38 }"
-            @change="gennumber($event)"
           >
             <template v-slot:loader="{ options }">
               <div class="flex align-items-center p-2" style="height: 38px">
@@ -416,13 +415,14 @@ export default {
   data() {
     return {
       // Organization Load
-      urlOrganization: "/organization?includeAll=false",
-      urlOrganizationZone: "/organization-zone",
-      urlProvince: "/province?includeAll=false",
-      urlTumbol: "/tumbol?includeAll=false",
-      urlAmphur: "/amphur?includeAll=false",
-      urlAIZone: "/ai-zone",
-      urlProject: "/project?includeAll=false",
+      urlOrganization: "/organization/selection?includeAll=false&isActive=1",
+      urlOrganizationZone:
+        "/organization-zone/selection?includeAll=false&isActive=1",
+      urlProvince: "/province/selection?includeAll=false&isActive=1",
+      urlTumbol: "/tumbol/selection?includeAll=false&isActive=1",
+      urlAmphur: "/amphur/selection?includeAll=false&isActive=1",
+      urlAIZone: "/ai-zone/selection?includeAll=false&isActive=1",
+      urlProject: "/project/selection?includeAll=false&isActive=1",
       urlFarmStatus: "/farm-status",
       organization: [],
       organization_tmp: [],
@@ -493,38 +493,51 @@ export default {
       this.province_tmp = this.province.filter((item) => {
         return item.OrganizationZoneID == val;
       });
+
+      //   this.organization_tmp = this.organization.filter((item) => {
+      //     return item.OrganizationZoneID == val;
+      //   });
     },
     "form.FarmType"(val) {
       console.log(val);
     },
     "form.FarmProvinceID"(val) {
-      if (this.province_tmp.filter) {
-        let getAIZone = this.province_tmp.filter((item) => {
-          return item.ProvinceID == val;
-        });
+      console.log(val);
 
-        if (getAIZone[0]) {
-          this.form.AIZoneID = getAIZone[0].AIZoneID;
-          this.form.OrganizationZoneID = getAIZone[0].OrganizationZoneID;
-        }
+      //   if (this.province_tmp.filter) {
+      //     let getAIZone = this.province_tmp.filter((item) => {
+      //       return item.ProvinceID == val;
+      //     });
 
-        this.organization_tmp = this.organization.filter((item) => {
-          return (
-            item.OrganizationProvinceID == val &&
-            (item.OrganizationTypeID == "2" || item.OrganizationTypeID == "11")
-          );
-        });
-      }
+      //     if (getAIZone[0]) {
+      //       this.form.AIZoneID = getAIZone[0].AIZoneID;
+      //       this.form.OrganizationZoneID = getAIZone[0].OrganizationZoneID;
+      //     }
+
+      //     this.organization_tmp = this.organization.filter((item) => {
+      //       return (
+      //         item.OrganizationProvinceID == val &&
+      //         (item.OrganizationTypeID == "2" || item.OrganizationTypeID == "11")
+      //       );
+      //     });
+
+      //     // this.organization_tmp = this.organization.filter((item) => {
+      //     //   return (
+      //     //     item.OrganizationProvinceID == val &&
+      //     //     (item.OrganizationTypeID == "2" || item.OrganizationTypeID == "11")
+      //     //   );
+      //     // });
+      //   }
       // OrganizationProvinceID
     },
     "form.FarmAmphurID"(val) {
-      this.organization_tmp = this.organization.filter((item) => {
-        return (
-          item.OrganizationAmphurID == val &&
-          (item.OrganizationTypeID == "2" || item.OrganizationTypeID == "11")
-        );
-      });
-      // OrganizationProvinceID
+      console.log(val);
+      //   this.organization_tmp = this.organization.filter((item) => {
+      //     return (
+      //       item.OrganizationAmphurID == val &&
+      //       (item.OrganizationTypeID == "2" || item.OrganizationTypeID == "11")
+      //     );
+      //   });
     },
   },
   mounted() {
@@ -567,17 +580,17 @@ export default {
           )
           .then((res) => {
             this.form.FarmIdentificationNumber = res.data.FarmNumberGenerate;
-            axios
-              .get("/organization/" + this.form.OrganizationID, {
-                signal: this.controller.signal,
-              })
-              .then((res) => {
-                let item = res.data.OrganizationType;
-                this.form.OrganizationType = item.OrganizationTypeName;
-              })
-              .finally(() => {
-                this.isLoading = false;
-              });
+            // axios
+            //   .get("/organization/" + this.form.OrganizationID, {
+            //     signal: this.controller.signal,
+            //   })
+            //   .then((res) => {
+            //     let item = res.data.OrganizationType;
+            //     this.form.OrganizationType = item.OrganizationTypeName;
+            //   })
+            //   .finally(() => {
+            //     this.isLoading = false;
+            //   });
           })
           .finally(() => {
             this.isLoading = false;
@@ -594,15 +607,16 @@ export default {
       this.form.AIZoneID = null;
     },
     filterAmphur($event) {
-      let val = $event.value;
-      if (val) {
-        this.amphur.data = this.amphur.temp;
-        this.amphur.data = this.amphur.data.filter(
-          (item) => item.ProvinceID == val
-        );
-      } else {
-        this.amphur.data = this.amphur.temp;
-      }
+      console.log($event);
+    //   let val = $event.value;
+    //   if (val) {
+    //     this.amphur.data = this.amphur.temp;
+    //     this.amphur.data = this.amphur.data.filter(
+    //       (item) => item.ProvinceID == val
+    //     );
+    //   } else {
+    //     this.amphur.data = this.amphur.temp;
+    //   }
     },
     filterTumbol($event) {
       let val = $event.value;
@@ -617,6 +631,7 @@ export default {
     },
     filterZipcode($event) {
       let val = $event.value;
+      this.gennumber($event);
       console.log(val);
       // if (val) {
       //   this.form.FarmZipCode = this.tumbol.temp[val].Zipcode;
@@ -683,19 +698,57 @@ export default {
         .finally(() => {
           this.isLoading = false;
         });
-      // Organization
+
+      //   this.fetchOrganizationZone();
+      //   this.fetchAIZone();
+      //   this.fetchProvince();
+      //   this.fetchAmphur();
+      //   this.fetchTumbol();
+      //   this.fetchOrganization();
+      this.form.FarmStatusID = 1;
+
+      Promise.all([
+        this.fetchOrganizationZone(),
+        this.fetchAIZone(),
+        this.fetchProvince(),
+        this.fetchAmphur(),
+        this.fetchTumbol(),
+        this.fetchOrganization(),
+      ]).then((values) => {
+        this.form.FarmStatusID = 1;
+        console.log(values);
+        if (this.farmItem) {
+          // this.form.OrganizationZoneID =
+          //   this.farmItem.Province.OrganizationZoneID;
+          this.form.FarmProvinceID = this.farmItem.HouseProvinceID;
+          //   this.form.FarmAmphurID = this.farmItem.HouseAmphurID;
+          //   // this.form.FarmTumbolID = this.farmItem.HouseTumbolID;
+          //   this.form.FarmZipCode = this.farmItem.HouseZipCode;
+          //   this.form.FarmAddress = this.farmItem.HouseBuildingNumber;
+          //   this.form.FarmMoo = this.farmItem.HouseMoo;
+          //   this.form.FarmStreet = this.farmItem.HouseStreet;
+          //   this.form.ResidenceLatitude = this.farmItem.HouseLatitude;
+          //   this.form.ResidenceLongitude = this.farmItem.HouseLongitude;
+          //   this.form.FarmMobilePhoneNumber = this.farmItem.MobilePhoneNumber;
+        }
+      });
+
+      // console.log(this.form);
+    },
+
+    fetchAIZone() {
       axios
-        .get(this.urlOrganization, {
+        .get(this.urlAIZone, {
           signal: this.controller.signal,
         })
         .then((res) => {
-          this.organization_tmp = this.organization = res.data.rows;
+          this.aizone = res.data.rows;
         })
         .finally(() => {
           this.isLoading = false;
         });
-
-      // OrganizationZone
+    },
+    fetchOrganizationZone() {
       axios
         .get(this.urlOrganizationZone, {
           signal: this.controller.signal,
@@ -706,7 +759,8 @@ export default {
         .finally(() => {
           this.isLoading = false;
         });
-
+    },
+    fetchProvince() {
       axios
         .get(this.urlProvince, {
           signal: this.controller.signal,
@@ -717,7 +771,21 @@ export default {
         .finally(() => {
           this.isLoading = false;
         });
-
+    },
+    fetchAmphur() {
+      axios
+        .get(this.urlAmphur, {
+          signal: this.controller.signal,
+        })
+        .then((res) => {
+          this.amphur.data = res.data.rows;
+          this.amphur.temp = this.amphur.data;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+    fetchTumbol() {
       axios
         .get(this.urlTumbol, {
           signal: this.controller.signal,
@@ -729,49 +797,19 @@ export default {
         .finally(() => {
           this.isLoading = false;
         });
-
+    },
+    fetchOrganization() {
+      // Organization
       axios
-        .get(this.urlAmphur, {
+        .get(this.urlOrganization, {
           signal: this.controller.signal,
         })
         .then((res) => {
-          this.amphur.data = res.data.rows;
-          this.amphur.temp = this.amphur.data;
-
-          if (this.farmItem) {
-            // this.form.OrganizationZoneID =
-            //   this.farmItem.Province.OrganizationZoneID;
-            this.form.FarmProvinceID = this.farmItem.HouseProvinceID;
-            this.form.FarmAmphurID = this.farmItem.HouseAmphurID;
-            this.form.FarmTumbolID = this.farmItem.HouseTumbolID;
-            this.form.FarmZipCode = this.farmItem.HouseZipCode;
-            this.form.FarmAddress = this.farmItem.HouseBuildingNumber;
-            this.form.FarmMoo = this.farmItem.HouseMoo;
-            this.form.FarmStreet = this.farmItem.HouseStreet;
-            this.form.ResidenceLatitude = this.farmItem.HouseLatitude;
-            this.form.ResidenceLongitude = this.farmItem.HouseLongitude;
-            this.form.FarmMobilePhoneNumber = this.farmItem.MobilePhoneNumber;
-          }
+          this.organization_tmp = this.organization = res.data.rows;
         })
         .finally(() => {
           this.isLoading = false;
         });
-
-      // aizone
-      axios
-        .get(this.urlAIZone, {
-          signal: this.controller.signal,
-        })
-        .then((res) => {
-          this.aizone = res.data.rows;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-
-      this.form.FarmStatusID = 1;
-
-      // console.log(this.form);
     },
 
     prevPage() {

@@ -484,7 +484,6 @@ export default {
         this.isSelectOrganizationZoneDisabled = false;
       }
 
-
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -513,7 +512,6 @@ export default {
         this.isSelectAIZoneDisabled = false;
         this.isSelectOrganizationZoneDisabled = false;
       }
-
 
       if (this.isLoading == false) {
         this.isLoading = true;
@@ -971,6 +969,16 @@ export default {
         params["EndDate"] = dayjs(this.search.created_day[1]).format(
           "YYYY-MM-DD"
         );
+      }
+
+      if (this.animal_id == 1) {
+        params["AnimalTypeID"] = "[1,2,41,42]";
+        this.localAnimal = "โค";
+      } else if (this.animal_id == 2) {
+        params["AnimalTypeID"] = "[3,4,43,44]";
+        this.localAnimal = "กระบือ";
+      } else if (this.animal_id == 3) {
+        params["AnimalTypeID"] = "[17,18,45,46]";
       }
 
       axios

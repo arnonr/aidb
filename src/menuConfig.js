@@ -336,17 +336,17 @@ export default [
               },
             ],
           },
-          {
-            label: "รายงานด้านการวิเคราะห์ข้อมูล",
-            icon: "pi pi-fw pi-circle",
-            items: [
-              {
-                label: "วิเคราะห์ประสิทธิภาพระบบสืบพันธุ์",
-                icon: "pi pi-minus",
-                to: "/report/analyze",
-              },
-            ],
-          },
+        //   {
+        //     label: "รายงานด้านการวิเคราะห์ข้อมูล",
+        //     icon: "pi pi-fw pi-circle",
+        //     items: [
+        //       {
+        //         label: "วิเคราะห์ประสิทธิภาพระบบสืบพันธุ์",
+        //         icon: "pi pi-minus",
+        //         to: "/report/analyze",
+        //       },
+        //     ],
+        //   },
         ],
       },
       {

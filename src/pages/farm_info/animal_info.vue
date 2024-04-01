@@ -664,6 +664,16 @@
               </div>
             </AccordionTab>
           </Accordion>
+
+          <div class="col-12 sm:col-12 lg:col-12">
+            <Button
+              @click="fetchAnimal()"
+              label="ค้นหา"
+              icon=""
+              style="width: 100%"
+              class="mr-2 mb-3"
+            />
+          </div>
         </div>
 
         <div v-else class="grid">
@@ -1649,13 +1659,13 @@ export default {
       this.data = [];
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.fetchProvince();
           //   this.fetchOrganization();
           this.fetchFarm();
-          this.fetchAnimal();
-          this.exportExcel();
+        //   this.fetchAnimal();
+        //   this.exportExcel();
           this.search.ProvinceID = null;
           this.search.AmphurID = null;
           this.search.TumbolID = null;
@@ -1684,13 +1694,13 @@ export default {
       this.data = [];
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.fetchProvince();
           this.fetchOrganization();
           this.fetchFarm();
-          this.fetchAnimal();
-          this.exportExcel();
+        //   this.fetchAnimal();
+        //   this.exportExcel();
           this.search.ProvinceID = null;
           this.search.AmphurID = null;
           this.search.TumbolID = null;
@@ -1704,12 +1714,12 @@ export default {
       this.fetchAmphur();
       this.fetchOrganization();
       this.fetchFarm();
-      this.fetchAnimal();
+    //   this.fetchAnimal();
       this.dropdown.Amphurs = [];
       this.dropdown.Tumbols = [];
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.search.AmphurID = null;
           this.search.TumbolID = null;
@@ -1724,12 +1734,12 @@ export default {
       this.fetchTumbol();
       this.fetchOrganization();
       this.fetchFarm();
-      this.fetchAnimal();
-      this.exportExcel();
+    //   this.fetchAnimal();
+    //   this.exportExcel();
       this.dropdown.Tumbols = [];
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.search.TumbolID = null;
           //   this.search.OrganizationTypeID = null;
@@ -1742,11 +1752,11 @@ export default {
     "search.TumbolID"() {
       this.fetchOrganization();
       this.fetchFarm();
-      this.fetchAnimal();
-      this.exportExcel();
+    //   this.fetchAnimal();
+    //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.search.OrganizationID = null;
           this.search.FarmID = null;
@@ -1768,11 +1778,11 @@ export default {
     },
     "search.OrganizationID"() {
       this.fetchFarm();
-      this.fetchAnimal();
-      this.exportExcel();
+    //   this.fetchAnimal();
+    //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.search.OrganizationID = null;
           this.search.FarmID = null;
@@ -1781,11 +1791,11 @@ export default {
       }
     },
     "search.FarmID"() {
-      this.fetchAnimal();
-      this.exportExcel();
+    //   this.fetchAnimal();
+    //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -1793,11 +1803,11 @@ export default {
     },
     "search.ProjectIDArray"() {
       this.fetchFarm();
-      this.fetchAnimal();
-      this.exportExcel();
+    //   this.fetchAnimal();
+    //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -1805,11 +1815,11 @@ export default {
     },
     "search.FarmAnimalType"() {
       this.fetchFarm();
-      this.fetchAnimal();
-      this.exportExcel();
+    //   this.fetchAnimal();
+    //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -1822,21 +1832,21 @@ export default {
         this.params.AnimalSexID = null;
       }
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
-          this.fetchAnimal();
-          this.exportExcel();
+        //   this.fetchAnimal();
+        //   this.exportExcel();
 
           this.isLoading = false;
         }, 1000);
       }
     },
     "params.AnimalEarID"() {
-      this.fetchAnimal();
-      this.exportExcel();
+    //   this.fetchAnimal();
+    //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -1844,11 +1854,11 @@ export default {
     },
 
     "params.AnimalName"() {
-      this.fetchAnimal();
-      this.exportExcel();
+    //   this.fetchAnimal();
+    //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -1856,11 +1866,11 @@ export default {
     },
 
     "params.AnimalSexID"() {
-      this.fetchAnimal();
-      this.exportExcel();
+    //   this.fetchAnimal();
+    //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -1868,11 +1878,11 @@ export default {
     },
 
     "search.Status"() {
-      this.fetchAnimal();
-      this.exportExcel();
+    //   this.fetchAnimal();
+    //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -1882,7 +1892,7 @@ export default {
     "parents.AnimalFatherEarID"() {
       this.fetchFather();
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -1892,7 +1902,7 @@ export default {
     "parents.AnimalMotherEarID"() {
       this.fetchMother();
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -1900,11 +1910,11 @@ export default {
     },
 
     "params.AnimalAgeStart"() {
-      this.fetchAnimal();
-      this.exportExcel();
+    //   this.fetchAnimal();
+    //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -1912,11 +1922,11 @@ export default {
     },
 
     "params.AnimalAgeTo"() {
-      this.fetchAnimal();
-      this.exportExcel();
+    //   this.fetchAnimal();
+    //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -1924,11 +1934,11 @@ export default {
     },
 
     "params.AnimalBreedID1"() {
-      this.fetchAnimal();
-      this.exportExcel();
+    //   this.fetchAnimal();
+    //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -1936,11 +1946,11 @@ export default {
     },
 
     "params.AnimalBreedID2"() {
-      this.fetchAnimal();
-      this.exportExcel();
+    //   this.fetchAnimal();
+    //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -1960,11 +1970,11 @@ export default {
     },
 
     "params.AnimalBreedID4"() {
-      this.fetchAnimal();
-      this.exportExcel();
+    //   this.fetchAnimal();
+    //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -1972,11 +1982,11 @@ export default {
     },
 
     "params.AnimalBreedID5"() {
-      this.fetchAnimal();
-      this.exportExcel();
+    //   this.fetchAnimal();
+    //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -2111,8 +2121,8 @@ export default {
         this.currentPage = event.page + 1;
         this.params.page = event.page + 1;
       }
-      this.fetchAnimal();
-      this.exportExcel();
+    //   this.fetchAnimal();
+    //   this.exportExcel();
     },
 
     fetchAIZone() {
@@ -2868,13 +2878,13 @@ export default {
             } else {
               this.params.AnimalFatherID = 0;
             }
-            this.fetchAnimal();
-            this.exportExcel();
+            // this.fetchAnimal();
+            // this.exportExcel();
           });
       } else {
         this.params.AnimalFatherID = null;
-        this.fetchAnimal();
-        this.exportExcel();
+        // this.fetchAnimal();
+        // this.exportExcel();
       }
     },
 
@@ -2896,13 +2906,13 @@ export default {
             } else {
               this.params.AnimalMotherID = 0;
             }
-            this.fetchAnimal();
-            this.exportExcel();
+            // this.fetchAnimal();
+            // this.exportExcel();
           });
       } else {
         this.params.AnimalMotherID = null;
-        this.fetchAnimal();
-        this.exportExcel();
+        // this.fetchAnimal();
+        // this.exportExcel();
       }
 
       //   if (
@@ -3036,7 +3046,7 @@ export default {
         this.params.orderByField = $event.sortField;
         // this.load();
         this.fetchAnimal();
-        this.exportExcel();
+        // this.exportExcel();
       }
     },
     // page change

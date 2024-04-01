@@ -193,6 +193,16 @@
             </Datepicker>
           </div>
 
+          <div class="col-12 sm:col-12 lg:col-12">
+            <Button
+              @click="fetchReport()"
+              label="ค้นหา"
+              icon=""
+              style="width: 100%"
+              class="mr-2 mb-3"
+            />
+          </div>
+
           <!-- <div class="col-12 sm:col-6 lg:col-6">
             <label
               for="dateRange"
@@ -443,10 +453,10 @@ export default {
         this.isSelectCreatedDayDisabled = false;
       }
 
-      this.fetchReport();
+    //   this.fetchReport();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.loadDefault();
           this.isLoading = false;
@@ -463,10 +473,10 @@ export default {
         this.isSelectCreatedDayDisabled = false;
       }
 
-      this.fetchReport();
+    //   this.fetchReport();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.loadDefault();
           this.isLoading = false;
@@ -485,12 +495,12 @@ export default {
       }
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.fetchProvince();
           this.fetchOrganization();
           //   this.fetchStaff();
-          this.fetchReport();
+        //   this.fetchReport();
           this.dropdown.Amphurs = [];
           this.dropdown.Tumbols = [];
           this.search.ProvinceID = null;
@@ -514,12 +524,12 @@ export default {
       }
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.fetchProvince();
           this.fetchOrganization();
           //   this.fetchStaff();
-          this.fetchReport();
+        //   this.fetchReport();
           this.search.ProvinceID = null;
           this.search.AmphurID = null;
           this.search.TumbolID = null;
@@ -534,10 +544,10 @@ export default {
       this.fetchAmphur();
       this.fetchOrganization();
       this.fetchStaff();
-      this.fetchReport();
+    //   this.fetchReport();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.search.AmphurID = null;
           this.search.TumbolID = null;
@@ -552,10 +562,10 @@ export default {
       this.fetchTumbol();
       this.fetchOrganization();
       this.fetchStaff();
-      this.fetchReport();
+    //   this.fetchReport();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.search.TumbolID = null;
           //   this.search.OrganizationTypeID = null;
@@ -568,10 +578,10 @@ export default {
     "search.TumbolID"() {
       this.fetchOrganization();
       this.fetchStaff();
-      this.fetchReport();
+    //   this.fetchReport();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.search.OrganizationID = null;
           this.search.FarmID = null;
@@ -581,10 +591,10 @@ export default {
     },
     "search.OrganizationTypeID"() {
       this.fetchOrganization();
-      this.fetchReport();
+    //   this.fetchReport();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.search.OrganizationID = null;
           this.search.FarmID = null;
@@ -595,10 +605,10 @@ export default {
     "search.OrganizationID"() {
       //   this.fetchReport();
       this.fetchStaff();
-      this.fetchReport();
+    //   this.fetchReport();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           //   this.search.OrganizationID = null;
           this.search.FarmID = null;
@@ -608,27 +618,27 @@ export default {
     },
 
     "search.FarmID"() {
-      this.fetchReport();
+    //   this.fetchReport();
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
       }
     },
     "search.ProjectIDArray"() {
-      this.fetchReport();
+    //   this.fetchReport();
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
       }
     },
     "search.StaffID"() {
-      this.fetchReport();
+    //   this.fetchReport();
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);

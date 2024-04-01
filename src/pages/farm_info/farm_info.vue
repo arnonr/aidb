@@ -158,18 +158,15 @@
           >
             ฟาร์ม</label
           >
-          <Dropdown
-            class="w-full"
+          <v-select
             v-model="search.FarmID"
             :options="dropdown.Farms"
-            optionLabel="Fullname"
-            optionValue="FarmID"
-            :filter="true"
-            :showClear="true"
-            :virtualScrollerOptions="{ itemSize: 38 }"
-            placeholder="เลือกฟาร์ม"
-          >
-          </Dropdown>
+            @search="fetchSelectionFarm"
+            label="Fullname"
+            value="FarmID"
+            class="w-full"
+            placeholder="เลือกฟาร์มปลายทาง (พิมพ์ 3 ตัวอักษรเพื่อค้นหา)"
+          ></v-select>
         </div>
 
         <!-- <div class="col-12 sm:col-6 lg:col-6">
@@ -788,6 +785,8 @@ import { mapGetters } from "vuex";
 import axios from "axios";
 import store from "@/service/Vuex";
 import { FilterMatchMode } from "primevue/api";
+import vSelect from "vue-select";
+import "vue-select/dist/vue-select.css";
 
 // import locale from "dayjs/locale/th";
 // import _ from "lodash";
@@ -801,6 +800,7 @@ export default {
   components: {
     PageTitle,
     VueCreatureInfo,
+    vSelect,
   },
   computed: {
     ...mapGetters({
@@ -977,7 +977,7 @@ export default {
         setTimeout(() => {
           this.fetchProvince();
           this.fetchOrganization();
-          this.fetchFarm();
+          //   this.fetchFarm();
           this.search.ProvinceID = null;
           this.search.AmphurID = null;
           this.search.TumbolID = null;
@@ -1009,7 +1009,7 @@ export default {
         setTimeout(() => {
           this.fetchProvince();
           this.fetchOrganization();
-          this.fetchFarm();
+          //   this.fetchFarm();
           this.search.ProvinceID = null;
           this.search.AmphurID = null;
           this.search.TumbolID = null;
@@ -1022,7 +1022,7 @@ export default {
     "search.ProvinceID"() {
       this.fetchAmphur();
       this.fetchOrganization();
-      this.fetchFarm();
+      //   this.fetchFarm();
       this.dropdown.Amphurs = [];
       this.dropdown.Tumbols = [];
 
@@ -1041,7 +1041,7 @@ export default {
     "search.AmphurID"() {
       this.fetchTumbol();
       this.fetchOrganization();
-      this.fetchFarm();
+      //   this.fetchFarm();
       this.dropdown.Tumbols = [];
 
       if (this.isLoading == false) {
@@ -1057,7 +1057,7 @@ export default {
     },
     "search.TumbolID"() {
       this.fetchOrganization();
-      this.fetchFarm();
+      //   this.fetchFarm();
 
       if (this.isLoading == false) {
         this.isLoading = true;
@@ -1081,7 +1081,7 @@ export default {
       }
     },
     "search.OrganizationID"() {
-      this.fetchFarm();
+      //   this.fetchFarm();
 
       if (this.isLoading == false) {
         this.isLoading = true;
@@ -1104,7 +1104,7 @@ export default {
       }
     },
     "search.ProjectIDArray"() {
-      this.fetchFarm();
+      //   this.fetchFarm();
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -1113,7 +1113,7 @@ export default {
       }
     },
     "search.FarmAnimalType"() {
-      this.fetchFarm();
+      //   this.fetchFarm();
 
       if (this.isLoading == false) {
         this.isLoading = true;
@@ -1123,7 +1123,7 @@ export default {
       }
     },
     "search.FarmerFullName"() {
-      this.fetchFarm();
+      //   this.fetchFarm();
 
       if (this.isLoading == false) {
         this.isLoading = true;
@@ -1153,7 +1153,7 @@ export default {
       this.fetchTumbol();
       this.fetchOrganizationType();
       this.fetchOrganization();
-      this.fetchFarm();
+      //   this.fetchFarm();
     },
 
     fetchAIZone() {
@@ -1438,37 +1438,11 @@ export default {
       if (this.search.FarmerFullName) {
         params["FullName"] = this.search.FarmerFullName;
       }
-
-      axios
-        .get(this.url.Farm, {
-          signal: this.controller.signal,
-          params: params,
-        })
-        .then((res) => {
-          this.dropdown.Farms = res.data.rows;
-
-          //   this.data = res.data.rows
-          //     .sort((a, b) =>
-          //       a.Province.ProvinceName.localeCompare(b.Province.ProvinceName)
-          //     )
-          //     .map((item) => {
-          //       item.FarmRegisterDate = dayjs(item.FarmRegisterDate)
-          //         .locale(locale)
-          //         .format("DD/MM/YYYY");
-          //       return item;
-          //     });
-          //   this.totalPage = res.data.totalPage;
-          //   this.totalItems = res.data.totalData;
-          //   this.total = res.data.total;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
     },
 
     async load() {
       if (this.search.FarmID != null) {
-        let url = "/farm/" + this.search.FarmID;
+        let url = "/farm/" + this.search.FarmID.FarmID;
 
         console.log(url);
         axios
@@ -1498,7 +1472,7 @@ export default {
         return;
       }
 
-      let params = { FarmID: this.search.FarmID, includeAnimalBreed: true };
+      let params = { FarmID: this.search.FarmID.FarmID, includeAnimalBreed: true };
 
       if (this.animal_id == 2) {
         params["AnimalTypeID"] = "[3,4,43,44]";
@@ -1586,6 +1560,84 @@ export default {
         })
         .finally(() => {
           this.IsSearch = false;
+          this.isLoading = false;
+        });
+    },
+
+    fetchSelectionFarm(search) {
+      if (search.length < 3) {
+        this.dropdown.Farms = [];
+        return;
+      }
+
+      if (
+        this.search.AIZoneID == null &&
+        this.search.OrganizationZoneID == null
+      ) {
+        this.isLoading = false;
+        return;
+      }
+
+      let params = {
+        size: this.rowPerPage,
+        page: 500000,
+        orderByField: "FarmID",
+        orderBy: "desc",
+        // includeAll: false,
+      };
+
+      this.search.FarmAnimalType = parseInt(this.animal_id);
+
+      // Province IN AIZOne
+      if (this.search.AIZoneID != null) {
+        if (this.search.AIZoneID != 99) {
+          params["AIZoneID"] = this.search.AIZoneID;
+        }
+      }
+
+      if (this.search.OrganizationZoneID != null) {
+        if (this.search.OrganizationZoneID != 99) {
+          params["OrganizationZoneID"] = this.search.OrganizationZoneID;
+        }
+      }
+
+      if (this.search.ProvinceID != null) {
+        params["FarmProvinceID"] = this.search.ProvinceID;
+      }
+
+      if (this.search.AmphurID != null) {
+        params["FarmAmphurID"] = this.search.AmphurID;
+      }
+
+      if (this.search.TumbolID != null) {
+        params["FarmTumbolID"] = this.search.TumbolID;
+      }
+
+      if (this.search.OrganizationID != null) {
+        params["OrganizationID"] = this.search.OrganizationID;
+      }
+
+      if (this.search.OrganizationID != null) {
+        params["OrganizationID"] = this.search.OrganizationID;
+      }
+
+      if (this.search.ProjectIDArray) {
+        params["ProjectID"] = JSON.stringify(this.search.ProjectIDArray);
+      }
+
+      if (this.search.FarmerFullName) {
+        params["FullName"] = this.search.FarmerFullName;
+      }
+
+      axios
+        .get(this.url.Farm, {
+          signal: this.controller.signal,
+          params: params,
+        })
+        .then((res) => {
+          this.dropdown.Farms = res.data.rows;
+        })
+        .finally(() => {
           this.isLoading = false;
         });
     },

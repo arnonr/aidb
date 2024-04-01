@@ -2020,6 +2020,8 @@ export default {
         params["FarmStatusID"] = this.search.FarmStatusID;
       }
 
+      params["Fullname"] = search;
+
       axios
         .get(this.urlFarm, {
           signal: this.controller.signal,

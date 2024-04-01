@@ -1472,7 +1472,10 @@ export default {
         return;
       }
 
-      let params = { FarmID: this.search.FarmID.FarmID, includeAnimalBreed: true };
+      let params = {
+        FarmID: this.search.FarmID.FarmID,
+        includeAnimalBreed: true,
+      };
 
       if (this.animal_id == 2) {
         params["AnimalTypeID"] = "[3,4,43,44]";
@@ -1585,6 +1588,8 @@ export default {
         orderBy: "desc",
         // includeAll: false,
       };
+
+      params["Fullname"] = search;
 
       this.search.FarmAnimalType = parseInt(this.animal_id);
 

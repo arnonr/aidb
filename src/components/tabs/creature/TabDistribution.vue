@@ -319,10 +319,12 @@ export default {
       name: "การคัดจำหน่าย",
       search: {},
       //load_selection
+
+      DestinationFarmID: "/farm/selection?includeAll=false&isActive=1",
       LoadSelection: {
         Staff: "/staff/selection?includeAll=false&isActive=1",
         DistributionReasonID: "/distribution-reason",
-        DestinationFarmID: "/farm/selection?includeAll=false&isActive=1",
+        // DestinationFarmID: "/farm/selection?includeAll=false&isActive=1",
         AIZone: "/ai-zone/selection?isActive=1",
         Province: "/province/selection?isActive=1",
       },
@@ -432,10 +434,18 @@ export default {
       }
     },
     "search.AIZoneID"() {
-      this.fetchFarm();
+      // this.
+      this.data[this.index].DestinationFarmID = null;
+      this.selection.DestinationFarmIDFilter = [];
+      //   this.fetchFarm();
     },
+    "search.OrganizationZoneID"() {
+      this.selection.DestinationFarmIDFilter = [];
+      //   this.fetchFarm();
+    },
+
     "search.ProvinceID"() {
-      this.fetchFarm();
+      //   this.fetchFarm();
     },
   },
   computed: {
@@ -749,14 +759,50 @@ export default {
     close_delete() {
       this.display_delete = false;
     },
-    fetchDestinationFarmOptions(search) {
-      if (search.length > 3) {
-        this.selection.DestinationFarmIDFilter =
-          this.selection.DestinationFarmID.filter((x) => {
-            return x.Fullname.includes(search); //|| x.FarmIdentificationNumber.includes(search);
-          });
-      } else {
+    async fetchDestinationFarmOptions(search) {
+      if (search.length < 3) {
         this.selection.DestinationFarmIDFilter = [];
+        return;
+        // this.selection.DestinationFarmIDFilter =
+        //   this.selection.DestinationFarmID.filter((x) => {
+        //     return x.Fullname.includes(search); //|| x.FarmIdentificationNumber.includes(search);
+        //   });
+      } else {
+        let params = {};
+
+        if (this.search.AIZoneID != null) {
+          params["AIZoneID"] = this.search.AIZoneID;
+        } else {
+          this.selection.DestinationFarmIDFilter = [];
+          return;
+        }
+
+        params["Fullname"] = search;
+
+        // if (this.search.OrganizationZoneID != null) {
+        //   params["OrganizationZoneID"] = this.search.OrganizationZoneID;
+        // } else {
+        //   this.selection.DestinationFarmIDFilter = [];
+        //   return;
+        // }
+
+        await axios
+          .get(this.DestinationFarmID, {
+            signal: this.controller.signal,
+            params: {
+              ...params,
+              //   FarmIdentificationNumber: "",
+              //   FarmName: "",
+              size: undefined,
+              page: 1,
+            },
+          })
+          .then((response) => {
+            this.selection.DestinationFarmIDFilter = response.data.rows;
+          })
+          .finally(() => {
+            this.isLoading = false;
+          });
       }
     },
     fetchFarm() {

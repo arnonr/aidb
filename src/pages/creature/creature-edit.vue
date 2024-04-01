@@ -421,9 +421,10 @@
                           หมายเลขพ่อ<span class="text-red-500"> *</span></label
                         >
 
+                        <!-- @search="fetchAnimalFatherOptions" -->
                         <v-select
                           :options="animalfather_temp"
-                          @search="fetchAnimalFatherOptions"
+                          @search="fetchSelectionAnimal"
                           label="AnimalEarIDAndName"
                           value="AnimalID"
                           v-model="form.AnimalFatherID"
@@ -466,9 +467,10 @@
 
                         <!-- @search="fetchMotherOptions" -->
 
+                        <!-- @search="fetchAnimalMotherOptions" -->
                         <v-select
                           :options="animalmother_temp"
-                          @search="fetchAnimalMotherOptions"
+                          @search="fetchSelectionAnimalMother"
                           label="AnimalEarIDAndName"
                           value="AnimalID"
                           v-model="form.AnimalMotherID"
@@ -1423,6 +1425,54 @@ export default {
     },
   },
   methods: {
+    fetchSelectionAnimal(search) {
+      if (search.length < 3) {
+        this.animalfather = [];
+        return;
+      }
+
+      let params = {};
+      params["Fullname"] = search;
+
+      axios
+        .get(this.apiAnimalMotherID, {
+          signal: this.controller.signal,
+          params: {
+            ...params,
+            AnimalSexID: 1,
+            size: undefined,
+            page: 1,
+          },
+        })
+        .then((response) => {
+          this.animalfather_temp = response.data.rows;
+        })
+        .finally(() => {});
+    },
+    fetchSelectionAnimalMother(search) {
+      if (search.length < 3) {
+        this.animalmother = [];
+        return;
+      }
+
+      let params = {};
+      params["Fullname"] = search;
+
+      axios
+        .get(this.apiAnimalMotherID, {
+          signal: this.controller.signal,
+          params: {
+            ...params,
+            AnimalSexID: 2,
+            size: undefined,
+            page: 1,
+          },
+        })
+        .then((response) => {
+          this.animalmother_temp = response.data.rows;
+        })
+        .finally(() => {});
+    },
     fetchAnimalMotherOptions(search, loading) {
       console.log(loading);
       if (search.length > 2) {
@@ -1502,7 +1552,7 @@ export default {
                 } else if (response.data[i].AnimalBreedPercent == "12.500") {
                   breed1tmp = this.Percent[4].name;
                 } else {
-                    breed1tmp = Number(response.data[i].AnimalBreedPercent)
+                  breed1tmp = Number(response.data[i].AnimalBreedPercent);
                 }
                 console.log(breed1tmp);
                 this.form.AnimalBreedPercent1 = breed1tmp;
@@ -1873,18 +1923,18 @@ export default {
           }
         });
 
-      axios
-        .get(this.apiAnimalMotherID, { signal: this.controller.signal })
-        .then((response) => {
-          //   console.log(response.data.rows);
-          this.animalmother = response.data.rows.filter(
-            (item) => item.AnimalSexID === 2
-          );
-          this.animalfather = response.data.rows.filter(
-            (item) => item.AnimalSexID === 1
-          );
-        })
-        .finally(() => {});
+    //   axios
+    //     .get(this.apiAnimalMotherID, { signal: this.controller.signal })
+    //     .then((response) => {
+    //       //   console.log(response.data.rows);
+    //       this.animalmother = response.data.rows.filter(
+    //         (item) => item.AnimalSexID === 2
+    //       );
+    //       this.animalfather = response.data.rows.filter(
+    //         (item) => item.AnimalSexID === 1
+    //       );
+    //     })
+    //     .finally(() => {});
     },
     project_check() {
       const setUrl = "/animal/" + this.params;

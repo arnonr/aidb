@@ -424,9 +424,10 @@
                         หมายเลขพ่อ<span class="text-red-500"> *</span></label
                       >
 
+                      <!-- @search="fetchAnimalFatherOptions" -->
                       <v-select
                         :options="animalfather_temp"
-                        @search="fetchAnimalFatherOptions"
+                        @search="fetchSelectionAnimal"
                         label="AnimalEarIDAndName"
                         value="AnimalID"
                         v-model="form.AnimalFatherID"
@@ -447,7 +448,7 @@
 
                       <v-select
                         :options="animalmother_temp"
-                        @search="fetchAnimalMotherOptions"
+                        @search="fetchSelectionAnimalMother"
                         label="AnimalEarIDAndName"
                         value="AnimalID"
                         v-model="form.AnimalMotherID"
@@ -1167,16 +1168,16 @@ export default {
         this.animalmother_temp = [];
       }
     },
-    fetchAnimalFatherOptions(search, loading) {
-      console.log(loading);
-      if (search.length > 2) {
-        this.animalfather_temp = this.animalfather.filter((x) => {
-          return x.AnimalEarIDAndName.includes(search);
-        });
-      } else {
-        this.animalfather_temp = [];
-      }
-    },
+    // fetchAnimalFatherOptions(search, loading) {
+    //   console.log(loading);
+    //   if (search.length > 2) {
+    //     this.animalfather_temp = this.animalfather.filter((x) => {
+    //       return x.AnimalEarIDAndName.includes(search);
+    //     });
+    //   } else {
+    //     this.animalfather_temp = [];
+    //   }
+    // },
     fetchFarm() {
       this.isLoading = true;
       if (
@@ -1308,8 +1309,9 @@ export default {
                   this.form.AnimalBreedPercent1 = 75;
                 } else if (response.data[i].AnimalBreedPercent == "100.000") {
                   this.form.AnimalBreedPercent1 = 100;
-                }else{
-                    this.form.AnimalBreedPercent1 = response.data[i].AnimalBreedPercent
+                } else {
+                  this.form.AnimalBreedPercent1 =
+                    response.data[i].AnimalBreedPercent;
                 }
                 // console.log(this.form.AnimalBreedID1);
                 // this.form.AnimalBreedPercent1 =
@@ -1396,6 +1398,54 @@ export default {
       }
     },
     // Axios
+    fetchSelectionAnimal(search) {
+      if (search.length < 3) {
+        this.animalfather = [];
+        return;
+      }
+
+      let params = {};
+      params["Fullname"] = search;
+
+      axios
+        .get(this.apiAnimalMotherID, {
+          signal: this.controller.signal,
+          params: {
+            ...params,
+            AnimalSexID: 1,
+            size: undefined,
+            page: 1,
+          },
+        })
+        .then((response) => {
+          this.animalfather_temp = response.data.rows;
+        })
+        .finally(() => {});
+    },
+    fetchSelectionAnimalMother(search) {
+      if (search.length < 3) {
+        this.animalmother = [];
+        return;
+      }
+
+      let params = {};
+      params["Fullname"] = search;
+
+      axios
+        .get(this.apiAnimalMotherID, {
+          signal: this.controller.signal,
+          params: {
+            ...params,
+            AnimalSexID: 2,
+            size: undefined,
+            page: 1,
+          },
+        })
+        .then((response) => {
+          this.animalmother_temp = response.data.rows;
+        })
+        .finally(() => {});
+    },
     load() {
       this.isLoading = true;
       //   axios
@@ -1445,68 +1495,23 @@ export default {
         this.apiAnimalMotherID += "&AnimalTypeID=[17,18,45,46]&isRemove=0";
       }
 
-      axios
-        .get(this.apiAnimalMotherID, { signal: this.controller.signal })
-        .then((response) => {
-          //   console.log(response.data.rows);
-          this.animalmother = response.data.rows.filter(
-            (item) => item.AnimalSexID === 2
-          );
-          this.animalfather = response.data.rows.filter(
-            (item) => item.AnimalSexID === 1
-          );
-        })
-        .finally(() => {
-          // console.log(this.form.AnimalMotherID);
-          //   console.log(this.animalmother);
-          //   console.log(this.animalfather);
-          //   console.log("FREEDOM");
-        });
-
-      // if (this.animal_id == 1) {
-      //   this.apiAnimalFatherID += "&AnimalTypeID=[1,2]&isActive=1";
-      // } else if (this.animal_id == 2) {
-      //   this.apiAnimalFatherID += "&AnimalTypeID=[3,4,42]&isActive=1";
-      // } else if (this.animal_id == 3) {
-      //   this.apiAnimalFatherID += "&AnimalTypeID=[17,18]&isActive=1";
-      // }
-
-      // axios
-      //   .get(this.apiAnimalFatherID+"&AnimalSexID=1", { signal: this.controller.signal })
-      //   .then((response) => {
-      //     this.animalfather = response.data.rows;
-      //       // .filter((item) => item.AnimalSexID === 1)
-      //       // .map((item) => {
-      //       //   return {
-      //       //     AnimalID: item.AnimalID,
-      //       //     AnimalIdentificationID: item.AnimalIdentificationID,
-      //       //     Fullname: item.AnimalEarID + ", " + item.AnimalName,
-      //       //   };
-      //       // });
-      //   });
-
-      // if (this.animal_id == 1) {
-      //   this.apiAnimalMotherID += "&AnimalTypeID=[1,2]";
-      // } else if (this.animal_id == 2) {
-      //   this.apiAnimalMotherID += "&AnimalTypeID=[3,4,42]";
-      // } else if (this.animal_id == 3) {
-      //   this.apiAnimalMotherID += "&AnimalTypeID=[17,18]";
-      // }
-      // axios
-      //   .get(this.apiAnimalMotherID+"&AnimalSexID=2", { signal: this.controller.signal })
-      //   .then((response) => {
-
-      //     this.animalmother = response.data.rows
-
-      //       // .filter((item) => item.AnimalSexID === 2)
-      //       // .map((item) => {
-      //       //   return {
-      //       //     AnimalID: item.AnimalID,
-      //       //     AnimalIdentificationID: item.AnimalIdentificationID,
-      //       //     Fullname: item.AnimalEarID + ", " + item.AnimalName,
-      //       //   };
-      //       // });
-      //   });
+      //   axios
+      //     .get(this.apiAnimalMotherID, { signal: this.controller.signal })
+      //     .then((response) => {
+      //       //   console.log(response.data.rows);
+      //       this.animalmother = response.data.rows.filter(
+      //         (item) => item.AnimalSexID === 2
+      //       );
+      //       this.animalfather = response.data.rows.filter(
+      //         (item) => item.AnimalSexID === 1
+      //       );
+      //     })
+      //     .finally(() => {
+      //       // console.log(this.form.AnimalMotherID);
+      //       //   console.log(this.animalmother);
+      //       //   console.log(this.animalfather);
+      //       //   console.log("FREEDOM");
+      //     });
 
       axios
         .get(this.apiAnimalBreedID, { signal: this.controller.signal })
@@ -2034,11 +2039,11 @@ export default {
         total += parseFloat(this.form.AnimalBreedPercent5);
       }
 
-      console.log(this.form.AnimalBreedPercent1)
-      console.log(this.form.AnimalBreedPercent2)
-      console.log(this.form.AnimalBreedPercent3)
-      console.log(this.form.AnimalBreedPercent4)
-      console.log(this.form.AnimalBreedPercent5)
+      console.log(this.form.AnimalBreedPercent1);
+      console.log(this.form.AnimalBreedPercent2);
+      console.log(this.form.AnimalBreedPercent3);
+      console.log(this.form.AnimalBreedPercent4);
+      console.log(this.form.AnimalBreedPercent5);
 
       // console.log(
       //   this.form.AnimalBreedPercent2 + this.form.AnimalBreedPercent3

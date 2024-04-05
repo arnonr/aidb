@@ -1336,7 +1336,7 @@ export default {
       displayDetail: false,
       displayView: false,
       temp: [],
-      curpage: 0,
+      curpage: 1,
       formheader: "",
       sortField: "",
       sortOrder: "",
@@ -2427,11 +2427,13 @@ export default {
         return;
       }
 
-      this.fetchFarm();
-
       if (event) {
         this.currentPage = event.page + 1;
       }
+
+      this.fetchFarm();
+
+    
 
       //   if (this.search.dateRange) {
       //     url += `&FarmRegisterStartDate=${this.search.dateRange[0]}&FarmRegisterEndDate=${this.search.dateRange[1]}`;

@@ -152,17 +152,15 @@
             >
               ฟาร์ม</label
             >
-            <Dropdown
-              :showClear="true"
-              class="w-full"
-              placeholder="ทั้งหมด"
-              optionLabel="Fullname"
-              optionValue="FarmID"
-              :virtualScrollerOptions="{ itemSize: 38 }"
-              :options="dropdown.Farms"
-              :filter="true"
+            <v-select
               v-model="search.FarmID"
-            />
+              :options="dropdown.Farms"
+              @search="fetchFarm"
+              label="Fullname"
+              value="FarmID"
+              class="w-full"
+              placeholder="เลือกฟาร์มปลายทาง (พิมพ์ 3 ตัวอักษรเพื่อค้นหา)"
+            ></v-select>
           </div>
 
           <div class="col-12 sm:col-12 lg:col-6">
@@ -204,9 +202,18 @@
           </div>
 
           <div class="col-12 sm:col-12 lg:col-12">
-            <hr />
+            <Button
+              @click="onSearch"
+              label="ค้นหา"
+              icon=""
+              style="width: 100%"
+              class="mr-2 mb-3"
+            />
           </div>
 
+          <div class="col-12 sm:col-12 lg:col-12">
+            <hr />
+          </div>
         </div>
       </div>
     </div>
@@ -442,7 +449,6 @@
             :sortable="true"
           ></Column>
 
-
           <Column
             field="Birthdate"
             header="วันคลอด"
@@ -450,7 +456,6 @@
             exportFooter="&#8203;"
             :sortable="true"
           ></Column>
-
 
           <Column
             field="ChildGender"
@@ -581,12 +586,15 @@ import PageTitle from "@/components/PageTitle.vue";
 import dayjs from "dayjs";
 import { ref } from "vue";
 import VueCreatureInfo from "@/pages/farm_info/creature_info.vue";
+import vSelect from "vue-select";
+import "vue-select/dist/vue-select.css";
 
 export default {
   themeChangeListener: null,
   components: {
     PageTitle,
     VueCreatureInfo,
+    vSelect
   },
   computed: {
     ...mapGetters({
@@ -680,10 +688,10 @@ export default {
         this.isSelectCreatedDayDisabled = false;
       }
 
-      this.fetchReport();
+      // this.fetchReport();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.loadDefault();
           this.isLoading = false;
@@ -700,10 +708,10 @@ export default {
         this.isSelectCreatedDayDisabled = false;
       }
 
-      this.fetchReport();
+      // this.fetchReport();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.loadDefault();
           this.isLoading = false;
@@ -711,10 +719,10 @@ export default {
       }
     },
     "search.Day"() {
-      this.fetchReport();
+      // this.fetchReport();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.loadDefault();
           this.isLoading = false;
@@ -731,13 +739,13 @@ export default {
         this.isSelectOrganizationZoneDisabled = false;
       }
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.fetchProvince();
           this.fetchOrganization();
-          this.fetchFarm();
+          // this.fetchFarm();
           //   this.fetchStaff();
-          this.fetchReport();
+          // this.fetchReport();
           this.dropdown.Amphurs = [];
           this.dropdown.Tumbols = [];
 
@@ -761,13 +769,13 @@ export default {
         this.isSelectOrganizationZoneDisabled = false;
       }
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.fetchProvince();
           this.fetchOrganization();
-          this.fetchFarm();
+          // this.fetchFarm();
           //   this.fetchStaff();
-          this.fetchReport();
+          // this.fetchReport();
 
           this.search.ProvinceID = null;
           this.search.AmphurID = null;
@@ -783,11 +791,11 @@ export default {
       this.fetchAmphur();
       this.fetchOrganization();
       this.fetchStaff();
-      this.fetchReport();
-      this.fetchFarm();
+      // this.fetchReport();
+      // this.fetchFarm();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.search.AmphurID = null;
           this.search.TumbolID = null;
@@ -802,11 +810,11 @@ export default {
       this.fetchTumbol();
       this.fetchOrganization();
       this.fetchStaff();
-      this.fetchReport();
-      this.fetchFarm();
+      // this.fetchReport();
+      // this.fetchFarm();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.search.TumbolID = null;
           //   this.search.OrganizationTypeID = null;
@@ -819,11 +827,11 @@ export default {
     "search.TumbolID"() {
       this.fetchOrganization();
       this.fetchStaff();
-      this.fetchReport();
-      this.fetchFarm();
+      // this.fetchReport();
+      // this.fetchFarm();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.search.OrganizationID = null;
           this.search.FarmID = null;
@@ -833,10 +841,10 @@ export default {
     },
     "search.OrganizationTypeID"() {
       this.fetchOrganization();
-      this.fetchReport();
+      // this.fetchReport();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.search.OrganizationID = null;
           this.search.FarmID = null;
@@ -845,13 +853,13 @@ export default {
       }
     },
     "search.OrganizationID"() {
-      //   this.fetchReport();
+      //   // this.fetchReport();
       this.fetchStaff();
-      this.fetchReport();
-      this.fetchFarm();
+      // this.fetchReport();
+      // this.fetchFarm();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           //   this.search.OrganizationID = null;
           this.search.FarmID = null;
@@ -861,27 +869,27 @@ export default {
     },
 
     "search.FarmID"() {
-      this.fetchReport();
+      // // this.fetchReport();
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
       }
     },
     "search.ProjectIDArray"() {
-      this.fetchReport();
+      // // this.fetchReport();
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
       }
     },
     "search.StaffID"() {
-      this.fetchReport();
+      // // this.fetchReport();
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -1088,7 +1096,7 @@ export default {
       this.fetchOrganizationType();
       this.fetchOrganization();
       this.fetchStaff();
-      this.fetchReport();
+      // this.fetchReport();
     },
 
     load() {
@@ -1714,7 +1722,7 @@ export default {
       }
 
       if (this.search.FarmID) {
-        params["FarmID"] = this.search.FarmID;
+        params["FarmID"] = this.search.FarmID.FarmID;
       }
 
       if (this.search.StaffID) {
@@ -1839,6 +1847,10 @@ export default {
 
     fetchReportAnimal(AnimalID) {
       this.data.animal_main = AnimalID;
+    },
+    onSearch() {
+      //   this.load();
+      this.fetchReport();
     },
   },
 

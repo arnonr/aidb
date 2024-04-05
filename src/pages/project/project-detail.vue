@@ -2520,7 +2520,7 @@ export default {
     //     (val) => val.GenderID === id
     //   );
 
-      return GenderName;
+    //   return GenderName;
     },
     detailFormatBirthDate(date) {
       return format(new Date(date), "dd/MM/yyyy", {

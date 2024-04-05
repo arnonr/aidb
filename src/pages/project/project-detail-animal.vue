@@ -198,18 +198,16 @@
             >
               ฟาร์ม</label
             >
-            <Dropdown
-              class="w-full"
+
+            <v-select
               v-model="search.FarmID"
               :options="dropdown.Farms"
-              optionLabel="Fullname"
-              optionValue="FarmID"
-              :filter="true"
-              :showClear="true"
-              :virtualScrollerOptions="{ itemSize: 38 }"
-              placeholder="เลือกหมายเลขฟาร์ม"
-            >
-            </Dropdown>
+              @search="fetchFarm"
+              label="Fullname"
+              value="FarmID"
+              class="w-full"
+              placeholder="เลือกฟาร์มปลายทาง (พิมพ์ 3 ตัวอักษรเพื่อค้นหา)"
+            ></v-select>
           </div>
 
           <div class="col-12 sm:col-6 lg:col-3">
@@ -720,6 +718,16 @@
               </div>
             </AccordionTab>
           </Accordion>
+
+          <div class="col-12 sm:col-12 lg:col-12">
+            <Button
+              @click="onSearch"
+              label="ค้นหา"
+              icon=""
+              style="width: 100%"
+              class="mr-2 mb-3"
+            />
+          </div>
         </div>
 
         <div v-else class="grid">
@@ -783,17 +791,12 @@
 
       <div class="card">
         <div class="col-12 md:col-12 md:text-right">
-          <json-excel
-            :data="json_data"
-            style="display: inline-block"
-            class="btn"
-          >
-            <Button
-              label="ดาวน์โหลด"
-              icon="pi pi-download"
-              class="mb-3 p-button-raised p-button-raised p-button-success"
-            />
-          </json-excel>
+          <Button
+            @click="onExport()"
+            label="ดาวน์โหลด"
+            icon="pi pi-download"
+            class="mb-3 p-button-raised p-button-raised p-button-success"
+          />
         </div>
 
         <DataTable
@@ -1010,7 +1013,10 @@ import store from "@/service/Vuex";
 import { mapGetters } from "vuex";
 // import _ from "lodash";
 import VueCreatureInfo from "@/pages/farm_info/creature_info.vue";
-import JsonExcel from "vue-json-excel3";
+// import JsonExcel from "vue-json-excel3";
+import vSelect from "vue-select";
+import "vue-select/dist/vue-select.css";
+import ExcelJS from "exceljs";
 
 // import dayjs from "dayjs";
 // import buddhistEra from "dayjs/plugin/buddhistEra";
@@ -1021,7 +1027,8 @@ export default {
   components: {
     PageTitle,
     VueCreatureInfo,
-    JsonExcel,
+    // JsonExcel,
+    vSelect,
   },
   data() {
     return {
@@ -1267,13 +1274,13 @@ export default {
       this.data = [];
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.fetchProvince();
           //   this.fetchOrganization();
-          this.fetchFarm();
-          this.fetchAnimal();
-          this.exportExcel();
+          //   this.fetchFarm();
+          //   this.fetchAnimal();
+          //   this.exportExcel();
           this.search.ProvinceID = null;
           this.search.AmphurID = null;
           this.search.TumbolID = null;
@@ -1302,13 +1309,13 @@ export default {
       this.data = [];
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.fetchProvince();
           this.fetchOrganization();
-          this.fetchFarm();
-          this.fetchAnimal();
-          this.exportExcel();
+          //   this.fetchFarm();
+          //   this.fetchAnimal();
+          //   this.exportExcel();
           this.search.ProvinceID = null;
           this.search.AmphurID = null;
           this.search.TumbolID = null;
@@ -1321,14 +1328,14 @@ export default {
     "search.ProvinceID"() {
       this.fetchAmphur();
       this.fetchOrganization();
-      this.fetchFarm();
-      this.fetchAnimal();
-      this.exportExcel();
+      //   this.fetchFarm();
+      //   this.fetchAnimal();
+      //   this.exportExcel();
       this.dropdown.Amphurs = [];
       this.dropdown.Tumbols = [];
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.search.AmphurID = null;
           this.search.TumbolID = null;
@@ -1342,13 +1349,13 @@ export default {
     "search.AmphurID"() {
       this.fetchTumbol();
       this.fetchOrganization();
-      this.fetchFarm();
-      this.fetchAnimal();
-      this.exportExcel();
+      //   this.fetchFarm();
+      //   this.fetchAnimal();
+      //   this.exportExcel();
       this.dropdown.Tumbols = [];
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.search.TumbolID = null;
           //   this.search.OrganizationTypeID = null;
@@ -1360,12 +1367,12 @@ export default {
     },
     "search.TumbolID"() {
       this.fetchOrganization();
-      this.fetchFarm();
-      this.fetchAnimal();
-      this.exportExcel();
+      //   this.fetchFarm();
+      //   this.fetchAnimal();
+      //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.search.OrganizationID = null;
           this.search.FarmID = null;
@@ -1377,7 +1384,7 @@ export default {
       this.fetchOrganization();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.search.OrganizationID = null;
           this.search.FarmID = null;
@@ -1386,12 +1393,12 @@ export default {
       }
     },
     "search.OrganizationID"() {
-      this.fetchFarm();
-      this.fetchAnimal();
-      this.exportExcel();
+      //   this.fetchFarm();
+      //   this.fetchAnimal();
+      //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.search.OrganizationID = null;
           this.search.FarmID = null;
@@ -1400,34 +1407,34 @@ export default {
       }
     },
     "search.FarmID"() {
-      this.fetchAnimal();
-      this.exportExcel();
+      //   this.fetchAnimal();
+      //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
       }
     },
     "search.ProjectIDArray"() {
-      this.fetchFarm();
-      this.fetchAnimal();
-      this.exportExcel();
+      //   this.fetchFarm();
+      //   this.fetchAnimal();
+      //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
       }
     },
     "search.count_project_type"() {
-      this.fetchAnimal();
-      this.exportExcel();
+      //   this.fetchAnimal();
+      //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -1435,12 +1442,12 @@ export default {
     },
     // count_project_type
     "search.FarmAnimalType"() {
-      this.fetchFarm();
-      this.fetchAnimal();
-      this.exportExcel();
+      //   this.fetchFarm();
+      //   this.fetchAnimal();
+      //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -1453,21 +1460,21 @@ export default {
         this.params.AnimalSexID = null;
       }
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
-          this.fetchAnimal();
-          this.exportExcel();
+          //   this.fetchAnimal();
+          //   this.exportExcel();
 
           this.isLoading = false;
         }, 1000);
       }
     },
     "params.AnimalEarID"() {
-      this.fetchAnimal();
-      this.exportExcel();
+      //   this.fetchAnimal();
+      //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -1475,11 +1482,11 @@ export default {
     },
 
     "params.AnimalName"() {
-      this.fetchAnimal();
-      this.exportExcel();
+      //   this.fetchAnimal();
+      //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -1487,11 +1494,11 @@ export default {
     },
 
     "params.AnimalSexID"() {
-      this.fetchAnimal();
-      this.exportExcel();
+      //   this.fetchAnimal();
+      //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -1499,11 +1506,11 @@ export default {
     },
 
     "search.Status"() {
-      this.fetchAnimal();
-      this.exportExcel();
+      //   this.fetchAnimal();
+      //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -1513,7 +1520,7 @@ export default {
     "parents.AnimalFatherEarID"() {
       this.fetchFather();
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -1523,7 +1530,7 @@ export default {
     "parents.AnimalMotherEarID"() {
       this.fetchMother();
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -1531,11 +1538,11 @@ export default {
     },
 
     "params.AnimalAgeStart"() {
-      this.fetchAnimal();
-      this.exportExcel();
+      //   this.fetchAnimal();
+      //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -1543,11 +1550,11 @@ export default {
     },
 
     "params.AnimalAgeTo"() {
-      this.fetchAnimal();
-      this.exportExcel();
+      //   this.fetchAnimal();
+      //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -1555,11 +1562,11 @@ export default {
     },
 
     "params.AnimalBreedID1"() {
-      this.fetchAnimal();
-      this.exportExcel();
+      //   this.fetchAnimal();
+      //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -1567,11 +1574,11 @@ export default {
     },
 
     "params.AnimalBreedID2"() {
-      this.fetchAnimal();
-      this.exportExcel();
+      //   this.fetchAnimal();
+      //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -1579,11 +1586,11 @@ export default {
     },
 
     "params.AnimalBreedID3"() {
-      this.fetchAnimal();
-      this.exportExcel();
+      //   this.fetchAnimal();
+      //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -1591,11 +1598,11 @@ export default {
     },
 
     "params.AnimalBreedID4"() {
-      this.fetchAnimal();
-      this.exportExcel();
+      //   this.fetchAnimal();
+      //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -1603,11 +1610,11 @@ export default {
     },
 
     "params.AnimalBreedID5"() {
-      this.fetchAnimal();
-      this.exportExcel();
+      //   this.fetchAnimal();
+      //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -2078,7 +2085,7 @@ export default {
     },
 
     fetchFarm() {
-      this.isLoading = true;
+      //   this.isLoading = true;
       if (
         this.search.AIZoneID == null &&
         this.search.OrganizationZoneID == null
@@ -2251,7 +2258,7 @@ export default {
         params["AnimalTypeID"] = "[17,18,45,46]";
       }
       if (this.search.FarmID) {
-        params["FarmID"] = this.search.FarmID;
+        params["FarmID"] = this.search.FarmID.FarmID;
       }
       //   if (this.filtered.AnimalSource) {
       //     this.params.AnimalSource = this.filtered.AnimalSource;
@@ -2283,7 +2290,7 @@ export default {
         });
     },
 
-    exportExcel() {
+    async exportExcel() {
       this.isLoading = true;
       if (
         this.search.AIZoneID == null &&
@@ -2302,8 +2309,6 @@ export default {
         orderBy: "desc",
         // includeAll: false,
       };
-
-      
 
       if (this.search.FarmAnimalType == null) {
         this.search.FarmAnimalType = parseInt(this.animal_id);
@@ -2364,7 +2369,7 @@ export default {
       }
 
       if (this.search.FarmID) {
-        params["FarmID"] = this.search.FarmID;
+        params["FarmID"] = this.search.FarmID.FarmID;
       }
 
       //   if (this.filtered.AnimalSource) {
@@ -2379,8 +2384,7 @@ export default {
         params["isActive"] = this.search.Status;
       }
 
-
-      axios
+      await axios
         .get(this.url.ExportAnimal, {
           signal: this.controller.signal,
           params: {
@@ -2397,6 +2401,151 @@ export default {
         .finally(() => {
           this.isLoading = false;
         });
+    },
+
+    async onExport() {
+      this.exportExcel().then(() => {
+        setTimeout(async () => {
+          const workbook = new ExcelJS.Workbook();
+          const worksheet = workbook.addWorksheet("รายการ", {
+            pageSetup: { orientation: "landscape" },
+            headerFooter: {
+              firstHeader: "Hello Exceljs",
+              firstFooter: "Hello World",
+            },
+          });
+
+          //   หมายเลขใบหู: x.AnimalEarID,
+          //         ชื่อสัตว์: x.AnimalName,
+          //         อายุ: "'" + x.AnimalAge,
+          //         สถานะ: x.AnimalStatus ? x.AnimalStatus.AnimalStatusName : "-",
+          //         สายพันธุ์: x.AnimalBreedAll,
+          //         วันเกิด: x.ThaiAnimalBirthDate,
+          //         เพศ: x.AnimalSex.AnimalSexName,
+          //         หมายเลขฟาร์ม: x.AnimalFarm.FarmIdentificationNumber,
+          //         ชื่อฟาร์ม: x.AnimalFarm.FarmName,
+          //         หน่วยงาน: x.Organization
+          //           ? x.Organization.OrganizationName
+          //           : "-",
+
+          worksheet.columns = [
+            {
+              header: "หมายเลขใบหู",
+              key: "หมายเลขใบหู",
+              width: 25,
+              outlineLevel: 1,
+            },
+            {
+              header: "ชื่อสัตว์",
+              key: "ชื่อสัตว์",
+              width: 25,
+              outlineLevel: 1,
+            },
+            {
+              header: "อายุ",
+              key: "อายุ",
+              width: 25,
+              outlineLevel: 1,
+            },
+            {
+              header: "สถานะ",
+              key: "สถานะ",
+              width: 25,
+              outlineLevel: 1,
+            },
+            {
+              header: "สายพันธุ์",
+              key: "สายพันธุ์",
+              width: 25,
+              outlineLevel: 1,
+            },
+            {
+              header: "วันเกิด",
+              key: "วันเกิด",
+              width: 25,
+              outlineLevel: 1,
+            },
+            {
+              header: "เพศ",
+              key: "เพศ",
+              width: 25,
+              outlineLevel: 1,
+            },
+            {
+              header: "วันเกิด",
+              key: "วันเกิด",
+              width: 25,
+              outlineLevel: 1,
+            },
+            {
+              header: "หมายเลขฟาร์ม",
+              key: "หมายเลขฟาร์ม",
+              width: 25,
+              outlineLevel: 1,
+            },
+            {
+              header: "ชื่อฟาร์ม",
+              key: "ชื่อฟาร์ม",
+              width: 25,
+              outlineLevel: 1,
+            },
+            {
+              header: "หน่วยงาน",
+              key: "หน่วยงาน",
+              width: 25,
+              outlineLevel: 1,
+            },
+            // {
+            //   header: "วันที่ขึ้นทะเบียน",
+            //   key: "วันที่ขึ้นทะเบียน",
+            //   width: 25,
+            //   outlineLevel: 1,
+            // },
+          ];
+
+          // worksheet.properties.defaultRowHeight = 20;
+
+          worksheet.addRows(this.json_data);
+
+          worksheet.eachRow((row) => {
+            // row.height = 45;
+            row.eachCell(function (cell) {
+              cell.alignment = {
+                vertical: "middle",
+                horizontal: "center",
+                wrapText: true,
+              };
+            });
+          });
+
+          const row = worksheet.getRow(1);
+          row.height = 20;
+
+          worksheet.insertRow(1, "รายการฟาร์ม");
+          worksheet.mergeCells("A1:K1");
+          worksheet.getCell("A1").value = "รายการทะเบียนฟาร์ม";
+          worksheet.getCell("A1").alignment = {
+            vertical: "middle",
+            horizontal: "center",
+          };
+          const font = { name: "Arial", size: 18, bold: true };
+          worksheet.getCell("A1").font = font;
+
+          const font1 = { name: "Arial", size: 18, bold: true };
+          worksheet.getCell("A1").font = font1;
+
+          // Images
+          const buffer = await workbook.xlsx.writeBuffer();
+          const blob = new Blob([buffer], { type: "application/octet-stream" });
+          const href = URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = href;
+          link.download = "รายการฟาร์ม.xlsx";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }, 1000);
+      });
     },
 
     fetchAnimalBreed() {
@@ -2473,13 +2622,13 @@ export default {
             } else {
               this.params.AnimalFatherID = 0;
             }
-            this.fetchAnimal();
-            this.exportExcel();
+            // this.fetchAnimal();
+            // this.exportExcel();
           });
       } else {
         this.params.AnimalFatherID = null;
-        this.fetchAnimal();
-        this.exportExcel();
+        // this.fetchAnimal();
+        // this.exportExcel();
       }
     },
 
@@ -2501,13 +2650,13 @@ export default {
             } else {
               this.params.AnimalMotherID = 0;
             }
-            this.fetchAnimal();
-            this.exportExcel();
+            // this.fetchAnimal();
+            // this.exportExcel();
           });
       } else {
         this.params.AnimalMotherID = null;
-        this.fetchAnimal();
-        this.exportExcel();
+        // this.fetchAnimal();
+        // this.exportExcel();
       }
     },
 
@@ -2541,7 +2690,7 @@ export default {
       this.fetchTumbol();
       this.fetchOrganizationType();
       this.fetchOrganization();
-      this.fetchFarm();
+      //   this.fetchFarm();
       this.fetchAnimalBreed();
       this.fetchAnimalSex();
       //   this.fetchAnimal();
@@ -2717,6 +2866,10 @@ export default {
     },
     exportCSV() {
       this.$refs.dt.exportCSV();
+    },
+    onSearch() {
+      this.fetchAnimal();
+      //   this.exportExcel();
     },
   },
   unmounted() {

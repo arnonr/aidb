@@ -11,10 +11,15 @@
         @click="open"
         v-if="
           AnimalSecretStatus.includes(2) &&
-          permit[0].IsAdd &&
-          this.animalInfo.ProductionStatusID != 6
-        "
+          permit[0].IsAdd"
       />
+
+    <!-- //   {{ AnimalSecretStatus.includes(2) && permit[0].IsAdd }} 
+ v-if="
+    //       AnimalSecretStatus.includes(2) &&
+    //       permit[0].IsAdd &&
+    //       this.animalInfo.ProductionStatusID != 6
+    //     "  -->
     </div>
   </div>
   <DataTable

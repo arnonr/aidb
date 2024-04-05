@@ -152,17 +152,15 @@
             >
               ฟาร์ม</label
             >
-            <Dropdown
-              :showClear="true"
-              class="w-full"
-              placeholder="ทั้งหมด"
-              optionLabel="Fullname"
-              optionValue="FarmID"
-              :virtualScrollerOptions="{ itemSize: 38 }"
-              :options="dropdown.Farms"
-              :filter="true"
+            <v-select
               v-model="search.FarmID"
-            />
+              :options="dropdown.Farms"
+              @search="fetchFarm"
+              label="Fullname"
+              value="FarmID"
+              class="w-full"
+              placeholder="เลือกฟาร์มปลายทาง (พิมพ์ 3 ตัวอักษรเพื่อค้นหา)"
+            ></v-select>
           </div>
 
           <div class="col-12 sm:col-12 lg:col-6">
@@ -202,6 +200,16 @@
               display="chip"
             />
           </div>
+
+          <div class="col-12 sm:col-12 lg:col-12">
+            <Button
+              @click="onSearch"
+              label="ค้นหา"
+              icon=""
+              style="width: 100%"
+              class="mr-2 mb-3"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -209,10 +217,17 @@
     <div class="col-12 xl:col-12">
       <div class="card">
         <div class="col-12 text-right">
-          <Button
+          <!-- <Button
             label="Export To Excel"
             @click="exportCSV($event)"
             class="p-button-success mr-3"
+          /> -->
+
+          <Button
+            @click="onExport()"
+            label="ดาวน์โหลด"
+            icon="pi pi-download"
+            class="mb-3 p-button-raised p-button-raised p-button-success"
           />
         </div>
         <h5 class="text-center">{{ title }}</h5>
@@ -488,12 +503,16 @@ import PageTitle from "@/components/PageTitle.vue";
 import dayjs from "dayjs";
 import { ref } from "vue";
 import VueCreatureInfo from "@/pages/farm_info/creature_info.vue";
+import vSelect from "vue-select";
+import "vue-select/dist/vue-select.css";
+import ExcelJS from "exceljs";
 
 export default {
   themeChangeListener: null,
   components: {
     PageTitle,
     VueCreatureInfo,
+    vSelect,
   },
   computed: {
     ...mapGetters({
@@ -589,10 +608,10 @@ export default {
         this.isSelectCreatedDayDisabled = false;
       }
 
-      this.fetchReport();
+      //   this.fetchReport();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.loadDefault();
           this.isLoading = false;
@@ -609,10 +628,10 @@ export default {
         this.isSelectCreatedDayDisabled = false;
       }
 
-      this.fetchReport();
+      //   this.fetchReport();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.loadDefault();
           this.isLoading = false;
@@ -620,10 +639,10 @@ export default {
       }
     },
     "search.Day"() {
-      this.fetchReport();
+      //   this.fetchReport();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.loadDefault();
           this.isLoading = false;
@@ -640,13 +659,13 @@ export default {
         this.isSelectOrganizationZoneDisabled = false;
       }
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.fetchProvince();
           this.fetchOrganization();
-          this.fetchFarm();
+          //   this.fetchFarm();
           //   this.fetchStaff();
-          this.fetchReport();
+          //   this.fetchReport();
           this.dropdown.Amphurs = [];
           this.dropdown.Tumbols = [];
 
@@ -670,13 +689,13 @@ export default {
         this.isSelectOrganizationZoneDisabled = false;
       }
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.fetchProvince();
           this.fetchOrganization();
-          this.fetchFarm();
+          //   this.fetchFarm();
           //   this.fetchStaff();
-          this.fetchReport();
+          //   this.fetchReport();
 
           this.search.ProvinceID = null;
           this.search.AmphurID = null;
@@ -692,11 +711,11 @@ export default {
       this.fetchAmphur();
       this.fetchOrganization();
       this.fetchStaff();
-      this.fetchReport();
-      this.fetchFarm();
+      //   this.fetchReport();
+      //   this.fetchFarm();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.search.AmphurID = null;
           this.search.TumbolID = null;
@@ -711,11 +730,11 @@ export default {
       this.fetchTumbol();
       this.fetchOrganization();
       this.fetchStaff();
-      this.fetchReport();
-      this.fetchFarm();
+      //   this.fetchReport();
+      //   this.fetchFarm();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.search.TumbolID = null;
           //   this.search.OrganizationTypeID = null;
@@ -728,11 +747,11 @@ export default {
     "search.TumbolID"() {
       this.fetchOrganization();
       this.fetchStaff();
-      this.fetchReport();
-      this.fetchFarm();
+      //   this.fetchReport();
+      //   this.fetchFarm();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.search.OrganizationID = null;
           this.search.FarmID = null;
@@ -742,10 +761,10 @@ export default {
     },
     "search.OrganizationTypeID"() {
       this.fetchOrganization();
-      this.fetchReport();
+      //   this.fetchReport();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.search.OrganizationID = null;
           this.search.FarmID = null;
@@ -756,11 +775,11 @@ export default {
     "search.OrganizationID"() {
       //   this.fetchReport();
       this.fetchStaff();
-      this.fetchReport();
-      this.fetchFarm();
+      //   this.fetchReport();
+      //   this.fetchFarm();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           //   this.search.OrganizationID = null;
           this.search.FarmID = null;
@@ -770,27 +789,26 @@ export default {
     },
 
     "search.FarmID"() {
-      this.fetchReport();
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
       }
     },
     "search.ProjectIDArray"() {
-      this.fetchReport();
+      //   this.fetchReport();
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
       }
     },
     "search.StaffID"() {
-      this.fetchReport();
+      //   this.fetchReport();
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -1623,7 +1641,7 @@ export default {
       }
 
       if (this.search.FarmID) {
-        params["FarmID"] = this.search.FarmID;
+        params["FarmID"] = this.search.FarmID.FarmID;
       }
 
       if (this.search.StaffID) {
@@ -1746,8 +1764,125 @@ export default {
       }, Math.random() * 1000 + 250);
     },
 
+    async onExport() {
+     
+        setTimeout(async () => {
+          const workbook = new ExcelJS.Workbook();
+          const worksheet = workbook.addWorksheet("รายการ", {
+            pageSetup: { orientation: "landscape" },
+            headerFooter: {
+              firstHeader: "Hello Exceljs",
+              firstFooter: "Hello World",
+            },
+          });
+
+          worksheet.columns = [
+            {
+              header: "หมายเลขฟาร์ม",
+              key: "FarmIdentificationNumber    ",
+              width: 25,
+              outlineLevel: 1,
+            },
+            {
+              header: "ชื่อฟาร์ม",
+              key: "FarmName",
+              width: 25,
+              outlineLevel: 1,
+            },
+            {
+              header: "หมายลขใบหู",
+              key: "AnimalEarID",
+              width: 25,
+              outlineLevel: 1,
+            },
+            {
+              header: "ชื่อ",
+              key: "AnimalName",
+              width: 25,
+              outlineLevel: 1,
+            },
+            {
+              header: "อายุ",
+              key: "AnimalAge",
+              width: 25,
+              outlineLevel: 1,
+            },
+            {
+              header: "หมายเลขพ่อ",
+              key: "AnimalFatherEarID",
+              width: 25,
+              outlineLevel: 1,
+            },
+            {
+              header: "ชื่อพ่อ",
+              key: "AnimalFather",
+              width: 25,
+              outlineLevel: 1,
+            },
+            {
+              header: "หมายเลขแม่",
+              key: "AnimalMotherEarID",
+              width: 25,
+              outlineLevel: 1,
+            },
+            {
+              header: "ชื่อแม่",
+              key: "AnimalMother",
+              width: 25,
+              outlineLevel: 1,
+            },
+          ];
+
+          // worksheet.properties.defaultRowHeight = 20;
+
+          worksheet.addRows(this.data.main);
+
+          worksheet.eachRow((row) => {
+            // row.height = 45;
+            row.eachCell(function (cell) {
+              cell.alignment = {
+                vertical: "middle",
+                horizontal: "center",
+                wrapText: true,
+              };
+            });
+          });
+
+          const row = worksheet.getRow(1);
+          row.height = 20;
+
+          worksheet.insertRow(1, "รายงานสัตว์ (สาว) ที่ยังไม่ได้รับการผสม");
+          worksheet.mergeCells("A1:K1");
+          worksheet.getCell("A1").value = "รายการสัตว์";
+          worksheet.getCell("A1").alignment = {
+            vertical: "middle",
+            horizontal: "center",
+          };
+          const font = { name: "Arial", size: 18, bold: true };
+          worksheet.getCell("A1").font = font;
+
+          const font1 = { name: "Arial", size: 18, bold: true };
+          worksheet.getCell("A1").font = font1;
+
+          // Images
+          const buffer = await workbook.xlsx.writeBuffer();
+          const blob = new Blob([buffer], { type: "application/octet-stream" });
+          const href = URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = href;
+          link.download = "รายงานสัตว์(สาว)ที่ยังไม่ได้รับการผสม.xlsx";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }, 1000);
+     
+    },
     fetchReportAnimal(AnimalID) {
       this.data.animal_main = AnimalID;
+    },
+    onSearch() {
+      //   this.load();
+      this.fetchReport();
     },
   },
 

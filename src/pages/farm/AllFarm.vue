@@ -160,18 +160,6 @@
               >
                 ฟาร์ม</label
               >
-              <!-- <Dropdown
-                class="w-full"
-                v-model="search.FarmID"
-                :options="dropdown.Farms"
-                optionLabel="Fullname"
-                optionValue="FarmID"
-                :filter="true"
-                :showClear="true"
-                :virtualScrollerOptions="{ itemSize: 38 }"
-                placeholder="เลือกหมายเลขฟาร์ม"
-              > -->
-              <!-- </Dropdown> -->
               <v-select
                 v-model="search.FarmID"
                 :options="dropdown.Farms"

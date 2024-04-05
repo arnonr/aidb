@@ -939,20 +939,20 @@ export default {
     // if (this.farmDataItem) {
     //   this.search.FarmID = this.farmDataItem.FarmID;
     // }
-    axios
-      .get(this.apiFarm, {
-        params: this.params,
-        signal: this.controller.signal,
-      })
-      .then((res) => {
-        this.farm = res.data.rows;
-        this.loader = true;
-      });
+    // axios
+    //   .get(this.apiFarm, {
+    //     params: this.params,
+    //     signal: this.controller.signal,
+    //   })
+    //   .then((res) => {
+    //     this.farm = res.data.rows;
+    //     this.loader = true;
+    //   });
 
-    if (store.state.user.Staff.Organization.OrganizationZoneID) {
-      this.search.OrganizationZoneID =
-        store.state.user.Staff.Organization.OrganizationZoneID;
-    }
+    // if (store.state.user.Staff.Organization.OrganizationZoneID) {
+    //   this.search.OrganizationZoneID =
+    //     store.state.user.Staff.Organization.OrganizationZoneID;
+    // }
   },
   watch: {
     "search.AIZoneID"(val) {

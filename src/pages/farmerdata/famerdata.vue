@@ -160,18 +160,15 @@
               >
                 ฟาร์ม</label
               >
-              <Dropdown
-                class="w-full"
+              <v-select
                 v-model="search.FarmID"
                 :options="dropdown.Farms"
-                optionLabel="Fullname"
-                optionValue="FarmID"
-                :filter="true"
-                :showClear="true"
-                :virtualScrollerOptions="{ itemSize: 38 }"
-                placeholder="เลือกหมายเลขฟาร์ม"
-              >
-              </Dropdown>
+                @search="fetchSelectionFarm"
+                label="Fullname"
+                value="FarmID"
+                class="w-full"
+                placeholder="เลือกฟาร์มปลายทาง (พิมพ์ 3 ตัวอักษรเพื่อค้นหา)"
+              ></v-select>
             </div>
 
             <div class="col-12 sm:col-6 lg:col-6">
@@ -308,6 +305,16 @@
               >
               </Dropdown>
             </div>
+
+            <div class="col-12 sm:col-12 lg:col-12">
+              <Button
+                @click="onSearch"
+                label="ค้นหา"
+                icon=""
+                style="width: 100%"
+                class="mr-2 mb-3"
+              />
+            </div>
           </div>
         </div>
 
@@ -345,7 +352,7 @@
               <h1 class="text-2xl mb-0 text-600">ทะเบียนเกษตรกร</h1>
             </div>
             <div class="col-12 md:col-6 md:text-right">
-              <json-excel
+              <!-- <json-excel
                 :data="json_data"
                 style="display: inline-block"
                 class="btn"
@@ -355,7 +362,13 @@
                   icon="pi pi-download"
                   class="mb-3 p-button-raised p-button-raised p-button-success"
                 />
-              </json-excel>
+              </json-excel> -->
+              <Button
+                @click="onExport()"
+                label="ดาวน์โหลด"
+                icon="pi pi-download"
+                class="mb-3 p-button-raised p-button-raised p-button-success"
+              />
             </div>
           </div>
           <div class="mt-3">
@@ -1167,16 +1180,19 @@ import buddhistEra from "dayjs/plugin/buddhistEra";
 import PageTitle from "@/components/PageTitle.vue";
 import router from "@/router";
 import { mapGetters } from "vuex";
-import JsonExcel from "vue-json-excel3";
+// import JsonExcel from "vue-json-excel3";
 import locale from "dayjs/locale/th";
 import { format } from "date-fns";
 import { th } from "date-fns/locale";
 import store from "@/service/Vuex";
+import vSelect from "vue-select";
+import "vue-select/dist/vue-select.css";
+import ExcelJS from "exceljs";
 
 export default {
   components: {
     PageTitle,
-    JsonExcel,
+    vSelect,
   },
   data() {
     return {
@@ -1364,7 +1380,7 @@ export default {
     );
 
     this.loadDefault();
-    this.load();
+    // this.load();
     dayjs.extend(buddhistEra);
     this.breadcrumb[1].label = this.name;
     this.permit = this.permission.filter((item) => {
@@ -1423,12 +1439,12 @@ export default {
       this.data = [];
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.fetchProvince();
           this.fetchOrganization();
-          this.fetchFarm();
-          this.exportExcel();
+          //   this.fetchFarm();
+          //   this.exportExcel();
           this.search.ProvinceID = null;
           this.search.AmphurID = null;
           this.search.TumbolID = null;
@@ -1456,12 +1472,12 @@ export default {
       this.data = [];
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.fetchProvince();
           this.fetchOrganization();
-          this.fetchFarm();
-          this.exportExcel();
+          //   this.fetchFarm();
+          //   this.exportExcel();
           this.search.ProvinceID = null;
           this.search.AmphurID = null;
           this.search.TumbolID = null;
@@ -1474,13 +1490,13 @@ export default {
     "search.ProvinceID"() {
       this.fetchAmphur();
       this.fetchOrganization();
-      this.fetchFarm();
-      this.exportExcel();
+      //   this.fetchFarm();
+      //   this.exportExcel();
       this.dropdown.Amphurs = [];
       this.dropdown.Tumbols = [];
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.search.AmphurID = null;
           this.search.TumbolID = null;
@@ -1494,12 +1510,12 @@ export default {
     "search.AmphurID"() {
       this.fetchTumbol();
       this.fetchOrganization();
-      this.fetchFarm();
-      this.exportExcel();
+      //   this.fetchFarm();
+      //   this.exportExcel();
       this.dropdown.Tumbols = [];
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.search.TumbolID = null;
           //   this.search.OrganizationTypeID = null;
@@ -1511,11 +1527,11 @@ export default {
     },
     "search.TumbolID"() {
       this.fetchOrganization();
-      this.fetchFarm();
-      this.exportExcel();
+      //   this.fetchFarm();
+      //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.search.OrganizationID = null;
           this.search.FarmID = null;
@@ -1527,7 +1543,7 @@ export default {
       this.fetchOrganization();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.search.OrganizationID = null;
           this.search.FarmID = null;
@@ -1536,11 +1552,11 @@ export default {
       }
     },
     "search.OrganizationID"() {
-      this.fetchFarm();
-      this.exportExcel();
+      //   this.fetchFarm();
+      //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.search.OrganizationID = null;
           this.search.FarmID = null;
@@ -1549,50 +1565,50 @@ export default {
       }
     },
     "search.FarmID"() {
-      this.fetchFarm();
-      this.exportExcel();
+      //   this.fetchFarm();
+      //   this.exportExcel();
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
       }
     },
     "search.ProjectIDArray"() {
-      this.fetchFarm();
-      this.exportExcel();
+      //   this.fetchFarm();
+      //   this.exportExcel();
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
       }
     },
     "search.FarmAnimalType"() {
-      this.fetchFarm();
-      this.exportExcel();
+      //   this.fetchFarm();
+      //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
       }
     },
     "search.FarmerFullName"() {
-      this.fetchFarm();
-      this.exportExcel();
+      //   this.fetchFarm();
+      //   this.exportExcel();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
       }
     },
     "search.FarmStatusID"() {
-      this.fetchFarm();
-      this.exportExcel();
+      //   this.fetchFarm();
+      //   this.exportExcel();
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -1601,20 +1617,20 @@ export default {
       }
     },
     "search.IdentificationNumber"() {
-      this.fetchFarm();
-      this.exportExcel();
+      //   this.fetchFarm();
+      //   this.exportExcel();
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
       }
     },
     "search.FarmerRegisterStatus"() {
-      this.fetchFarm();
-      this.exportExcel();
+      //   this.fetchFarm();
+      //   this.exportExcel();
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.isLoading = false;
         }, 1000);
@@ -1634,7 +1650,8 @@ export default {
 
     mapAmphursTemp(id) {
       if (id != null) {
-        return this.dropdown.Amphurs_temp.find((item) => item.AmphurID == id).AmphurName;
+        return this.dropdown.Amphurs_temp.find((item) => item.AmphurID == id)
+          .AmphurName;
       } else {
         return null;
       }
@@ -1731,8 +1748,8 @@ export default {
       this.fetchOrganizationType();
       this.fetchOrganization();
       this.fetchFarmStatus();
-      this.fetchFarm();
-      this.exportExcel();
+      //   this.fetchFarm();
+      //   this.exportExcel();
     },
     fetchAIZone() {
       let params = {};
@@ -2062,7 +2079,7 @@ export default {
       }
 
       if (this.search.FarmID) {
-        params["FarmID"] = this.search.FarmID;
+        params["FarmID"] = this.search.FarmID.FarmID;
       }
 
       if (this.search.FarmStatusID) {
@@ -2109,6 +2126,147 @@ export default {
         });
 
       //
+      //   axios
+      //     .get(this.urlFarm, {
+      //       signal: this.controller.signal,
+      //       params: { ...params, size: undefined, page: 1 },
+      //     })
+      //     .then((res) => {
+      //       this.dropdown.Farms = res.data.rows;
+      //     })
+      //     .finally(() => {
+      //       this.isLoading = false;
+      //     });
+
+      //   if (this.search.FarmerFullName) {
+      //     url += "&FullName=" + this.search.FarmerFullName;
+      //     urlExcel += "&FullName=" + this.search.FarmerFullName;
+      //   }
+    },
+
+    fetchSelectionFarm(search) {
+      if (search.length < 3) {
+        this.dropdown.Farms = [];
+        return;
+      }
+
+      if (
+        this.search.AIZoneID == null &&
+        this.search.OrganizationZoneID == null
+      ) {
+        this.isLoading = false;
+        return;
+      }
+
+      let params = {
+        size: this.rowPerPage,
+        page: this.currentPage,
+        orderByField: this.orderByField,
+        orderBy: this.sortOrder,
+        // includeAll: false,
+      };
+
+      if (this.orderByField == "Province.ProvinceName") {
+        params["orderByField"] = "FarmProvinceID";
+      }
+
+      if (this.orderByField == "Amphur.AmphurName") {
+        params["orderByField"] = "FarmAmphurID";
+      }
+
+      if (this.orderByField == "Tumbol.TumbolName") {
+        params["orderByField"] = "TumbolProvinceID";
+      }
+
+      if (this.orderByField == "Organization.OrganizationName") {
+        params["orderByField"] = "OrganizationID";
+      }
+
+      if (this.orderByField == "Farmer.FarmerRegisterStatus") {
+        params["orderByField"] = "FarmerID";
+      }
+
+      if (this.orderByField == "Farmer.FarmerRegisterDate") {
+        params["orderByField"] = "FarmerID";
+      }
+
+      if (this.orderByField == "Farmer.MobilePhoneNumber") {
+        params["orderByField"] = "FarmerID";
+      }
+
+      if (
+        this.orderByField == "Farmer.FullName" ||
+        this.orderByField == "Farmer.IdentificationNumber" ||
+        this.orderByField == "Farmer.FarmerNumber"
+      ) {
+        params["orderByField"] = "FarmerID";
+      }
+
+      if (this.search.FarmAnimalType == null) {
+        this.search.FarmAnimalType = parseInt(this.AnimalID);
+        params["FarmAnimalType"] = this.search.FarmAnimalType;
+      } else {
+        params["FarmAnimalType"] = this.search.FarmAnimalType;
+      }
+
+      // Province IN AIZOne
+      if (this.search.AIZoneID != null) {
+        if (this.search.AIZoneID != 99) {
+          params["AIZoneID"] = this.search.AIZoneID;
+        }
+      }
+
+      if (this.search.OrganizationZoneID != null) {
+        if (this.search.OrganizationZoneID != 99) {
+          params["OrganizationZoneID"] = this.search.OrganizationZoneID;
+        }
+      }
+
+      if (this.search.ProvinceID != null) {
+        params["FarmProvinceID"] = this.search.ProvinceID;
+      }
+
+      if (this.search.AmphurID != null) {
+        params["FarmAmphurID"] = this.search.AmphurID;
+      }
+
+      if (this.search.TumbolID != null) {
+        params["FarmTumbolID"] = this.search.TumbolID;
+      }
+
+      if (this.search.OrganizationID != null) {
+        params["OrganizationID"] = this.search.OrganizationID;
+      }
+
+      if (this.search.OrganizationID != null) {
+        params["OrganizationID"] = this.search.OrganizationID;
+      }
+
+      if (this.search.ProjectIDArray) {
+        params["ProjectID"] = JSON.stringify(this.search.ProjectIDArray);
+      }
+
+      if (this.search.FarmerFullName) {
+        params["FullName"] = this.search.FarmerFullName;
+      }
+
+      if (this.search.FarmID) {
+        params["FarmID"] = this.search.FarmID.FarmID;
+      }
+
+      if (this.search.FarmStatusID) {
+        params["FarmStatusID"] = this.search.FarmStatusID;
+      }
+
+      if (this.search.IdentificationNumber) {
+        params["FarmerIdentificationNumber"] = this.search.IdentificationNumber;
+      }
+
+      if (this.search.FarmerRegisterStatus) {
+        params["FarmerRegisterStatus"] = this.search.FarmerRegisterStatus;
+      }
+
+      //
       axios
         .get(this.urlFarm, {
           signal: this.controller.signal,
@@ -2120,11 +2278,6 @@ export default {
         .finally(() => {
           this.isLoading = false;
         });
-
-      //   if (this.search.FarmerFullName) {
-      //     url += "&FullName=" + this.search.FarmerFullName;
-      //     urlExcel += "&FullName=" + this.search.FarmerFullName;
-      //   }
     },
 
     async exportExcel() {
@@ -2230,7 +2383,7 @@ export default {
       }
 
       if (this.search.FarmID) {
-        params["FarmID"] = this.search.FarmID;
+        params["FarmID"] = this.search.FarmID.FarmID;
       }
 
       if (this.search.FarmStatusID) {
@@ -2268,6 +2421,132 @@ export default {
         .finally(() => {
           this.isLoading = false;
         });
+    },
+
+    async onExport() {
+      this.exportExcel().then(() => {
+        setTimeout(async () => {
+          const workbook = new ExcelJS.Workbook();
+          const worksheet = workbook.addWorksheet("รายการ", {
+            pageSetup: { orientation: "landscape" },
+            headerFooter: {
+              firstHeader: "Hello Exceljs",
+              firstFooter: "Hello World",
+            },
+          });
+
+          worksheet.columns = [
+            {
+              header: "ทะเบียนเกษตรกร",
+              key: "ทะเบียนเกษตรกร",
+              width: 25,
+              outlineLevel: 1,
+            },
+            {
+              header: "หมายเลขบัตรประชาชน",
+              key: "หมายเลขบัตรประชาชน",
+              width: 25,
+              outlineLevel: 1,
+            },
+            {
+              header: "ชื่อนามสกุลเกษตรกร",
+              key: "ชื่อนามสกุลเกษตรกร",
+              width: 25,
+              outlineLevel: 1,
+            },
+            {
+              header: "หมายเลขฟาร์ม",
+              key: "หมายเลขฟาร์ม",
+              width: 25,
+              outlineLevel: 1,
+            },
+            {
+              header: "ชื่อฟาร์ม",
+              key: "ชื่อฟาร์ม",
+              width: 25,
+              outlineLevel: 1,
+            },
+            {
+              header: "จังหวัด",
+              key: "จังหวัด",
+              width: 25,
+              outlineLevel: 1,
+            },
+            {
+              header: "อำเภอ",
+              key: "อำเภอ",
+              width: 25,
+              outlineLevel: 1,
+            },
+            {
+              header: "ตำบล",
+              key: "ตำบล",
+              width: 25,
+              outlineLevel: 1,
+            },
+            {
+              header: "หน่วยงาน",
+              key: "หน่วยงาน",
+              width: 25,
+              outlineLevel: 1,
+            },
+            {
+              header: "วันที่ขึ้นทะเบียน",
+              key: "วันที่ขึ้นทะเบียน",
+              width: 25,
+              outlineLevel: 1,
+            },
+            {
+              header: "เบอร์โทรศัพท์",
+              key: "เบอร์โทรศัพท์",
+              width: 25,
+              outlineLevel: 1,
+            },
+          ];
+
+          // worksheet.properties.defaultRowHeight = 20;
+
+          worksheet.addRows(this.json_data);
+
+          worksheet.eachRow((row) => {
+            // row.height = 45;
+            row.eachCell(function (cell) {
+              cell.alignment = {
+                vertical: "middle",
+                horizontal: "center",
+                wrapText: true,
+              };
+            });
+          });
+
+          const row = worksheet.getRow(1);
+          row.height = 20;
+
+          worksheet.insertRow(1, "รายการเกษตรกร");
+          worksheet.mergeCells("A1:K1");
+          worksheet.getCell("A1").value = "รายการทะเบียนเกษตรกร";
+          worksheet.getCell("A1").alignment = {
+            vertical: "middle",
+            horizontal: "center",
+          };
+          const font = { name: "Arial", size: 18, bold: true };
+          worksheet.getCell("A1").font = font;
+
+          const font1 = { name: "Arial", size: 18, bold: true };
+          worksheet.getCell("A1").font = font1;
+
+          // Images
+          const buffer = await workbook.xlsx.writeBuffer();
+          const blob = new Blob([buffer], { type: "application/octet-stream" });
+          const href = URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = href;
+          link.download = "รายการเกษตรกร.xlsx";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }, 1000);
+      });
     },
 
     load(event) {
@@ -2507,6 +2786,10 @@ export default {
     },
     exportCSV() {
       this.$refs.dt.exportCSV();
+    },
+
+    onSearch() {
+      this.fetchFarm();
     },
 
     // filterProvince($event) {

@@ -902,10 +902,10 @@
                   slotProps.data.AnimalAlive == status[0]
                 "
               >
-                <Tag class="w-full" severity="success">Active</Tag>
+              <Tag class="w-full" severity="success">เปิดใช้งาน</Tag>
               </div>
               <div v-else>
-                <Tag class="w-full bg-gray-500">inActive</Tag>
+                <Tag class="w-full bg-gray-500">ปิดใช้งาน</Tag>
               </div>
             </template>
           </Column>
@@ -1076,20 +1076,20 @@ export default {
       // สถานะการโหลด
       loader: true,
 
-      Status: [
-        {
-          StatusName: "ทั้งหมด",
-          StatusID: "",
-        },
-        {
-          StatusName: "Active",
-          StatusID: "1",
-        },
-        {
-          StatusName: "InActive",
-          StatusID: "0",
-        },
-      ],
+    //   Status: [
+    //     {
+    //       StatusName: "ทั้งหมด",
+    //       StatusID: "",
+    //     },
+    //     {
+    //       StatusName: "Active",
+    //       StatusID: "1",
+    //     },
+    //     {
+    //       StatusName: "InActive",
+    //       StatusID: "0",
+    //     },
+    //   ],
       // หน้า page
       curpage: 0,
       isLoading: false,
@@ -1177,6 +1177,20 @@ export default {
       status: [
         { name: "เปิดใช้งาน", key: "A", value: 1 },
         { name: "ปิดใช้งาน", key: "B", value: 0 },
+      ],
+      Status: [
+        {
+          StatusName: "ทั้งหมด",
+          StatusID: "",
+        },
+        {
+          StatusName: "เปิดใช้งาน",
+          StatusID: "1",
+        },
+        {
+          StatusName: "ปิดใช้งาน",
+          StatusID: "0",
+        },
       ],
 
       //  cancel requests      permit: null,
@@ -2247,7 +2261,11 @@ export default {
 
       if (this.search.Status) {
         params["isActive"] = this.search.Status;
+        params["AnimalAlive"] = this.search.Status;
       }
+
+    //   if (this.search.Status) {
+    //   }
 
       this.setParam();
       if (this.animal_id == 1) {

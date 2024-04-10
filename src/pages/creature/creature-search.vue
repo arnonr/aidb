@@ -2304,7 +2304,7 @@ export default {
         params["AnimalTypeID"] = "[17,18,45,46]";
       }
       if (this.search.FarmID) {
-        params["FarmID"] = this.search.FarmID;
+        params["FarmID"] = this.search.FarmID.FarmID;
       }
       //   if (this.filtered.AnimalSource) {
       //     this.params.AnimalSource = this.filtered.AnimalSource;
@@ -2410,7 +2410,7 @@ export default {
       }
 
       if (this.search.FarmID) {
-        params["FarmID"] = this.search.FarmID;
+        params["FarmID"] = this.search.FarmID.FarmID;
       }
 
       //   if (this.filtered.AnimalSource) {

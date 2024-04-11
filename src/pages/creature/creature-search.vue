@@ -2132,7 +2132,7 @@ export default {
       //     });
     },
 
-    fetchSelectionFarm() {
+    fetchSelectionFarm(search) {
       if (search.length < 3) {
         this.dropdown.Farms = [];
         return;

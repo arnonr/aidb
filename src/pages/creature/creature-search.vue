@@ -1092,7 +1092,7 @@ import "vue-select/dist/vue-select.css";
 export default {
   components: {
     PageTitle,
-    vSelect
+    vSelect,
     // JsonExcel,
   },
   data() {
@@ -1357,7 +1357,7 @@ export default {
         setTimeout(() => {
           this.fetchProvince();
           //   this.fetchOrganization();
-          this.fetchSelectionFarm();
+          //   this.fetchSelectionFarm();
           //   this.fetchAnimal();
           //   this.exportExcel();
           this.search.ProvinceID = null;
@@ -1391,7 +1391,7 @@ export default {
         setTimeout(() => {
           this.fetchProvince();
           this.fetchOrganization();
-          this.fetchSelectionFarm();
+          //   this.fetchSelectionFarm();
           //   this.fetchAnimal();
           //   this.exportExcel();
           this.search.AmphurID = null;
@@ -1405,7 +1405,7 @@ export default {
     "search.ProvinceID"() {
       this.fetchAmphur();
       this.fetchOrganization();
-      this.fetchSelectionFarm();
+      //   this.fetchSelectionFarm();
       //   this.fetchAnimal();
       this.dropdown.Amphurs = [];
       this.dropdown.Tumbols = [];
@@ -1424,7 +1424,7 @@ export default {
     "search.AmphurID"() {
       this.fetchTumbol();
       this.fetchOrganization();
-      this.fetchSelectionFarm();
+      //   this.fetchSelectionFarm();
       //   this.fetchAnimal();
       //   this.exportExcel();
       this.dropdown.Tumbols = [];
@@ -1441,7 +1441,7 @@ export default {
     },
     "search.TumbolID"() {
       this.fetchOrganization();
-      this.fetchSelectionFarm();
+      //   this.fetchSelectionFarm();
       //   this.fetchAnimal();
       //   this.exportExcel();
 
@@ -1465,7 +1465,7 @@ export default {
       }
     },
     "search.OrganizationID"() {
-      this.fetchSelectionFarm();
+      //   this.fetchSelectionFarm();
       //   this.fetchAnimal();
       //   this.exportExcel();
 
@@ -1488,7 +1488,7 @@ export default {
       }
     },
     "search.ProjectIDArray"() {
-      this.fetchSelectionFarm();
+      //   this.fetchSelectionFarm();
       //   this.fetchAnimal();
       //   this.exportExcel();
 
@@ -1499,7 +1499,7 @@ export default {
       }
     },
     "search.FarmAnimalType"() {
-      this.fetchSelectionFarm();
+      //   this.fetchSelectionFarm();
       //   this.fetchAnimal();
       //   this.exportExcel();
 
@@ -1780,7 +1780,7 @@ export default {
       this.fetchTumbol();
       this.fetchOrganizationType();
       this.fetchOrganization();
-      this.fetchSelectionFarm();
+      //   this.fetchSelectionFarm();
       this.fetchAnimalBreed();
       //   this.fetchAnimal();
     },
@@ -2133,6 +2133,11 @@ export default {
     },
 
     fetchSelectionFarm() {
+      if (search.length < 3) {
+        this.dropdown.Farms = [];
+        return;
+      }
+
       this.isLoading = true;
       if (
         this.search.AIZoneID == null &&

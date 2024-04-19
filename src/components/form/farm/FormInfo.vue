@@ -386,6 +386,7 @@
       />
       <Button
         label="บันทึก"
+        :disabled="this.isLoading == false ? false : true"
         @click="nextPage()"
         icon="pi pi-angle-right"
         iconPos="right"
@@ -507,7 +508,8 @@ export default {
 
       this.organization_tmp = this.organization.filter((item) => {
         return (
-          item.OrganizationProvinceID == val && (item.OrganizationTypeID == "2" || item.OrganizationTypeID == "11")
+          item.OrganizationProvinceID == val &&
+          (item.OrganizationTypeID == "2" || item.OrganizationTypeID == "11")
         );
       });
 
@@ -527,12 +529,12 @@ export default {
         return item.AmphurID == val;
       });
 
-    //   this.organization_tmp = this.organization.filter((item) => {
-    //     return (
-    //       item.OrganizationAmphurID == val &&
-    //       (item.OrganizationTypeID == "2" || item.OrganizationTypeID == "11")
-    //     );
-    //   });
+      //   this.organization_tmp = this.organization.filter((item) => {
+      //     return (
+      //       item.OrganizationAmphurID == val &&
+      //       (item.OrganizationTypeID == "2" || item.OrganizationTypeID == "11")
+      //     );
+      //   });
     },
 
     "form.FarmTumbolID"(val) {
@@ -639,7 +641,7 @@ export default {
     //   // }
     // },
     validation() {
-        console.log(this.form)
+      console.log(this.form);
       if (
         !this.form.FarmIdentificationNumber ||
         !this.form.FarmName ||
@@ -662,7 +664,6 @@ export default {
         });
         return false;
       } else {
-
         return true;
       }
     },
@@ -809,7 +810,9 @@ export default {
       this.$emit("prev-page", { pageIndex: 1 });
     },
     nextPage() {
+      this.isLoading = true;
       if (this.validation() == false) {
+        this.isLoading = false;
         return;
       }
       if (this.farmItem.FarmerID) {
@@ -832,67 +835,70 @@ export default {
       }
       // console.log(this.form);
 
-      (this.form.FarmAnimalType = this.form.selectAnimalType),
-        axios
-          .post("/farm", { ...this.form, ProjectID: this.form.selectProject })
-          .then(() => {
-            this.$toast.add({
-              severity: "success",
-              summary: "สำเร็จ",
-              detail: "ข้อมูลฟาร์มถูกบันทึก",
-              // detail: "เพิ่มข้อมูลเสร็จสิ้น",
-              life: 5000,
-            });
+      //   (this.form.FarmAnimalType = this.form.selectAnimalType),
 
-            setTimeout(() => {
-              this.$router.push("/agency/farm");
-            }, 2500);
-            // axios
-            //   .post(
-            //     "/farm",
-            //     {},
-            //     {
-            //       signal: this.controller.signal,
-            //     }
-            //   )
-            //   .then(() => {
-            //     this.load();
-            //     this.$toast.add({
-            //       severity: "success",
-            //       summary: "สำเร็จ",
-            //       detail: "ข้อมูลฟาร์มถูกบันทึก",
-            //       // detail: "เพิ่มข้อมูลเสร็จสิ้น",
-            //       life: 5000,
-            //     });
-            //     this.$emit("next-page", {
-            //       pageIndex: 0,
-            //     });
-            //   })
-            //   // error
-            //   .catch((err) => {
-            //     this.$toast.add({
-            //       severity: "error",
-            //       summary: "ล้มเหลว",
-            //       detail: err.response.data.error.message,
-            //       life: 5000,
-            //     });
-            //   })
-            //   .finally(() => {
-            //     this.isLoading = false;
-            //   });
-          })
-          // error
-          .catch((err) => {
-            this.$toast.add({
-              severity: "error",
-              summary: "ล้มเหลว",
-              detail: err.response.data.error.message,
-              life: 5000,
-            });
-          })
-          .finally(() => {
-            this.isLoading = false;
+      this.form.FarmAnimalType = this.form.selectAnimalType;
+
+      axios
+        .post("/farm", { ...this.form, ProjectID: this.form.selectProject })
+        .then(() => {
+          this.$toast.add({
+            severity: "success",
+            summary: "สำเร็จ",
+            detail: "ข้อมูลฟาร์มถูกบันทึก",
+            // detail: "เพิ่มข้อมูลเสร็จสิ้น",
+            life: 5000,
           });
+
+          setTimeout(() => {
+            this.isLoading = false;
+            this.$router.push("/agency/farm");
+          }, 2000);
+          // axios
+          //   .post(
+          //     "/farm",
+          //     {},
+          //     {
+          //       signal: this.controller.signal,
+          //     }
+          //   )
+          //   .then(() => {
+          //     this.load();
+          //     this.$toast.add({
+          //       severity: "success",
+          //       summary: "สำเร็จ",
+          //       detail: "ข้อมูลฟาร์มถูกบันทึก",
+          //       // detail: "เพิ่มข้อมูลเสร็จสิ้น",
+          //       life: 5000,
+          //     });
+          //     this.$emit("next-page", {
+          //       pageIndex: 0,
+          //     });
+          //   })
+          //   // error
+          //   .catch((err) => {
+          //     this.$toast.add({
+          //       severity: "error",
+          //       summary: "ล้มเหลว",
+          //       detail: err.response.data.error.message,
+          //       life: 5000,
+          //     });
+          //   })
+          //   .finally(() => {
+          //     this.isLoading = false;
+          //   });
+        })
+        // error
+        .catch((err) => {
+          this.$toast.add({
+            severity: "error",
+            summary: "ล้มเหลว",
+            detail: err.response.data.error.message,
+            life: 5000,
+          });
+          this.isLoading = false;
+        })
+        .finally(() => {});
     },
     emits: ["next-page", "prev-page"],
     onLazyLoad() {

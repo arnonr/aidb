@@ -9,12 +9,10 @@
         icon="pi pi-plus"
         class="w-full md:w-auto"
         @click="open"
-        v-if="
-          AnimalSecretStatus.includes(2) &&
-          permit[0].IsAdd"
+        v-if="AnimalSecretStatus.includes(2) && permit[0].IsAdd"
       />
 
-    <!-- //   {{ AnimalSecretStatus.includes(2) && permit[0].IsAdd }} 
+      <!-- //   {{ AnimalSecretStatus.includes(2) && permit[0].IsAdd }} 
  v-if="
     //       AnimalSecretStatus.includes(2) &&
     //       permit[0].IsAdd &&
@@ -39,6 +37,26 @@
       class="text-center"
       :sortable="true"
     />
+
+    <Column header="น้ำเชื้อ/พ่อพันธุ์" class="text-center">
+      <template #body="slotProps">
+        <span v-if="slotProps.data.SemenNumber != null">{{
+          slotProps.data.SemenNumber
+        }}</span>
+        <span v-else>{{ slotProps.data.BreederAnimal?.AnimalEarID }}</span>
+      </template>
+    </Column>
+
+
+    <Column
+      v-for="col of columns2"
+      :field="col.field"
+      :header="col.header"
+      :key="col.field"
+      class="text-center"
+      :sortable="true"
+    />
+
     <Column header="จัดการ" class="text-center">
       <template #body="slotProps">
         <SplitButton
@@ -1098,6 +1116,29 @@
 
           <div class="col-12 lg:col-6">
             <label class="block text-600 text-sm font-bold mb-2">
+              วิธีการผสม<span class="text-red-500"> *</span></label
+            >
+            <Dropdown
+              emptyMessage="ไม่มีข้อมูล"
+              emptyFilterMessage="ไม่พบข้อมูล"
+              class="w-full"
+              placeholder="เลือกวิธีการผสม"
+              optionLabel="name"
+              optionValue="val"
+              v-model="data[index].GoatAIMethodID"
+              @change="fillname($event)"
+              :options="selection.AnimalAIMethodID"
+              :class="{
+                'p-invalid': !data[index].GoatAIMethodID && valid,
+              }"
+            />
+          </div>
+
+          <div
+            class="col-12 lg:col-6"
+            v-if="data[index].GoatAIMethodID == 'AI'"
+          >
+            <label class="block text-600 text-sm font-bold mb-2">
               น้ำเชื้อ <span class="text-red-500"> *</span></label
             >
             <Dropdown
@@ -1114,6 +1155,30 @@
               :filter="true"
               :class="{
                 'p-invalid': !data[index].SemenID && valid,
+              }"
+            />
+          </div>
+          <div
+            class="col-12 lg:col-6"
+            v-if="data[index].GoatAIMethodID == 'Buck'"
+          >
+            <label class="block text-600 text-sm font-bold mb-2">
+              พ่อพันธุ์<span class="text-red-500"> *</span></label
+            >
+            <Dropdown
+              :show-clear="true"
+              :virtualScrollerOptions="{ itemSize: 38 }"
+              emptyMessage="ไม่มีข้อมูล"
+              emptyFilterMessage="ไม่พบข้อมูล"
+              class="w-full"
+              placeholder="เลือกพ่อพันธุ์"
+              optionLabel="Fullname"
+              optionValue="AnimalID"
+              v-model="data[index].BreederAnimalID"
+              :options="selection.Animal"
+              :filter="true"
+              :class="{
+                'p-invalid': !data[index].BreederAnimalID && valid,
               }"
             />
           </div>
@@ -1460,6 +1525,16 @@ export default {
             name: "ผสมเทียมโดยผ่าตัดผ่านช่องท้อง (L-AI)",
           },
         ],
+        AnimalAIMethodID: [
+          {
+            val: "Buck",
+            name: "ผสมพันธุ์โดยใช้พ่อพันธุ์ (Buck)",
+          },
+          {
+            val: "AI",
+            name: "ผสมเทียม",
+          },
+        ],
         GunDepth: null,
       },
 
@@ -1481,10 +1556,8 @@ export default {
           field: "ThaiAIDate",
           header: "วันที่ผสม",
         },
-        {
-          field: "SemenNumber",
-          header: "น้ำเชื้อ",
-        },
+      ],
+      columns2: [
         {
           field: "Dose",
           header: "จำนวนโด๊ส",
@@ -1786,7 +1859,7 @@ export default {
           !this.data[this.index].ResponsibilityStaffID ||
           !this.data[this.index].AIDate ||
           // !this.data[this.index].PAR ||
-          !this.data[this.index].SemenID ||
+          //   !this.data[this.index].SemenID ||
           !this.data[this.index].TimeNo ||
           !this.data[this.index].EstimateBirthDate
         ) {
@@ -1812,9 +1885,17 @@ export default {
           this.isSelection = true;
 
           // ตั้งค่า ดึงข้อมูลแพะพ่อพัน
+          if (this.animal_id == 1) {
+            this.LoadSelection.Animal =
+              "/animal/all-not-event?AnimalTypeID=[1,2,41,42]&isActive=1&AnimalSexID=1";
+          }
+          if (this.animal_id == 2) {
+            this.LoadSelection.Animal =
+              "/animal/all-not-event?AnimalTypeID=[3,4,43,44]&isActive=1&AnimalSexID=1";
+          }
           if (this.animal_id == 3) {
             this.LoadSelection.Animal =
-              "/animal?AnimalTypeID=[17,18]&isActive=1&AnimalSexID=1";
+              "/animal/all-not-event?AnimalTypeID=[17,18,45,46]&isActive=1&AnimalSexID=1";
           }
           for (let i in this.LoadSelection) {
             if (this.LoadSelection[i] == "/project") {
@@ -1831,7 +1912,10 @@ export default {
                 "&includeAll=false&isActive=1";
             }
             // console.log(555);
-            if (this.LoadSelection[i] == "/semen/selection?includeAll=false&isActive=1") {
+            if (
+              this.LoadSelection[i] ==
+              "/semen/selection?includeAll=false&isActive=1"
+            ) {
               if (this.animal_id == 1) {
                 this.LoadSelection.Semen +=
                   "&AnimalTypeID=[1,2,41,42]&orderByField=SemenNumber&orderBy=asc";
@@ -1867,7 +1951,8 @@ export default {
                   });
                   // console.log(this.selection[i]);
                 } else if (
-                  this.LoadSelection[i] == "/project/selection?includeAll=false&isActive=1฿ProjectLevel=AI"
+                  this.LoadSelection[i] ==
+                  "/project/selection?includeAll=false&isActive=1฿ProjectLevel=AI"
                 ) {
                   this.selection[i] = response.data.rows;
                 } else {
@@ -2036,7 +2121,7 @@ export default {
             });
           });
       }
-    //   this.$emit("refresh_secret_status");
+      //   this.$emit("refresh_secret_status");
     },
     // remove data
     remove() {
@@ -2050,7 +2135,7 @@ export default {
           life: 5000,
         });
       });
-    //   this.$emit("refresh_secret_status");
+      //   this.$emit("refresh_secret_status");
     },
     // form open add
     async open() {
@@ -2065,6 +2150,7 @@ export default {
       var animal = null;
 
       this.data[this.index].ResponsibilityStaffID = this.user.StaffID;
+      this.data[this.index].GoatAIMethodID = "AI";
       var date = null;
       await axios
         .get(`animal/get-by-farm-id?AnimalID=${this.AnimalID}`, {

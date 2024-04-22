@@ -410,9 +410,10 @@
       <i class="pi pi-arrows-h" style="font-size: 5rem" />
       <br />
       <span class="text-xl">คุณต้องการแจ้งขายลูกที่คลอดใช่หรือไม่</span>
-      <br />  <br />    
+      <br />
+      <br />
       <label>ระบุน้ำหนัก (KG)</label>
-      <InputText v-model="BabyWeight" class="w-full"  />
+      <InputText v-model="BabyWeight" class="w-full" />
     </div>
     <template #footer>
       <div class="col-12 text-center flex justify-content-between">
@@ -443,9 +444,10 @@
       <i class="pi pi-times" style="font-size: 5rem" />
       <br />
       <span class="text-xl">คุณต้องการแจ้งตายลูกที่คลอดใช่หรือไม่</span>
-      <br />  <br />    
+      <br />
+      <br />
       <label>ระบุน้ำหนัก (KG)</label>
-      <InputText v-model="BabyWeight" class="w-full"  />
+      <InputText v-model="BabyWeight" class="w-full" />
     </div>
     <template #footer>
       <div class="col-12 text-center flex justify-content-between">
@@ -565,6 +567,18 @@
           v-if="this.data[this.index].BabyStatus == 3"
           >ลูกที่ตาย {{ `${this.data[this.index].Amount}` }} ตัว</Tag
         >
+
+        <br />
+        <Button
+          v-if="
+            this.data[this.index].BabyStatus == 2 ||
+            this.data[this.index].BabyStatus == 3
+          "
+          label="ลบข้อมูล"
+          icon="pi pi-trash"
+          class="p-button-danger text-center mt-2"
+          @click="deletesellanddeath"
+        />
       </div>
       <div class="col-6 text-right">
         <span
@@ -1712,7 +1726,40 @@ export default {
         .then(() => {
           this.display_death = false;
           this.display_sell = false;
+          this.$router.go(0);
         });
+    },
+    async deletesellanddeath() {
+      Swal.fire({
+        title: "ต้องการลบข้อมูลใช่หรือไม่",
+        html: "",
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: "ยืนยัน",
+        customClass: "swal-wide",
+        denyButtonText: `ยกเลิก`,
+      }).then(async (result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          await axios
+            .post(`give-birth/delete-baby-sell-and-death`, {
+              id: this.data[this.index].GiveBirthID,
+            })
+            .then(() => {
+              //   this.display_death = false;
+              //   this.display_sell = false;
+              this.$toast.add({
+                severity: "success",
+                summary: "สำเร็จ",
+                life: 2000,
+              });
+              this.$router.go(0);
+              //   this.$router.push({ name: "farmall" });
+            });
+        } else if (result.isDenied) {
+          this.$router.push({ name: "farmall" });
+        }
+      });
     },
   },
   unmounted() {

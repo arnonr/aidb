@@ -47,7 +47,6 @@
       </template>
     </Column>
 
-
     <Column
       v-for="col of columns2"
       :field="col.field"
@@ -1349,9 +1348,10 @@
           @click="close()"
         />
         <Button
-          label="บันทึกข้อมูล"
+          label="บันทึกข้อมูล1"
           class="ml-3 p-button-info w-full"
           @click="confirm_ma()"
+          :disabled="this.isLoading == false ? false : true"
         />
       </div>
     </form>
@@ -2041,6 +2041,7 @@ export default {
     },
 
     add() {
+      this.isLoading = true;
       this.display_confirm_ma = false;
 
       if (this.animal_id == 3) {
@@ -2086,6 +2087,7 @@ export default {
       // update data
       else if (this.index < this.data.length) {
         if (this.validation() == false) {
+          this.isLoading = false;
           return;
         }
         delete this.data[this.index].Animal;
@@ -2101,6 +2103,7 @@ export default {
             this.data[this.index]
           )
           .then(() => {
+            this.isLoading = false;
             this.close();
             setTimeout(() => {
               this.load();
@@ -2113,6 +2116,7 @@ export default {
             });
           })
           .catch((err) => {
+            this.isLoading = false;
             this.$toast.add({
               severity: "error",
               summary: "ล้มเหลว",

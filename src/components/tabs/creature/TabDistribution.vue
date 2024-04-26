@@ -244,6 +244,7 @@
         />
         <Button
           label="บันทึกข้อมูล"
+          :disabled="this.isLoading == false ? false : true"
           class="ml-3 p-button-info w-full"
           @click="add()"
         />
@@ -586,7 +587,9 @@ export default {
     },
     // create or update data
     add() {
+      this.isLoading = true;
       if (this.validation() == false) {
+        this.isLoading = false;
         return;
       }
       if (
@@ -605,6 +608,7 @@ export default {
           .then(() => {
             this.close();
             this.load();
+            this.isLoading = false;
 
             this.$toast.add({
               severity: "success",
@@ -614,6 +618,7 @@ export default {
             });
           })
           .catch((err) => {
+            this.isLoading = false;
             this.$toast.add({
               severity: "error",
               summary: "ล้มเหลว",
@@ -625,6 +630,7 @@ export default {
       // update data
       else if (this.index < this.data.length) {
         if (this.validation() == false) {
+          this.isLoading = false;
           return;
         }
         delete this.data[this.index].Staff;
@@ -646,6 +652,7 @@ export default {
           .then(() => {
             this.close();
             this.load();
+            this.isLoading = false;
             this.$toast.add({
               severity: "success",
               summary: "สำเร็จ",
@@ -654,6 +661,7 @@ export default {
             });
           })
           .catch((err) => {
+            this.isLoading = false;
             this.$toast.add({
               severity: "error",
               summary: "ล้มเหลว",

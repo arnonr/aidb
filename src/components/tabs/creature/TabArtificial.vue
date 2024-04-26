@@ -1348,7 +1348,7 @@
           @click="close()"
         />
         <Button
-          label="บันทึกข้อมูล1"
+          label="บันทึกข้อมูล"
           class="ml-3 p-button-info w-full"
           @click="confirm_ma()"
           :disabled="this.isLoading == false ? false : true"

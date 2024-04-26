@@ -719,6 +719,7 @@
         label="บันทึกข้อมูล"
         v-if="btnSubmit"
         class="ml-3 p-button-info w-full"
+        :disabled="this.isLoading == false ? false : true"
         @click="add"
       />
     </div>
@@ -1167,7 +1168,9 @@ export default {
     },
     // create or update data
     add() {
+      this.isLoading = true;
       if (this.validation() == false) {
+        this.isLoading = false;
         return;
       }
 
@@ -1240,6 +1243,7 @@ export default {
           .post(this.url, this.data[this.index])
           .then(() => {
             this.checkMethod = 0;
+            this.isLoading = false;
             setTimeout(() => {
               this.load();
             }, 1500);
@@ -1253,6 +1257,7 @@ export default {
             });
           })
           .catch((err) => {
+            this.isLoading = false;
             this.$toast.add({
               severity: "error",
               summary: "ล้มเหลว",
@@ -1264,6 +1269,7 @@ export default {
       // update data
       else if (this.index < this.data.length) {
         if (this.validation() == false) {
+          this.isLoading = false;
           return;
         }
         delete this.data[this.index].Staff;
@@ -1276,6 +1282,7 @@ export default {
           )
           .then(() => {
             this.close();
+            this.isLoading = false;
             setTimeout(() => {
               this.load();
             }, 1500);
@@ -1287,6 +1294,7 @@ export default {
             });
           })
           .catch((err) => {
+            this.isLoading = false;
             this.$toast.add({
               severity: "error",
               summary: "ล้มเหลว",

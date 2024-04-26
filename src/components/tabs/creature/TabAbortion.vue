@@ -226,6 +226,7 @@
           label="บันทึกข้อมูล"
           class="ml-3 p-button-info w-full"
           @click="add()"
+          :disabled="this.isLoading == false ? false : true"
         />
       </div>
     </form>
@@ -537,7 +538,9 @@ export default {
     },
     // create or update data
     add() {
+      this.isLoading = true;
       if (this.validation() == false) {
+        this.isLoading = false;
         return;
       }
       if (
@@ -548,6 +551,7 @@ export default {
         axios
           .post(this.url, this.data[this.index])
           .then(() => {
+            this.isLoading = false;
             setTimeout(() => {
               this.load();
             }, 1500);
@@ -560,6 +564,7 @@ export default {
             });
           })
           .catch((err) => {
+            this.isLoading = false;
             this.$toast.add({
               severity: "error",
               summary: "ล้มเหลว",
@@ -583,6 +588,7 @@ export default {
           )
           .then(() => {
             this.close();
+            this.isLoading = false;
             setTimeout(() => {
               this.load();
             }, 1500);
@@ -594,6 +600,7 @@ export default {
             });
           })
           .catch((err) => {
+            this.isLoading = false;
             this.$toast.add({
               severity: "error",
               summary: "ล้มเหลว",
@@ -602,7 +609,7 @@ export default {
             });
           });
       }
-    //   this.$emit("refresh_secret_status");
+      //   this.$emit("refresh_secret_status");
     },
     // remove data
     remove() {
@@ -616,7 +623,7 @@ export default {
           life: 5000,
         });
       });
-    //   this.$emit("refresh_secret_status");
+      //   this.$emit("refresh_secret_status");
     },
     // form open add
     async open() {

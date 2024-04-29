@@ -673,7 +673,7 @@ export default {
             life: 2000,
           });
           setTimeout(() => {
-            this.$router.push("/activity-distributions");
+            this.$router.push("/activity/distributions");
           }, 2000);
         })
         .catch((err) => {

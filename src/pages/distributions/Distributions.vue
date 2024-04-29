@@ -540,6 +540,14 @@ export default {
           field: "show_id",
           header: "ลำดับ",
         },
+        {
+          field: "Animal.AnimalEarID",
+          header: "หมายเลขใบหู",
+        },
+        {
+          field: "Animal.AnimalName",
+          header: "ชื่อโค",
+        },
 
         {
           field: "DistributionDate",

@@ -1614,7 +1614,7 @@ const routes = [
       {
         path: "/activity/distribution/add/:id/:farm",
         name: "distributionadd",
-        component: () => import("./pages/distribution/DistributionAdd.vue"),
+        component: () => import("./pages/distributions/DistributionsAdd.vue"),
       },
       // {
       //   path: "/activity/distribution/edit/:id",

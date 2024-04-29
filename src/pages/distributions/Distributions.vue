@@ -150,7 +150,6 @@
             />
           </div>
 
-      
           <div class="col-12 sm:col-6 lg:col-6">
             <label
               for="FarmerFullName"
@@ -167,9 +166,6 @@
               />
             </span>
           </div>
-
-         
-
 
           <!-- 
             <div class="col-12 sm:col-6 lg:col-6">
@@ -260,16 +256,14 @@
       <div v-if="this.search.FarmID" class="card">
         <div class="grid flex align-items-center mb-5">
           <div class="col-12 md:col-6">
-            <h1 class="text-2xl mb-0 text-600">
-              รายการข้อมูลสุขภาพ : ฉีดวัคซีน
-            </h1>
+            <h1 class="text-2xl mb-0 text-600">รายการข้อมูลการคัดจำหน่าย</h1>
           </div>
           <div class="col-12 md:col-6 md:text-right">
             <!-- <Button label="เพิ่มข้อมูลฉีดวัคซีน" icon="pi pi-plus" class="w-full md:w-auto" 
             @click="add" 
             v-if="permit[0].IsAdd"/> -->
             <Button
-              label="เพิ่มข้อมูลฉีดวัคซีน"
+              label="เพิ่มข้อมูลการคัดจำหน่าย"
               icon="pi pi-plus"
               class="w-full md:w-auto"
               @click="add"
@@ -300,11 +294,11 @@
             <Column header="จัดการ" class="text-center">
               <template #body="slotProps">
                 <SplitButton
-                  @click="edit(slotProps.data.VaccineActivityID)"
+                  @click="edit(slotProps.data.DistributionID)"
                   label="แก้ไข"
                   icon="pi pi-pencil"
                   class="p-button-sm p-button-outlined p-button-warning"
-                  :model="getItems(slotProps.data.VaccineActivityID)"
+                  :model="getItems(slotProps.data.DistributionID)"
                 >
                 </SplitButton>
               </template>
@@ -476,6 +470,7 @@
 <script>
 import axios from "axios";
 import dayjs from "dayjs";
+import locale from "dayjs/locale/th";
 // import locale from "dayjs/locale/th";
 
 import buddhistEra from "dayjs/plugin/buddhistEra";
@@ -495,6 +490,7 @@ export default {
     return {
       url: {
         vaccine: "/vaccine-activity",
+        distribution: "/distribution",
         // Farm: "/farm",
         // AIZone: "/ai-zone",
         FarmStatus: "/farm-status",
@@ -546,32 +542,20 @@ export default {
         },
 
         {
-          field: "ThaiVaccineActivityDate",
-          header: "วันที่ฉีดวัคซีน",
+          field: "DistributionDate",
+          header: "วันที่คัดจำหน่าย",
         },
         {
-          field: "VaccineName",
-          header: "ชื่อวัคซีน",
+          field: "DistributionTypeName",
+          header: "ประเภทการคัดจำหน่าย",
         },
         {
-          field: "Lot",
-          header: "Lot",
+          field: "DistributionReasonName",
+          header: "สาเหตุการคัดจำหน่าย",
         },
         {
-          field: "Organization.OrganizationName",
-          header: "หน่วยงานที่ฉีด",
-        },
-        {
-          field: "VaccineObjectiveName",
-          header: "วัตถุประสงค์การฉีด",
-        },
-        {
-          field: "ThaiVaccineNextDate",
-          header: "วันที่ฉีดครั้งต่อไป",
-        },
-        {
-          field: "Animal.length",
-          header: "จำนวนสัตว์ที่ฉีดวัคซีน",
+          field: "DestinationFarmName",
+          header: "ฟาร์มปลายทางที่คัดจำหน่าย",
         },
         {
           field: "ResponsibilityStaffName",
@@ -855,17 +839,11 @@ export default {
       this.fetchAIZone();
       this.fetchOrganizationZone();
       this.fetchProject();
-      //   this.fetchProvince();
-      //   this.fetchAmphur();
-      //   this.fetchTumbol();
       this.fetchOrganizationType();
-      //   this.fetchOrganization();
-      //   this.fetchFarmStatus();
-      //   this.fetchFarm();
     },
     load() {
       this.isLoading = true;
-      let url = this.url.vaccine + "?size=15";
+      let url = this.url.distribution + "?size=15";
       url += "&page=";
       if (this.curpage) {
         url += this.curpage;
@@ -875,6 +853,8 @@ export default {
       } else if (this.set_farm) {
         url += "&FarmID=" + this.search.FarmID;
       }
+
+      url += "&orderByField=DistributionDate&orderBy=DESC"
       axios
         .get(url, {
           signal: this.controller.signal,
@@ -882,20 +862,34 @@ export default {
         .then((response) => {
           this.total = response.data.total;
           this.data = response.data.rows;
+          console.log("TEST")
           this.data.sort(
             (first, last) =>
-              new Date(last.ThaiVaccineActivityDate) -
-              new Date(first.ThaiVaccineActivityDate)
+              new Date(last.DistributionDate) - new Date(first.DistributionDate)
           );
           this.data.show = response.data.rows;
           if (this.curpage == 0 || this.curpage == 1) {
             for (let i = 0; i < this.data.length; i++) {
               this.data[i].show_id = i + 1;
+              if (this.data[i].DistributionDate != null) {
+                this.data[i].DistributionDate = dayjs(
+                  this.data[i].DistributionDate
+                )
+                  .locale(locale)
+                  .format("DD MMM BB");
+              }
             }
           } else {
             let start = (this.curpage - 1) * 15;
             for (let i = 0; i < this.data.length; i++) {
               this.data[i].show_id = i + 1 + start;
+              if (this.data[i].DistributionDate != null) {
+                this.data[i].DistributionDate = dayjs(
+                  this.data[i].DistributionDate
+                )
+                  .locale(locale)
+                  .format("DD MMM BB");
+              }
             }
           }
         })
@@ -1237,39 +1231,39 @@ export default {
         })
         .then((res) => {
           this.dropdown.Farms = res.data.rows;
-        //   res.data.rows
-        //     .sort((a, b) =>
-        //       a.Province.ProvinceName.localeCompare(b.Province.ProvinceName)
-        //     )
-        //     .map((item) => {
-        //       let name = item.Farmer ? item.Farmer.FullName : "- ";
-        //       let number = item.FarmIdentificationNumber
-        //         ? item.FarmIdentificationNumber
-        //         : "- ";
-        //       let province = item.Province ? item.Province.ProvinceName : "- ";
-        //       let Organization = item.OrganizationZone
-        //         ? item.OrganizationZone.OrganizationZoneName
-        //         : "- ";
+          //   res.data.rows
+          //     .sort((a, b) =>
+          //       a.Province.ProvinceName.localeCompare(b.Province.ProvinceName)
+          //     )
+          //     .map((item) => {
+          //       let name = item.Farmer ? item.Farmer.FullName : "- ";
+          //       let number = item.FarmIdentificationNumber
+          //         ? item.FarmIdentificationNumber
+          //         : "- ";
+          //       let province = item.Province ? item.Province.ProvinceName : "- ";
+          //       let Organization = item.OrganizationZone
+          //         ? item.OrganizationZone.OrganizationZoneName
+          //         : "- ";
 
-        //       return {
-        //         FarmID: item.FarmID,
-        //         FarmName: item.FarmName,
-        //         FarmIdentificationNumber: item.FarmIdentificationNumber,
-        //         Fullname:
-        //           "ฟาร์ม " +
-        //           item.FarmName +
-        //           " (" +
-        //           number +
-        //           ")" +
-        //           " | เจ้าของฟาร์ม " +
-        //           name +
-        //           " | จังหวัด " +
-        //           province +
-        //           " | " +
-        //           Organization,
-        //         OrganizationZoneName: Organization,
-        //       };
-        //     });
+          //       return {
+          //         FarmID: item.FarmID,
+          //         FarmName: item.FarmName,
+          //         FarmIdentificationNumber: item.FarmIdentificationNumber,
+          //         Fullname:
+          //           "ฟาร์ม " +
+          //           item.FarmName +
+          //           " (" +
+          //           number +
+          //           ")" +
+          //           " | เจ้าของฟาร์ม " +
+          //           name +
+          //           " | จังหวัด " +
+          //           province +
+          //           " | " +
+          //           Organization,
+          //         OrganizationZoneName: Organization,
+          //       };
+          //     });
           //
         })
         .finally(() => {
@@ -1302,18 +1296,19 @@ export default {
     },
     getItems(id) {
       const items = [
-        {
-          label: "รายละเอียด",
-          icon: "pi pi-eye",
-          command: () => {
-            // this.open_view(id);
-            this.$router.push("/activity/vaccine/view/" + id);
-          },
-        },
+        // {
+        //   label: "รายละเอียด",
+        //   icon: "pi pi-eye",
+        //   command: () => {
+        //     // this.open_view(id);
+        //     this.$router.push("/activity/vaccine/view/" + id);
+        //   },
+        // },
         {
           label: "ลบ",
           icon: "pi pi-trash",
           command: () => {
+            console.log(id)
             this.open_delete(id);
           },
         },
@@ -1339,7 +1334,7 @@ export default {
     },
 
     remove() {
-      axios.delete("vaccine-activity/" + this.data.id).then(() => {
+      axios.delete("distribution/" + this.data.id).then(() => {
         this.close_delete();
         this.load();
         this.$toast.add({
@@ -1368,7 +1363,7 @@ export default {
 
         const farm = item.FarmIdentificationNumber;
 
-        router.push({ name: "vaccuineadd", params: { id, farm } });
+        router.push({ name: "distributionadd", params: { id, farm } });
       }
     },
   },

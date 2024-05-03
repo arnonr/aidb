@@ -30,7 +30,7 @@
       class="text-center"
       :sortable="true"
     />
-    <!-- <Column header="จัดการ" class="text-center">
+    <Column header="จัดการ" class="text-center">
       <template #body="slotProps">
         <SplitButton
           v-if="slotProps.data.show_id == total || this.user.GroupID == 1"
@@ -42,7 +42,7 @@
         >
         </SplitButton>
       </template>
-    </Column> -->
+    </Column>
     <template #empty> ไม่พบข้อมูล </template>
     <template #loading>
       <h1 class="text-white text-center">กรุณารอสักครู่...</h1>

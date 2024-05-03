@@ -677,17 +677,28 @@ export default {
       //   this.$emit("refresh_secret_status");
     },
     // remove data
-    remove() {
-      axios.delete(this.url + "/" + this.data[this.index][this.id]).then(() => {
-        this.close_delete();
-        this.load();
-        this.$toast.add({
-          severity: "success",
-          summary: "สำเร็จ",
-          detail: "ลบข้อมูลเสร็จสิ้น",
-          life: 5000,
+    async remove() {
+      await axios
+        .delete(this.url + "/" + this.data[this.index][this.id])
+        .then(() => {
+          this.close_delete();
+          this.load();
+          this.$toast.add({
+            severity: "success",
+            summary: "สำเร็จ",
+            detail: "ลบข้อมูลเสร็จสิ้น",
+            life: 5000,
+          });
+        })
+        .catch((err) => {
+          this.$toast.add({
+            severity: "error",
+            summary: "ล้มเหลว",
+            detail: err.response.data.error.message,
+            life: 5000,
+          });
         });
-      });
+
       //   this.$emit("refresh_secret_status");
     },
     // form open add

@@ -742,6 +742,11 @@ const routes = [
         component: () => import("./pages/project/project-detail-diary.vue"),
       },
       {
+        path: "/project/detail-ai",
+        name: "project-detail-ai",
+        component: () => import("./pages/project/project-detail-ai.vue"),
+      },
+      {
         path: "/project/thaiblack",
         name: "thaiblack",
         component: () => import("./pages/project/thaiblack.vue"),

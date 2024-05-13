@@ -45,6 +45,11 @@
         >
           <Button severity="primary" label="กิจกรรมแจ้งเตือน" class="ml-2" />
         </router-link>
+        <router-link
+          :to="'/project/detail-ai?projects=' + search.ProjectIDArray"
+        >
+          <Button severity="secondary" label="โครงการผสมเทียม" class="ml-2" />
+        </router-link>
       </div>
 
       <div class="card mb-5">

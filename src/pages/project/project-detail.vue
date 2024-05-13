@@ -43,6 +43,11 @@
         >
           <Button severity="secondary" label="กิจกรรมแจ้งเตือน" class="ml-2" />
         </router-link>
+        <router-link
+          :to="'/project/detail-ai?projects=' + search.ProjectIDArray"
+        >
+          <Button severity="secondary" label="โครงการผสมเทียม" class="ml-2" />
+        </router-link>
       </div>
 
       <div class="card mb-5">
@@ -2433,8 +2438,6 @@ export default {
 
       this.fetchFarm();
 
-    
-
       //   if (this.search.dateRange) {
       //     url += `&FarmRegisterStartDate=${this.search.dateRange[0]}&FarmRegisterEndDate=${this.search.dateRange[1]}`;
       //     urlExcel += `&FarmRegisterStartDate=${this.search.dateRange[0]}&FarmRegisterEndDate=${this.search.dateRange[1]}`;
@@ -2515,14 +2518,13 @@ export default {
       //   return TitleName;
     },
     detailGender(id) {
-
       console.log(id);
       return "";
-    //   const { GenderName } = this.dropdown.Genders.data.find(
-    //     (val) => val.GenderID === id
-    //   );
+      //   const { GenderName } = this.dropdown.Genders.data.find(
+      //     (val) => val.GenderID === id
+      //   );
 
-    //   return GenderName;
+      //   return GenderName;
     },
     detailFormatBirthDate(date) {
       return format(new Date(date), "dd/MM/yyyy", {

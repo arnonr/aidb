@@ -2045,6 +2045,91 @@ export default {
       console.log(this.form.AnimalBreedPercent4);
       console.log(this.form.AnimalBreedPercent5);
 
+      console.log(this.form.AnimalBreedID1);
+      console.log(this.form.AnimalBreedID2);
+      console.log(this.form.AnimalBreedID3);
+      console.log(this.form.AnimalBreedID4);
+      console.log(this.form.AnimalBreedID5);
+
+      if (
+        (this.form.AnimalBreedID1 == this.form.AnimalBreedID2 ||
+          this.form.AnimalBreedID1 == this.form.AnimalBreedID3 ||
+          this.form.AnimalBreedID1 == this.form.AnimalBreedID4 ||
+          this.form.AnimalBreedID1 == this.form.AnimalBreedID5) &&
+        this.form.AnimalBreedID1 != null
+      ) {
+        this.$toast.add({
+          severity: "error",
+          summary: "ล้มเหลว",
+          detail: "สายพันธุ์ต้องไม่ซ้ำกัน",
+          life: 5000,
+        });
+        return false;
+      }
+      if (
+        (this.form.AnimalBreedID2 == this.form.AnimalBreedID1 ||
+          this.form.AnimalBreedID2 == this.form.AnimalBreedID3 ||
+          this.form.AnimalBreedID2 == this.form.AnimalBreedID4 ||
+          this.form.AnimalBreedID2 == this.form.AnimalBreedID5) &&
+        this.form.AnimalBreedID2 != null
+      ) {
+        this.$toast.add({
+          severity: "error",
+          summary: "ล้มเหลว",
+          detail: "สายพันธุ์ต้องไม่ซ้ำกัน",
+          life: 5000,
+        });
+        return false;
+      }
+
+      if (
+        (this.form.AnimalBreedID3 == this.form.AnimalBreedID1 ||
+          this.form.AnimalBreedID3 == this.form.AnimalBreedID3 ||
+          this.form.AnimalBreedID3 == this.form.AnimalBreedID4 ||
+          this.form.AnimalBreedID3 == this.form.AnimalBreedID5) &&
+        this.form.AnimalBreedID3 != null
+      ) {
+        this.$toast.add({
+          severity: "error",
+          summary: "ล้มเหลว",
+          detail: "สายพันธุ์ต้องไม่ซ้ำกัน",
+          life: 5000,
+        });
+        return false;
+      }
+
+      if (
+        (this.form.AnimalBreedID4 == this.form.AnimalBreedID1 ||
+          this.form.AnimalBreedID4 == this.form.AnimalBreedID2 ||
+          this.form.AnimalBreedID4 == this.form.AnimalBreedID3 ||
+          this.form.AnimalBreedID4 == this.form.AnimalBreedID5) &&
+        this.form.AnimalBreedID4 != null
+      ) {
+        this.$toast.add({
+          severity: "error",
+          summary: "ล้มเหลว",
+          detail: "สายพันธุ์ต้องไม่ซ้ำกัน",
+          life: 5000,
+        });
+        return false;
+      }
+
+      if (
+        (this.form.AnimalBreedID5 == this.form.AnimalBreedID1 ||
+          this.form.AnimalBreedID5 == this.form.AnimalBreedID2 ||
+          this.form.AnimalBreedID5 == this.form.AnimalBreedID3 ||
+          this.form.AnimalBreedID5 == this.form.AnimalBreedID4) &&
+        this.form.AnimalBreedID5 != null
+      ) {
+        this.$toast.add({
+          severity: "error",
+          summary: "ล้มเหลว",
+          detail: "สายพันธุ์ต้องไม่ซ้ำกัน",
+          life: 5000,
+        });
+        return false;
+      }
+
       // console.log(
       //   this.form.AnimalBreedPercent2 + this.form.AnimalBreedPercent3
       // );

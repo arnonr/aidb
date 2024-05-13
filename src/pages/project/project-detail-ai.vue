@@ -1090,7 +1090,7 @@ export default {
           header: "จำนวนโด๊ส",
         },
         {
-          field: "BCSName",
+          field: "BCS.BCSName",
           header: "คะแนนร่างกาย",
         },
 

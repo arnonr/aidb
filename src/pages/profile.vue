@@ -71,7 +71,7 @@
                 <div class="col-12 sm:col-12 md:col-6 lg:col-8 grid">
                   <div class="field col-12 sm:col-6">
                     <label>อีเมล / Email</label>
-                    <InputText v-model="staff.StaffEmail" type="text" />
+                    <InputText disabled v-model="staff.StaffEmail" type="text" />
                   </div>
                   <div class="field col-12 sm:col-6">
                     <label>รหัสผ่าน</label>
@@ -85,6 +85,7 @@
                       v-model="data.GroupID"
                       optionLabel="GroupName"
                       optionValue="GroupID"
+                      disabled
                       :options="selection.Group"
                       class="w-full"
                       placeholder="เลือกกลุ่มผู้ใช้งาน"

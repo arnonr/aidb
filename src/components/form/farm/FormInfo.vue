@@ -400,6 +400,7 @@ import axios from "axios";
 import { mapGetters } from "vuex";
 import { format } from "date-fns";
 import { th } from "date-fns/locale";
+import store from "@/service/Vuex";
 export default {
   computed: {
     ...mapGetters({
@@ -727,7 +728,14 @@ export default {
           signal: this.controller.signal,
         })
         .then((res) => {
-          this.organizationZone = res.data.rows;
+            console.log(store.state.user)
+          if (store.state.user.GroupID != 1) {
+            this.organizationZone.filter((x) => {
+                return x.OrganizationZoneID == store.state.user.Staff.OrganizationZoneID
+            });
+          } else {
+            this.organizationZone = res.data.rows;
+          }
           this.fetchProvince();
         })
         .finally(() => {

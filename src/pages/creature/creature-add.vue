@@ -1297,45 +1297,80 @@ export default {
           )
           .then((response) => {
             // console.log(response.data);
-            for (let i = 0; i < response.data.length; i++) {
+            // response.data
+
+            let d1 = response.data;
+
+            for (let i = 0; i < d1.length; i++) {
               if (i == 0) {
-                this.form.AnimalBreedID1 = response.data[i].AnimalBreedID;
+                this.form.AnimalBreedID1 = d1[i].AnimalBreedID;
                 // this.form.AnimalBreedID1 = 7;
                 // this.form.AnimalBreedID1 = 50;
 
-                if (response.data[i].AnimalBreedPercent == "50.000") {
+                if (d1[i].AnimalBreedPercent == "50.000") {
                   this.form.AnimalBreedPercent1 = 50;
-                } else if (response.data[i].AnimalBreedPercent == "75.000") {
+                } else if (d1[i].AnimalBreedPercent == "75.000") {
                   this.form.AnimalBreedPercent1 = 75;
-                } else if (response.data[i].AnimalBreedPercent == "100.000") {
+                } else if (d1[i].AnimalBreedPercent == "100.000") {
                   this.form.AnimalBreedPercent1 = 100;
                 } else {
-                  this.form.AnimalBreedPercent1 =
-                    response.data[i].AnimalBreedPercent;
+                  this.form.AnimalBreedPercent1 = d1[i].AnimalBreedPercent;
                 }
-                // console.log(this.form.AnimalBreedID1);
-                // this.form.AnimalBreedPercent1 =
-                //   response.data[i].AnimalBreedPercent;
-
-                // console.log(this.form.AnimalBreedPercent1);
               } else if (i == 1) {
-                this.form.AnimalBreedID2 = response.data[i].AnimalBreedID;
-                this.form.AnimalBreedPercent2 =
-                  response.data[i].AnimalBreedPercent;
+                this.form.AnimalBreedID2 = d1[i].AnimalBreedID;
+                this.form.AnimalBreedPercent2 = d1[i].AnimalBreedPercent;
               } else if (i == 2) {
-                this.form.AnimalBreedID3 = response.data[i].AnimalBreedID;
-                this.form.AnimalBreedPercent3 =
-                  response.data[i].AnimalBreedPercent;
+                this.form.AnimalBreedID3 = d1[i].AnimalBreedID;
+                this.form.AnimalBreedPercent3 = d1[i].AnimalBreedPercent;
               } else if (i == 3) {
-                this.form.AnimalBreedID4 = response.data[i].AnimalBreedID;
-                this.form.AnimalBreedPercent4 =
-                  response.data[i].AnimalBreedPercent;
+                this.form.AnimalBreedID4 = d1[i].AnimalBreedID;
+                this.form.AnimalBreedPercent4 = d1[i].AnimalBreedPercent;
               } else if (i == 4) {
-                this.form.AnimalBreedID5 = response.data[i].AnimalBreedID;
-                this.form.AnimalBreedPercent5 =
-                  response.data[i].AnimalBreedPercent;
+                this.form.AnimalBreedID5 = d1[i].AnimalBreedID;
+                this.form.AnimalBreedPercent5 = d1[i].AnimalBreedPercent;
               }
             }
+            console.log(this.form)
+
+            // for (let i = 0; i < response.data.length; i++) {
+            //   if (i == 0) {
+            //     this.form.AnimalBreedID1 = response.data[i].AnimalBreedID;
+            //     // this.form.AnimalBreedID1 = 7;
+            //     // this.form.AnimalBreedID1 = 50;
+
+            //     if (response.data[i].AnimalBreedPercent == "50.000") {
+            //       this.form.AnimalBreedPercent1 = 50;
+            //     } else if (response.data[i].AnimalBreedPercent == "75.000") {
+            //       this.form.AnimalBreedPercent1 = 75;
+            //     } else if (response.data[i].AnimalBreedPercent == "100.000") {
+            //       this.form.AnimalBreedPercent1 = 100;
+            //     } else {
+            //       this.form.AnimalBreedPercent1 =
+            //         response.data[i].AnimalBreedPercent;
+            //     }
+            //     // console.log(this.form.AnimalBreedID1);
+            //     // this.form.AnimalBreedPercent1 =
+            //     //   response.data[i].AnimalBreedPercent;
+
+            //     // console.log(this.form.AnimalBreedPercent1);
+            //   } else if (i == 1) {
+            //     this.form.AnimalBreedID2 = response.data[i].AnimalBreedID;
+            //     this.form.AnimalBreedPercent2 =
+            //       response.data[i].AnimalBreedPercent;
+            //   } else if (i == 2) {
+            //     this.form.AnimalBreedID3 = response.data[i].AnimalBreedID;
+            //     this.form.AnimalBreedPercent3 =
+            //       response.data[i].AnimalBreedPercent;
+            //   } else if (i == 3) {
+            //     this.form.AnimalBreedID4 = response.data[i].AnimalBreedID;
+            //     this.form.AnimalBreedPercent4 =
+            //       response.data[i].AnimalBreedPercent;
+            //   } else if (i == 4) {
+            //     this.form.AnimalBreedID5 = response.data[i].AnimalBreedID;
+            //     this.form.AnimalBreedPercent5 =
+            //       response.data[i].AnimalBreedPercent;
+            //   }
+            // }
           })
           .catch((err) => {
             this.$toast.add({

@@ -9,6 +9,40 @@
         </h1>
         <div class="grid">
           <div class="col-12 sm:col-6 lg:col-4">
+            <label
+              for="AnimalName"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              ชื่อพ่อพันธุ์</label
+            >
+            <span class="p-input-icon-right w-full">
+              <i class="pi pi-search" />
+              <InputText
+                type="text"
+                class="w-full"
+                v-model="search.AnimalName"
+              />
+            </span>
+          </div>
+
+          <div class="col-12 sm:col-6 lg:col-4">
+            <label
+              for="AnimalEarID"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              หมายเลขใบหูพ่อพันธุ์</label
+            >
+            <span class="p-input-icon-right w-full">
+              <i class="pi pi-search" />
+              <InputText
+                type="text"
+                class="w-full"
+                v-model="search.AnimalEarID"
+              />
+            </span>
+          </div>
+
+          <div class="col-12 sm:col-6 lg:col-4">
             <!-- <label
               for="codeNumber"
               class="block text-600 text-sm font-bold mb-2"
@@ -385,8 +419,15 @@
               class="text-center"
             ></Column>
 
+
             <Column
-              field="Animal.AnimalIdentificationID"
+              field="Animal.AnimalName"
+              header="ชื่อพ่อพันธุ์"
+              class="text-center"
+            ></Column>
+
+            <Column
+              field="Animal.AnimalEarID"
               header="รหัสอ้างอิงพ่อพันธุ์"
               class="text-center"
             ></Column>
@@ -842,6 +883,14 @@ export default {
     };
   },
   watch: {
+    "search.AnimalName"(val) {
+      this.filtered.AnimalName = val;
+      this.load();
+    },
+    "search.AnimalEarID"(val) {
+      this.filtered.AnimalEarID = val;
+      this.load();
+    },
     "search.SemenNumber"(val) {
       this.filtered.SemenNumber = val;
       this.load();
@@ -920,10 +969,10 @@ export default {
           "&AnimalTypeID=[1,2,41,42]&orderByField=SemenNumber&orderBy=asc";
       } else if (this.animal_id == 2) {
         this.url.semen +=
-        "&AnimalTypeID=[3,4,43,44]&orderByField=SemenNumber&orderBy=asc";
+          "&AnimalTypeID=[3,4,43,44]&orderByField=SemenNumber&orderBy=asc";
       } else if (this.animal_id == 3) {
         this.url.semen +=
-        "&AnimalTypeID=[17,18,45,46]&orderByField=SemenNumber&orderBy=asc";
+          "&AnimalTypeID=[17,18,45,46]&orderByField=SemenNumber&orderBy=asc";
       }
 
       axios
@@ -992,6 +1041,15 @@ export default {
       }
       if (this.search.AnimalBreedID5) {
         url += "&AnimalBreedID5=" + this.search.AnimalBreedID5;
+      }
+
+      if (this.filtered.AnimalName) {
+        url += "&AnimalName=" + this.filtered.AnimalName;
+      }
+
+
+      if (this.filtered.AnimalEarID) {
+        url += "&AnimalEarID=" + this.filtered.AnimalEarID;
       }
 
       axios

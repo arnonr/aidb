@@ -730,9 +730,11 @@ export default {
         .then((res) => {
             console.log(store.state.user)
           if (store.state.user.GroupID != 1) {
-            this.organizationZone.filter((x) => {
-                return x.OrganizationZoneID == store.state.user.Staff.OrganizationZoneID
-            });
+            // this.organizationZone.filter((x) => {
+            //     return x.OrganizationZoneID == store.state.user.Staff.OrganizationZoneID
+            // });
+
+            this.organizationZone = res.data.rows;
           } else {
             this.organizationZone = res.data.rows;
           }

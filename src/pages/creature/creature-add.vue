@@ -2415,7 +2415,7 @@ export default {
 
             if (
                 (this.form.AnimalBreedID3 == this.form.AnimalBreedID1 ||
-                    this.form.AnimalBreedID3 == this.form.AnimalBreedID3 ||
+                    this.form.AnimalBreedID3 == this.form.AnimalBreedID2 ||
                     this.form.AnimalBreedID3 == this.form.AnimalBreedID4 ||
                     this.form.AnimalBreedID3 == this.form.AnimalBreedID5) &&
                 this.form.AnimalBreedID3 != null

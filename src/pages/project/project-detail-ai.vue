@@ -1,268 +1,322 @@
 <template>
-  <div class="grid">
-    <!-- start main page -->
-    <div class="col-12">
-      <PageTitle title="ติดตามโครงการ" :pages="breadcrumb" />
+    <div class="grid">
+        <!-- start main page -->
+        <div class="col-12">
+            <PageTitle title="ติดตามโครงการ" :pages="breadcrumb" />
 
-      <div class="card">
-        <div class="grid">
-          <div class="col-12 sm:col-6 lg:col-12">
-            <label
-              for="selectedScheme"
-              class="block text-600 text-sm font-bold mb-2"
-            >
-              โครงการ</label
-            >
-            <MultiSelect
-              display="chip"
-              emptyMessage="ไม่มีข้อมูล"
-              emptyFilterMessage="ไม่พบข้อมูล"
-              class="w-full"
-              placeholder="ทั้งหมด"
-              :options="dropdown.Projects"
-              optionLabel="ProjectName"
-              optionValue="ProjectID"
-              :filter="true"
-              v-model="search.ProjectIDArray"
-              :virtualScrollerOptions="{ itemSize: 38 }"
-            />
-          </div>
-        </div>
-      </div>
+            <div class="card">
+                <div class="grid">
+                    <div class="col-12 sm:col-6 lg:col-12">
+                        <label
+                            for="selectedScheme"
+                            class="block text-600 text-sm font-bold mb-2"
+                        >
+                            โครงการ</label
+                        >
+                        <MultiSelect
+                            display="chip"
+                            emptyMessage="ไม่มีข้อมูล"
+                            emptyFilterMessage="ไม่พบข้อมูล"
+                            class="w-full"
+                            placeholder="ทั้งหมด"
+                            :options="dropdown.Projects"
+                            optionLabel="ProjectName"
+                            optionValue="ProjectID"
+                            :filter="true"
+                            v-model="search.ProjectIDArray"
+                            :virtualScrollerOptions="{ itemSize: 38 }"
+                        />
+                    </div>
+                </div>
+            </div>
 
-      <div class="field col-12 sm:col-12 md:col-12">
-        <router-link :to="'/project/detail?projects=' + search.ProjectIDArray">
-          <Button severity="secondary" label="ทะเบียนฟาร์ม" />
-        </router-link>
-        <router-link
-          :to="'/project/detail-animal?projects=' + search.ProjectIDArray"
-        >
-          <Button severity="secondary" label="ทะเบียนสัตว์" class="ml-2" />
-        </router-link>
-        <router-link
-          :to="'/project/detail-diary?projects=' + search.ProjectIDArray"
-        >
-          <Button severity="secondary" label="กิจกรรมแจ้งเตือน" class="ml-2" />
-        </router-link>
+            <div class="field col-12 sm:col-12 md:col-12">
+                <router-link
+                    :to="'/project/detail?projects=' + search.ProjectIDArray"
+                >
+                    <Button severity="secondary" label="ทะเบียนฟาร์ม" />
+                </router-link>
+                <router-link
+                    :to="
+                        '/project/detail-animal?projects=' +
+                        search.ProjectIDArray
+                    "
+                >
+                    <Button
+                        severity="secondary"
+                        label="ทะเบียนสัตว์"
+                        class="ml-2"
+                    />
+                </router-link>
+                <router-link
+                    :to="
+                        '/project/detail-diary?projects=' +
+                        search.ProjectIDArray
+                    "
+                >
+                    <Button
+                        severity="secondary"
+                        label="กิจกรรมแจ้งเตือน"
+                        class="ml-2"
+                    />
+                </router-link>
 
-        <router-link
-          :to="'/project/detail-ai?projects=' + search.ProjectIDArray"
-        >
-          <Button severity="primary" label="โครงการผสมเทียม" class="ml-2" />
-        </router-link>
-      </div>
+                <router-link
+                    :to="'/project/detail-ai?projects=' + search.ProjectIDArray"
+                >
+                    <Button
+                        severity="primary"
+                        label="โครงการผสมเทียม"
+                        class="ml-2"
+                    />
+                </router-link>
+            </div>
 
-      <div class="card mb-5">
-        <div v-if="loader" class="grid">
-          <div class="col-12">
-            <h1 class="text-xl mb-4 text-500">เครื่องมือช่วยค้นหา</h1>
-          </div>
+            <div class="card mb-5">
+                <div v-if="loader" class="grid">
+                    <div class="col-12">
+                        <h1 class="text-xl mb-4 text-500">
+                            เครื่องมือช่วยค้นหา
+                        </h1>
+                    </div>
 
-          <div class="col-12 sm:col-6 lg:col-6">
-            <label for="AIZoneID" class="block text-600 text-sm font-bold mb-2">
-              ศูนย์วิจัย</label
-            >
-            <Dropdown
-              class="w-full"
-              v-model="search.AIZoneID"
-              :options="dropdown.AIZones"
-              optionLabel="AIZoneName"
-              optionValue="AIZoneID"
-              :disabled="isSelectAIZoneDisabled"
-              :filter="true"
-              :showClear="true"
-              placeholder="-- โปรดเลือกศูนย์วิจัย --"
-            >
-            </Dropdown>
-          </div>
+                    <div class="col-12 sm:col-6 lg:col-6">
+                        <label
+                            for="AIZoneID"
+                            class="block text-600 text-sm font-bold mb-2"
+                        >
+                            ศูนย์วิจัย</label
+                        >
+                        <Dropdown
+                            class="w-full"
+                            v-model="search.AIZoneID"
+                            :options="dropdown.AIZones"
+                            optionLabel="AIZoneName"
+                            optionValue="AIZoneID"
+                            :disabled="isSelectAIZoneDisabled"
+                            :filter="true"
+                            :showClear="true"
+                            placeholder="-- โปรดเลือกศูนย์วิจัย --"
+                        >
+                        </Dropdown>
+                    </div>
 
-          <div class="col-12 sm:col-6 lg:col-6">
-            <label
-              for="searchOrganizationZoneID"
-              class="block text-600 text-sm font-bold mb-2"
-            >
-              เขตพื้นที่ปศุสัตว์</label
-            >
-            <Dropdown
-              class="w-full"
-              v-model="search.OrganizationZoneID"
-              :options="dropdown.OrganizationZones"
-              optionLabel="OrganizationZoneName"
-              optionValue="OrganizationZoneID"
-              :disabled="isSelectOrganizationZoneDisabled"
-              :filter="true"
-              :showClear="true"
-              placeholder="-- เลือกเขตพื้นที่ปศุสัตว์ --"
-            >
-            </Dropdown>
-          </div>
+                    <div class="col-12 sm:col-6 lg:col-6">
+                        <label
+                            for="searchOrganizationZoneID"
+                            class="block text-600 text-sm font-bold mb-2"
+                        >
+                            เขตพื้นที่ปศุสัตว์</label
+                        >
+                        <Dropdown
+                            class="w-full"
+                            v-model="search.OrganizationZoneID"
+                            :options="dropdown.OrganizationZones"
+                            optionLabel="OrganizationZoneName"
+                            optionValue="OrganizationZoneID"
+                            :disabled="isSelectOrganizationZoneDisabled"
+                            :filter="true"
+                            :showClear="true"
+                            placeholder="-- เลือกเขตพื้นที่ปศุสัตว์ --"
+                        >
+                        </Dropdown>
+                    </div>
 
-          <div class="col-12 sm:col-6 lg:col-4">
-            <label
-              for="searchProvinceID"
-              class="block text-600 text-sm font-bold mb-2"
-            >
-              จังหวัด</label
-            >
-            <Dropdown
-              class="w-full"
-              v-model="search.ProvinceID"
-              :options="dropdown.Provinces"
-              optionLabel="ProvinceName"
-              optionValue="ProvinceID"
-              :filter="true"
-              :showClear="true"
-              placeholder="ทั้งหมด"
-            >
-            </Dropdown>
-          </div>
+                    <div class="col-12 sm:col-6 lg:col-4">
+                        <label
+                            for="searchProvinceID"
+                            class="block text-600 text-sm font-bold mb-2"
+                        >
+                            จังหวัด</label
+                        >
+                        <Dropdown
+                            class="w-full"
+                            v-model="search.ProvinceID"
+                            :options="dropdown.Provinces"
+                            optionLabel="ProvinceName"
+                            optionValue="ProvinceID"
+                            :filter="true"
+                            :showClear="true"
+                            placeholder="ทั้งหมด"
+                        >
+                        </Dropdown>
+                    </div>
 
-          <div class="col-12 sm:col-6 lg:col-4">
-            <label
-              for="searchAmphurID"
-              class="block text-600 text-sm font-bold mb-2"
-            >
-              อำเภอ</label
-            >
-            <Dropdown
-              class="w-full"
-              v-model="search.AmphurID"
-              :options="dropdown.Amphurs"
-              optionLabel="AmphurName"
-              optionValue="AmphurID"
-              :filter="true"
-              :showClear="true"
-              placeholder="ทั้งหมด"
-            >
-            </Dropdown>
-          </div>
+                    <div class="col-12 sm:col-6 lg:col-4">
+                        <label
+                            for="searchAmphurID"
+                            class="block text-600 text-sm font-bold mb-2"
+                        >
+                            อำเภอ</label
+                        >
+                        <Dropdown
+                            class="w-full"
+                            v-model="search.AmphurID"
+                            :options="dropdown.Amphurs"
+                            optionLabel="AmphurName"
+                            optionValue="AmphurID"
+                            :filter="true"
+                            :showClear="true"
+                            placeholder="ทั้งหมด"
+                        >
+                        </Dropdown>
+                    </div>
 
-          <div class="col-12 sm:col-6 lg:col-4">
-            <label
-              for="searchTumbolID"
-              class="block text-600 text-sm font-bold mb-2"
-            >
-              ตำบล</label
-            >
-            <Dropdown
-              class="w-full"
-              v-model="search.TumbolID"
-              :options="dropdown.Tumbols"
-              optionLabel="TumbolName"
-              optionValue="TumbolID"
-              :filter="true"
-              :showClear="true"
-              placeholder="ทั้งหมด"
-            >
-            </Dropdown>
-          </div>
+                    <div class="col-12 sm:col-6 lg:col-4">
+                        <label
+                            for="searchTumbolID"
+                            class="block text-600 text-sm font-bold mb-2"
+                        >
+                            ตำบล</label
+                        >
+                        <Dropdown
+                            class="w-full"
+                            v-model="search.TumbolID"
+                            :options="dropdown.Tumbols"
+                            optionLabel="TumbolName"
+                            optionValue="TumbolID"
+                            :filter="true"
+                            :showClear="true"
+                            placeholder="ทั้งหมด"
+                        >
+                        </Dropdown>
+                    </div>
 
-          <div class="col-12 sm:col-12 lg:col-6">
-            <label
-              for="searchOrganizationID"
-              class="block text-600 text-sm font-bold mb-2"
-            >
-              ประเภทหน่วยงาน</label
-            >
-            <Dropdown
-              :showClear="true"
-              class="w-full"
-              placeholder="ทั้งหมด"
-              optionLabel="OrganizationTypeName"
-              optionValue="OrganizationTypeID"
-              :virtualScrollerOptions="{ itemSize: 38 }"
-              :options="dropdown.OrganizationTypes"
-              :filter="true"
-              v-model="search.OrganizationTypeID"
-            />
-          </div>
+                    <div class="col-12 sm:col-12 lg:col-6">
+                        <label
+                            for="searchOrganizationID"
+                            class="block text-600 text-sm font-bold mb-2"
+                        >
+                            ประเภทหน่วยงาน</label
+                        >
+                        <Dropdown
+                            :showClear="true"
+                            class="w-full"
+                            placeholder="ทั้งหมด"
+                            optionLabel="OrganizationTypeName"
+                            optionValue="OrganizationTypeID"
+                            :virtualScrollerOptions="{ itemSize: 38 }"
+                            :options="dropdown.OrganizationTypes"
+                            :filter="true"
+                            v-model="search.OrganizationTypeID"
+                        />
+                    </div>
 
-          <div class="col-12 sm:col-12 lg:col-6">
-            <label
-              for="searchOrganizationID"
-              class="block text-600 text-sm font-bold mb-2"
-            >
-              หน่วยงาน</label
-            >
-            <Dropdown
-              :showClear="true"
-              class="w-full"
-              placeholder="ทั้งหมด"
-              optionLabel="OrganizationFull"
-              optionValue="OrganizationID"
-              :virtualScrollerOptions="{ itemSize: 38 }"
-              :options="dropdown.Organizations"
-              :filter="true"
-              v-model="search.OrganizationID"
-            />
-          </div>
+                    <div class="col-12 sm:col-12 lg:col-6">
+                        <label
+                            for="searchOrganizationID"
+                            class="block text-600 text-sm font-bold mb-2"
+                        >
+                            หน่วยงาน</label
+                        >
+                        <Dropdown
+                            :showClear="true"
+                            class="w-full"
+                            placeholder="ทั้งหมด"
+                            optionLabel="OrganizationFull"
+                            optionValue="OrganizationID"
+                            :virtualScrollerOptions="{ itemSize: 38 }"
+                            :options="dropdown.Organizations"
+                            :filter="true"
+                            v-model="search.OrganizationID"
+                        />
+                    </div>
 
-          <div class="col-6 sm:col-6 lg:col-6">
-            <label
-              for="searchSubDistrict"
-              class="block text-600 text-sm font-bold mb-2"
-            >
-              ฟาร์ม</label
-            >
+                    <div class="col-6 sm:col-6 lg:col-6">
+                        <label
+                            for="searchSubDistrict"
+                            class="block text-600 text-sm font-bold mb-2"
+                        >
+                            ฟาร์ม</label
+                        >
 
-            <v-select
-              v-model="search.FarmID"
-              :options="dropdown.Farms"
-              @search="fetchFarm"
-              label="Fullname"
-              value="FarmID"
-              class="w-full"
-              placeholder="เลือกฟาร์มปลายทาง (พิมพ์ 3 ตัวอักษรเพื่อค้นหา)"
-            ></v-select>
-          </div>
+                        <v-select
+                            v-model="search.FarmID"
+                            :options="dropdown.Farms"
+                            @search="fetchFarm"
+                            label="Fullname"
+                            value="FarmID"
+                            class="w-full"
+                            placeholder="เลือกฟาร์มปลายทาง (พิมพ์ 3 ตัวอักษรเพื่อค้นหา)"
+                        ></v-select>
+                    </div>
 
-          <div class="col-6 sm:col-6 lg:col-6">
-            <label class="block text-600 text-sm font-bold mb-2">
-              น้ำเชื้อ</label
-            >
-            <Dropdown
-              :show-clear="true"
-              :virtualScrollerOptions="{ itemSize: 38 }"
-              emptyMessage="ไม่มีข้อมูล"
-              emptyFilterMessage="ไม่พบข้อมูล"
-              class="w-full"
-              placeholder="เลือกน้ำเชื้อ"
-              optionLabel="SemenNumber"
-              optionValue="SemenID"
-              v-model="search.SemenID"
-              :options="dropdown.Semens"
-              :filter="true"
-            />
-          </div>
-          <div class="col-12 sm:col-12 lg:col-12">
-            <label
-              for="dateRange"
-              class="block text-600 text-sm font-bold mb-2"
-            >
-              ช่วงวันที่บันทึกข้อมูล</label
-            >
-            <Datepicker
-              v-model="search.AIDate"
-              range
-              id="dateRange"
-              locale="th"
-              :format="format"
-              utc
-              :enableTimePicker="false"
-              cancelText="ยกเลิก"
-              selectText="ยืนยัน"
-              placeholder="ตั้งแต่วันที่ - จนถึงวันที่"
-            >
-              <template #year-overlay-value="{ text }">
-                {{ parseInt(text) + 543 }}
-              </template>
-              <template #year="{ year }">
-                {{ year + 543 }}
-              </template>
-            </Datepicker>
-          </div>
+                    <div class="col-6 sm:col-6 lg:col-6">
+                        <label class="block text-600 text-sm font-bold mb-2">
+                            น้ำเชื้อ</label
+                        >
+                        <Dropdown
+                            :show-clear="true"
+                            :virtualScrollerOptions="{ itemSize: 38 }"
+                            emptyMessage="ไม่มีข้อมูล"
+                            emptyFilterMessage="ไม่พบข้อมูล"
+                            class="w-full"
+                            placeholder="เลือกน้ำเชื้อ"
+                            optionLabel="SemenNumber"
+                            optionValue="SemenID"
+                            v-model="search.SemenID"
+                            :options="dropdown.Semens"
+                            :filter="true"
+                        />
+                    </div>
 
-          <!-- <div class="col-12 sm:col-6 lg:col-3">
+                    <div class="col-6 sm:col-6 lg:col-6">
+                        <label
+                            for="dateRange"
+                            class="block text-600 text-sm font-bold mb-2"
+                        >
+                            ช่วงวันที่ผสมเทียม</label
+                        >
+                        <Datepicker
+                            v-model="search.AIDate"
+                            range
+                            id="dateRange"
+                            locale="th"
+                            :format="format"
+                            utc
+                            :enableTimePicker="false"
+                            cancelText="ยกเลิก"
+                            selectText="ยืนยัน"
+                            placeholder="ตั้งแต่วันที่ - จนถึงวันที่"
+                        >
+                            <template #year-overlay-value="{ text }">
+                                {{ parseInt(text) + 543 }}
+                            </template>
+                            <template #year="{ year }">
+                                {{ year + 543 }}
+                            </template>
+                        </Datepicker>
+                    </div>
+
+                    <div class="col-6 sm:col-6 lg:col-6">
+                        <label
+                            for="dateRange"
+                            class="block text-600 text-sm font-bold mb-2"
+                        >
+                            ช่วงวันที่บันทึกข้อมูล</label
+                        >
+                        <Datepicker
+                            v-model="search.CreatedDate"
+                            range
+                            id="dateRange"
+                            locale="th"
+                            :format="format"
+                            utc
+                            :enableTimePicker="false"
+                            cancelText="ยกเลิก"
+                            selectText="ยืนยัน"
+                            placeholder="ตั้งแต่วันที่ - จนถึงวันที่"
+                        >
+                            <template #year-overlay-value="{ text }">
+                                {{ parseInt(text) + 543 }}
+                            </template>
+                            <template #year="{ year }">
+                                {{ year + 543 }}
+                            </template>
+                        </Datepicker>
+                    </div>
+
+                    <!-- <div class="col-12 sm:col-6 lg:col-3">
             <label
               for="selectedFarm"
               class="block text-600 text-sm font-bold mb-2"
@@ -287,7 +341,7 @@
             <InputText class="w-full" type="text" v-model="params.AnimalName" />
           </div> -->
 
-          <!-- <div class="col-12 sm:col-6 lg:col-3">
+                    <!-- <div class="col-12 sm:col-6 lg:col-3">
             <label
               for="animal_id"
               class="block text-600 text-sm font-bold mb-2"
@@ -308,7 +362,7 @@
 
           </div> -->
 
-          <!-- <div class="col-12 sm:col-12 lg:col-4">
+                    <!-- <div class="col-12 sm:col-12 lg:col-4">
             <label
               for="selectedUnit"
               class="block text-600 text-sm font-bold mb-2"
@@ -328,7 +382,7 @@
               v-model="search.FarmID"
             />
           </div> -->
-          <!-- 
+                    <!-- 
           <div
             class="col-12 sm:col-6 lg:col-4"
             v-if="this.user.GroupID == 1 || this.user.GroupID == 2"
@@ -435,7 +489,7 @@
             />
           </div> -->
 
-          <!-- <div class="col-12 sm:col-6 lg:col-4">
+                    <!-- <div class="col-12 sm:col-6 lg:col-4">
             <label
               for="selectedScheme"
               class="block text-600 text-sm font-bold mb-2"
@@ -517,7 +571,7 @@
             />
           </div> -->
 
-          <!-- <div class="col-12 sm:col-6 lg:col-3">
+                    <!-- <div class="col-12 sm:col-6 lg:col-3">
             <label
               for="selectedFarm"
               class="block text-600 text-sm font-bold mb-2"
@@ -566,7 +620,7 @@
             />
           </div> -->
 
-          <!-- <Accordion class="col-12 sm:col-12 lg:col-12">
+                    <!-- <Accordion class="col-12 sm:col-12 lg:col-12">
             <AccordionTab header="ค้นหาขั้นสูง">
               <div class="grid">
                 <div class="col-12 sm:col-6 lg:col-4">
@@ -699,78 +753,82 @@
             </AccordionTab>
           </Accordion> -->
 
-          <div class="col-12 sm:col-12 lg:col-12">
-            <Button
-              @click="onSearch"
-              label="ค้นหา"
-              icon=""
-              style="width: 100%"
-              class="mr-2 mb-3"
-            />
-          </div>
-        </div>
+                    <div class="col-12 sm:col-12 lg:col-12">
+                        <Button
+                            @click="onSearch"
+                            label="ค้นหา"
+                            icon=""
+                            style="width: 100%"
+                            class="mr-2 mb-3"
+                        />
+                    </div>
+                </div>
 
-        <div v-else class="grid">
-          <div class="col-12">
-            <Skeleton width="20rem" height="2rem" class="mb-4"></Skeleton>
-          </div>
-          <div class="col-12 sm:col-6 lg:col-4">
-            <Skeleton width="5rem" class="mb-2"></Skeleton>
-            <Skeleton height="2rem"></Skeleton>
-          </div>
-          <div class="col-12 sm:col-6 lg:col-4">
-            <Skeleton width="5rem" class="mb-2"></Skeleton>
-            <Skeleton height="2rem"></Skeleton>
-          </div>
-          <div class="col-12 sm:col-6 lg:col-4">
-            <Skeleton width="5rem" class="mb-2"></Skeleton>
-            <Skeleton height="2rem"></Skeleton>
-          </div>
-          <div class="col-12 sm:col-6 lg:col-4">
-            <Skeleton width="5rem" class="mb-2"></Skeleton>
-            <Skeleton height="2rem"></Skeleton>
-          </div>
-          <div class="col-12 sm:col-6 lg:col-4">
-            <Skeleton width="5rem" class="mb-2"></Skeleton>
-            <Skeleton height="2rem"></Skeleton>
-          </div>
-          <div class="col-12 sm:col-6 lg:col-4">
-            <Skeleton width="5rem" class="mb-2"></Skeleton>
-            <Skeleton height="2rem"></Skeleton>
-          </div>
-          <div class="col-12 sm:col-6 lg:col-4">
-            <Skeleton width="5rem" class="mb-2"></Skeleton>
-            <Skeleton height="2rem"></Skeleton>
-          </div>
-          <div class="col-12 sm:col-6 lg:col-4">
-            <Skeleton width="5rem" class="mb-2"></Skeleton>
-            <Skeleton height="2rem"></Skeleton>
-          </div>
-          <div class="col-12 sm:col-6 lg:col-4">
-            <Skeleton width="5rem" class="mb-2"></Skeleton>
-            <Skeleton height="2rem"></Skeleton>
-          </div>
-          <div class="col-12 sm:col-6 lg:col-4">
-            <Skeleton width="5rem" class="mb-2"></Skeleton>
-            <Skeleton height="2rem"></Skeleton>
-          </div>
-          <div class="col-12 sm:col-6 lg:col-4">
-            <Skeleton width="5rem" class="mb-2"></Skeleton>
-            <Skeleton height="2rem"></Skeleton>
-          </div>
-          <div class="col-12">
-            <div class="grid">
-              <div class="col-12">
-                <Skeleton width="5rem" class="mb-2"></Skeleton>
-                <Skeleton height="2rem" class="mb-2"></Skeleton>
-              </div>
+                <div v-else class="grid">
+                    <div class="col-12">
+                        <Skeleton
+                            width="20rem"
+                            height="2rem"
+                            class="mb-4"
+                        ></Skeleton>
+                    </div>
+                    <div class="col-12 sm:col-6 lg:col-4">
+                        <Skeleton width="5rem" class="mb-2"></Skeleton>
+                        <Skeleton height="2rem"></Skeleton>
+                    </div>
+                    <div class="col-12 sm:col-6 lg:col-4">
+                        <Skeleton width="5rem" class="mb-2"></Skeleton>
+                        <Skeleton height="2rem"></Skeleton>
+                    </div>
+                    <div class="col-12 sm:col-6 lg:col-4">
+                        <Skeleton width="5rem" class="mb-2"></Skeleton>
+                        <Skeleton height="2rem"></Skeleton>
+                    </div>
+                    <div class="col-12 sm:col-6 lg:col-4">
+                        <Skeleton width="5rem" class="mb-2"></Skeleton>
+                        <Skeleton height="2rem"></Skeleton>
+                    </div>
+                    <div class="col-12 sm:col-6 lg:col-4">
+                        <Skeleton width="5rem" class="mb-2"></Skeleton>
+                        <Skeleton height="2rem"></Skeleton>
+                    </div>
+                    <div class="col-12 sm:col-6 lg:col-4">
+                        <Skeleton width="5rem" class="mb-2"></Skeleton>
+                        <Skeleton height="2rem"></Skeleton>
+                    </div>
+                    <div class="col-12 sm:col-6 lg:col-4">
+                        <Skeleton width="5rem" class="mb-2"></Skeleton>
+                        <Skeleton height="2rem"></Skeleton>
+                    </div>
+                    <div class="col-12 sm:col-6 lg:col-4">
+                        <Skeleton width="5rem" class="mb-2"></Skeleton>
+                        <Skeleton height="2rem"></Skeleton>
+                    </div>
+                    <div class="col-12 sm:col-6 lg:col-4">
+                        <Skeleton width="5rem" class="mb-2"></Skeleton>
+                        <Skeleton height="2rem"></Skeleton>
+                    </div>
+                    <div class="col-12 sm:col-6 lg:col-4">
+                        <Skeleton width="5rem" class="mb-2"></Skeleton>
+                        <Skeleton height="2rem"></Skeleton>
+                    </div>
+                    <div class="col-12 sm:col-6 lg:col-4">
+                        <Skeleton width="5rem" class="mb-2"></Skeleton>
+                        <Skeleton height="2rem"></Skeleton>
+                    </div>
+                    <div class="col-12">
+                        <div class="grid">
+                            <div class="col-12">
+                                <Skeleton width="5rem" class="mb-2"></Skeleton>
+                                <Skeleton height="2rem" class="mb-2"></Skeleton>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
 
-      <div class="card">
-        <!-- <div class="col-12 md:col-12 md:text-right">
+            <div class="card">
+                <!-- <div class="col-12 md:col-12 md:text-right">
           <Button
             @click="onExport()"
             label="ดาวน์โหลด"
@@ -779,80 +837,84 @@
           />
         </div> -->
 
-        <DataTable
-          class="text-sm"
-          :value="data"
-          :exportable="true"
-          ref="dt"
-          :rowHover="true"
-          :loading="isLoading"
-          :paginator="true"
-          v-model:rows="this.rowPerPage"
-          paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
-          :rowsPerPageOptions="[10, 20, 50]"
-          responsiveLayout="scroll"
-          currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
-          :totalRecords="table.total"
-          @page="load"
-          @sort="sort($event)"
-          lazy
-        >
-          <Column
-            v-for="col of columns"
-            :field="col.field"
-            :header="col.header"
-            :key="col.field"
-            class="text-center"
-            :sortable="true"
-          />
+                <DataTable
+                    class="text-sm"
+                    :value="data"
+                    :exportable="true"
+                    ref="dt"
+                    :rowHover="true"
+                    :loading="isLoading"
+                    :paginator="true"
+                    v-model:rows="this.rowPerPage"
+                    paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+                    :rowsPerPageOptions="[10, 20, 50]"
+                    responsiveLayout="scroll"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
+                    :totalRecords="table.total"
+                    @page="load"
+                    @sort="sort($event)"
+                    lazy
+                >
+                    <Column
+                        v-for="col of columns"
+                        :field="col.field"
+                        :header="col.header"
+                        :key="col.field"
+                        class="text-center"
+                        :sortable="true"
+                    />
 
-          <Column header="น้ำเชื้อ/พ่อพันธุ์" class="text-center">
-            <template #body="slotProps">
-              <span v-if="slotProps.data.Semen?.SemenNumber != null">{{
-                slotProps.data.SemenNumber
-              }}</span>
-              <span v-else>{{
-                slotProps.data.BreederAnimal?.AnimalEarID
-              }}</span>
-            </template>
-          </Column>
+                    <Column header="น้ำเชื้อ/พ่อพันธุ์" class="text-center">
+                        <template #body="slotProps">
+                            <span
+                                v-if="slotProps.data.Semen?.SemenNumber != null"
+                                >{{ slotProps.data.SemenNumber }}</span
+                            >
+                            <span v-else>{{
+                                slotProps.data.BreederAnimal?.AnimalEarID
+                            }}</span>
+                        </template>
+                    </Column>
 
-          <Column
-            v-for="col of columns2"
-            :field="col.field"
-            :header="col.header"
-            :key="col.field"
-            class="text-center"
-            :sortable="true"
-          />
+                    <Column
+                        v-for="col of columns2"
+                        :field="col.field"
+                        :header="col.header"
+                        :key="col.field"
+                        class="text-center"
+                        :sortable="true"
+                    />
 
-          <Column header="จัดการ" class="text-center">
-            <template #body="slotProps">
-              <SplitButton
-                v-if="slotProps.data.AnimalID"
-                label="แก้ไข"
-                icon="pi pi-pencil"
-                class="p-button-sm p-button-outlined p-button-warning"
-                @click="edit(slotProps.data.AnimalID)"
-                :model="
-                  getItems(
-                    slotProps.data.AnimalID,
-                    slotProps.data.Animal.AnimalSecretStatus,
-                    slotProps.data.Animal.AnimalEarID
-                  )
-                "
-              >
-                <!-- //   :model="getItems(slotProps.data.AnimalID)"  -->
-              </SplitButton>
-            </template>
-          </Column>
-          <template #empty> ไม่พบข้อมูล </template>
-          <template #loading>
-            <h1 class="text-white text-center">กรุณารอสักครู่...</h1>
-          </template>
-        </DataTable>
+                    <Column header="จัดการ" class="text-center">
+                        <template #body="slotProps">
+                            <SplitButton
+                                v-if="slotProps.data.AnimalID"
+                                label="แก้ไข"
+                                icon="pi pi-pencil"
+                                class="p-button-sm p-button-outlined p-button-warning"
+                                @click="edit(slotProps.data.AnimalID)"
+                                :model="
+                                    getItems(
+                                        slotProps.data.AnimalID,
+                                        slotProps.data.Animal
+                                            .AnimalSecretStatus,
+                                        slotProps.data.Animal.AnimalEarID
+                                    )
+                                "
+                            >
+                                <!-- //   :model="getItems(slotProps.data.AnimalID)"  -->
+                            </SplitButton>
+                        </template>
+                    </Column>
+                    <template #empty> ไม่พบข้อมูล </template>
+                    <template #loading>
+                        <h1 class="text-white text-center">
+                            กรุณารอสักครู่...
+                        </h1>
+                    </template>
+                </DataTable>
 
-        <!-- <DataTable
+                <!-- <DataTable
           class="text-sm"
           :value="data"
           :paginator="true"
@@ -862,25 +924,25 @@
           responsiveLayout="scroll"
           currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
         > -->
-        <!-- <Column field="PAR" , header="ท้องที่" class="text-center"></Column> -->
-        <!-- <Column
+                <!-- <Column field="PAR" , header="ท้องที่" class="text-center"></Column> -->
+                <!-- <Column
             field="TimeNo"
             header="ครั้งที่ผสม"
             class="text-center"
           ></Column> -->
-        <!-- <Column
+                <!-- <Column
             field="SemenID"
             header="หมายเลขน้ำเชื้อที่ใช้"
             class="text-center"
           >
         
         </Column> -->
-        <!-- <Column
+                <!-- <Column
             field="ThaiAIDate"
             header="วันที่ผสม"
             class="text-center"
           ></Column> -->
-        <!-- <Column field="Dose" header="จำนวนโด๊ส" class="text-center"></Column>
+                <!-- <Column field="Dose" header="จำนวนโด๊ส" class="text-center"></Column>
 
           <Column field="AIStatusName" header="ผล" class="text-center"></Column>
 
@@ -889,7 +951,7 @@
             header="เจ้าหน้าที่"
             class="text-center"
           ></Column> -->
-        <!-- <Column header="จัดการ" class="text-center">
+                <!-- <Column header="จัดการ" class="text-center">
             <template #body>
               <SplitButton
                 label="แก้ไข"
@@ -901,9 +963,9 @@
               </SplitButton>
             </template>
           </Column> -->
-        <!-- </DataTable> -->
+                <!-- </DataTable> -->
 
-        <!-- <DataTable
+                <!-- <DataTable
           class="text-sm"
           :value="data"
           :exportable="true"
@@ -1033,53 +1095,53 @@
             <h1 class="text-white text-center">กรุณารอสักครู่...</h1>
           </template>
         </DataTable> -->
-      </div>
-    </div>
-    <!-- end main page -->
-
-    <!-- Start Delete Dialog -->
-    <Dialog
-      header="ตรวจสอบข้อมูล"
-      v-model:visible="display_delete"
-      :style="{ width: '350px' }"
-      :modal="true"
-    >
-      <div class="confirmation-content text-center">
-        <i class="pi pi-trash" style="font-size: 5rem" />
-        <br />
-        <span class="text-xl">คุณต้องการลบข้อมูลใช่หรือไม่</span>
-      </div>
-      <template #footer>
-        <div class="col-12 text-center flex justify-content-between">
-          <Button
-            label="ยกเลิก"
-            @click="close_delete()"
-            class="p-button-secondary w-full mr-3"
-          />
-          <Button
-            label="ยืนยัน"
-            @click="remove()"
-            class="p-button-danger w-full ml-3"
-          />
+            </div>
         </div>
-      </template>
-    </Dialog>
-    <!-- End Delete Dialog -->
-    <!-- EDIT Dialog -->
+        <!-- end main page -->
 
-    <!-- End View Dialog -->
+        <!-- Start Delete Dialog -->
+        <Dialog
+            header="ตรวจสอบข้อมูล"
+            v-model:visible="display_delete"
+            :style="{ width: '350px' }"
+            :modal="true"
+        >
+            <div class="confirmation-content text-center">
+                <i class="pi pi-trash" style="font-size: 5rem" />
+                <br />
+                <span class="text-xl">คุณต้องการลบข้อมูลใช่หรือไม่</span>
+            </div>
+            <template #footer>
+                <div class="col-12 text-center flex justify-content-between">
+                    <Button
+                        label="ยกเลิก"
+                        @click="close_delete()"
+                        class="p-button-secondary w-full mr-3"
+                    />
+                    <Button
+                        label="ยืนยัน"
+                        @click="remove()"
+                        class="p-button-danger w-full ml-3"
+                    />
+                </div>
+            </template>
+        </Dialog>
+        <!-- End Delete Dialog -->
+        <!-- EDIT Dialog -->
 
-    <Dialog
-      header="กิจกรรม"
-      v-model:visible="displaytab"
-      :draggable="false"
-      :style="{ width: '75vw' }"
-      :modal="false"
-      :dismissableMask="true"
-    >
-      <VueCreatureInfo :display="true" v-if="displaytab" />
-    </Dialog>
-  </div>
+        <!-- End View Dialog -->
+
+        <Dialog
+            header="กิจกรรม"
+            v-model:visible="displaytab"
+            :draggable="false"
+            :style="{ width: '75vw' }"
+            :modal="false"
+            :dismissableMask="true"
+        >
+            <VueCreatureInfo :display="true" v-if="displaytab" />
+        </Dialog>
+    </div>
 </template>
 
 <script>
@@ -1102,1925 +1164,1961 @@ import dayjs from "dayjs";
 // import JsonExcel from "vue-json-excel3";
 
 export default {
-  components: {
-    PageTitle,
-    VueCreatureInfo,
-    // JsonExcel,
-    vSelect,
-  },
-  data() {
-    return {
-      columns: [
-        {
-          field: "Animal.AnimalEarID",
-          header: "หมายเลขใบหู",
-        },
-        {
-          field: "Animal.AnimalName",
-          header: "ชื่อสัตว์",
-        },
-        {
-          field: "PAR",
-          header: "ท้องที่",
-        },
-        {
-          field: "TimeNo",
-          header: "ครั้งที่ผสม",
-        },
-        {
-          field: "ThaiAIDate",
-          header: "วันที่ผสม",
-        },
-      ],
-      columns2: [
-        {
-          field: "Dose",
-          header: "จำนวนโด๊ส",
-        },
-        {
-          field: "BCS.BCSName",
-          header: "คะแนนร่างกาย",
-        },
-
-        {
-          field: "AIStatusName",
-          header: "ผล",
-        },
-        {
-          field: "ResponsibilityStaffName",
-          header: "เจ้าหน้าที่",
-        },
-      ],
-      rowPerPage: 10,
-      currentPage: 1,
-      url: {
-        Semen: "/semen/selection?includeAll=false",
-        AIZone: "/ai-zone/selection?includeAll=false",
-        OrganizationZone:
-          "/organization-zone/selection?includeAll=false&isActive=1",
-        OrganizationType:
-          "/organization-type/selection?includeAll=false&isActive=1",
-        Organization: "/organization/selection?includeAll=false&isActive=1",
-        Farm: "/farm/selection?includeAll=false&isActive=1",
-        Animal: "/animal",
-        AnimalSex: "/animal-sex/selection?includeAll=false&isActive=1",
-        ExportAnimal: "/animal/export-excel",
-        Province: "/province/selection?includeAll=false&isActive=1",
-        Amphur: "/amphur/selection?includeAll=false&isActive=1",
-        Tumbol: "/tumbol/selection?includeAll=false&isActive=1",
-        Project: "/project/selection?includeAll=false&isActive=1",
-        AnimalBreedID: "/animal-breed?includeAll=false&isActive=1",
-        AI: "/ai/with-animal",
-      },
-      breadcrumb: [
-        { label: "หน้าหลัก", to: "/" },
-        { label: "โครงการผสมเทียม", to: "" },
-      ],
-      // path รูป
-      path: null,
-      // load
-      displaytab: false,
-      data: [],
-      json_data: [],
-      Organization: [],
-      OrganizationZone: [],
-      Farm: [],
-      AnimalSex: [],
-      Tumbol: [],
-      Amphur: [],
-      Province: [],
-      parents: {
-        AnimalFatherEarID: null,
-        AnimalMotherEarID: null,
-      },
-
-      // สถานะการโหลด
-      loader: true,
-
-      //   Status: [
-      //     {
-      //       StatusName: "ทั้งหมด",
-      //       StatusID: "",
-      //     },
-      //     {
-      //       StatusName: "Active",
-      //       StatusID: "1",
-      //     },
-      //     {
-      //       StatusName: "InActive",
-      //       StatusID: "0",
-      //     },
-      //   ],
-      // หน้า page
-      curpage: 0,
-      isLoading: false,
-      valid: false,
-
-      // Params
-      params: {
-        page: 1,
-        size: 10,
-        orderByField: "AnimalID",
-        orderBy: "desc",
-        IsActive: null,
-      },
-
-      table: {
-        total: 0,
-        last_page: 0,
-      },
-
-      // กำหนดฟอร์มการส่ง
-      form: {
-        isActive: "",
-        SourceFarm: {
-          FarmName: "",
-        },
-      },
-
-      // form.SourceFarm.FarmName
-
-      // ผูกไว้ทำปุ่มค้นหา
-      dropdown: {
-        AIZones: [],
-        OrganizationZones: [],
-        Semens: [],
-        Provinces: [],
-        Amphurs: [],
-        Tumbols: [],
-        OrganizationTypes: [],
-        Organizations: [],
-        Farms: [],
-        Projects: [],
-        FarmAnimalTypes: [
-          { name: "โค", id: 1 },
-          { name: "กระบือ", id: 2 },
-          { name: "แพะ", id: 3 },
-          { name: "ทุกประเภทสัตว์", id: 99 },
-          { name: "ยังไม่ได้เลือกชนิดสัตว์", id: 98 },
-        ],
-      },
-      search: {
-        FarmIdentificationNumber: "",
-        FarmName: "",
-        FarmerFullName: "",
-        dateRange: null,
-        AIZoneID: null,
-        OrganizationZoneID: null,
-        ProvinceID: null,
-        AmphurID: null,
-        TumbolID: null,
-        OrganizationTypeID: null,
-        OrganizationID: null,
-        FarmID: null,
-        FarmAnimalType: null,
-        AnimalSexID: "",
-        AnimalSource: "",
-        StaffStartDate: "",
-        StaffEndDate: "",
-        Status: "",
-        SemenID: null,
-        AIDate: null,
-      },
-
-      // สร้างข้อมูลจำลอง
-      source: [
-        {
-          id: "BORN",
-          name: "เกิดในฟาร์ม",
-        },
-        {
-          id: "BUY",
-          name: "ซื้อมา",
-        },
-        {
-          id: "TRANSFER",
-          name: "ย้ายมา",
-        },
-      ],
-      status: [
-        { name: "เปิดใช้งาน", key: "A", value: 1 },
-        { name: "ปิดใช้งาน", key: "B", value: 0 },
-      ],
-      Status: [
-        {
-          StatusName: "ทั้งหมด",
-          StatusID: "",
-        },
-        {
-          StatusName: "เปิดใช้งาน",
-          StatusID: "1",
-        },
-        {
-          StatusName: "ปิดใช้งาน",
-          StatusID: "0",
-        },
-      ],
-
-      //  cancel requests      permit: null,
-      permit: null,
-      controller: new AbortController(),
-
-      // Modal
-      display_delete: false,
-      display_view: false,
-      pdfAnimalImg: null,
-    };
-  },
-  computed: {
-    ...mapGetters({
-      permission: "get_permission",
-      animal_id: "animal_id",
-      user: "user",
-    }),
-  },
-  mounted() {
-    // ข้อมูลหลัก
-    if (this.$route.query.projects) {
-      if (
-        this.$route.query.projects != null &&
-        this.$route.query.projects != "null" &&
-        this.$route.query.projects != "undefined" &&
-        this.$route.query.projects != ""
-      ) {
-        let pj = this.$route.query.projects.split(",");
-
-        this.search.Project = pj.map((e) => {
-          return parseInt(e);
-        });
-
-        this.params.ProjectID = pj.map((e) => {
-          return parseInt(e);
-        });
-
-        this.search.ProjectIDArray = pj.map((e) => {
-          return parseInt(e);
-        });
-      } else if (
-        this.$route.query.projects == "null" ||
-        this.$route.query.projects == ""
-      ) {
-        this.search.Project = [];
-      } else {
-        this.search.Project = [];
-      }
-    }
-
-    this.load();
-
-    // if (this.animal_id == 1) {
-    //   this.url.Project += "&ProjectLevel=ANIMAL&AnimalTypeID=[1,2,41,42]";
-    // } else if (this.animal_id == 2) {
-    //   this.url.Project += "&ProjectLevel=ANIMAL&AnimalTypeID=[3,4,43,44]";
-    // } else if (this.animal_id == 3) {
-    //   this.url.Project += "&ProjectLevel=ANIMAL&AnimalTypeID=[17,18,45,46]";
-    // }
-    axios
-      .get(this.url.Project, { signal: this.controller.signal })
-      .then((response) => {
-        this.project = response.data.rows;
-      });
-
-    this.form.isActive = this.status[0];
-
-    this.loadDefault();
-    this.permit = this.permission.filter((item) => {
-      return item.MenuID == 3;
-    });
-
-    if (store.state.user.Staff.Organization.OrganizationZoneID) {
-      this.search.OrganizationZoneID =
-        store.state.user.Staff.Organization.OrganizationZoneID;
-    }
-  },
-  watch: {
-    "search.AIZoneID"(val) {
-      if (val) {
-        this.search.OrganizationZoneID = null;
-        this.isSelectAIZoneDisabled = false;
-        this.isSelectOrganizationZoneDisabled = true;
-      } else {
-        this.isSelectAIZoneDisabled = false;
-        this.isSelectOrganizationZoneDisabled = false;
-      }
-
-      this.dropdown.Provinces = [];
-      this.dropdown.Amphurs = [];
-      this.dropdown.Tumbols = [];
-      this.dropdown.Organizations = [];
-      this.dropdown.Farms = [];
-      this.data = [];
-
-      if (this.isLoading == false) {
-        // this.isLoading = true;
-        setTimeout(() => {
-          this.fetchProvince();
-          //   this.fetchOrganization();
-          //   this.fetchFarm();
-          //   this.fetchAnimal();
-          //   this.exportExcel();
-          this.search.ProvinceID = null;
-          this.search.AmphurID = null;
-          this.search.TumbolID = null;
-          this.search.OrganizationID = null;
-          this.search.FarmID = null;
-
-          this.isLoading = false;
-        }, 1000);
-      }
+    components: {
+        PageTitle,
+        VueCreatureInfo,
+        // JsonExcel,
+        vSelect,
     },
-    "search.OrganizationZoneID"(val) {
-      if (val) {
-        this.search.AIZoneID = null;
-        this.isSelectAIZoneDisabled = true;
-        this.isSelectOrganizationZoneDisabled = false;
-      } else {
-        this.isSelectAIZoneDisabled = false;
-        this.isSelectOrganizationZoneDisabled = false;
-      }
+    data() {
+        return {
+            columns: [
+                {
+                    field: "Animal.AnimalEarID",
+                    header: "หมายเลขใบหู",
+                },
+                {
+                    field: "Animal.AnimalName",
+                    header: "ชื่อสัตว์",
+                },
+                {
+                    field: "PAR",
+                    header: "ท้องที่",
+                },
+                {
+                    field: "TimeNo",
+                    header: "ครั้งที่ผสม",
+                },
+                {
+                    field: "ThaiAIDate",
+                    header: "วันที่ผสม",
+                },
+            ],
+            columns2: [
+                {
+                    field: "Dose",
+                    header: "จำนวนโด๊ส",
+                },
+                {
+                    field: "BCS.BCSName",
+                    header: "คะแนนร่างกาย",
+                },
 
-      this.dropdown.Provinces = [];
-      this.dropdown.Amphurs = [];
-      this.dropdown.Tumbols = [];
-      this.dropdown.Organizations = [];
-      this.dropdown.Farms = [];
-      this.data = [];
+                {
+                    field: "AIStatusName",
+                    header: "ผล",
+                },
+                {
+                    field: "ResponsibilityStaffName",
+                    header: "เจ้าหน้าที่",
+                },
+            ],
+            rowPerPage: 10,
+            currentPage: 1,
+            url: {
+                Semen: "/semen/selection?includeAll=false",
+                AIZone: "/ai-zone/selection?includeAll=false",
+                OrganizationZone:
+                    "/organization-zone/selection?includeAll=false&isActive=1",
+                OrganizationType:
+                    "/organization-type/selection?includeAll=false&isActive=1",
+                Organization:
+                    "/organization/selection?includeAll=false&isActive=1",
+                Farm: "/farm/selection?includeAll=false&isActive=1",
+                Animal: "/animal",
+                AnimalSex: "/animal-sex/selection?includeAll=false&isActive=1",
+                ExportAnimal: "/animal/export-excel",
+                Province: "/province/selection?includeAll=false&isActive=1",
+                Amphur: "/amphur/selection?includeAll=false&isActive=1",
+                Tumbol: "/tumbol/selection?includeAll=false&isActive=1",
+                Project: "/project/selection?includeAll=false&isActive=1",
+                AnimalBreedID: "/animal-breed?includeAll=false&isActive=1",
+                AI: "/ai/with-animal",
+            },
+            breadcrumb: [
+                { label: "หน้าหลัก", to: "/" },
+                { label: "โครงการผสมเทียม", to: "" },
+            ],
+            // path รูป
+            path: null,
+            // load
+            displaytab: false,
+            data: [],
+            json_data: [],
+            Organization: [],
+            OrganizationZone: [],
+            Farm: [],
+            AnimalSex: [],
+            Tumbol: [],
+            Amphur: [],
+            Province: [],
+            parents: {
+                AnimalFatherEarID: null,
+                AnimalMotherEarID: null,
+            },
 
-      if (this.isLoading == false) {
-        // this.isLoading = true;
-        setTimeout(() => {
-          this.fetchProvince();
-          this.fetchOrganization();
-          //   this.fetchFarm();
-          //   this.fetchAnimal();
-          //   this.exportExcel();
-          this.search.ProvinceID = null;
-          this.search.AmphurID = null;
-          this.search.TumbolID = null;
-          this.search.OrganizationID = null;
-          this.search.FarmID = null;
-          this.isLoading = false;
-        }, 1000);
-      }
+            // สถานะการโหลด
+            loader: true,
+
+            //   Status: [
+            //     {
+            //       StatusName: "ทั้งหมด",
+            //       StatusID: "",
+            //     },
+            //     {
+            //       StatusName: "Active",
+            //       StatusID: "1",
+            //     },
+            //     {
+            //       StatusName: "InActive",
+            //       StatusID: "0",
+            //     },
+            //   ],
+            // หน้า page
+            curpage: 0,
+            isLoading: false,
+            valid: false,
+
+            // Params
+            params: {
+                page: 1,
+                size: 10,
+                orderByField: "AnimalID",
+                orderBy: "desc",
+                IsActive: null,
+            },
+
+            table: {
+                total: 0,
+                last_page: 0,
+            },
+
+            // กำหนดฟอร์มการส่ง
+            form: {
+                isActive: "",
+                SourceFarm: {
+                    FarmName: "",
+                },
+            },
+
+            // form.SourceFarm.FarmName
+
+            // ผูกไว้ทำปุ่มค้นหา
+            dropdown: {
+                AIZones: [],
+                OrganizationZones: [],
+                Semens: [],
+                Provinces: [],
+                Amphurs: [],
+                Tumbols: [],
+                OrganizationTypes: [],
+                Organizations: [],
+                Farms: [],
+                Projects: [],
+                FarmAnimalTypes: [
+                    { name: "โค", id: 1 },
+                    { name: "กระบือ", id: 2 },
+                    { name: "แพะ", id: 3 },
+                    { name: "ทุกประเภทสัตว์", id: 99 },
+                    { name: "ยังไม่ได้เลือกชนิดสัตว์", id: 98 },
+                ],
+            },
+            search: {
+                FarmIdentificationNumber: "",
+                FarmName: "",
+                FarmerFullName: "",
+                dateRange: null,
+                AIZoneID: null,
+                OrganizationZoneID: null,
+                ProvinceID: null,
+                AmphurID: null,
+                TumbolID: null,
+                OrganizationTypeID: null,
+                OrganizationID: null,
+                FarmID: null,
+                FarmAnimalType: null,
+                AnimalSexID: "",
+                AnimalSource: "",
+                StaffStartDate: "",
+                StaffEndDate: "",
+                Status: "",
+                SemenID: null,
+                AIDate: null,
+                CreatedDate: null,
+            },
+
+            // สร้างข้อมูลจำลอง
+            source: [
+                {
+                    id: "BORN",
+                    name: "เกิดในฟาร์ม",
+                },
+                {
+                    id: "BUY",
+                    name: "ซื้อมา",
+                },
+                {
+                    id: "TRANSFER",
+                    name: "ย้ายมา",
+                },
+            ],
+            status: [
+                { name: "เปิดใช้งาน", key: "A", value: 1 },
+                { name: "ปิดใช้งาน", key: "B", value: 0 },
+            ],
+            Status: [
+                {
+                    StatusName: "ทั้งหมด",
+                    StatusID: "",
+                },
+                {
+                    StatusName: "เปิดใช้งาน",
+                    StatusID: "1",
+                },
+                {
+                    StatusName: "ปิดใช้งาน",
+                    StatusID: "0",
+                },
+            ],
+
+            //  cancel requests      permit: null,
+            permit: null,
+            controller: new AbortController(),
+
+            // Modal
+            display_delete: false,
+            display_view: false,
+            pdfAnimalImg: null,
+        };
     },
-    "search.ProvinceID"() {
-      this.fetchAmphur();
-      this.fetchOrganization();
-      //   this.fetchFarm();
-      //   this.fetchAnimal();
-      //   this.exportExcel();
-      this.dropdown.Amphurs = [];
-      this.dropdown.Tumbols = [];
-
-      if (this.isLoading == false) {
-        // this.isLoading = true;
-        setTimeout(() => {
-          this.search.AmphurID = null;
-          this.search.TumbolID = null;
-          //   this.search.OrganizationTypeID = null;
-          this.search.OrganizationID = null;
-          this.search.FarmID = null;
-          this.isLoading = false;
-        }, 1000);
-      }
+    computed: {
+        ...mapGetters({
+            permission: "get_permission",
+            animal_id: "animal_id",
+            user: "user",
+        }),
     },
-    "search.AmphurID"() {
-      this.fetchTumbol();
-      this.fetchOrganization();
-      //   this.fetchFarm();
-      //   this.fetchAnimal();
-      //   this.exportExcel();
-      this.dropdown.Tumbols = [];
-
-      if (this.isLoading == false) {
-        // this.isLoading = true;
-        setTimeout(() => {
-          this.search.TumbolID = null;
-          //   this.search.OrganizationTypeID = null;
-          this.search.OrganizationID = null;
-          this.search.FarmID = null;
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
-    "search.TumbolID"() {
-      this.fetchOrganization();
-      //   this.fetchFarm();
-      //   this.fetchAnimal();
-      //   this.exportExcel();
-
-      if (this.isLoading == false) {
-        // this.isLoading = true;
-        setTimeout(() => {
-          this.search.OrganizationID = null;
-          this.search.FarmID = null;
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
-    "search.OrganizationTypeID"() {
-      this.fetchOrganization();
-
-      if (this.isLoading == false) {
-        // this.isLoading = true;
-        setTimeout(() => {
-          this.search.OrganizationID = null;
-          this.search.FarmID = null;
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
-    "search.OrganizationID"() {
-      //   this.fetchFarm();
-      //   this.fetchAnimal();
-      //   this.exportExcel();
-
-      if (this.isLoading == false) {
-        // this.isLoading = true;
-        setTimeout(() => {
-          this.search.FarmID = null;
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
-    "search.FarmID"() {
-      //   this.fetchAnimal();
-      //   this.exportExcel();
-
-      if (this.isLoading == false) {
-        // this.isLoading = true;
-        setTimeout(() => {
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
-    "search.ProjectIDArray"() {
-      //   this.fetchFarm();
-      //   this.fetchAnimal();
-      //   this.exportExcel();
-
-      if (this.isLoading == false) {
-        // this.isLoading = true;
-        setTimeout(() => {
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
-    "search.count_project_type"() {
-      //   this.fetchAnimal();
-      //   this.exportExcel();
-
-      if (this.isLoading == false) {
-        // this.isLoading = true;
-        setTimeout(() => {
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
-    // count_project_type
-    "search.FarmAnimalType"() {
-      //   this.fetchFarm();
-      //   this.fetchAnimal();
-      //   this.exportExcel();
-
-      if (this.isLoading == false) {
-        // this.isLoading = true;
-        setTimeout(() => {
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
-    "search.AnimalSexID"(val) {
-      if (val) {
-        this.params.AnimalSexID = val;
-      } else {
-        this.params.AnimalSexID = null;
-      }
-      if (this.isLoading == false) {
-        // this.isLoading = true;
-        setTimeout(() => {
-          //   this.fetchAnimal();
-          //   this.exportExcel();
-
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
-    "params.AnimalEarID"() {
-      //   this.fetchAnimal();
-      //   this.exportExcel();
-
-      if (this.isLoading == false) {
-        // this.isLoading = true;
-        setTimeout(() => {
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
-
-    "params.AnimalName"() {
-      //   this.fetchAnimal();
-      //   this.exportExcel();
-
-      if (this.isLoading == false) {
-        // this.isLoading = true;
-        setTimeout(() => {
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
-
-    "params.AnimalSexID"() {
-      //   this.fetchAnimal();
-      //   this.exportExcel();
-
-      if (this.isLoading == false) {
-        // this.isLoading = true;
-        setTimeout(() => {
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
-
-    "search.Status"() {
-      //   this.fetchAnimal();
-      //   this.exportExcel();
-
-      if (this.isLoading == false) {
-        // this.isLoading = true;
-        setTimeout(() => {
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
-
-    "parents.AnimalFatherEarID"() {
-      this.fetchFather();
-      if (this.isLoading == false) {
-        // this.isLoading = true;
-        setTimeout(() => {
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
-
-    "parents.AnimalMotherEarID"() {
-      this.fetchMother();
-      if (this.isLoading == false) {
-        // this.isLoading = true;
-        setTimeout(() => {
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
-
-    "params.AnimalAgeStart"() {
-      //   this.fetchAnimal();
-      //   this.exportExcel();
-
-      if (this.isLoading == false) {
-        // this.isLoading = true;
-        setTimeout(() => {
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
-
-    "params.AnimalAgeTo"() {
-      //   this.fetchAnimal();
-      //   this.exportExcel();
-
-      if (this.isLoading == false) {
-        // this.isLoading = true;
-        setTimeout(() => {
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
-
-    "params.AnimalBreedID1"() {
-      //   this.fetchAnimal();
-      //   this.exportExcel();
-
-      if (this.isLoading == false) {
-        // this.isLoading = true;
-        setTimeout(() => {
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
-
-    "params.AnimalBreedID2"() {
-      //   this.fetchAnimal();
-      //   this.exportExcel();
-
-      if (this.isLoading == false) {
-        // this.isLoading = true;
-        setTimeout(() => {
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
-
-    "params.AnimalBreedID3"() {
-      //   this.fetchAnimal();
-      //   this.exportExcel();
-
-      if (this.isLoading == false) {
-        // this.isLoading = true;
-        setTimeout(() => {
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
-
-    "params.AnimalBreedID4"() {
-      //   this.fetchAnimal();
-      //   this.exportExcel();
-
-      if (this.isLoading == false) {
-        // this.isLoading = true;
-        setTimeout(() => {
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
-
-    "params.AnimalBreedID5"() {
-      //   this.fetchAnimal();
-      //   this.exportExcel();
-
-      if (this.isLoading == false) {
-        // this.isLoading = true;
-        setTimeout(() => {
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
-  },
-  methods: {
-    openAnimal(id, earid) {
-      let data = {
-        AnimalEarID: earid,
-      };
-      store.dispatch("animalInfo", data);
-      // this.displaytab = true;
-
-      this.$router.push("/activity/creature_info_detail");
-      // setTimeout(() => {
-      // }, 1000);
-    },
-    getItems(id, menu, earid) {
-      let data = {
-        AnimalEarID: earid,
-      };
-      const items = [
-        // {
-        //   label: "พิมพ์ประวัติ",
-        //   icon: "pi pi-print",
-        //   command: async () => {
-        //     // window.open("../../pdf/Animal.pdf", "_blank");
-        //     await ArtificialReport();
-        //   },
-        // },
-      ];
-
-      if (menu.includes(2)) {
-        items.push({
-          label: "ผสมเทียม",
-          icon: "pi pi-search",
-          command: () => {
-            let tab = {
-              id: 0,
-              animal_id: this.animal_id,
-            };
-
-            store.dispatch("tabAnimal", tab);
-
-            store.dispatch("animalInfo", data);
-            this.displaytab = true;
-          },
-        });
-      }
-      if (menu.includes(3)) {
-        items.push({
-          label: "ย้ายฝากตัวอ่อน",
-          icon: "pi pi-search",
-          command: () => {
-            let tab = {
-              id: 1,
-              animal_id: this.animal_id,
-            };
-
-            store.dispatch("tabAnimal", tab);
-
-            store.dispatch("animalInfo", data);
-            this.displaytab = true;
-          },
-        });
-      }
-      if (menu.includes(4)) {
-        items.push({
-          label: "ตรวจการตั้งท้อง",
-          icon: "pi pi-search",
-          command: () => {
-            let tab = {
-              id: 2,
-              animal_id: this.animal_id,
-            };
-
-            store.dispatch("tabAnimal", tab);
-
-            store.dispatch("animalInfo", data);
-            this.displaytab = true;
-          },
-        });
-      }
-      if (menu.includes(5)) {
-        items.push({
-          label: "แท้ง",
-          icon: "pi pi-search",
-          command: () => {
-            let tab = {
-              id: 3,
-              animal_id: this.animal_id,
-            };
-
-            store.dispatch("tabAnimal", tab);
-
-            store.dispatch("animalInfo", data);
-            this.displaytab = true;
-          },
-        });
-      }
-      if (menu.includes(6)) {
-        items.push({
-          label: "คลอด",
-          icon: "pi pi-search",
-          command: () => {
-            let tab = {
-              id: 4,
-              animal_id: this.animal_id,
-            };
-
-            store.dispatch("tabAnimal", tab);
-
-            store.dispatch("animalInfo", data);
-            this.displaytab = true;
-          },
-        });
-      }
-      if (menu.includes(7) && this.animal_id != 3) {
-        items.push({
-          label: "ตรวจระบบสืบพันธุ์",
-          icon: "pi pi-search",
-          command: () => {
-            let tab = {
-              id: 11,
-              animal_id: this.animal_id,
-            };
-
-            store.dispatch("tabAnimal", tab);
-
-            store.dispatch("animalInfo", data);
-            this.displaytab = true;
-          },
-        });
-      }
-      if (menu.includes(8)) {
-        items.push({
-          label: "ติดตามลูกหลังคลอด",
-          icon: "pi pi-search",
-          command: () => {
-            let tab = {
-              id: 5,
-              animal_id: this.animal_id,
-            };
-
-            store.dispatch("tabAnimal", tab);
-
-            store.dispatch("animalInfo", data);
-            this.displaytab = true;
-          },
-        });
-      }
-      if (menu.includes(9)) {
-        items.push({
-          label: "หย่านม",
-          icon: "pi pi-search",
-          command: () => {
-            let tab = {
-              id: 6,
-              animal_id: this.animal_id,
-            };
-
-            store.dispatch("tabAnimal", tab);
-
-            store.dispatch("animalInfo", data);
-            this.displaytab = true;
-          },
-        });
-      }
-      if (menu.includes(1)) {
-        items.push({
-          label: "คัดจำหน่าย",
-          icon: "pi pi-search",
-          command: () => {
-            let tab = {
-              id: 9,
-              animal_id: this.animal_id,
-            };
-
-            store.dispatch("tabAnimal", tab);
-
-            store.dispatch("animalInfo", data);
-            this.displaytab = true;
-
-            // this.$router.push("/creature/edit/" + id);
-          },
-        });
-      }
-      return items;
-    },
-    validation() {
-      if (
-        !this.form.StaffNumber ||
-        !this.form.StaffIdentificationNumber ||
-        !this.form.StaffTitleID ||
-        !this.form.StaffGivenName ||
-        !this.form.StaffSurname ||
-        !this.form.StaffGenderID ||
-        !this.form.StaffOrganizationID ||
-        !this.form.StaffPositionTypeID ||
-        !this.form.StaffPositionID ||
-        !this.form.StaffStartDate ||
-        !this.form.StaffEmail ||
-        !this.form.StaffMobilePhone
-      ) {
-        this.valid = true;
-        this.$toast.add({
-          severity: "error",
-          summary: "ล้มเหลว",
-          detail: "กรุณากรอกข้อมูล",
-          life: 5000,
-        });
-        return false;
-      } else {
-        return true;
-      }
-    },
-    // Axios
-    async load(event) {
-      this.isLoading = true;
-
-      // สำหรับเปลี่ยนหน้า
-      if (event) {
-        this.params.page = event.page + 1;
-        this.currentPage = event.page + 1;
-      }
-
-      // กำหนด parameter
-      this.setParam();
-
-      if (typeof this.params.ProjectID !== "string") {
-        this.params.ProjectID = JSON.stringify(this.params.ProjectID);
-      }
-
-      this.fetchAnimal();
-    },
-
-    fetchAIZone() {
-      let params = {};
-      //  Fetch AIZone
-      axios
-        .get(this.url.AIZone, {
-          signal: this.controller.signal,
-          params: params,
-        })
-        .then((res) => {
-          this.dropdown.AIZones = res.data.rows;
-
-          this.dropdown.AIZones.push({
-            AIZoneID: 99,
-            AIZoneName: "ทั้งหมด",
-          });
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-    fetchOrganizationZone() {
-      let params = {};
-      //  Fetch OrganizationZone
-      axios
-        .get(this.url.OrganizationZone, {
-          signal: this.controller.signal,
-          params: params,
-        })
-        .then((res) => {
-          this.dropdown.OrganizationZones = res.data.rows;
-          this.dropdown.OrganizationZones.push({
-            OrganizationZoneID: 99,
-            OrganizationZoneName: "ทั้งหมด",
-          });
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-    fetchProject() {
-      let params = {};
-
-      if (this.animal_id == 1) {
-        params["AnimalTypeID"] = "[1,2,41,42]";
-      } else if (this.animal_id == 2) {
-        params["AnimalTypeID"] = "[3,4,43,44]";
-      } else if (this.animal_id == 3) {
-        params["AnimalTypeID"] = "[17,18,45,46]";
-      }
-
-      axios
-        .get(this.url.Project, {
-          signal: this.controller.signal,
-          params: params,
-        })
-        .then((res) => {
-          this.dropdown.Projects = res.data.rows;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-    fetchProvince() {
-      //  Fetch Province
-      let params = {};
-
-      if (this.search.AIZoneID != null) {
-        params["AIZoneID"] = this.search.AIZoneID;
-      }
-
-      if (this.search.OrganizationZoneID != null) {
-        params["OrganizationZoneID"] = this.search.OrganizationZoneID;
-      }
-      axios
-        .get(this.url.Province, {
-          signal: this.controller.signal,
-          params: params,
-        })
-        .then((res) => {
-          this.dropdown.Provinces = res.data.rows;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-
-    fetchAnimalSex() {
-      //  Fetch Province
-      let params = {};
-
-      if (this.search.AIZoneID != null) {
-        params["AIZoneID"] = this.search.AIZoneID;
-      }
-
-      if (this.search.OrganizationZoneID != null) {
-        params["OrganizationZoneID"] = this.search.OrganizationZoneID;
-      }
-      axios
-        .get(this.url.AnimalSex, {
-          signal: this.controller.signal,
-          params: params,
-        })
-        .then((res) => {
-          this.dropdown.AnimalSex = res.data.rows;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-    fetchAmphur() {
-      if (
-        this.search.AIZoneID == null &&
-        this.search.OrganizationZoneID == null &&
-        this.search.ProvinceID == null
-      ) {
-        return;
-      }
-
-      let params = {};
-
-      if (this.search.ProvinceID != null) {
-        params["ProvinceID"] = this.search.ProvinceID;
-      }
-
-      axios
-        .get(this.url.Amphur, {
-          signal: this.controller.signal,
-          params: params,
-        })
-        .then((res) => {
-          this.dropdown.Amphurs = res.data.rows;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-    fetchTumbol() {
-      if (
-        this.search.AIZoneID == null &&
-        this.search.OrganizationZoneID == null &&
-        this.search.AmphurID == null
-      ) {
-        return;
-      }
-
-      let params = {};
-
-      if (this.search.AmphurID != null) {
-        params["AmphurID"] = this.search.AmphurID;
-      }
-
-      axios
-        .get(this.url.Tumbol, {
-          signal: this.controller.signal,
-          params: params,
-        })
-        .then((res) => {
-          this.dropdown.Tumbols = res.data.rows;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-    fetchOrganizationType() {
-      let params = {};
-
-      axios
-        .get(this.url.OrganizationType, {
-          signal: this.controller.signal,
-          params: params,
-        })
-        .then((res) => {
-          this.dropdown.OrganizationTypes = res.data.rows;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-    fetchOrganization() {
-      if (
-        this.search.AIZoneID == null &&
-        this.search.OrganizationZoneID == null
-      ) {
-        return;
-      }
-
-      let params = {};
-
-      if (this.search.OrganizationTypeID != null) {
-        params["OrganizationTypeID"] = this.search.OrganizationTypeID;
-      }
-
-      // Province IN AIZOne
-      if (this.search.AIZoneID != null) {
-        params["OrganizationAiZoneID"] = this.search.AIZoneID;
-      }
-
-      if (this.search.OrganizationZoneID != null) {
-        params["OrganizationZoneID"] = this.search.OrganizationZoneID;
-      }
-
-      if (this.search.ProvinceID != null) {
-        params["ProvinceID"] = this.search.ProvinceID;
-      }
-
-      if (this.search.AmphurID != null) {
-        params["FarmAmphurID"] = this.search.AmphurID;
-      }
-
-      if (this.search.TumbolID != null) {
-        params["FarmTumbolID"] = this.search.TumbolID;
-      }
-
-      axios
-        .get(this.url.Organization, {
-          signal: this.controller.signal,
-          params: params,
-        })
-        .then((res) => {
-          this.dropdown.Organizations = res.data.rows.map((item) => {
-            return {
-              OrganizationID: item.OrganizationID,
-              OrganizationFull:
-                item.OrganizationCode + ", " + item.OrganizationName,
-            };
-          });
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-    fetchSemen() {
-      if (this.animal_id == 1) {
-        this.url.Semen +=
-          "&AnimalTypeID=[1,2,41,42]&orderByField=SemenNumber&orderBy=asc";
-      } else if (this.animal_id == 2) {
-        this.url.Semen +=
-          "&AnimalTypeID=[3,4,43,44]&orderByField=SemenNumber&orderBy=asc";
-      } else if (this.animal_id == 3) {
-        this.url.Semen +=
-          "&AnimalTypeID=[17,18,45,46]&orderByField=SemenNumber&orderBy=asc";
-      }
-
-      axios
-        .get(this.url.Semen, {
-          signal: this.controller.signal,
-        })
-        .then((res) => {
-          this.dropdown.Semens = res.data.rows.map((item) => {
-            return {
-              SemenID: item.SemenID,
-              SemenNumber: item.SemenNumber,
-            };
-          });
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-
-    fetchFarm() {
-      //   this.isLoading = true;
-      if (
-        this.search.AIZoneID == null &&
-        this.search.OrganizationZoneID == null
-      ) {
-        this.isLoading = false;
-        return;
-      }
-
-      let params = {
-        // size: this.rowPerPage,
-        // page: this.currentPage,
-        orderByField: "FarmID",
-        orderBy: "desc",
-        // includeAll: false,
-      };
-
-      if (this.search.FarmAnimalType == null) {
-        this.search.FarmAnimalType = parseInt(this.animal_id);
-        params["FarmAnimalType"] = this.search.FarmAnimalType;
-      } else {
-        params["FarmAnimalType"] = this.search.FarmAnimalType;
-      }
-
-      // Province IN AIZOne
-      if (this.search.AIZoneID != null) {
-        if (this.search.AIZoneID != 99) {
-          params["AIZoneID"] = this.search.AIZoneID;
+    mounted() {
+        // ข้อมูลหลัก
+        if (this.$route.query.projects) {
+            if (
+                this.$route.query.projects != null &&
+                this.$route.query.projects != "null" &&
+                this.$route.query.projects != "undefined" &&
+                this.$route.query.projects != ""
+            ) {
+                let pj = this.$route.query.projects.split(",");
+
+                this.search.Project = pj.map((e) => {
+                    return parseInt(e);
+                });
+
+                this.params.ProjectID = pj.map((e) => {
+                    return parseInt(e);
+                });
+
+                this.search.ProjectIDArray = pj.map((e) => {
+                    return parseInt(e);
+                });
+            } else if (
+                this.$route.query.projects == "null" ||
+                this.$route.query.projects == ""
+            ) {
+                this.search.Project = [];
+            } else {
+                this.search.Project = [];
+            }
         }
-      }
 
-      if (this.search.OrganizationZoneID != null) {
-        if (this.search.OrganizationZoneID != 99) {
-          params["OrganizationZoneID"] = this.search.OrganizationZoneID;
-        }
-      }
+        this.load();
 
-      if (this.search.ProvinceID != null) {
-        params["FarmProvinceID"] = this.search.ProvinceID;
-      }
-
-      if (this.search.AmphurID != null) {
-        params["FarmAmphurID"] = this.search.AmphurID;
-      }
-
-      if (this.search.TumbolID != null) {
-        params["FarmTumbolID"] = this.search.TumbolID;
-      }
-
-      if (this.search.OrganizationID != null) {
-        params["OrganizationID"] = this.search.OrganizationID;
-      }
-
-      if (this.search.ProjectIDArray) {
-        params["ProjectID"] = JSON.stringify(this.search.ProjectIDArray);
-      }
-
-      if (this.search.FarmerFullName) {
-        params["FullName"] = this.search.FarmerFullName;
-      }
-
-      axios
-        .get(this.url.Farm, {
-          signal: this.controller.signal,
-          params: params,
-        })
-        .then((res) => {
-          this.dropdown.Farms = res.data.rows;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-
-    fetchAnimal() {
-      this.isLoading = true;
-      if (
-        this.search.AIZoneID == null &&
-        this.search.OrganizationZoneID == null
-      ) {
-        this.isLoading = false;
-        return;
-      }
-      let params = {
-        ...this.params,
-        size: this.rowPerPage,
-        page: this.currentPage,
-        orderByField: "AIID",
-        orderBy: "desc",
-        isRemove: 0,
-      };
-
-      console.log(this.currentPage);
-
-      if (this.search.FarmAnimalType == null) {
-        this.search.FarmAnimalType = parseInt(this.animal_id);
-        params["FarmAnimalType"] = this.search.FarmAnimalType;
-      } else {
-        params["FarmAnimalType"] = this.search.FarmAnimalType;
-      }
-      // Province IN AIZOne
-      if (this.search.AIZoneID != null) {
-        if (this.search.AIZoneID != 99) {
-          params["AIZoneID"] = this.search.AIZoneID;
-        }
-      }
-      if (this.search.OrganizationZoneID != null) {
-        if (this.search.OrganizationZoneID != 99) {
-          params["OrganizationZoneID"] = this.search.OrganizationZoneID;
-        }
-      }
-      if (this.search.ProvinceID != null) {
-        params["FarmProvinceID"] = this.search.ProvinceID;
-      }
-      if (this.search.AmphurID != null) {
-        params["FarmAmphurID"] = this.search.AmphurID;
-      }
-      if (this.search.TumbolID != null) {
-        params["FarmTumbolID"] = this.search.TumbolID;
-      }
-      if (this.search.OrganizationID != null) {
-        params["OrganizationID"] = this.search.OrganizationID;
-      }
-
-      if (this.search.SemenID != null) {
-        params["SemenID"] = this.search.SemenID;
-      }
-
-      if (this.search.AIDate!= null) {
-        params["AIStartDate"] = dayjs(this.search.AIDate[0]).format(
-          "YYYY-MM-DD"
-        );
-        params["AIEndDate"] = dayjs(this.search.AIDate[1]).format("YYYY-MM-DD");
-      }
-
-      if (this.search.ProjectIDArray) {
-        params["ProjectID"] = JSON.stringify(this.search.ProjectIDArray);
-      }
-
-      this.setParam();
-      if (this.animal_id == 1) {
-        params["AnimalTypeID"] = "[1,2,41,42]";
-      } else if (this.animal_id == 2) {
-        params["AnimalTypeID"] = "[3,4,43,44]";
-      } else if (this.animal_id == 3) {
-        params["AnimalTypeID"] = "[17,18,45,46]";
-      }
-      //   if (this.filtered.AnimalSource) {
-      //     this.params.AnimalSource = this.filtered.AnimalSource;
-      //   }
-      if (this.search.ProjectIDArray) {
-        params["ProjectID"] = JSON.stringify(this.search.ProjectIDArray);
-      }
-      this.params.ProjectID = JSON.stringify(this.params.ProjectID);
-
-      if (this.search.count_project_type) {
-        params["CountProjectType"] = this.search.count_project_type;
-      }
-
-      //   if (this.search.FarmID) {
-      params["FarmID"] = this.search.FarmID?.FarmID;
-      //   }
-
-      axios
-        .get(this.url.AI, {
-          signal: this.controller.signal,
-          params: params,
-          size: 10,
-        })
-        .then((response) => {
-          let data = response.data;
-          this.params.page = data.currPage;
-          this.table.total = data.total;
-          this.table.last_page = data.lastPage;
-          this.data = data.rows;
-          console.log(this.data);
-          console.log(this.params.page);
-          console.log(this.table.total);
-          console.log(this.table.last_page);
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-
-    // async exportExcel() {
-    //   this.isLoading = true;
-    //   if (
-    //     this.search.AIZoneID == null &&
-    //     this.search.OrganizationZoneID == null
-    //   ) {
-    //     this.isLoading = false;
-    //     return;
-    //   }
-
-    //   let params = {
-    //     ...this.params,
-    //     isRemove: 0,
-    //     size: this.rowPerPage,
-    //     page: this.currentPage,
-    //     orderByField: "AIID",
-    //     orderBy: "desc",
-    //     // includeAll: false,
-    //   };
-
-    //   if (this.search.FarmAnimalType == null) {
-    //     this.search.FarmAnimalType = parseInt(this.animal_id);
-    //     params["FarmAnimalType"] = this.search.FarmAnimalType;
-    //   } else {
-    //     params["FarmAnimalType"] = this.search.FarmAnimalType;
-    //   }
-
-    //   // Province IN AIZOne
-    //   if (this.search.AIZoneID != null) {
-    //     if (this.search.AIZoneID != 99) {
-    //       params["AIZoneID"] = this.search.AIZoneID;
-    //     }
-    //   }
-
-    //   if (this.search.OrganizationZoneID != null) {
-    //     if (this.search.OrganizationZoneID != 99) {
-    //       params["OrganizationZoneID"] = this.search.OrganizationZoneID;
-    //     }
-    //   }
-
-    //   if (this.search.ProvinceID != null) {
-    //     params["FarmProvinceID"] = this.search.ProvinceID;
-    //   }
-
-    //   if (this.search.AmphurID != null) {
-    //     params["FarmAmphurID"] = this.search.AmphurID;
-    //   }
-
-    //   if (this.search.TumbolID != null) {
-    //     params["FarmTumbolID"] = this.search.TumbolID;
-    //   }
-
-    //   if (this.search.OrganizationID != null) {
-    //     params["OrganizationID"] = this.search.OrganizationID;
-    //   }
-
-    //   if (this.search.OrganizationID != null) {
-    //     params["OrganizationID"] = this.search.OrganizationID;
-    //   }
-
-    //   if (this.search.ProjectIDArray) {
-    //     params["ProjectID"] = JSON.stringify(this.search.ProjectIDArray);
-    //   }
-
-    //   if (this.search.FarmerFullName) {
-    //     params["FullName"] = this.search.FarmerFullName;
-    //   }
-
-    //   this.setParam();
-
-    //   if (this.animal_id == 1) {
-    //     params["AnimalTypeID"] = "[1,2,41,42]";
-    //   } else if (this.animal_id == 2) {
-    //     params["AnimalTypeID"] = "[3,4,43,44]";
-    //   } else if (this.animal_id == 3) {
-    //     params["AnimalTypeID"] = "[17,18,45,46]";
-    //   }
-
-    //   if (this.search.FarmID) {
-    //     params["FarmID"] = this.search.FarmID.FarmID;
-    //   }
-
-    //   //   if (this.filtered.AnimalSource) {
-    //   //     this.params.AnimalSource = this.filtered.AnimalSource;
-    //   //   }
-
-    //   if (this.search.ProjectIDArray) {
-    //     params["ProjectID"] = JSON.stringify(this.search.ProjectIDArray);
-    //   }
-
-    //   if (this.search.Status) {
-    //     params["isActive"] = this.search.Status;
-    //   }
-
-    //   await axios
-    //     .get(this.url.ExportAnimal, {
-    //       signal: this.controller.signal,
-    //       params: {
-    //         ...params,
-    //         size: 100000,
-    //         page: 1,
-    //         noEventLatest: true,
-    //         includeEventLatest: false,
-    //       },
-    //     })
-    //     .then((response) => {
-    //       this.json_data = response.data.rows;
-    //     })
-    //     .finally(() => {
-    //       this.isLoading = false;
-    //     });
-    // },
-
-    async onExport() {
-      this.exportExcel().then(() => {
-        setTimeout(async () => {
-          const workbook = new ExcelJS.Workbook();
-          const worksheet = workbook.addWorksheet("รายการ", {
-            pageSetup: { orientation: "landscape" },
-            headerFooter: {
-              firstHeader: "Hello Exceljs",
-              firstFooter: "Hello World",
-            },
-          });
-
-          //   หมายเลขใบหู: x.AnimalEarID,
-          //         ชื่อสัตว์: x.AnimalName,
-          //         อายุ: "'" + x.AnimalAge,
-          //         สถานะ: x.AnimalStatus ? x.AnimalStatus.AnimalStatusName : "-",
-          //         สายพันธุ์: x.AnimalBreedAll,
-          //         วันเกิด: x.ThaiAnimalBirthDate,
-          //         เพศ: x.AnimalSex.AnimalSexName,
-          //         หมายเลขฟาร์ม: x.AnimalFarm.FarmIdentificationNumber,
-          //         ชื่อฟาร์ม: x.AnimalFarm.FarmName,
-          //         หน่วยงาน: x.Organization
-          //           ? x.Organization.OrganizationName
-          //           : "-",
-
-          worksheet.columns = [
-            {
-              header: "ชื่อสัตว์",
-              key: "Animal.AnimalID",
-              width: 25,
-              outlineLevel: 1,
-            },
-            {
-              header: "ชื่อสัตว์",
-              key: "ชื่อสัตว์",
-              width: 25,
-              outlineLevel: 1,
-            },
-            {
-              header: "อายุ",
-              key: "อายุ",
-              width: 25,
-              outlineLevel: 1,
-            },
-            {
-              header: "สถานะ",
-              key: "สถานะ",
-              width: 25,
-              outlineLevel: 1,
-            },
-            {
-              header: "สายพันธุ์",
-              key: "สายพันธุ์",
-              width: 25,
-              outlineLevel: 1,
-            },
-            {
-              header: "วันเกิด",
-              key: "วันเกิด",
-              width: 25,
-              outlineLevel: 1,
-            },
-            {
-              header: "เพศ",
-              key: "เพศ",
-              width: 25,
-              outlineLevel: 1,
-            },
-            {
-              header: "วันเกิด",
-              key: "วันเกิด",
-              width: 25,
-              outlineLevel: 1,
-            },
-            {
-              header: "หมายเลขฟาร์ม",
-              key: "หมายเลขฟาร์ม",
-              width: 25,
-              outlineLevel: 1,
-            },
-            {
-              header: "ชื่อฟาร์ม",
-              key: "ชื่อฟาร์ม",
-              width: 25,
-              outlineLevel: 1,
-            },
-            {
-              header: "หน่วยงาน",
-              key: "หน่วยงาน",
-              width: 25,
-              outlineLevel: 1,
-            },
-            // {
-            //   header: "วันที่ขึ้นทะเบียน",
-            //   key: "วันที่ขึ้นทะเบียน",
-            //   width: 25,
-            //   outlineLevel: 1,
-            // },
-          ];
-
-          // worksheet.properties.defaultRowHeight = 20;
-
-          worksheet.addRows(this.json_data);
-
-          worksheet.eachRow((row) => {
-            // row.height = 45;
-            row.eachCell(function (cell) {
-              cell.alignment = {
-                vertical: "middle",
-                horizontal: "center",
-                wrapText: true,
-              };
+        // if (this.animal_id == 1) {
+        //   this.url.Project += "&ProjectLevel=ANIMAL&AnimalTypeID=[1,2,41,42]";
+        // } else if (this.animal_id == 2) {
+        //   this.url.Project += "&ProjectLevel=ANIMAL&AnimalTypeID=[3,4,43,44]";
+        // } else if (this.animal_id == 3) {
+        //   this.url.Project += "&ProjectLevel=ANIMAL&AnimalTypeID=[17,18,45,46]";
+        // }
+        axios
+            .get(this.url.Project, { signal: this.controller.signal })
+            .then((response) => {
+                this.project = response.data.rows;
             });
-          });
 
-          const row = worksheet.getRow(1);
-          row.height = 20;
+        this.form.isActive = this.status[0];
 
-          worksheet.insertRow(1, "รายการฟาร์ม");
-          worksheet.mergeCells("A1:K1");
-          worksheet.getCell("A1").value = "รายการทะเบียนฟาร์ม";
-          worksheet.getCell("A1").alignment = {
-            vertical: "middle",
-            horizontal: "center",
-          };
-          const font = { name: "Arial", size: 18, bold: true };
-          worksheet.getCell("A1").font = font;
-
-          const font1 = { name: "Arial", size: 18, bold: true };
-          worksheet.getCell("A1").font = font1;
-
-          // Images
-          const buffer = await workbook.xlsx.writeBuffer();
-          const blob = new Blob([buffer], { type: "application/octet-stream" });
-          const href = URL.createObjectURL(blob);
-          const link = document.createElement("a");
-          link.href = href;
-          link.download = "รายการฟาร์ม.xlsx";
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-        }, 1000);
-      });
-    },
-
-    fetchAnimalBreed() {
-      axios
-        .get(this.url.AnimalBreedID, { signal: this.controller.signal })
-        .then((response) => {
-          if (this.animal_id == 1) {
-            this.AnimalBreed = response.data.rows
-              .filter(
-                (item) =>
-                  item.AnimalTypeID === 1 ||
-                  item.AnimalTypeID === 2 ||
-                  item.AnimalTypeID === 41 ||
-                  item.AnimalTypeID === 42
-              )
-              .map((item) => {
-                return {
-                  AnimalBreedID: item.AnimalBreedID,
-                  AnimalBreedCode: item.AnimalBreedCode,
-                  Fullname: item.AnimalBreedCode + ", " + item.AnimalBreedName,
-                };
-              });
-          } else if (this.animal_id == 2) {
-            this.AnimalBreed = response.data.rows
-              .filter(
-                (item) =>
-                  item.AnimalTypeID === 3 ||
-                  item.AnimalTypeID === 4 ||
-                  item.AnimalTypeID === 43 ||
-                  item.AnimalTypeID === 44
-              )
-              .map((item) => {
-                return {
-                  AnimalBreedID: item.AnimalBreedID,
-                  AnimalBreedCode: item.AnimalBreedCode,
-                  Fullname: item.AnimalBreedCode + ", " + item.AnimalBreedName,
-                };
-              });
-          } else if (this.animal_id == 3) {
-            this.AnimalBreed = response.data.rows
-              .filter(
-                (item) =>
-                  item.AnimalTypeID === 17 ||
-                  item.AnimalTypeID === 18 ||
-                  item.AnimalTypeID === 45 ||
-                  item.AnimalTypeID === 46
-              )
-              .map((item) => {
-                return {
-                  AnimalBreedID: item.AnimalBreedID,
-                  AnimalBreedCode: item.AnimalBreedCode,
-                  Fullname: item.AnimalBreedCode + ", " + item.AnimalBreedName,
-                };
-              });
-          }
+        this.loadDefault();
+        this.permit = this.permission.filter((item) => {
+            return item.MenuID == 3;
         });
-    },
 
-    fetchFather() {
-      if (
-        this.parents.AnimalFatherEarID != null &&
-        this.parents.AnimalFatherEarID != ""
-      ) {
-        axios
-          .get("/animal?includeAll=false", {
-            signal: this.controller.signal,
-            params: {
-              AnimalEarID: this.parents.AnimalFatherEarID,
-            },
-          })
-          .then((res) => {
-            if (res.data.rows.length != 0) {
-              this.params.AnimalFatherID = res.data.rows[0].AnimalID;
+        if (store.state.user.Staff.Organization.OrganizationZoneID) {
+            this.search.OrganizationZoneID =
+                store.state.user.Staff.Organization.OrganizationZoneID;
+        }
+    },
+    watch: {
+        "search.AIZoneID"(val) {
+            if (val) {
+                this.search.OrganizationZoneID = null;
+                this.isSelectAIZoneDisabled = false;
+                this.isSelectOrganizationZoneDisabled = true;
             } else {
-              this.params.AnimalFatherID = 0;
+                this.isSelectAIZoneDisabled = false;
+                this.isSelectOrganizationZoneDisabled = false;
             }
-            // this.fetchAnimal();
-            // this.exportExcel();
-          });
-      } else {
-        this.params.AnimalFatherID = null;
-        // this.fetchAnimal();
-        // this.exportExcel();
-      }
-    },
 
-    fetchMother() {
-      if (
-        this.parents.AnimalMotherEarID != null &&
-        this.parents.AnimalMotherEarID != ""
-      ) {
-        axios
-          .get("/animal?includeAll=false", {
-            signal: this.controller.signal,
-            params: {
-              AnimalEarID: this.parents.AnimalMotherEarID,
-            },
-          })
-          .then((res) => {
-            if (res.data.rows.length != 0) {
-              this.params.AnimalMotherID = res.data.rows[0].AnimalID;
+            this.dropdown.Provinces = [];
+            this.dropdown.Amphurs = [];
+            this.dropdown.Tumbols = [];
+            this.dropdown.Organizations = [];
+            this.dropdown.Farms = [];
+            this.data = [];
+
+            if (this.isLoading == false) {
+                // this.isLoading = true;
+                setTimeout(() => {
+                    this.fetchProvince();
+                    //   this.fetchOrganization();
+                    //   this.fetchFarm();
+                    //   this.fetchAnimal();
+                    //   this.exportExcel();
+                    this.search.ProvinceID = null;
+                    this.search.AmphurID = null;
+                    this.search.TumbolID = null;
+                    this.search.OrganizationID = null;
+                    this.search.FarmID = null;
+
+                    this.isLoading = false;
+                }, 1000);
+            }
+        },
+        "search.OrganizationZoneID"(val) {
+            if (val) {
+                this.search.AIZoneID = null;
+                this.isSelectAIZoneDisabled = true;
+                this.isSelectOrganizationZoneDisabled = false;
             } else {
-              this.params.AnimalMotherID = 0;
+                this.isSelectAIZoneDisabled = false;
+                this.isSelectOrganizationZoneDisabled = false;
             }
-            // this.fetchAnimal();
-            // this.exportExcel();
-          });
-      } else {
-        this.params.AnimalMotherID = null;
-        // this.fetchAnimal();
-        // this.exportExcel();
-      }
-    },
 
-    setParam() {
-      if (this.search.OrganizationZoneID) {
-        this.params.OrganizationZoneID = this.search.OrganizationZoneID;
-      }
-      if (this.search.FarmID) {
-        this.params.FarmID = this.search.FarmID;
-      }
-      if (this.search.AnimalSource) {
-        this.params.AnimalSource = this.search.AnimalSource;
-      }
+            this.dropdown.Provinces = [];
+            this.dropdown.Amphurs = [];
+            this.dropdown.Tumbols = [];
+            this.dropdown.Organizations = [];
+            this.dropdown.Farms = [];
+            this.data = [];
 
-      if (this.animal_id == 1) {
-        this.params.AnimalTypeID = "[1,2,41,42]";
-      } else if (this.animal_id == 2) {
-        this.params.AnimalTypeID = "[3,4,43,44]";
-      } else if (this.animal_id == 3) {
-        this.params.AnimalTypeID = "[17,18,45,46]";
-      }
-    },
-    loadDefault() {
-      this.isLoading = true;
-      this.fetchSemen();
-      this.fetchAIZone();
-      //   this.fetchAnialBreed();
-      this.fetchOrganizationZone();
-      this.fetchProject();
-      this.fetchProvince();
-      this.fetchAmphur();
-      this.fetchTumbol();
-      this.fetchOrganizationType();
-      this.fetchOrganization();
-      //   this.fetchFarm();
-      this.fetchAnimalBreed();
-      this.fetchAnimalSex();
-      //   this.fetchAnimal();
-    },
-    // sort table
-    sort($event) {
-      if ($event.sortField !== "show_id") {
-        if ($event.sortOrder == 1) {
-          this.params.orderBy = "asc";
-        } else {
-          this.params.orderBy = "desc";
-        }
-        this.params.orderByField = $event.sortField;
-        this.load();
-      }
-    },
-    // page change
-    page($event) {
-      this.currentPage = $event.page + 1;
-      this.curpage = $event.page + 1;
-      this.load();
-    },
-    remove() {
-      axios.delete(this.url + "/" + this.form.id).then(() => {
-        this.close_delete();
-        this.load();
-        this.$toast.add({
-          severity: "success",
-          summary: "สำเร็จ",
-          detail: "ลบข้อมูลเสร็จสิ้น",
-          life: 5000,
-        });
-      });
-    },
-    project_check(id) {
-      let prepare_data = this.data.find(function (item) {
-        return item.AnimalID == id;
-      });
-      let project_id = prepare_data.ProjectID;
-      let projects = prepare_data.Projects;
+            if (this.isLoading == false) {
+                // this.isLoading = true;
+                setTimeout(() => {
+                    this.fetchProvince();
+                    this.fetchOrganization();
+                    //   this.fetchFarm();
+                    //   this.fetchAnimal();
+                    //   this.exportExcel();
+                    this.search.ProvinceID = null;
+                    this.search.AmphurID = null;
+                    this.search.TumbolID = null;
+                    this.search.OrganizationID = null;
+                    this.search.FarmID = null;
+                    this.isLoading = false;
+                }, 1000);
+            }
+        },
+        "search.ProvinceID"() {
+            this.fetchAmphur();
+            this.fetchOrganization();
+            //   this.fetchFarm();
+            //   this.fetchAnimal();
+            //   this.exportExcel();
+            this.dropdown.Amphurs = [];
+            this.dropdown.Tumbols = [];
 
-      if (this.user.GroupID == 1 || this.user.GroupID == 2) {
-        return true;
-      } else {
-        if (project_id == 21) {
-          this.$toast.add({
-            severity: "error",
-            summary: "ไม่มีสามารถแก้ไขได้",
-            detail: "เนื่องจากอยู่ใน " + projects.toString(),
-            life: 5000,
-          });
-          return false;
-        } else {
-          return true;
-        }
-      }
-    },
-    async open_edit(id) {
-      if (this.permit[0].IsUpdate == 0) {
-        this.$toast.add({
-          severity: "error",
-          summary: "ล้มเหลว",
-          detail: "ไม่มีสิทธิ์แก้ไข",
-          life: 5000,
-        });
-        return;
-      }
+            if (this.isLoading == false) {
+                // this.isLoading = true;
+                setTimeout(() => {
+                    this.search.AmphurID = null;
+                    this.search.TumbolID = null;
+                    //   this.search.OrganizationTypeID = null;
+                    this.search.OrganizationID = null;
+                    this.search.FarmID = null;
+                    this.isLoading = false;
+                }, 1000);
+            }
+        },
+        "search.AmphurID"() {
+            this.fetchTumbol();
+            this.fetchOrganization();
+            //   this.fetchFarm();
+            //   this.fetchAnimal();
+            //   this.exportExcel();
+            this.dropdown.Tumbols = [];
 
-      if (this.project_check(id)) {
-        await this.$router.push("/creature/edit/" + id);
-      }
-    },
-    async open_detail(id) {
-      this.form = null;
-      if (this.permit[0].IsPreview == 0) {
-        this.$toast.add({
-          severity: "error",
-          summary: "ล้มเหลว",
-          detail: "ไม่มีสิทธิ์ดูข้อมูล",
-          life: 5000,
-        });
-        return;
-      } else {
-        this.form = this.data.find((x) => x.AnimalID == id);
+            if (this.isLoading == false) {
+                // this.isLoading = true;
+                setTimeout(() => {
+                    this.search.TumbolID = null;
+                    //   this.search.OrganizationTypeID = null;
+                    this.search.OrganizationID = null;
+                    this.search.FarmID = null;
+                    this.isLoading = false;
+                }, 1000);
+            }
+        },
+        "search.TumbolID"() {
+            this.fetchOrganization();
+            //   this.fetchFarm();
+            //   this.fetchAnimal();
+            //   this.exportExcel();
 
-        if (!this.form.SourceFarm) {
-          this.form.SourceFarm = {
-            FarmName: "",
-          };
-        }
-        if (!this.form.AnimalFather) {
-          this.form.AnimalFather = {
-            AnimalName: "",
-          };
-        }
-        if (!this.form.AnimalMother) {
-          this.form.AnimalMother = {
-            AnimalName: "",
-          };
-        }
+            if (this.isLoading == false) {
+                // this.isLoading = true;
+                setTimeout(() => {
+                    this.search.OrganizationID = null;
+                    this.search.FarmID = null;
+                    this.isLoading = false;
+                }, 1000);
+            }
+        },
+        "search.OrganizationTypeID"() {
+            this.fetchOrganization();
 
-        if (this.form.AnimalSource == "BORN") {
-          this.form.AnimalSourceName = "เกิดในฟาร์ม";
-        } else if (this.form.AnimalSource == "BUY") {
-          this.form.AnimalSourceName = "ซื้อมา";
-        } else if (this.form.AnimalSource == "TRANSFER") {
-          this.form.AnimalSourceName = "ย้ายมา";
-        } else {
-          this.form.AnimalSourceName = "";
-        }
-        if (this.form.AnimalBornType == "NORMAL") {
-          this.form.AnimalBornTypeName = "ผสมพันธุ์ปกติ";
-        } else if (this.form.AnimalBornType == "AI") {
-          this.form.AnimalBornTypeName = "ผสมเทียม";
-        } else if (this.form.AnimalBornType == "EMBRYO") {
-          this.form.AnimalBornTypeName = "ตัวอ่อน";
-        } else {
-          this.form.AnimalBornTypeName = "";
-        }
-        if (this.form.AnimalFirstBreed == 1) {
-          this.form.AnimalFirstBreedName = "สายเลือดตั้งต้น";
-        } else if (this.form.AnimalFirstBreed == 0) {
-          this.form.AnimalFirstBreedName = "สายเลือดครอบครัว";
-        } else {
-          this.form.AnimalFirstBreedName = "";
-        }
+            if (this.isLoading == false) {
+                // this.isLoading = true;
+                setTimeout(() => {
+                    this.search.OrganizationID = null;
+                    this.search.FarmID = null;
+                    this.isLoading = false;
+                }, 1000);
+            }
+        },
+        "search.OrganizationID"() {
+            //   this.fetchFarm();
+            //   this.fetchAnimal();
+            //   this.exportExcel();
 
-        if (this.form.AnimalFather) {
-          this.form.AnimalFather.Fullname =
-            this.form.AnimalFather.AnimalEarID +
-            ", " +
-            this.form.AnimalFather.AnimalName;
-        }
-        if (this.form.AnimalMother) {
-          this.form.AnimalMother.Fullname =
-            this.form.AnimalMother.AnimalEarID +
-            ", " +
-            this.form.AnimalMother.AnimalName;
-        }
+            if (this.isLoading == false) {
+                // this.isLoading = true;
+                setTimeout(() => {
+                    this.search.FarmID = null;
+                    this.isLoading = false;
+                }, 1000);
+            }
+        },
+        "search.FarmID"() {
+            //   this.fetchAnimal();
+            //   this.exportExcel();
 
-        this.display_view = true;
-      }
+            if (this.isLoading == false) {
+                // this.isLoading = true;
+                setTimeout(() => {
+                    this.isLoading = false;
+                }, 1000);
+            }
+        },
+        "search.ProjectIDArray"() {
+            //   this.fetchFarm();
+            //   this.fetchAnimal();
+            //   this.exportExcel();
+
+            if (this.isLoading == false) {
+                // this.isLoading = true;
+                setTimeout(() => {
+                    this.isLoading = false;
+                }, 1000);
+            }
+        },
+        "search.count_project_type"() {
+            //   this.fetchAnimal();
+            //   this.exportExcel();
+
+            if (this.isLoading == false) {
+                // this.isLoading = true;
+                setTimeout(() => {
+                    this.isLoading = false;
+                }, 1000);
+            }
+        },
+        // count_project_type
+        "search.FarmAnimalType"() {
+            //   this.fetchFarm();
+            //   this.fetchAnimal();
+            //   this.exportExcel();
+
+            if (this.isLoading == false) {
+                // this.isLoading = true;
+                setTimeout(() => {
+                    this.isLoading = false;
+                }, 1000);
+            }
+        },
+        "search.AnimalSexID"(val) {
+            if (val) {
+                this.params.AnimalSexID = val;
+            } else {
+                this.params.AnimalSexID = null;
+            }
+            if (this.isLoading == false) {
+                // this.isLoading = true;
+                setTimeout(() => {
+                    //   this.fetchAnimal();
+                    //   this.exportExcel();
+
+                    this.isLoading = false;
+                }, 1000);
+            }
+        },
+        "params.AnimalEarID"() {
+            //   this.fetchAnimal();
+            //   this.exportExcel();
+
+            if (this.isLoading == false) {
+                // this.isLoading = true;
+                setTimeout(() => {
+                    this.isLoading = false;
+                }, 1000);
+            }
+        },
+
+        "params.AnimalName"() {
+            //   this.fetchAnimal();
+            //   this.exportExcel();
+
+            if (this.isLoading == false) {
+                // this.isLoading = true;
+                setTimeout(() => {
+                    this.isLoading = false;
+                }, 1000);
+            }
+        },
+
+        "params.AnimalSexID"() {
+            //   this.fetchAnimal();
+            //   this.exportExcel();
+
+            if (this.isLoading == false) {
+                // this.isLoading = true;
+                setTimeout(() => {
+                    this.isLoading = false;
+                }, 1000);
+            }
+        },
+
+        "search.Status"() {
+            //   this.fetchAnimal();
+            //   this.exportExcel();
+
+            if (this.isLoading == false) {
+                // this.isLoading = true;
+                setTimeout(() => {
+                    this.isLoading = false;
+                }, 1000);
+            }
+        },
+
+        "parents.AnimalFatherEarID"() {
+            this.fetchFather();
+            if (this.isLoading == false) {
+                // this.isLoading = true;
+                setTimeout(() => {
+                    this.isLoading = false;
+                }, 1000);
+            }
+        },
+
+        "parents.AnimalMotherEarID"() {
+            this.fetchMother();
+            if (this.isLoading == false) {
+                // this.isLoading = true;
+                setTimeout(() => {
+                    this.isLoading = false;
+                }, 1000);
+            }
+        },
+
+        "params.AnimalAgeStart"() {
+            //   this.fetchAnimal();
+            //   this.exportExcel();
+
+            if (this.isLoading == false) {
+                // this.isLoading = true;
+                setTimeout(() => {
+                    this.isLoading = false;
+                }, 1000);
+            }
+        },
+
+        "params.AnimalAgeTo"() {
+            //   this.fetchAnimal();
+            //   this.exportExcel();
+
+            if (this.isLoading == false) {
+                // this.isLoading = true;
+                setTimeout(() => {
+                    this.isLoading = false;
+                }, 1000);
+            }
+        },
+
+        "params.AnimalBreedID1"() {
+            //   this.fetchAnimal();
+            //   this.exportExcel();
+
+            if (this.isLoading == false) {
+                // this.isLoading = true;
+                setTimeout(() => {
+                    this.isLoading = false;
+                }, 1000);
+            }
+        },
+
+        "params.AnimalBreedID2"() {
+            //   this.fetchAnimal();
+            //   this.exportExcel();
+
+            if (this.isLoading == false) {
+                // this.isLoading = true;
+                setTimeout(() => {
+                    this.isLoading = false;
+                }, 1000);
+            }
+        },
+
+        "params.AnimalBreedID3"() {
+            //   this.fetchAnimal();
+            //   this.exportExcel();
+
+            if (this.isLoading == false) {
+                // this.isLoading = true;
+                setTimeout(() => {
+                    this.isLoading = false;
+                }, 1000);
+            }
+        },
+
+        "params.AnimalBreedID4"() {
+            //   this.fetchAnimal();
+            //   this.exportExcel();
+
+            if (this.isLoading == false) {
+                // this.isLoading = true;
+                setTimeout(() => {
+                    this.isLoading = false;
+                }, 1000);
+            }
+        },
+
+        "params.AnimalBreedID5"() {
+            //   this.fetchAnimal();
+            //   this.exportExcel();
+
+            if (this.isLoading == false) {
+                // this.isLoading = true;
+                setTimeout(() => {
+                    this.isLoading = false;
+                }, 1000);
+            }
+        },
     },
-    open_delete(id) {
-      if (this.permit[0].IsDelete == 0) {
-        this.$toast.add({
-          severity: "error",
-          summary: "ล้มเหลว",
-          detail: "ไม่มีสิทธิ์ลบ",
-          life: 5000,
-        });
-        return;
-      }
-      this.form.id = id;
-      this.display_delete = true;
+    methods: {
+        openAnimal(id, earid) {
+            let data = {
+                AnimalEarID: earid,
+            };
+            store.dispatch("animalInfo", data);
+            // this.displaytab = true;
+
+            this.$router.push("/activity/creature_info_detail");
+            // setTimeout(() => {
+            // }, 1000);
+        },
+        getItems(id, menu, earid) {
+            let data = {
+                AnimalEarID: earid,
+            };
+            const items = [
+                // {
+                //   label: "พิมพ์ประวัติ",
+                //   icon: "pi pi-print",
+                //   command: async () => {
+                //     // window.open("../../pdf/Animal.pdf", "_blank");
+                //     await ArtificialReport();
+                //   },
+                // },
+            ];
+
+            if (menu.includes(2)) {
+                items.push({
+                    label: "ผสมเทียม",
+                    icon: "pi pi-search",
+                    command: () => {
+                        let tab = {
+                            id: 0,
+                            animal_id: this.animal_id,
+                        };
+
+                        store.dispatch("tabAnimal", tab);
+
+                        store.dispatch("animalInfo", data);
+                        this.displaytab = true;
+                    },
+                });
+            }
+            if (menu.includes(3)) {
+                items.push({
+                    label: "ย้ายฝากตัวอ่อน",
+                    icon: "pi pi-search",
+                    command: () => {
+                        let tab = {
+                            id: 1,
+                            animal_id: this.animal_id,
+                        };
+
+                        store.dispatch("tabAnimal", tab);
+
+                        store.dispatch("animalInfo", data);
+                        this.displaytab = true;
+                    },
+                });
+            }
+            if (menu.includes(4)) {
+                items.push({
+                    label: "ตรวจการตั้งท้อง",
+                    icon: "pi pi-search",
+                    command: () => {
+                        let tab = {
+                            id: 2,
+                            animal_id: this.animal_id,
+                        };
+
+                        store.dispatch("tabAnimal", tab);
+
+                        store.dispatch("animalInfo", data);
+                        this.displaytab = true;
+                    },
+                });
+            }
+            if (menu.includes(5)) {
+                items.push({
+                    label: "แท้ง",
+                    icon: "pi pi-search",
+                    command: () => {
+                        let tab = {
+                            id: 3,
+                            animal_id: this.animal_id,
+                        };
+
+                        store.dispatch("tabAnimal", tab);
+
+                        store.dispatch("animalInfo", data);
+                        this.displaytab = true;
+                    },
+                });
+            }
+            if (menu.includes(6)) {
+                items.push({
+                    label: "คลอด",
+                    icon: "pi pi-search",
+                    command: () => {
+                        let tab = {
+                            id: 4,
+                            animal_id: this.animal_id,
+                        };
+
+                        store.dispatch("tabAnimal", tab);
+
+                        store.dispatch("animalInfo", data);
+                        this.displaytab = true;
+                    },
+                });
+            }
+            if (menu.includes(7) && this.animal_id != 3) {
+                items.push({
+                    label: "ตรวจระบบสืบพันธุ์",
+                    icon: "pi pi-search",
+                    command: () => {
+                        let tab = {
+                            id: 11,
+                            animal_id: this.animal_id,
+                        };
+
+                        store.dispatch("tabAnimal", tab);
+
+                        store.dispatch("animalInfo", data);
+                        this.displaytab = true;
+                    },
+                });
+            }
+            if (menu.includes(8)) {
+                items.push({
+                    label: "ติดตามลูกหลังคลอด",
+                    icon: "pi pi-search",
+                    command: () => {
+                        let tab = {
+                            id: 5,
+                            animal_id: this.animal_id,
+                        };
+
+                        store.dispatch("tabAnimal", tab);
+
+                        store.dispatch("animalInfo", data);
+                        this.displaytab = true;
+                    },
+                });
+            }
+            if (menu.includes(9)) {
+                items.push({
+                    label: "หย่านม",
+                    icon: "pi pi-search",
+                    command: () => {
+                        let tab = {
+                            id: 6,
+                            animal_id: this.animal_id,
+                        };
+
+                        store.dispatch("tabAnimal", tab);
+
+                        store.dispatch("animalInfo", data);
+                        this.displaytab = true;
+                    },
+                });
+            }
+            if (menu.includes(1)) {
+                items.push({
+                    label: "คัดจำหน่าย",
+                    icon: "pi pi-search",
+                    command: () => {
+                        let tab = {
+                            id: 9,
+                            animal_id: this.animal_id,
+                        };
+
+                        store.dispatch("tabAnimal", tab);
+
+                        store.dispatch("animalInfo", data);
+                        this.displaytab = true;
+
+                        // this.$router.push("/creature/edit/" + id);
+                    },
+                });
+            }
+            return items;
+        },
+        validation() {
+            if (
+                !this.form.StaffNumber ||
+                !this.form.StaffIdentificationNumber ||
+                !this.form.StaffTitleID ||
+                !this.form.StaffGivenName ||
+                !this.form.StaffSurname ||
+                !this.form.StaffGenderID ||
+                !this.form.StaffOrganizationID ||
+                !this.form.StaffPositionTypeID ||
+                !this.form.StaffPositionID ||
+                !this.form.StaffStartDate ||
+                !this.form.StaffEmail ||
+                !this.form.StaffMobilePhone
+            ) {
+                this.valid = true;
+                this.$toast.add({
+                    severity: "error",
+                    summary: "ล้มเหลว",
+                    detail: "กรุณากรอกข้อมูล",
+                    life: 5000,
+                });
+                return false;
+            } else {
+                return true;
+            }
+        },
+        // Axios
+        async load(event) {
+            this.isLoading = true;
+
+            // สำหรับเปลี่ยนหน้า
+            if (event) {
+                this.params.page = event.page + 1;
+                this.currentPage = event.page + 1;
+            }
+
+            // กำหนด parameter
+            this.setParam();
+
+            if (typeof this.params.ProjectID !== "string") {
+                this.params.ProjectID = JSON.stringify(this.params.ProjectID);
+            }
+
+            this.fetchAnimal();
+        },
+
+        fetchAIZone() {
+            let params = {};
+            //  Fetch AIZone
+            axios
+                .get(this.url.AIZone, {
+                    signal: this.controller.signal,
+                    params: params,
+                })
+                .then((res) => {
+                    this.dropdown.AIZones = res.data.rows;
+
+                    this.dropdown.AIZones.push({
+                        AIZoneID: 99,
+                        AIZoneName: "ทั้งหมด",
+                    });
+                })
+                .finally(() => {
+                    this.isLoading = false;
+                });
+        },
+        fetchOrganizationZone() {
+            let params = {};
+            //  Fetch OrganizationZone
+            axios
+                .get(this.url.OrganizationZone, {
+                    signal: this.controller.signal,
+                    params: params,
+                })
+                .then((res) => {
+                    this.dropdown.OrganizationZones = res.data.rows;
+                    this.dropdown.OrganizationZones.push({
+                        OrganizationZoneID: 99,
+                        OrganizationZoneName: "ทั้งหมด",
+                    });
+                })
+                .finally(() => {
+                    this.isLoading = false;
+                });
+        },
+        fetchProject() {
+            let params = {};
+
+            if (this.animal_id == 1) {
+                params["AnimalTypeID"] = "[1,2,41,42]";
+            } else if (this.animal_id == 2) {
+                params["AnimalTypeID"] = "[3,4,43,44]";
+            } else if (this.animal_id == 3) {
+                params["AnimalTypeID"] = "[17,18,45,46]";
+            }
+
+            axios
+                .get(this.url.Project, {
+                    signal: this.controller.signal,
+                    params: params,
+                })
+                .then((res) => {
+                    this.dropdown.Projects = res.data.rows;
+                })
+                .finally(() => {
+                    this.isLoading = false;
+                });
+        },
+        fetchProvince() {
+            //  Fetch Province
+            let params = {};
+
+            if (this.search.AIZoneID != null) {
+                params["AIZoneID"] = this.search.AIZoneID;
+            }
+
+            if (this.search.OrganizationZoneID != null) {
+                params["OrganizationZoneID"] = this.search.OrganizationZoneID;
+            }
+            axios
+                .get(this.url.Province, {
+                    signal: this.controller.signal,
+                    params: params,
+                })
+                .then((res) => {
+                    this.dropdown.Provinces = res.data.rows;
+                })
+                .finally(() => {
+                    this.isLoading = false;
+                });
+        },
+
+        fetchAnimalSex() {
+            //  Fetch Province
+            let params = {};
+
+            if (this.search.AIZoneID != null) {
+                params["AIZoneID"] = this.search.AIZoneID;
+            }
+
+            if (this.search.OrganizationZoneID != null) {
+                params["OrganizationZoneID"] = this.search.OrganizationZoneID;
+            }
+            axios
+                .get(this.url.AnimalSex, {
+                    signal: this.controller.signal,
+                    params: params,
+                })
+                .then((res) => {
+                    this.dropdown.AnimalSex = res.data.rows;
+                })
+                .finally(() => {
+                    this.isLoading = false;
+                });
+        },
+        fetchAmphur() {
+            if (
+                this.search.AIZoneID == null &&
+                this.search.OrganizationZoneID == null &&
+                this.search.ProvinceID == null
+            ) {
+                return;
+            }
+
+            let params = {};
+
+            if (this.search.ProvinceID != null) {
+                params["ProvinceID"] = this.search.ProvinceID;
+            }
+
+            axios
+                .get(this.url.Amphur, {
+                    signal: this.controller.signal,
+                    params: params,
+                })
+                .then((res) => {
+                    this.dropdown.Amphurs = res.data.rows;
+                })
+                .finally(() => {
+                    this.isLoading = false;
+                });
+        },
+        fetchTumbol() {
+            if (
+                this.search.AIZoneID == null &&
+                this.search.OrganizationZoneID == null &&
+                this.search.AmphurID == null
+            ) {
+                return;
+            }
+
+            let params = {};
+
+            if (this.search.AmphurID != null) {
+                params["AmphurID"] = this.search.AmphurID;
+            }
+
+            axios
+                .get(this.url.Tumbol, {
+                    signal: this.controller.signal,
+                    params: params,
+                })
+                .then((res) => {
+                    this.dropdown.Tumbols = res.data.rows;
+                })
+                .finally(() => {
+                    this.isLoading = false;
+                });
+        },
+        fetchOrganizationType() {
+            let params = {};
+
+            axios
+                .get(this.url.OrganizationType, {
+                    signal: this.controller.signal,
+                    params: params,
+                })
+                .then((res) => {
+                    this.dropdown.OrganizationTypes = res.data.rows;
+                })
+                .finally(() => {
+                    this.isLoading = false;
+                });
+        },
+        fetchOrganization() {
+            if (
+                this.search.AIZoneID == null &&
+                this.search.OrganizationZoneID == null
+            ) {
+                return;
+            }
+
+            let params = {};
+
+            if (this.search.OrganizationTypeID != null) {
+                params["OrganizationTypeID"] = this.search.OrganizationTypeID;
+            }
+
+            // Province IN AIZOne
+            if (this.search.AIZoneID != null) {
+                params["OrganizationAiZoneID"] = this.search.AIZoneID;
+            }
+
+            if (this.search.OrganizationZoneID != null) {
+                params["OrganizationZoneID"] = this.search.OrganizationZoneID;
+            }
+
+            if (this.search.ProvinceID != null) {
+                params["ProvinceID"] = this.search.ProvinceID;
+            }
+
+            if (this.search.AmphurID != null) {
+                params["FarmAmphurID"] = this.search.AmphurID;
+            }
+
+            if (this.search.TumbolID != null) {
+                params["FarmTumbolID"] = this.search.TumbolID;
+            }
+
+            axios
+                .get(this.url.Organization, {
+                    signal: this.controller.signal,
+                    params: params,
+                })
+                .then((res) => {
+                    this.dropdown.Organizations = res.data.rows.map((item) => {
+                        return {
+                            OrganizationID: item.OrganizationID,
+                            OrganizationFull:
+                                item.OrganizationCode +
+                                ", " +
+                                item.OrganizationName,
+                        };
+                    });
+                })
+                .finally(() => {
+                    this.isLoading = false;
+                });
+        },
+        fetchSemen() {
+            if (this.animal_id == 1) {
+                this.url.Semen +=
+                    "&AnimalTypeID=[1,2,41,42]&orderByField=SemenNumber&orderBy=asc";
+            } else if (this.animal_id == 2) {
+                this.url.Semen +=
+                    "&AnimalTypeID=[3,4,43,44]&orderByField=SemenNumber&orderBy=asc";
+            } else if (this.animal_id == 3) {
+                this.url.Semen +=
+                    "&AnimalTypeID=[17,18,45,46]&orderByField=SemenNumber&orderBy=asc";
+            }
+
+            axios
+                .get(this.url.Semen, {
+                    signal: this.controller.signal,
+                })
+                .then((res) => {
+                    this.dropdown.Semens = res.data.rows.map((item) => {
+                        return {
+                            SemenID: item.SemenID,
+                            SemenNumber: item.SemenNumber,
+                        };
+                    });
+                })
+                .finally(() => {
+                    this.isLoading = false;
+                });
+        },
+
+        fetchFarm() {
+            //   this.isLoading = true;
+            if (
+                this.search.AIZoneID == null &&
+                this.search.OrganizationZoneID == null
+            ) {
+                this.isLoading = false;
+                return;
+            }
+
+            let params = {
+                // size: this.rowPerPage,
+                // page: this.currentPage,
+                orderByField: "FarmID",
+                orderBy: "desc",
+                // includeAll: false,
+            };
+
+            if (this.search.FarmAnimalType == null) {
+                this.search.FarmAnimalType = parseInt(this.animal_id);
+                params["FarmAnimalType"] = this.search.FarmAnimalType;
+            } else {
+                params["FarmAnimalType"] = this.search.FarmAnimalType;
+            }
+
+            // Province IN AIZOne
+            if (this.search.AIZoneID != null) {
+                if (this.search.AIZoneID != 99) {
+                    params["AIZoneID"] = this.search.AIZoneID;
+                }
+            }
+
+            if (this.search.OrganizationZoneID != null) {
+                if (this.search.OrganizationZoneID != 99) {
+                    params["OrganizationZoneID"] =
+                        this.search.OrganizationZoneID;
+                }
+            }
+
+            if (this.search.ProvinceID != null) {
+                params["FarmProvinceID"] = this.search.ProvinceID;
+            }
+
+            if (this.search.AmphurID != null) {
+                params["FarmAmphurID"] = this.search.AmphurID;
+            }
+
+            if (this.search.TumbolID != null) {
+                params["FarmTumbolID"] = this.search.TumbolID;
+            }
+
+            if (this.search.OrganizationID != null) {
+                params["OrganizationID"] = this.search.OrganizationID;
+            }
+
+            if (this.search.ProjectIDArray) {
+                params["ProjectID"] = JSON.stringify(
+                    this.search.ProjectIDArray
+                );
+            }
+
+            if (this.search.FarmerFullName) {
+                params["FullName"] = this.search.FarmerFullName;
+            }
+
+            axios
+                .get(this.url.Farm, {
+                    signal: this.controller.signal,
+                    params: params,
+                })
+                .then((res) => {
+                    this.dropdown.Farms = res.data.rows;
+                })
+                .finally(() => {
+                    this.isLoading = false;
+                });
+        },
+
+        fetchAnimal() {
+            this.isLoading = true;
+            if (
+                this.search.AIZoneID == null &&
+                this.search.OrganizationZoneID == null
+            ) {
+                this.isLoading = false;
+                return;
+            }
+            let params = {
+                ...this.params,
+                size: this.rowPerPage,
+                page: this.currentPage,
+                orderByField: "AIID",
+                orderBy: "desc",
+                isRemove: 0,
+            };
+
+            console.log(this.currentPage);
+
+            if (this.search.FarmAnimalType == null) {
+                this.search.FarmAnimalType = parseInt(this.animal_id);
+                params["FarmAnimalType"] = this.search.FarmAnimalType;
+            } else {
+                params["FarmAnimalType"] = this.search.FarmAnimalType;
+            }
+            // Province IN AIZOne
+            if (this.search.AIZoneID != null) {
+                if (this.search.AIZoneID != 99) {
+                    params["AIZoneID"] = this.search.AIZoneID;
+                }
+            }
+            if (this.search.OrganizationZoneID != null) {
+                if (this.search.OrganizationZoneID != 99) {
+                    params["OrganizationZoneID"] =
+                        this.search.OrganizationZoneID;
+                }
+            }
+            if (this.search.ProvinceID != null) {
+                params["FarmProvinceID"] = this.search.ProvinceID;
+            }
+            if (this.search.AmphurID != null) {
+                params["FarmAmphurID"] = this.search.AmphurID;
+            }
+            if (this.search.TumbolID != null) {
+                params["FarmTumbolID"] = this.search.TumbolID;
+            }
+            if (this.search.OrganizationID != null) {
+                params["OrganizationID"] = this.search.OrganizationID;
+            }
+
+            if (this.search.SemenID != null) {
+                params["SemenID"] = this.search.SemenID;
+            }
+
+            if (this.search.AIDate != null) {
+                params["AIStartDate"] = dayjs(this.search.AIDate[0]).format(
+                    "YYYY-MM-DD"
+                );
+                params["AIEndDate"] = dayjs(this.search.AIDate[1]).format(
+                    "YYYY-MM-DD"
+                );
+            }
+
+            if (this.search.CreatedDate != null) {
+                params["CreatedStartDate"] = dayjs(
+                    this.search.CreatedDate[0]
+                ).format("YYYY-MM-DD");
+                params["CreatedEndDate"] = dayjs(
+                    this.search.CreatedDate[1]
+                ).format("YYYY-MM-DD");
+            }
+
+            if (this.search.ProjectIDArray) {
+                params["ProjectID"] = JSON.stringify(
+                    this.search.ProjectIDArray
+                );
+            }
+
+            this.setParam();
+            if (this.animal_id == 1) {
+                params["AnimalTypeID"] = "[1,2,41,42]";
+            } else if (this.animal_id == 2) {
+                params["AnimalTypeID"] = "[3,4,43,44]";
+            } else if (this.animal_id == 3) {
+                params["AnimalTypeID"] = "[17,18,45,46]";
+            }
+            //   if (this.filtered.AnimalSource) {
+            //     this.params.AnimalSource = this.filtered.AnimalSource;
+            //   }
+            if (this.search.ProjectIDArray) {
+                params["ProjectID"] = JSON.stringify(
+                    this.search.ProjectIDArray
+                );
+            }
+            this.params.ProjectID = JSON.stringify(this.params.ProjectID);
+
+            if (this.search.count_project_type) {
+                params["CountProjectType"] = this.search.count_project_type;
+            }
+
+            //   if (this.search.FarmID) {
+            params["FarmID"] = this.search.FarmID?.FarmID;
+            //   }
+
+            axios
+                .get(this.url.AI, {
+                    signal: this.controller.signal,
+                    params: params,
+                    size: 10,
+                })
+                .then((response) => {
+                    let data = response.data;
+                    this.params.page = data.currPage;
+                    this.table.total = data.total;
+                    this.table.last_page = data.lastPage;
+                    this.data = data.rows;
+                    console.log(this.data);
+                    console.log(this.params.page);
+                    console.log(this.table.total);
+                    console.log(this.table.last_page);
+                })
+                .finally(() => {
+                    this.isLoading = false;
+                });
+        },
+
+        // async exportExcel() {
+        //   this.isLoading = true;
+        //   if (
+        //     this.search.AIZoneID == null &&
+        //     this.search.OrganizationZoneID == null
+        //   ) {
+        //     this.isLoading = false;
+        //     return;
+        //   }
+
+        //   let params = {
+        //     ...this.params,
+        //     isRemove: 0,
+        //     size: this.rowPerPage,
+        //     page: this.currentPage,
+        //     orderByField: "AIID",
+        //     orderBy: "desc",
+        //     // includeAll: false,
+        //   };
+
+        //   if (this.search.FarmAnimalType == null) {
+        //     this.search.FarmAnimalType = parseInt(this.animal_id);
+        //     params["FarmAnimalType"] = this.search.FarmAnimalType;
+        //   } else {
+        //     params["FarmAnimalType"] = this.search.FarmAnimalType;
+        //   }
+
+        //   // Province IN AIZOne
+        //   if (this.search.AIZoneID != null) {
+        //     if (this.search.AIZoneID != 99) {
+        //       params["AIZoneID"] = this.search.AIZoneID;
+        //     }
+        //   }
+
+        //   if (this.search.OrganizationZoneID != null) {
+        //     if (this.search.OrganizationZoneID != 99) {
+        //       params["OrganizationZoneID"] = this.search.OrganizationZoneID;
+        //     }
+        //   }
+
+        //   if (this.search.ProvinceID != null) {
+        //     params["FarmProvinceID"] = this.search.ProvinceID;
+        //   }
+
+        //   if (this.search.AmphurID != null) {
+        //     params["FarmAmphurID"] = this.search.AmphurID;
+        //   }
+
+        //   if (this.search.TumbolID != null) {
+        //     params["FarmTumbolID"] = this.search.TumbolID;
+        //   }
+
+        //   if (this.search.OrganizationID != null) {
+        //     params["OrganizationID"] = this.search.OrganizationID;
+        //   }
+
+        //   if (this.search.OrganizationID != null) {
+        //     params["OrganizationID"] = this.search.OrganizationID;
+        //   }
+
+        //   if (this.search.ProjectIDArray) {
+        //     params["ProjectID"] = JSON.stringify(this.search.ProjectIDArray);
+        //   }
+
+        //   if (this.search.FarmerFullName) {
+        //     params["FullName"] = this.search.FarmerFullName;
+        //   }
+
+        //   this.setParam();
+
+        //   if (this.animal_id == 1) {
+        //     params["AnimalTypeID"] = "[1,2,41,42]";
+        //   } else if (this.animal_id == 2) {
+        //     params["AnimalTypeID"] = "[3,4,43,44]";
+        //   } else if (this.animal_id == 3) {
+        //     params["AnimalTypeID"] = "[17,18,45,46]";
+        //   }
+
+        //   if (this.search.FarmID) {
+        //     params["FarmID"] = this.search.FarmID.FarmID;
+        //   }
+
+        //   //   if (this.filtered.AnimalSource) {
+        //   //     this.params.AnimalSource = this.filtered.AnimalSource;
+        //   //   }
+
+        //   if (this.search.ProjectIDArray) {
+        //     params["ProjectID"] = JSON.stringify(this.search.ProjectIDArray);
+        //   }
+
+        //   if (this.search.Status) {
+        //     params["isActive"] = this.search.Status;
+        //   }
+
+        //   await axios
+        //     .get(this.url.ExportAnimal, {
+        //       signal: this.controller.signal,
+        //       params: {
+        //         ...params,
+        //         size: 100000,
+        //         page: 1,
+        //         noEventLatest: true,
+        //         includeEventLatest: false,
+        //       },
+        //     })
+        //     .then((response) => {
+        //       this.json_data = response.data.rows;
+        //     })
+        //     .finally(() => {
+        //       this.isLoading = false;
+        //     });
+        // },
+
+        async onExport() {
+            this.exportExcel().then(() => {
+                setTimeout(async () => {
+                    const workbook = new ExcelJS.Workbook();
+                    const worksheet = workbook.addWorksheet("รายการ", {
+                        pageSetup: { orientation: "landscape" },
+                        headerFooter: {
+                            firstHeader: "Hello Exceljs",
+                            firstFooter: "Hello World",
+                        },
+                    });
+
+                    //   หมายเลขใบหู: x.AnimalEarID,
+                    //         ชื่อสัตว์: x.AnimalName,
+                    //         อายุ: "'" + x.AnimalAge,
+                    //         สถานะ: x.AnimalStatus ? x.AnimalStatus.AnimalStatusName : "-",
+                    //         สายพันธุ์: x.AnimalBreedAll,
+                    //         วันเกิด: x.ThaiAnimalBirthDate,
+                    //         เพศ: x.AnimalSex.AnimalSexName,
+                    //         หมายเลขฟาร์ม: x.AnimalFarm.FarmIdentificationNumber,
+                    //         ชื่อฟาร์ม: x.AnimalFarm.FarmName,
+                    //         หน่วยงาน: x.Organization
+                    //           ? x.Organization.OrganizationName
+                    //           : "-",
+
+                    worksheet.columns = [
+                        {
+                            header: "ชื่อสัตว์",
+                            key: "Animal.AnimalID",
+                            width: 25,
+                            outlineLevel: 1,
+                        },
+                        {
+                            header: "ชื่อสัตว์",
+                            key: "ชื่อสัตว์",
+                            width: 25,
+                            outlineLevel: 1,
+                        },
+                        {
+                            header: "อายุ",
+                            key: "อายุ",
+                            width: 25,
+                            outlineLevel: 1,
+                        },
+                        {
+                            header: "สถานะ",
+                            key: "สถานะ",
+                            width: 25,
+                            outlineLevel: 1,
+                        },
+                        {
+                            header: "สายพันธุ์",
+                            key: "สายพันธุ์",
+                            width: 25,
+                            outlineLevel: 1,
+                        },
+                        {
+                            header: "วันเกิด",
+                            key: "วันเกิด",
+                            width: 25,
+                            outlineLevel: 1,
+                        },
+                        {
+                            header: "เพศ",
+                            key: "เพศ",
+                            width: 25,
+                            outlineLevel: 1,
+                        },
+                        {
+                            header: "วันเกิด",
+                            key: "วันเกิด",
+                            width: 25,
+                            outlineLevel: 1,
+                        },
+                        {
+                            header: "หมายเลขฟาร์ม",
+                            key: "หมายเลขฟาร์ม",
+                            width: 25,
+                            outlineLevel: 1,
+                        },
+                        {
+                            header: "ชื่อฟาร์ม",
+                            key: "ชื่อฟาร์ม",
+                            width: 25,
+                            outlineLevel: 1,
+                        },
+                        {
+                            header: "หน่วยงาน",
+                            key: "หน่วยงาน",
+                            width: 25,
+                            outlineLevel: 1,
+                        },
+                        // {
+                        //   header: "วันที่ขึ้นทะเบียน",
+                        //   key: "วันที่ขึ้นทะเบียน",
+                        //   width: 25,
+                        //   outlineLevel: 1,
+                        // },
+                    ];
+
+                    // worksheet.properties.defaultRowHeight = 20;
+
+                    worksheet.addRows(this.json_data);
+
+                    worksheet.eachRow((row) => {
+                        // row.height = 45;
+                        row.eachCell(function (cell) {
+                            cell.alignment = {
+                                vertical: "middle",
+                                horizontal: "center",
+                                wrapText: true,
+                            };
+                        });
+                    });
+
+                    const row = worksheet.getRow(1);
+                    row.height = 20;
+
+                    worksheet.insertRow(1, "รายการฟาร์ม");
+                    worksheet.mergeCells("A1:K1");
+                    worksheet.getCell("A1").value = "รายการทะเบียนฟาร์ม";
+                    worksheet.getCell("A1").alignment = {
+                        vertical: "middle",
+                        horizontal: "center",
+                    };
+                    const font = { name: "Arial", size: 18, bold: true };
+                    worksheet.getCell("A1").font = font;
+
+                    const font1 = { name: "Arial", size: 18, bold: true };
+                    worksheet.getCell("A1").font = font1;
+
+                    // Images
+                    const buffer = await workbook.xlsx.writeBuffer();
+                    const blob = new Blob([buffer], {
+                        type: "application/octet-stream",
+                    });
+                    const href = URL.createObjectURL(blob);
+                    const link = document.createElement("a");
+                    link.href = href;
+                    link.download = "รายการฟาร์ม.xlsx";
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }, 1000);
+            });
+        },
+
+        fetchAnimalBreed() {
+            axios
+                .get(this.url.AnimalBreedID, { signal: this.controller.signal })
+                .then((response) => {
+                    if (this.animal_id == 1) {
+                        this.AnimalBreed = response.data.rows
+                            .filter(
+                                (item) =>
+                                    item.AnimalTypeID === 1 ||
+                                    item.AnimalTypeID === 2 ||
+                                    item.AnimalTypeID === 41 ||
+                                    item.AnimalTypeID === 42
+                            )
+                            .map((item) => {
+                                return {
+                                    AnimalBreedID: item.AnimalBreedID,
+                                    AnimalBreedCode: item.AnimalBreedCode,
+                                    Fullname:
+                                        item.AnimalBreedCode +
+                                        ", " +
+                                        item.AnimalBreedName,
+                                };
+                            });
+                    } else if (this.animal_id == 2) {
+                        this.AnimalBreed = response.data.rows
+                            .filter(
+                                (item) =>
+                                    item.AnimalTypeID === 3 ||
+                                    item.AnimalTypeID === 4 ||
+                                    item.AnimalTypeID === 43 ||
+                                    item.AnimalTypeID === 44
+                            )
+                            .map((item) => {
+                                return {
+                                    AnimalBreedID: item.AnimalBreedID,
+                                    AnimalBreedCode: item.AnimalBreedCode,
+                                    Fullname:
+                                        item.AnimalBreedCode +
+                                        ", " +
+                                        item.AnimalBreedName,
+                                };
+                            });
+                    } else if (this.animal_id == 3) {
+                        this.AnimalBreed = response.data.rows
+                            .filter(
+                                (item) =>
+                                    item.AnimalTypeID === 17 ||
+                                    item.AnimalTypeID === 18 ||
+                                    item.AnimalTypeID === 45 ||
+                                    item.AnimalTypeID === 46
+                            )
+                            .map((item) => {
+                                return {
+                                    AnimalBreedID: item.AnimalBreedID,
+                                    AnimalBreedCode: item.AnimalBreedCode,
+                                    Fullname:
+                                        item.AnimalBreedCode +
+                                        ", " +
+                                        item.AnimalBreedName,
+                                };
+                            });
+                    }
+                });
+        },
+
+        fetchFather() {
+            if (
+                this.parents.AnimalFatherEarID != null &&
+                this.parents.AnimalFatherEarID != ""
+            ) {
+                axios
+                    .get("/animal?includeAll=false", {
+                        signal: this.controller.signal,
+                        params: {
+                            AnimalEarID: this.parents.AnimalFatherEarID,
+                        },
+                    })
+                    .then((res) => {
+                        if (res.data.rows.length != 0) {
+                            this.params.AnimalFatherID =
+                                res.data.rows[0].AnimalID;
+                        } else {
+                            this.params.AnimalFatherID = 0;
+                        }
+                        // this.fetchAnimal();
+                        // this.exportExcel();
+                    });
+            } else {
+                this.params.AnimalFatherID = null;
+                // this.fetchAnimal();
+                // this.exportExcel();
+            }
+        },
+
+        fetchMother() {
+            if (
+                this.parents.AnimalMotherEarID != null &&
+                this.parents.AnimalMotherEarID != ""
+            ) {
+                axios
+                    .get("/animal?includeAll=false", {
+                        signal: this.controller.signal,
+                        params: {
+                            AnimalEarID: this.parents.AnimalMotherEarID,
+                        },
+                    })
+                    .then((res) => {
+                        if (res.data.rows.length != 0) {
+                            this.params.AnimalMotherID =
+                                res.data.rows[0].AnimalID;
+                        } else {
+                            this.params.AnimalMotherID = 0;
+                        }
+                        // this.fetchAnimal();
+                        // this.exportExcel();
+                    });
+            } else {
+                this.params.AnimalMotherID = null;
+                // this.fetchAnimal();
+                // this.exportExcel();
+            }
+        },
+
+        setParam() {
+            if (this.search.OrganizationZoneID) {
+                this.params.OrganizationZoneID = this.search.OrganizationZoneID;
+            }
+            if (this.search.FarmID) {
+                this.params.FarmID = this.search.FarmID;
+            }
+            if (this.search.AnimalSource) {
+                this.params.AnimalSource = this.search.AnimalSource;
+            }
+
+            if (this.animal_id == 1) {
+                this.params.AnimalTypeID = "[1,2,41,42]";
+            } else if (this.animal_id == 2) {
+                this.params.AnimalTypeID = "[3,4,43,44]";
+            } else if (this.animal_id == 3) {
+                this.params.AnimalTypeID = "[17,18,45,46]";
+            }
+        },
+        loadDefault() {
+            this.isLoading = true;
+            this.fetchSemen();
+            this.fetchAIZone();
+            //   this.fetchAnialBreed();
+            this.fetchOrganizationZone();
+            this.fetchProject();
+            this.fetchProvince();
+            this.fetchAmphur();
+            this.fetchTumbol();
+            this.fetchOrganizationType();
+            this.fetchOrganization();
+            //   this.fetchFarm();
+            this.fetchAnimalBreed();
+            this.fetchAnimalSex();
+            //   this.fetchAnimal();
+        },
+        // sort table
+        sort($event) {
+            if ($event.sortField !== "show_id") {
+                if ($event.sortOrder == 1) {
+                    this.params.orderBy = "asc";
+                } else {
+                    this.params.orderBy = "desc";
+                }
+                this.params.orderByField = $event.sortField;
+                this.load();
+            }
+        },
+        // page change
+        page($event) {
+            this.currentPage = $event.page + 1;
+            this.curpage = $event.page + 1;
+            this.load();
+        },
+        remove() {
+            axios.delete(this.url + "/" + this.form.id).then(() => {
+                this.close_delete();
+                this.load();
+                this.$toast.add({
+                    severity: "success",
+                    summary: "สำเร็จ",
+                    detail: "ลบข้อมูลเสร็จสิ้น",
+                    life: 5000,
+                });
+            });
+        },
+        project_check(id) {
+            let prepare_data = this.data.find(function (item) {
+                return item.AnimalID == id;
+            });
+            let project_id = prepare_data.ProjectID;
+            let projects = prepare_data.Projects;
+
+            if (this.user.GroupID == 1 || this.user.GroupID == 2) {
+                return true;
+            } else {
+                if (project_id == 21) {
+                    this.$toast.add({
+                        severity: "error",
+                        summary: "ไม่มีสามารถแก้ไขได้",
+                        detail: "เนื่องจากอยู่ใน " + projects.toString(),
+                        life: 5000,
+                    });
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        },
+        async open_edit(id) {
+            if (this.permit[0].IsUpdate == 0) {
+                this.$toast.add({
+                    severity: "error",
+                    summary: "ล้มเหลว",
+                    detail: "ไม่มีสิทธิ์แก้ไข",
+                    life: 5000,
+                });
+                return;
+            }
+
+            if (this.project_check(id)) {
+                await this.$router.push("/creature/edit/" + id);
+            }
+        },
+        async open_detail(id) {
+            this.form = null;
+            if (this.permit[0].IsPreview == 0) {
+                this.$toast.add({
+                    severity: "error",
+                    summary: "ล้มเหลว",
+                    detail: "ไม่มีสิทธิ์ดูข้อมูล",
+                    life: 5000,
+                });
+                return;
+            } else {
+                this.form = this.data.find((x) => x.AnimalID == id);
+
+                if (!this.form.SourceFarm) {
+                    this.form.SourceFarm = {
+                        FarmName: "",
+                    };
+                }
+                if (!this.form.AnimalFather) {
+                    this.form.AnimalFather = {
+                        AnimalName: "",
+                    };
+                }
+                if (!this.form.AnimalMother) {
+                    this.form.AnimalMother = {
+                        AnimalName: "",
+                    };
+                }
+
+                if (this.form.AnimalSource == "BORN") {
+                    this.form.AnimalSourceName = "เกิดในฟาร์ม";
+                } else if (this.form.AnimalSource == "BUY") {
+                    this.form.AnimalSourceName = "ซื้อมา";
+                } else if (this.form.AnimalSource == "TRANSFER") {
+                    this.form.AnimalSourceName = "ย้ายมา";
+                } else {
+                    this.form.AnimalSourceName = "";
+                }
+                if (this.form.AnimalBornType == "NORMAL") {
+                    this.form.AnimalBornTypeName = "ผสมพันธุ์ปกติ";
+                } else if (this.form.AnimalBornType == "AI") {
+                    this.form.AnimalBornTypeName = "ผสมเทียม";
+                } else if (this.form.AnimalBornType == "EMBRYO") {
+                    this.form.AnimalBornTypeName = "ตัวอ่อน";
+                } else {
+                    this.form.AnimalBornTypeName = "";
+                }
+                if (this.form.AnimalFirstBreed == 1) {
+                    this.form.AnimalFirstBreedName = "สายเลือดตั้งต้น";
+                } else if (this.form.AnimalFirstBreed == 0) {
+                    this.form.AnimalFirstBreedName = "สายเลือดครอบครัว";
+                } else {
+                    this.form.AnimalFirstBreedName = "";
+                }
+
+                if (this.form.AnimalFather) {
+                    this.form.AnimalFather.Fullname =
+                        this.form.AnimalFather.AnimalEarID +
+                        ", " +
+                        this.form.AnimalFather.AnimalName;
+                }
+                if (this.form.AnimalMother) {
+                    this.form.AnimalMother.Fullname =
+                        this.form.AnimalMother.AnimalEarID +
+                        ", " +
+                        this.form.AnimalMother.AnimalName;
+                }
+
+                this.display_view = true;
+            }
+        },
+        open_delete(id) {
+            if (this.permit[0].IsDelete == 0) {
+                this.$toast.add({
+                    severity: "error",
+                    summary: "ล้มเหลว",
+                    detail: "ไม่มีสิทธิ์ลบ",
+                    life: 5000,
+                });
+                return;
+            }
+            this.form.id = id;
+            this.display_delete = true;
+        },
+        close_delete() {
+            this.display_delete = false;
+        },
+        creature() {
+            if (this.permit[0].IsAdd == 0) {
+                this.$toast.add({
+                    severity: "error",
+                    summary: "ล้มเหลว",
+                    detail: "ไม่มีสิทธิ์เพิ่ม",
+                    life: 5000,
+                });
+                return;
+            } else {
+                store.dispatch("bornItem", null);
+                this.$router.push("/creature/add");
+            }
+        },
+        exportCSV() {
+            this.$refs.dt.exportCSV();
+        },
+        onSearch() {
+            this.fetchAnimal();
+            //   this.exportExcel();
+        },
     },
-    close_delete() {
-      this.display_delete = false;
+    unmounted() {
+        this.controller.abort();
     },
-    creature() {
-      if (this.permit[0].IsAdd == 0) {
-        this.$toast.add({
-          severity: "error",
-          summary: "ล้มเหลว",
-          detail: "ไม่มีสิทธิ์เพิ่ม",
-          life: 5000,
-        });
-        return;
-      } else {
-        store.dispatch("bornItem", null);
-        this.$router.push("/creature/add");
-      }
-    },
-    exportCSV() {
-      this.$refs.dt.exportCSV();
-    },
-    onSearch() {
-      this.fetchAnimal();
-      //   this.exportExcel();
-    },
-  },
-  unmounted() {
-    this.controller.abort();
-  },
 };
 
 // let url = this.url + "?size=15";
@@ -3098,6 +3196,6 @@ export default {
 
 <style>
 .p-datatable .p-column-header-content {
-  justify-content: center;
+    justify-content: center;
 }
 </style>

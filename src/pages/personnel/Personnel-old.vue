@@ -10,132 +10,9 @@
               เครื่องมือช่วยค้นหาทะเบียนบุคลากร
             </h1>
           </div>
-
-          <div class="col-12 sm:col-6 lg:col-6">
-            <label for="AIZoneID" class="block text-600 text-sm font-bold mb-2">
-              ศูนย์วิจัย</label
-            >
-            <Dropdown
-              class="w-full"
-              v-model="search.AIZoneID"
-              :options="dropdown.AIZones"
-              optionLabel="AIZoneName"
-              optionValue="AIZoneID"
-              :disabled="isSelectAIZoneDisabled"
-              :filter="true"
-              :showClear="true"
-              placeholder="-- โปรดเลือกศูนย์วิจัย --"
-            >
-            </Dropdown>
-          </div>
-
-          <div class="col-12 sm:col-6 lg:col-6">
+          <div class="col-12 sm:col-12 lg:col-4">
             <label
-              for="searchOrganizationZoneID"
-              class="block text-600 text-sm font-bold mb-2"
-            >
-              เขตพื้นที่ปศุสัตว์</label
-            >
-            <Dropdown
-              class="w-full"
-              v-model="search.OrganizationZoneID"
-              :options="dropdown.OrganizationZones"
-              optionLabel="OrganizationZoneName"
-              optionValue="OrganizationZoneID"
-              :disabled="isSelectOrganizationZoneDisabled"
-              :filter="true"
-              :showClear="true"
-              placeholder="-- เลือกเขตพื้นที่ปศุสัตว์ --"
-            >
-            </Dropdown>
-          </div>
-
-          <div class="col-12 sm:col-6 lg:col-4">
-            <label
-              for="searchProvinceID"
-              class="block text-600 text-sm font-bold mb-2"
-            >
-              จังหวัด</label
-            >
-            <Dropdown
-              class="w-full"
-              v-model="search.StaffProvinceID"
-              :options="dropdown.Provinces"
-              optionLabel="ProvinceName"
-              optionValue="ProvinceID"
-              :filter="true"
-              :showClear="true"
-              placeholder="ทั้งหมด"
-            >
-            </Dropdown>
-          </div>
-
-          <div class="col-12 sm:col-6 lg:col-4">
-            <label
-              for="searchAmphurID"
-              class="block text-600 text-sm font-bold mb-2"
-            >
-              อำเภอ</label
-            >
-            <Dropdown
-              class="w-full"
-              v-model="search.StaffAmphurID"
-              :options="dropdown.Amphurs"
-              optionLabel="AmphurName"
-              optionValue="AmphurID"
-              :filter="true"
-              :showClear="true"
-              placeholder="ทั้งหมด"
-            >
-            </Dropdown>
-          </div>
-
-          <div class="col-12 sm:col-6 lg:col-4">
-            <label
-              for="searchTumbolID"
-              class="block text-600 text-sm font-bold mb-2"
-            >
-              ตำบล</label
-            >
-            <Dropdown
-              class="w-full"
-              v-model="search.StaffTumbolID"
-              :options="dropdown.Tumbols"
-              optionLabel="TumbolName"
-              optionValue="TumbolID"
-              :filter="true"
-              :showClear="true"
-              placeholder="ทั้งหมด"
-            >
-            </Dropdown>
-          </div>
-
-          <div class="col-12 sm:col-12 lg:col-12">
-            <label
-              for="searchTumbolID"
-              class="block text-600 text-sm font-bold mb-2"
-            >
-              หน่วยงาน</label
-            >
-
-            <Dropdown
-              class="w-full"
-              v-model="search.StaffOrganizationID"
-              :options="dropdown.Organizations"
-              optionLabel="OrganizationName"
-              optionValue="OrganizationID"
-              emptyMessage="ไม่มีข้อมูล"
-              emptyFilterMessage="ไม่พบข้อมูล"
-              :filter="true"
-              :showClear="true"
-              placeholder="ทั้งหมด"
-              :virtualScrollerOptions="{ itemSize: 38 }"
-            />
-          </div>
-
-          <div class="col-12 sm:col-6 lg:col-4">
-            <label
-              for="searchTumbolID"
+              for="selectedUnit"
               class="block text-600 text-sm font-bold mb-2"
             >
               รหัสบุคลากร</label
@@ -146,10 +23,9 @@
               v-model="search.StaffNumber"
             />
           </div>
-
-          <div class="col-12 sm:col-6 lg:col-4">
+          <div class="col-12 sm:col-12 lg:col-4">
             <label
-              for="searchTumbolID"
+              for="selectedUnit"
               class="block text-600 text-sm font-bold mb-2"
             >
               ชื่อ</label
@@ -160,10 +36,9 @@
               v-model="search.StaffGivenName"
             />
           </div>
-
-          <div class="col-12 sm:col-6 lg:col-4">
+          <div class="col-12 sm:col-12 lg:col-4">
             <label
-              for="searchTumbolID"
+              for="selectedUnit"
               class="block text-600 text-sm font-bold mb-2"
             >
               นามสกุล</label
@@ -177,7 +52,7 @@
 
           <div class="col-12 sm:col-6 lg:col-4">
             <label
-              for="searchTumbolID"
+              for="selectedFarm"
               class="block text-600 text-sm font-bold mb-2"
             >
               เลขบัตรประจำตัวประชาชน</label
@@ -191,51 +66,244 @@
 
           <div class="col-12 sm:col-6 lg:col-4">
             <label
-              for="searchAmphurID"
+              for="selectedFarm"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              จังหวัด</label
+            >
+            <Dropdown
+              :showClear="true"
+              emptyMessage="ไม่มีข้อมูล"
+              emptyFilterMessage="ไม่พบข้อมูล"
+              class="w-full"
+              id="selectedFarm"
+              placeholder="ทั้งหมด"
+              optionLabel="ProvinceName"
+              optionValue="ProvinceID"
+              :options="Province"
+              :filter="true"
+              v-model="search.StaffProvinceID"
+            />
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <label
+              for="animal_id"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              อำเภอ</label
+            >
+            <Dropdown
+              :showClear="true"
+              emptyMessage="ไม่มีข้อมูล"
+              emptyFilterMessage="ไม่พบข้อมูล"
+              class="w-full"
+              id="selectedFarm"
+              placeholder="ทั้งหมด"
+              optionLabel="AmphurName"
+              optionValue="AmphurID"
+              :options="Amphur"
+              :filter="true"
+              v-model="search.StaffAmphurID"
+              :virtualScrollerOptions="{ itemSize: 38 }"
+            />
+          </div>
+
+          <div class="col-12 sm:col-6 lg:col-4">
+            <label
+              for="dateRange"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              ตำบล</label
+            >
+            <Dropdown
+              :showClear="true"
+              emptyMessage="ไม่มีข้อมูล"
+              emptyFilterMessage="ไม่พบข้อมูล"
+              class="w-full"
+              id="selectedFarm"
+              placeholder="ทั้งหมด"
+              optionLabel="TumbolName"
+              optionValue="TumbolID"
+              :options="Tumbol"
+              :filter="true"
+              v-model="search.StaffTumbolID"
+              :virtualScrollerOptions="{ itemSize: 38 }"
+            />
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <label
+              for="dateRange"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              แสดงตั้งแต่วันที่เริ่มงาน</label
+            >
+            <Datepicker
+              v-model="search.StaffStartDate"
+              id="dateRange"
+              locale="th"
+              :format="format"
+              utc
+              :enableTimePicker="false"
+              cancelText="ยกเลิก"
+              selectText="ยืนยัน"
+              placeholder="ตั้งแต่วันที่เริ่มทำงาน"
+            >
+              <template #year-overlay-value="{ text }">
+                {{ parseInt(text) + 543 }}
+              </template>
+              <template #year="{ year }">
+                {{ year + 543 }}
+              </template>
+            </Datepicker>
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <label
+              for="dateRange"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              จนถึงวันที่สิ้นสุดการทำงาน</label
+            >
+
+            <Datepicker
+              v-model="search.StaffEndDate"
+              id="dateRange"
+              locale="th"
+              :format="format"
+              utc
+              :enableTimePicker="false"
+              cancelText="ยกเลิก"
+              selectText="ยืนยัน"
+              placeholder="จนถึงวันที่สิ้นสุดการทำงาน"
+            >
+              <template #year-overlay-value="{ text }">
+                {{ parseInt(text) + 543 }}
+              </template>
+              <template #year="{ year }">
+                {{ year + 543 }}
+              </template>
+            </Datepicker>
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <label
+              for="selectedUnit"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              ตำแหน่งงาน</label
+            >
+            <Dropdown
+              :showClear="true"
+              emptyMessage="ไม่มีข้อมูล"
+              emptyFilterMessage="ไม่พบข้อมูล"
+              class="w-full"
+              placeholder="ทั้งหมด"
+              :options="Position"
+              optionLabel="PositionName"
+              optionValue="PositionID"
+              v-model="search.StaffPositionID"
+              :filter="true"
+            />
+          </div>
+          <div class="col-12 sm:col-4 lg:col-4">
+            <label
+              for="animal_id"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              หน่วยงานที่สังกัด</label
+            >
+            <Dropdown
+              :showClear="true"
+              emptyMessage="ไม่มีข้อมูล"
+              emptyFilterMessage="ไม่พบข้อมูล"
+              class="w-full"
+              placeholder="ทั้งหมด"
+              :options="Organization"
+              optionLabel="OrganizationName"
+              optionValue="OrganizationID"
+              v-model="search.StaffOrganizationID"
+              :filter="true"
+              :virtualScrollerOptions="{ itemSize: 38 }"
+            />
+          </div>
+
+          <div class="col-12 sm:col-4 lg:col-4">
+            <label
+              for="animal_id"
               class="block text-600 text-sm font-bold mb-2"
             >
               สถานะบุคลากร</label
             >
             <Dropdown
-              class="w-full"
+              :showClear="true"
               emptyMessage="ไม่มีข้อมูล"
               emptyFilterMessage="ไม่พบข้อมูล"
-              v-model="search.StaffStatus"
-              :options="dropdown.StatusAlives"
+              class="w-full"
+              placeholder="ทั้งหมด"
+              :options="StatusAlive"
               optionLabel="name"
               optionValue="id"
+              v-model="search.StaffStatus"
               :filter="true"
-              :showClear="true"
-              placeholder="ทั้งหมด"
-            >
-            </Dropdown>
-          </div>
-
-          <div class="col-12 sm:col-12 lg:col-12">
-            <Button
-              @click="onSearch"
-              label="ค้นหา"
-              icon=""
-              style="width: 100%"
-              class="mr-2 mb-3"
+              :virtualScrollerOptions="{ itemSize: 38 }"
             />
           </div>
+        </div>
 
-          <!-- <div class="col-12 sm:col-6 lg:col-4">
-            <label
-              for="searchTumbolID"
-              class="block text-600 text-sm font-bold mb-2"
-            >
-              นามสกุล</label
-            >
-            <InputText
-              class="w-full"
-              type="text"
-              v-model="search.StaffSurname"
-            />
-          </div> -->
-
-          <!--  -->
+        <div v-else class="grid">
+          <div class="col-12">
+            <Skeleton width="20rem" height="2rem" class="mb-4"></Skeleton>
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <Skeleton width="5rem" class="mb-2"></Skeleton>
+            <Skeleton height="2rem"></Skeleton>
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <Skeleton width="5rem" class="mb-2"></Skeleton>
+            <Skeleton height="2rem"></Skeleton>
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <Skeleton width="5rem" class="mb-2"></Skeleton>
+            <Skeleton height="2rem"></Skeleton>
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <Skeleton width="5rem" class="mb-2"></Skeleton>
+            <Skeleton height="2rem"></Skeleton>
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <Skeleton width="5rem" class="mb-2"></Skeleton>
+            <Skeleton height="2rem"></Skeleton>
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <Skeleton width="5rem" class="mb-2"></Skeleton>
+            <Skeleton height="2rem"></Skeleton>
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <Skeleton width="5rem" class="mb-2"></Skeleton>
+            <Skeleton height="2rem"></Skeleton>
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <Skeleton width="5rem" class="mb-2"></Skeleton>
+            <Skeleton height="2rem"></Skeleton>
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <Skeleton width="5rem" class="mb-2"></Skeleton>
+            <Skeleton height="2rem"></Skeleton>
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <Skeleton width="5rem" class="mb-2"></Skeleton>
+            <Skeleton height="2rem"></Skeleton>
+          </div>
+          <div class="col-12 sm:col-6 lg:col-4">
+            <Skeleton width="5rem" class="mb-2"></Skeleton>
+            <Skeleton height="2rem"></Skeleton>
+          </div>
+          <div class="col-12">
+            <div class="grid">
+              <div class="col-12">
+                <Skeleton width="5rem" class="mb-2"></Skeleton>
+                <Skeleton height="2rem" class="mb-2"></Skeleton>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -252,12 +320,23 @@
               @click="open_add"
             />
 
-            <Button
-              @click="onExport()"
+            <!-- <Button
               label="ดาวน์โหลด"
               icon="pi pi-download"
               class="mb-3 p-button-raised p-button-raised p-button-success"
-            />
+              @click="exportCSV($event)"
+            /> -->
+            <json-excel
+              :data="json_data"
+              style="display: inline-block"
+              class="mb-3"
+            >
+              <Button
+                label="ดาวน์โหลด"
+                icon="pi pi-download"
+                class="p-button-raised p-button-raised p-button-success"
+              />
+            </json-excel>
           </div>
         </div>
 
@@ -269,12 +348,12 @@
           :rowHover="true"
           :loading="isLoading"
           :paginator="true"
-          v-model:rows="params.size"
+          v-model:rows="this.rowPerPage"
           paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
           :rowsPerPageOptions="[10, 20, 50]"
           responsiveLayout="scroll"
           currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
-          :totalRecords="table.total"
+          :totalRecords="total"
           @page="load"
           @sort="sort($event)"
           lazy
@@ -290,7 +369,7 @@
               <div>
                 <span
                   class="text-blue-400"
-                  @click="open_detail(slotProps.data.StaffID)"
+                  @click="open_view(slotProps.data.StaffID)"
                   ><u>{{ slotProps.data.StaffNumber }}</u></span
                 >
               </div>
@@ -540,7 +619,7 @@
                   optionValue="PositionTypeID"
                   v-model="form.StaffPositionTypeID"
                   :class="{ 'p-invalid': !form.StaffPositionTypeID && valid }"
-                  :options="dropdown.PositionTypes"
+                  :options="PositionType"
                   :filter="true"
                 />
               </div>
@@ -559,7 +638,7 @@
                   optionValue="PositionID"
                   v-model="form.StaffPositionID"
                   :class="{ 'p-invalid': !form.StaffPositionID && valid }"
-                  :options="dropdown.Positions"
+                  :options="Position"
                   :filter="true"
                 />
               </div>
@@ -577,7 +656,7 @@
                   optionValue="id"
                   v-model="form.StaffStatus"
                   :class="{ 'p-invalid': !form.StaffStatus && valid }"
-                  :options="dropdown.StatusAlives"
+                  :options="StatusAlive"
                   :filter="true"
                 />
               </div>
@@ -597,7 +676,7 @@
                   v-model="form.StaffOrganizationID"
                   :class="{ 'p-invalid': !form.StaffOrganizationID && valid }"
                   :virtualScrollerOptions="{ itemSize: 38 }"
-                  :options="dropdown.Organizations1"
+                  :options="Organization"
                   :filter="true"
                 />
               </div>
@@ -767,7 +846,7 @@
                 optionValue="TitleID"
                 v-model="form.StaffTitleID"
                 :class="{ 'p-invalid': !form.StaffTitleID && valid }"
-                :options="dropdown.Titles"
+                :options="Title"
                 :filter="true"
               />
             </div>
@@ -804,7 +883,7 @@
                 optionValue="GenderID"
                 v-model="form.StaffGenderID"
                 :class="{ 'p-invalid': !form.StaffGenderID && valid }"
-                :options="dropdown.Genders"
+                :options="Gender"
                 :filter="true"
               />
             </div>
@@ -884,7 +963,7 @@
                 optionLabel="EducationName"
                 optionValue="EducationID"
                 v-model="form.StaffEducationID"
-                :options="dropdown.Educations"
+                :options="Education"
                 :filter="true"
               />
             </div>
@@ -898,7 +977,7 @@
                 optionLabel="MajorName"
                 optionValue="MajorID"
                 v-model="form.StaffMajorID"
-                :options="dropdown.Majors"
+                :options="Major"
                 :filter="true"
               />
             </div>
@@ -923,7 +1002,7 @@
                 optionLabel="MarriedStatusName"
                 optionValue="MarriedStatusID"
                 v-model="form.StaffMarriedStatusID"
-                :options="dropdown.MariedStatuses"
+                :options="MariedStatus"
                 :filter="true"
               />
             </div>
@@ -1021,7 +1100,7 @@
                 optionLabel="ProvinceName"
                 optionValue="ProvinceID"
                 v-model="form.StaffProvinceID"
-                :options="dropdown.Provinces1"
+                :options="Province"
                 :filter="true"
                 :virtualScrollerOptions="{ itemSize: 38 }"
               />
@@ -1033,10 +1112,10 @@
               <Dropdown
                 class="w-full"
                 placeholder="เลือกอำเภอ/เขต"
-                optionLabel="AmphurName"
+                optionLabel="Fullname"
                 optionValue="AmphurID"
                 v-model="form.StaffAmphurID"
-                :options="dropdown.Amphurs1"
+                :options="Amphur"
                 :filter="true"
                 :virtualScrollerOptions="{ itemSize: 38 }"
               />
@@ -1048,10 +1127,10 @@
               <Dropdown
                 class="w-full"
                 placeholder="เลือกตำบล/แขวง"
-                optionLabel="TumbolName"
+                optionLabel="Fullname"
                 optionValue="TumbolID"
                 v-model="form.StaffTumbolID"
-                :options="dropdown.Tumbols1"
+                :options="Tumbol"
                 :filter="true"
                 :virtualScrollerOptions="{ itemSize: 38 }"
                 @change="filterZipcode($event)"
@@ -2442,62 +2521,71 @@
 <script>
 import axios from "axios";
 import PageTitle from "@/components/PageTitle.vue";
-// import store from "@/service/Vuex";
-import { mapGetters } from "vuex";
-
-// import ExcelJS from "exceljs";
-
 import dayjs from "dayjs";
 import buddhistEra from "dayjs/plugin/buddhistEra";
-// import vSelect from "vue-select";
-import "vue-select/dist/vue-select.css";
-// import { format } from "date-fns";
-// import { th } from "date-fns/locale";
-
+import { format } from "date-fns";
+import { th } from "date-fns/locale";
+import { mapGetters } from "vuex";
+import JsonExcel from "vue-json-excel3";
 export default {
   components: {
     PageTitle,
-    // vSelect,
+    JsonExcel,
+  },
+  computed: {
+    ...mapGetters({
+      user: "user",
+      permission: "get_permission",
+    }),
   },
   data() {
     return {
-      id: "StaffID",
-      name: "ทะเบียนบุคลากร",
+      url: "/staff/all-count",
+      urlEditStaff: "/staff",
+      urlTitle: "/title?isActive=1",
+      urlGender: "/gender?isActive=1",
+      urlMariedStatus: "/married-status?isActive=1",
+      urlOrganization: "/organization/selection?includeAll=false&?isActive=1",
+      urlPositionType: "/position-type?isActive=1",
+      urlPosition: "/position?isActive=1",
+      urlTumbol: "/tumbol/selection?includeAll=false&?isActive=1",
+      urlAmphur: "/amphur/selection?includeAll=false&?isActive=1",
+      urlProvince: "/province/selection?includeAll=false&?isActive=1",
+      urlEducation:
+        "/education?isActive=1&orderByField=EducationCode&orderBy=asc",
+      urlMajor: "/major?isActive=1",
+      apiRequest: "/card-request-log",
       breadcrumb: [
         { label: "หน้าหลัก", to: "/" },
         { label: "ทะเบียนบุคลากร", to: "/agency/all" },
       ],
-      url: {
-        AIZone: "/ai-zone/selection?includeAll=false&isActive=1",
-        OrganizationZone:
-          "/organization-zone/selection?includeAll=false&isActive=1",
-        Staff: "/staff/all-count",
-        Title: "/title?includeAll=false&isActive=1",
-        Gender: "/gender?includeAll=false&isActive=1",
-        MariedStatus: "/married-status?includeAll=false&isActive=1",
-        Organization: "/organization/selection?includeAll=false&isActive=1",
-        PositionType: "/position-type?includeAll=false&isActive=1",
-        Position: "/position?includeAll=false&isActive=1",
-        Province: "/province/selection?includeAll=false&isActive=1",
-        Amphur: "/amphur/selection?includeAll=false&isActive=1",
-        Tumbol: "/tumbol/selection?includeAll=false&isActive=1",
-        Education:
-          "/education?isActive=1&orderByField=EducationCode&orderBy=asc",
-        Major: "/major?isActive=1",
-        editStaff: "/staff",
-        apiRequest: "/card-request-log",
-      },
+
+      path: null,
+
+      // load
       data: [],
       json_data: [],
-      isSelectAIZoneDisabled: false,
-      isSelectOrganizationZoneDisabled: false,
+      Title: [],
+      Gender: [],
+      MariedStatus: [],
+      Organization: [],
+      PositionType: [],
+      Position: [],
+      Tumbol: [],
+      Amphur: [],
+      Province: [],
+      Education: [],
+      Major: [],
+
       isLoading: false,
-      loader: true,
+
+      loader: false,
       // form
       valid: false,
       form: {
         isActive: "",
       },
+
       search: {
         StaffNumber: "",
         StaffGivenName: "",
@@ -2511,47 +2599,46 @@ export default {
         StaffStartDate: "",
         StaffEndDate: "",
       },
-      dropdown: {
-        AIZones: [],
-        OrganizationZones: [],
-        Provinces: [],
-        Amphurs: [],
-        Tumbols: [],
-        OrganizationTypes: [],
-        Organizations: [],
-        Positions: [],
-        PositionTypes: [],
-        Titles: [],
-        Genders: [],
-        MariedStatuses: [],
-        Educations: [],
-        Majors: [],
-        StatusAlives: [
-          {
-            id: "ปฏิบัติงานอยู่",
-            name: "ปฏิบัติงานอยู่",
-          },
-          {
-            id: "เกษียณ",
-            name: "เกษียณ",
-          },
-          {
-            id: "ลาออก",
-            name: "ลาออก",
-          },
-        ],
-        statuses: [
-          { name: "เปิดใช้งาน", key: "A", value: 1 },
-          { name: "ปิดใช้งาน", key: "B", value: 0 },
-        ],
-        Organizations1: [],
-        Provinces1: [],
-        Amphurs1: [],
-        Tumbols1: [],
+
+      filtered: {
+        StaffNumber: "",
+        StaffGivenName: "",
+        StaffSurname: "",
+        StaffIdentificationNumber: "",
+        StaffOrganizationID: "",
+        StaffPositionID: "",
+        StaffProvinceID: "",
+        StaffAmphurID: "",
+        StaffTumbolID: "",
+        StaffStartDate: "",
+        StaffEndDate: "",
       },
+
+      StatusAlive: [
+        {
+          id: "ปฏิบัติงานอยู่",
+          name: "ปฏิบัติงานอยู่",
+        },
+        {
+          id: "เกษียณ",
+          name: "เกษียณ",
+        },
+        {
+          id: "ลาออก",
+          name: "ลาออก",
+        },
+      ],
+
+      status: [
+        { name: "เปิดใช้งาน", key: "A", value: 1 },
+        { name: "ปิดใช้งาน", key: "B", value: 0 },
+      ],
+
       permit: null,
+
       //  cancel requests
       controller: new AbortController(),
+
       // Modal
       display_add: false,
       display_edit: false,
@@ -2561,85 +2648,10 @@ export default {
       currentPage: 1,
       totalPage: 1,
       totalItems: 0,
-
-      // Params
-      params: {
-        page: 1,
-        size: 10,
-        orderByField: "StaffID",
-        orderBy: "desc",
-        IsActive: null,
-      },
-      table: {
-        total: 0,
-        last_page: 0,
-      },
-      //   columns: [
-      //     {
-      //       field: "StaffNumber",
-      //       header: "รหัสบุคลากร",
-      //     },
-      //     {
-      //       field: "StaffGivenName",
-      //       header: "ชื่อ",
-      //     },
-
-      //     {
-      //       field: "StaffSurname",
-      //       header: "นามสกุล",
-      //     },
-      //     {
-      //       field: "Organization.OrganizationName",
-      //       header: "หน่วยงาน",
-      //     },
-      //     {
-      //       field: "PositionType.PositionTypeName",
-      //       header: "ประเภทบุคลากร",
-      //     },
-      //     {
-      //       field: "Position.PositionName",
-      //       header: "ตำแหน่งงาน",
-      //     },
-      //     {
-      //       field: "StaffEmail",
-      //       header: "อีเมล",
-      //     },
-      //     {
-      //       field: "StartDate",
-      //       header: "วันที่เริ่มทำงาน",
-      //     },
-      //     {
-      //       field: "EndDate",
-      //       header: "วันที่สิ้นสุด",
-      //     },
-
-      //     {
-      //       field: "StaffEmail",
-      //       header: "สถานะบัตร",
-      //     },
-
-      //     {
-      //       field: "StaffEmail",
-      //       header: "ส่งเรื่องขอมีบัตร",
-      //     },
-
-      //     {
-      //       field: "StaffEmail",
-      //       header: "สถานะการส่งเรื่อง",
-      //     },
-      //   ],
     };
   },
-  computed: {
-    ...mapGetters({
-      permission: "get_permission",
-      animal_id: "animal_id",
-      user: "user",
-    }),
-  },
   mounted() {
-    this.loadDefault();
-    // this.form.isActive = this.status[0];
+    this.form.isActive = this.status[0];
     this.permit = this.permission.filter((item) => {
       return item.MenuID == 25;
     });
@@ -2654,137 +2666,236 @@ export default {
       return;
     } else {
       this.load();
+      this.loadsection();
     }
+
+    // if (localStorage.getItem("staffID") !== null) {
+    //   this.getItems(localStorage.getItem("staffID"));
+    //   this.open_edit(localStorage.getItem("staffID"));
+    // }
   },
   watch: {
-    "search.AIZoneID"(val) {
-      if (val) {
-        this.search.OrganizationZoneID = null;
-        this.isSelectAIZoneDisabled = false;
-        this.isSelectOrganizationZoneDisabled = true;
-      } else {
-        console.log(val);
-        this.isSelectAIZoneDisabled = true;
-        this.isSelectOrganizationZoneDisabled = false;
-      }
+    "form.StaffTitleID"(val) {
+      // console.log(val);
 
-      this.dropdown.Provinces = [];
-      this.dropdown.Amphurs = [];
-      this.dropdown.Tumbols = [];
-      this.dropdown.Organizations = [];
-
-      if (this.isLoading == false) {
-        setTimeout(() => {
-          this.fetchProvince();
-          this.fetchOrganization();
-          this.search.ProvinceID = null;
-          this.search.AmphurID = null;
-          this.search.TumbolID = null;
-          this.search.OrganizationID = null;
-
-          this.isLoading = false;
-        }, 1000);
+      // ชาย 1 หญิง 2
+      // นาย
+      if (val == 3) {
+        this.form.StaffGenderID = 1;
+        // console.log(11);
+      } else if (val == 4) {
+        this.form.StaffGenderID = 2;
+      } else if (val == 5) {
+        this.form.StaffGenderID = 2;
       }
     },
-    "search.OrganizationZoneID"(val) {
-      if (val) {
-        this.search.AIZoneID = null;
-        this.isSelectAIZoneDisabled = true;
-        this.isSelectOrganizationZoneDisabled = false;
-      } else {
-        this.isSelectAIZoneDisabled = false;
-        this.isSelectOrganizationZoneDisabled = true;
-      }
 
-      this.dropdown.Provinces = [];
-      this.dropdown.Amphurs = [];
-      this.dropdown.Tumbols = [];
-      this.dropdown.Organizations = [];
-
-      if (this.isLoading == false) {
-        setTimeout(() => {
-          this.fetchProvince();
-          this.fetchOrganization();
-          this.search.AmphurID = null;
-          this.search.TumbolID = null;
-          this.search.OrganizationID = null;
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
-    "search.StaffProvinceID"(val) {
-      if (this.isLoading == false) {
-        this.isLoading = true;
-        setTimeout(() => {
-          this.isLoading = false;
-        }, 1000);
-      }
-      if (val) {
-        this.dropdown.Amphurs = [];
-        this.dropdown.Tumbols = [];
-        this.search.AmphurID = null;
-        this.search.TumbolID = null;
-        this.search.OrganizationID = null;
-        this.fetchAmphur();
-        this.fetchOrganization();
-      }
-    },
-    "search.StaffAmphurID"(val) {
-      if (this.isLoading == false) {
-        this.isLoading = true;
-        setTimeout(() => {
-          this.isLoading = false;
-        }, 1000);
-      }
-      if (val) {
-        this.dropdown.Tumbols = [];
-        this.search.TumbolID = null;
-        this.search.OrganizationID = null;
-        this.fetchTumbol();
-        this.fetchOrganization();
-      }
-    },
-    "search.StaffTumbolID"() {
-      if (this.isLoading == false) {
-        this.isLoading = true;
-        setTimeout(() => {
-          this.isLoading = false;
-        }, 1000);
-      }
-    },
-    // Form
     "form.StaffProvinceID"(val) {
       if (val) {
-        this.dropdown.Amphurs1 = [];
-        this.dropdown.Tumbols1 = [];
-        this.form.StaffAmphurID = null;
-        this.form.StaffTumbolID = null;
-        this.fetchAmphur1();
+        this.Amphur = this.TempAmphur;
+        this.Amphur = this.Amphur.filter((item) => item.ProvinceID == val);
+      } else {
+        this.Amphur = this.TempAmphur;
       }
     },
+
     "form.StaffAmphurID"(val) {
       if (val) {
-        this.dropdown.Tumbols1 = [];
-        this.form.StaffTumbolID = null;
-        this.fetchTumbol1();
+        this.Tumbol = this.TempTumbol;
+        this.Tumbol = this.Tumbol.filter((item) => item.AmphurID == val);
+      } else {
+        this.Tumbol = this.TempTumbol;
       }
     },
-    "form.StaffTumbolID"() {},
+
+    "search.StaffNumber"(val) {
+      this.filtered.StaffNumber = val;
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.load();
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+
+    "search.StaffGivenName"(val) {
+      this.filtered.StaffGivenName = val;
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.load();
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+
+    "search.StaffSurname"(val) {
+      this.filtered.StaffSurname = val;
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.load();
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+
+    "search.StaffIdentificationNumber"(val) {
+      this.filtered.StaffIdentificationNumber = val;
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.load();
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+
+    "search.StaffOrganizationID"(val) {
+      //   this.filtered.StaffOrganizationID = val;
+      this.filtered.OrganizationID = val;
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.load();
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+
+    "search.StaffPositionID"(val) {
+      this.filtered.StaffPositionID = val;
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.load();
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+
+    "search.StaffStatus"(val) {
+      this.filtered.StaffStatus = val;
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.load();
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+
+    "search.StaffProvinceID"(val) {
+      this.filtered.StaffProvinceID = val;
+
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.load();
+          this.isLoading = false;
+        }, 1000);
+      }
+
+      if (val) {
+        this.Amphur = this.TempAmphur;
+        this.Amphur = this.Amphur.filter(
+          (item) => item.ProvinceID == this.filtered.StaffProvinceID
+        );
+      } else {
+        this.Amphur = this.TempAmphur;
+      }
+    },
+
+    "search.StaffAmphurID"(val) {
+      this.filtered.StaffAmphurID = val;
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.load();
+          this.isLoading = false;
+        }, 1000);
+      }
+
+      if (val) {
+        this.Tumbol = this.TempTumbol;
+        this.Tumbol = this.Tumbol.filter(
+          (item) => item.AmphurID == this.filtered.StaffAmphurID
+        );
+      } else {
+        this.Amphur = this.TempAmphur;
+      }
+    },
+
+    "search.StaffTumbolID"(val) {
+      this.filtered.StaffTumbolID = val;
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.load();
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+
+    "search.StaffStartDate"(val) {
+      // แปลงเป็น 2022-02-02
+      let date = JSON.stringify(val);
+      this.filtered.StaffStartDate = date.slice(1, 11);
+
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.load();
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+
+    "search.StaffEndDate"(val) {
+      // แปลงเป็น 2022-02-02
+      let date = JSON.stringify(val);
+      this.filtered.StaffEndDate = date.slice(1, 11);
+
+      if (this.isLoading == false) {
+        this.isLoading = true;
+        setTimeout(() => {
+          this.load();
+          this.isLoading = false;
+        }, 1000);
+      }
+    },
+
+    "form.CardStartDate"(val) {
+      if (this.form.StaffPositionTypeID && val) {
+        // กรณีเป็นตำแหน่งราชการให้หมดอายุ auto 5 ปี
+        if (this.form.StaffPositionTypeID == 1) {
+          const date1 = dayjs(val);
+          this.form.CardExpireDate = date1.add(5, "year");
+        } else if (this.form.StaffPositionTypeID == 2) {
+          const date1 = dayjs(val);
+          this.form.CardExpireDate = date1.add(3, "year");
+        } else if (this.form.StaffPositionTypeID == 3) {
+          const date1 = dayjs(val);
+          this.form.CardExpireDate = date1.add(3, "year");
+        }
+      }
+    },
   },
   methods: {
-    // format(date) {
-    //   const dayStart = date.getDate();
-    //   const monthStart = date.getMonth();
-    //   const yearStart = date.getFullYear() + 543;
-    //   const formatStart = format(
-    //     new Date(yearStart, monthStart, dayStart),
-    //     "dd/MM/yyyy",
-    //     {
-    //       locale: th,
-    //     }
-    //   );
-    //   return `${formatStart}`;
-    // },
+    format(date) {
+      const dayStart = date.getDate();
+      const monthStart = date.getMonth();
+      const yearStart = date.getFullYear() + 543;
+      const formatStart = format(
+        new Date(yearStart, monthStart, dayStart),
+        "dd/MM/yyyy",
+        {
+          locale: th,
+        }
+      );
+      return `${formatStart}`;
+    },
     getItems(id) {
       const items = [
         {
@@ -2799,7 +2910,7 @@ export default {
     },
     clear() {
       this.form = {
-        isActive: this.dropdown.statuses[0],
+        isActive: this.status[0],
       };
       this.path = null;
       this.valid = false;
@@ -2869,81 +2980,54 @@ export default {
         return true;
       }
     },
-    // Load
-    async load(event) {
+    // Axios
+    load(event) {
       if (event) {
         this.currentPage = event.page + 1;
       }
-      await this.fetchStaff();
-    },
-    loadDefault() {
-      this.fetchTitle();
-      this.fetchGender();
-      this.fetchMariedStatus();
-      this.fetchPositionType();
-      this.fetchPosition();
-      this.fetchOrganization();
-      this.fetchAIZone();
-      this.fetchOrganizationZone();
-      this.fetchProvince();
-      this.fetchAmphur();
-      this.fetchTumbol();
-      this.fetchOrganization1();
-      this.fetchProvince1();
-      this.fetchAmphur1();
-      this.fetchTumbol1();
-    },
-    async fetchStaff() {
       this.isLoading = true;
-      let url = this.url.Staff + "?orderByField=StaffID&orderBy=desc";
-      if (this.search.StaffNumber) {
-        url += "&StaffNumber=" + this.search.StaffNumber;
+      let url = this.url + "?orderByField=StaffID&orderBy=desc";
+      if (this.filtered.StaffNumber) {
+        url += "&StaffNumber=" + this.filtered.StaffNumber;
       }
-      if (this.search.StaffGivenName) {
-        url += "&StaffGivenName=" + this.search.StaffGivenName;
+      if (this.filtered.StaffGivenName) {
+        url += "&StaffGivenName=" + this.filtered.StaffGivenName;
       }
-      if (this.search.StaffSurname) {
-        url += "&StaffSurname=" + this.search.StaffSurname;
+      if (this.filtered.StaffSurname) {
+        url += "&StaffSurname=" + this.filtered.StaffSurname;
       }
-      if (this.search.StaffIdentificationNumber) {
+      if (this.filtered.StaffIdentificationNumber) {
         url +=
-          "&StaffIdentificationNumber=" + this.search.StaffIdentificationNumber;
+          "&StaffIdentificationNumber=" +
+          this.filtered.StaffIdentificationNumber;
       }
-      if (this.search.StaffOrganizationID) {
-        url += "&StaffOrganizationID=" + this.search.StaffOrganizationID;
+      if (this.filtered.StaffOrganizationID) {
+        url += "&StaffOrganizationID=" + this.filtered.StaffOrganizationID;
       }
-      if (this.search.OrganizationID) {
-        url += "&OrganizationID=" + this.search.OrganizationID;
+      if (this.filtered.OrganizationID) {
+        url += "&OrganizationID=" + this.filtered.OrganizationID;
       }
-      if (this.search.StaffPositionID) {
-        url += "&StaffPositionID=" + this.search.StaffPositionID;
+      if (this.filtered.StaffPositionID) {
+        url += "&StaffPositionID=" + this.filtered.StaffPositionID;
       }
-      if (this.search.StaffProvinceID) {
-        url += "&StaffProvinceID=" + this.search.StaffProvinceID;
+      if (this.filtered.StaffProvinceID) {
+        url += "&StaffProvinceID=" + this.filtered.StaffProvinceID;
       }
-      if (this.search.StaffAmphurID) {
-        url += "&StaffAmphurID=" + this.search.StaffAmphurID;
+      if (this.filtered.StaffAmphurID) {
+        url += "&StaffAmphurID=" + this.filtered.StaffAmphurID;
       }
-      if (this.search.StaffTumbolID) {
-        url += "&StaffTumbolID=" + this.search.StaffTumbolID;
+      if (this.filtered.StaffTumbolID) {
+        url += "&StaffTumbolID=" + this.filtered.StaffTumbolID;
       }
-      if (this.search.StaffStartDate) {
-        url += "&StaffStartDate=" + this.search.StaffStartDate;
+      if (this.filtered.StaffStartDate) {
+        url += "&StaffStartDate=" + this.filtered.StaffStartDate;
       }
-      if (this.search.StaffEndDate) {
-        url += "&StaffEndDate=" + this.search.StaffEndDate;
-      }
-
-      if (this.search.StaffStatus) {
-        url += "&StaffStatus=" + this.search.StaffStatus;
+      if (this.filtered.StaffEndDate) {
+        url += "&StaffEndDate=" + this.filtered.StaffEndDate;
       }
 
-      if (this.search.AIZoneID) {
-        url += "&OrganizationAiZoneID=" + this.search.AIZoneID;
-      }
-
-      if (this.search.OrganizationZoneID) {
-        url += "&OrganizationZoneID=" + this.search.OrganizationZoneID;
+      if (this.filtered.StaffStatus) {
+        url += "&StaffStatus=" + this.filtered.StaffStatus;
       }
 
       let params = {
@@ -2952,7 +3036,7 @@ export default {
         // includeAll: false,
       };
 
-      await axios
+      axios
         .get(url, { signal: this.controller.signal, params: params })
         .then((response) => {
           this.total = response.data.total;
@@ -2976,6 +3060,8 @@ export default {
                 .format("DD/MM/YYYY");
             }
           }
+
+          this.json_data = this.data;
           this.totalPage = response.data.totalPage;
           this.totalItems = response.data.totalData;
           this.total = response.data.total;
@@ -2988,341 +3074,113 @@ export default {
           }
         });
     },
-    // fetch Master Data
-    fetchAIZone() {
-      let params = {};
-      //  Fetch AIZone
-      axios
-        .get(this.url.AIZone, {
-          signal: this.controller.signal,
-          params: params,
-        })
-        .then((res) => {
-          this.dropdown.AIZones = res.data.rows;
+    loadsection() {
+      const getTitle = axios.get(this.urlTitle, {
+        signal: this.controller.signal,
+      });
 
-          this.dropdown.AIZones.push({
-            AIZoneID: 99,
-            AIZoneName: "ทั้งหมด",
-          });
+      const getGender = axios.get(this.urlGender, {
+        signal: this.controller.signal,
+      });
+
+      const getMariedStatus = axios.get(this.urlMariedStatus, {
+        signal: this.controller.signal,
+      });
+
+      const getOrganization = axios.get(this.urlOrganization, {
+        signal: this.controller.signal,
+      });
+
+      const getPositionType = axios.get(this.urlPositionType, {
+        signal: this.controller.signal,
+      });
+
+      const getPosition = axios.get(this.urlPosition, {
+        signal: this.controller.signal,
+      });
+
+      Promise.all([
+        getTitle,
+        getGender,
+        getMariedStatus,
+        getOrganization,
+        getPositionType,
+        getPosition,
+      ])
+        .then((values) => {
+          this.Title = values[0].data.rows;
+          this.Gender = values[1].data.rows;
+          this.MariedStatus = values[2].data.rows;
+          this.Organization = values[3].data.rows;
+          this.PositionType = values[4].data.rows;
+          this.Position = values[5].data.rows;
+
+          for (let i = 0; i < this.Organization.length; i++) {
+            // this.Organization[i].show_id = i + 1;
+            this.Organization[i].OrganizationFull =
+              this.Organization[i].OrganizationCode +
+              ", " +
+              this.Organization[i].OrganizationName;
+          }
         })
         .finally(() => {
-          this.isLoading = false;
+          this.loader = true;
+          // console.log(this.Title);
         });
-    },
-    fetchOrganizationZone() {
-      let params = {};
-      //  Fetch OrganizationZone
+
+      // ตำบล
       axios
-        .get(this.url.OrganizationZone, {
-          signal: this.controller.signal,
-          params: params,
-        })
-        .then((res) => {
-          this.dropdown.OrganizationZones = res.data.rows;
-          this.dropdown.OrganizationZones.push({
-            OrganizationZoneID: 99,
-            OrganizationZoneName: "ทั้งหมด",
-          });
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-    async fetchTitle() {
-      await axios
-        .get(this.url.Title, {
-          signal: this.controller.signal,
-        })
-        .then((res) => {
-          this.dropdown.Titles = res.data.rows;
-        });
-    },
-    async fetchGender() {
-      await axios
-        .get(this.url.Gender, {
-          signal: this.controller.signal,
-        })
-        .then((res) => {
-          this.dropdown.Genders = res.data.rows;
-        });
-    },
-    async fetchMariedStatus() {
-      await axios
-        .get(this.url.MariedStatus, {
-          signal: this.controller.signal,
-        })
-        .then((res) => {
-          this.dropdown.MariedStatuses = res.data.rows;
-        });
-    },
-    async fetchPositionType() {
-      await axios
-        .get(this.url.PositionType, {
-          signal: this.controller.signal,
-        })
-        .then((res) => {
-          this.dropdown.PositionTypes = res.data.rows;
-        });
-    },
-    async fetchPosition() {
-      await axios
-        .get(this.url.Position, {
-          signal: this.controller.signal,
-        })
-        .then((res) => {
-          this.dropdown.Positions = res.data.rows;
-        });
-    },
-    async fetchOrganization() {
-      if (
-        this.search.AIZoneID == null &&
-        this.search.OrganizationZoneID == null
-      ) {
-        return;
-      }
-
-      let params = {};
-
-      // Province IN AIZOne
-      if (this.search.AIZoneID != null) {
-        params["OrganizationAiZoneID"] = this.search.AIZoneID;
-      }
-
-      if (this.search.OrganizationZoneID != null) {
-        params["OrganizationZoneID"] = this.search.OrganizationZoneID;
-      }
-
-      if (this.search.StaffProvinceID != null) {
-        params["ProvinceID"] = this.search.StaffProvinceID;
-      }
-
-      if (this.search.StaffAmphurID != null) {
-        params["AmphurID"] = this.search.StaffAmphurID;
-      }
-
-      if (this.search.StaffTumbolID != null) {
-        params["TumbolID"] = this.search.StaffTumbolID;
-      }
-
-      params["includeProvince"] = "true";
-
-      await axios
-        .get(this.url.Organization, {
-          signal: this.controller.signal,
-          params: params,
-        })
-        .then((res) => {
-          this.dropdown.Organizations = res.data.rows.map((item) => {
+        .get(this.urlTumbol, { signal: this.controller.signal })
+        .then((response) => {
+          this.Tumbol = response.data.rows.map((item) => {
             return {
-              OrganizationID: item.OrganizationID,
-              OrganizationName:
-                item.OrganizationCode +
-                ", " +
-                item.OrganizationName +
-                " (" +
-                item.ProvinceName +
-                ")",
+              TumbolID: item.TumbolID,
+              AmphurID: item.AmphurID,
+              TumbolCode: item.TumbolCode,
+              ProvinceID: item.ProvinceID,
+              TumbolName: item.TumbolName,
+              Zipcode: item.Zipcode,
+              Fullname:
+                item.TumbolCode.substring(0, 6) + ", " + item.TumbolName,
             };
           });
-        })
-        .finally(() => {
-          this.isLoading = false;
+          this.TempTumbol = this.Tumbol;
         });
-    },
-    async fetchProvince() {
-      //  Fetch Province
-      let params = {};
-
-      if (this.search.AIZoneID != null) {
-        params["AIZoneID"] = this.search.AIZoneID;
-      }
-
-      if (this.search.OrganizationZoneID != null) {
-        params["OrganizationZoneID"] = this.search.OrganizationZoneID;
-      }
-      await axios
-        .get(this.url.Province, {
-          signal: this.controller.signal,
-          params: params,
-        })
-        .then((res) => {
-          this.dropdown.Provinces = res.data.rows;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-    async fetchAmphur() {
-      if (
-        this.search.AIZoneID == null &&
-        this.search.OrganizationZoneID == null &&
-        this.search.ProvinceID == null
-      ) {
-        return;
-      }
-
-      let params = {};
-
-      if (this.search.StaffProvinceID != null) {
-        params["ProvinceID"] = this.search.StaffProvinceID;
-      }
-
-      await axios
-        .get(this.url.Amphur, {
-          signal: this.controller.signal,
-          params: params,
-        })
-        .then((res) => {
-          this.dropdown.Amphurs = res.data.rows;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-    async fetchTumbol() {
-      if (
-        this.search.AIZoneID == null &&
-        this.search.OrganizationZoneID == null &&
-        this.search.AmphurID == null
-      ) {
-        return;
-      }
-
-      let params = {};
-
-      if (this.search.StaffAmphurID != null) {
-        params["AmphurID"] = this.search.StaffAmphurID;
-      }
-
-      await axios
-        .get(this.url.Tumbol, {
-          signal: this.controller.signal,
-          params: params,
-        })
-        .then((res) => {
-          this.dropdown.Tumbols = res.data.rows;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-    async fetchEducation() {
-      let params = {};
-
-      await axios
-        .get(this.url.Education, {
-          signal: this.controller.signal,
-          params: params,
-        })
-        .then((res) => {
-          this.dropdown.Educations = res.data.rows;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-    async fetchMajor() {
-      let params = {};
-
-      await axios
-        .get(this.url.Major, {
-          signal: this.controller.signal,
-          params: params,
-        })
-        .then((res) => {
-          this.dropdown.Majors = res.data.rows;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-
-    async fetchOrganization1() {
-      //  Fetch Province
-      let params = {};
-
-      params["includeProvince"] = "true";
-
-      await axios
-        .get(this.url.Organization, {
-          signal: this.controller.signal,
-          params: params,
-        })
-        .then((res) => {
-          this.dropdown.Organizations1 = res.data.rows.map((item) => {
+      // อำเภอ
+      axios
+        .get(this.urlAmphur, { signal: this.controller.signal })
+        .then((response) => {
+          this.Amphur = response.data.rows.map((item) => {
             return {
-              OrganizationID: item.OrganizationID,
-              OrganizationName:
-                item.OrganizationCode +
-                ", " +
-                item.OrganizationName +
-                " (" +
-                item.ProvinceName +
-                ")",
+              AmphurID: item.AmphurID,
+              ProvinceID: item.ProvinceID,
+              AmphurCode: item.AmphurCode,
+              AmphurName: item.AmphurName,
+              Fullname:
+                item.AmphurCode.substring(0, 4) + ", " + item.AmphurName,
             };
           });
-        })
-        .finally(() => {
-          this.isLoading = false;
+          this.TempAmphur = this.Amphur;
+        });
+      // จังหวัด
+      axios
+        .get(this.urlProvince, { signal: this.controller.signal })
+        .then((response) => {
+          this.Province = response.data.rows;
+        });
+      // ระดับการศึกษา
+      axios
+        .get(this.urlEducation, { signal: this.controller.signal })
+        .then((response) => {
+          this.Education = response.data.rows;
+        });
+      // สาขา
+      axios
+        .get(this.urlMajor, { signal: this.controller.signal })
+        .then((response) => {
+          this.Major = response.data.rows;
         });
     },
-
-    async fetchProvince1() {
-      //  Fetch Province
-      let params = {};
-
-      await axios
-        .get(this.url.Province, {
-          signal: this.controller.signal,
-          params: params,
-        })
-        .then((res) => {
-          this.dropdown.Provinces1 = res.data.rows;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-    async fetchAmphur1() {
-      let params = {};
-
-      if (this.form.StaffProvinceID != null) {
-        params["ProvinceID"] = this.form.StaffProvinceID;
-      }
-
-      await axios
-        .get(this.url.Amphur, {
-          signal: this.controller.signal,
-          params: params,
-        })
-        .then((res) => {
-          this.dropdown.Amphurs1 = res.data.rows;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-    async fetchTumbol1() {
-      let params = {};
-
-      if (this.form.StaffAmphurID != null) {
-        params["AmphurID"] = this.form.StaffAmphurID;
-      }
-
-      await axios
-        .get(this.url.Tumbol, {
-          signal: this.controller.signal,
-          params: params,
-        })
-        .then((res) => {
-          this.dropdown.Tumbols1 = res.data.rows;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-    },
-    // End Fetch Master Data
-    // Add
     add() {
       // validation
       if (this.validation() == false) {
@@ -3378,7 +3236,7 @@ export default {
         })
         // error
         .catch((err) => {
-          this.form.isActive = this.dropdown.statuses[0];
+          this.form.isActive = this.status[0];
           this.$toast.add({
             severity: "error",
             summary: "ล้มเหลว",
@@ -3442,7 +3300,7 @@ export default {
         .post(this.url + "/photo/" + id, formData)
         .then(() => {})
         .catch((err) => {
-          this.form.isActive = this.dropdown.statuses[0];
+          this.form.isActive = this.status[0];
           this.$toast.add({
             severity: "error",
             summary: "ล้มเหลว",
@@ -3452,6 +3310,20 @@ export default {
         });
     },
 
+    async fetchOrganizations() {
+      await axios
+        .get(this.urlOrganization, {
+          signal: this.controller.signal,
+        })
+        .then((res) => {
+          for (let i = 0; i < res; i++) {
+            this.Organization[i].OrganizationFull =
+              this.Organization[i].OrganizationCode +
+              ", " +
+              this.Organization[i].OrganizationName;
+          }
+        });
+    },
     remove() {
       axios.delete(this.url + "/" + this.form.id).then(() => {
         this.close_delete();
@@ -3464,7 +3336,6 @@ export default {
         });
       });
     },
-
     // Modal
     open_add() {
       if (this.permit[0].IsAdd == 0) {
@@ -3491,15 +3362,15 @@ export default {
       console.log(id);
       id = this.data.find((x) => x.StaffID == id);
       if (id.isActive == 0) {
-        id.isActive = this.dropdown.statuses[1];
+        id.isActive = this.status[1];
       } else if (id.isActive == 1) {
-        id.isActive = this.dropdown.statuses[0];
+        id.isActive = this.status[0];
       }
 
       if (id.isActive == 0) {
-        id.isActive = this.dropdown.statuses[1];
+        id.isActive = this.status[1];
       } else if (id.isActive == 1) {
-        id.isActive = this.dropdown.statuses[0];
+        id.isActive = this.status[0];
       }
 
       if (id.StaffStatus == "ปฏิบัติงานอยู่") {
@@ -3566,9 +3437,6 @@ export default {
         this.display_edit = true;
       }
     },
-    onSearch() {
-      this.fetchStaff();
-    },
     close_edit() {
       this.display_edit = false;
     },
@@ -3594,9 +3462,9 @@ export default {
     open_view(id) {
       id = this.data.find((x) => x.StaffID == id);
       if (id.isActive == 0) {
-        id.isActive = this.dropdown.statuses[1];
+        id.isActive = this.status[1];
       } else if (id.isActive == 1) {
-        id.isActive = this.dropdown.statuses[0];
+        id.isActive = this.status[0];
       }
 
       if (id.StaffStatus == "ปฏิบัติงานอยู่") {
@@ -3670,12 +3538,14 @@ export default {
     filterZipcode($event) {
       let val = $event.value;
       if (val) {
-        this.form.StaffZipCode = val.Zipcode;
+        this.form.StaffZipCode = this.TempTumbol[val].Zipcode;
       } else {
         this.form.StaffZipCode = "";
       }
     },
-
+    exportCSV() {
+      this.$refs.dt.exportCSV();
+    },
     fillDone($event, $id) {
       let data = this.data.find((x) => x.StaffID == $id);
       var today = new Date();
@@ -3686,7 +3556,7 @@ export default {
         CardExpireDate: data.CardExpireDate,
       };
       axios
-        .post(this.url.apiRequest, form)
+        .post(this.apiRequest, form)
         .then(() => {
           this.$toast.add({
             severity: "success",

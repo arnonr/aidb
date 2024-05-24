@@ -55,7 +55,7 @@
       <div class="card mb-5">
         <div v-if="loader" class="grid">
           <div class="col-12">
-            <h1 class="text-xl mb-4 text-500">เครื่องมือช่วยค้นหาสัตว์</h1>
+            <h1 class="text-xl mb-4 text-500">เครื่องมือช่วยค้นหา</h1>
           </div>
 
           <div class="col-12 sm:col-6 lg:col-6">
@@ -197,7 +197,7 @@
             />
           </div>
 
-          <div class="col-12 sm:col-12 lg:col-12">
+          <div class="col-6 sm:col-6 lg:col-6">
             <label
               for="searchSubDistrict"
               class="block text-600 text-sm font-bold mb-2"
@@ -214,6 +214,52 @@
               class="w-full"
               placeholder="เลือกฟาร์มปลายทาง (พิมพ์ 3 ตัวอักษรเพื่อค้นหา)"
             ></v-select>
+          </div>
+
+          <div class="col-6 sm:col-6 lg:col-6">
+            <label class="block text-600 text-sm font-bold mb-2">
+              น้ำเชื้อ</label
+            >
+            <Dropdown
+              :show-clear="true"
+              :virtualScrollerOptions="{ itemSize: 38 }"
+              emptyMessage="ไม่มีข้อมูล"
+              emptyFilterMessage="ไม่พบข้อมูล"
+              class="w-full"
+              placeholder="เลือกน้ำเชื้อ"
+              optionLabel="SemenNumber"
+              optionValue="SemenID"
+              v-model="search.SemenID"
+              :options="dropdown.Semens"
+              :filter="true"
+            />
+          </div>
+          <div class="col-12 sm:col-12 lg:col-12">
+            <label
+              for="dateRange"
+              class="block text-600 text-sm font-bold mb-2"
+            >
+              ช่วงวันที่บันทึกข้อมูล</label
+            >
+            <Datepicker
+              v-model="search.AIDate"
+              range
+              id="dateRange"
+              locale="th"
+              :format="format"
+              utc
+              :enableTimePicker="false"
+              cancelText="ยกเลิก"
+              selectText="ยืนยัน"
+              placeholder="ตั้งแต่วันที่ - จนถึงวันที่"
+            >
+              <template #year-overlay-value="{ text }">
+                {{ parseInt(text) + 543 }}
+              </template>
+              <template #year="{ year }">
+                {{ year + 543 }}
+              </template>
+            </Datepicker>
           </div>
 
           <!-- <div class="col-12 sm:col-6 lg:col-3">
@@ -1047,6 +1093,8 @@ import VueCreatureInfo from "@/pages/farm_info/creature_info.vue";
 import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
 import ExcelJS from "exceljs";
+import dayjs from "dayjs";
+// import { format } from "date-fns";
 
 // import dayjs from "dayjs";
 // import buddhistEra from "dayjs/plugin/buddhistEra";
@@ -1106,6 +1154,7 @@ export default {
       rowPerPage: 10,
       currentPage: 1,
       url: {
+        Semen: "/semen/selection?includeAll=false",
         AIZone: "/ai-zone/selection?includeAll=false",
         OrganizationZone:
           "/organization-zone/selection?includeAll=false&isActive=1",
@@ -1195,6 +1244,7 @@ export default {
       dropdown: {
         AIZones: [],
         OrganizationZones: [],
+        Semens: [],
         Provinces: [],
         Amphurs: [],
         Tumbols: [],
@@ -1229,6 +1279,8 @@ export default {
         StaffStartDate: "",
         StaffEndDate: "",
         Status: "",
+        SemenID: null,
+        AIDate: null,
       },
 
       // สร้างข้อมูลจำลอง
@@ -2168,6 +2220,34 @@ export default {
           this.isLoading = false;
         });
     },
+    fetchSemen() {
+      if (this.animal_id == 1) {
+        this.url.Semen +=
+          "&AnimalTypeID=[1,2,41,42]&orderByField=SemenNumber&orderBy=asc";
+      } else if (this.animal_id == 2) {
+        this.url.Semen +=
+          "&AnimalTypeID=[3,4,43,44]&orderByField=SemenNumber&orderBy=asc";
+      } else if (this.animal_id == 3) {
+        this.url.Semen +=
+          "&AnimalTypeID=[17,18,45,46]&orderByField=SemenNumber&orderBy=asc";
+      }
+
+      axios
+        .get(this.url.Semen, {
+          signal: this.controller.signal,
+        })
+        .then((res) => {
+          this.dropdown.Semens = res.data.rows.map((item) => {
+            return {
+              SemenID: item.SemenID,
+              SemenNumber: item.SemenNumber,
+            };
+          });
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
 
     fetchFarm() {
       //   this.isLoading = true;
@@ -2292,6 +2372,17 @@ export default {
       }
       if (this.search.OrganizationID != null) {
         params["OrganizationID"] = this.search.OrganizationID;
+      }
+
+      if (this.search.SemenID != null) {
+        params["SemenID"] = this.search.SemenID;
+      }
+
+      if (this.search.AIDate!= null) {
+        params["AIStartDate"] = dayjs(this.search.AIDate[0]).format(
+          "YYYY-MM-DD"
+        );
+        params["AIEndDate"] = dayjs(this.search.AIDate[1]).format("YYYY-MM-DD");
       }
 
       if (this.search.ProjectIDArray) {
@@ -2735,6 +2826,7 @@ export default {
     },
     loadDefault() {
       this.isLoading = true;
+      this.fetchSemen();
       this.fetchAIZone();
       //   this.fetchAnialBreed();
       this.fetchOrganizationZone();

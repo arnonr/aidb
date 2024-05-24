@@ -190,7 +190,6 @@
                       optionValue="AnimalStatusID"
                       placeholder="เลือกสถานะ"
                       :showClear="true"
-                      disabled="true"
                       :filter="true"
                       v-model="form.AnimalStatusID"
                       :class="{ 'p-invalid': !form.AnimalStatusID && valid }"

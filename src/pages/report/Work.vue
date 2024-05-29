@@ -972,6 +972,13 @@ export default {
         params["StaffID"] = this.search.StaffID;
       }
 
+      if (this.search.OrganizationTypeID) {
+        params["OrganizationTypeID"] = this.search.OrganizationTypeID;
+      }
+
+
+      
+
       if (this.search.created_day) {
         params["StartDate"] = dayjs(this.search.created_day[0]).format(
           "YYYY-MM-DD"

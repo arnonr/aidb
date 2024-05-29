@@ -626,7 +626,7 @@ export default {
                 }
 
                 // fetch Farm
-                let farmCheck = await axios.post(`farm/${this.show.farm_id}`);
+                let farmCheck = await axios.get(`/farm/${this.show.farm_id}`);
 
                 if (farmCheck.project_id == 19) {
                     if (

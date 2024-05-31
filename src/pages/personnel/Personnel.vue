@@ -3838,7 +3838,7 @@ export default {
             // change data
             this.form.isActive = this.form.isActive.value;
             axios
-                .put(this.urlEditStaff + "/" + this.form.StaffID, this.form)
+                .put(this.url.editStaff + "/" + this.form.StaffID, this.form)
                 .then(() => {
                     this.load();
                     this.close_edit();

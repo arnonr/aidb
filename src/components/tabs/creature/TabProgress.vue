@@ -182,7 +182,7 @@
               class="w-full"
             />
           </div>
-          <div class="col-12 lg:col-6" v-if="animal_id == 2">
+          <div class="col-12 lg:col-6">
             <label class="block text-600 text-sm font-bold mb-2">
               ความยาวลำตัว (ซม.)
             </label>

@@ -272,12 +272,12 @@
                     :rowHover="true"
                     :loading="isLoading"
                     :paginator="true"
-                    v-model:rows="params.size"
+                    v-model:rows="this.rowPerPage"
                     paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
                     :rowsPerPageOptions="[10, 20, 50]"
                     responsiveLayout="scroll"
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
-                    :totalRecords="table.total"
+                    :totalRecords="total"
                     @page="load"
                     @sort="sort($event)"
                     lazy
@@ -2872,6 +2872,7 @@ import buddhistEra from "dayjs/plugin/buddhistEra";
 import "vue-select/dist/vue-select.css";
 // import { format } from "date-fns";
 // import { th } from "date-fns/locale";
+import ExcelJS from "exceljs";
 
 export default {
     components: {
@@ -2891,6 +2892,7 @@ export default {
                 OrganizationZone:
                     "/organization-zone/selection?includeAll=false&isActive=1",
                 Staff: "/staff/all-count",
+                ExportStaff: "/staff/export-excel",
                 Title: "/title?includeAll=false&isActive=1",
                 Gender: "/gender?includeAll=false&isActive=1",
                 MariedStatus: "/married-status?includeAll=false&isActive=1",
@@ -3073,7 +3075,7 @@ export default {
             });
             return;
         } else {
-            this.load();
+            // this.load();
         }
     },
     watch: {
@@ -3293,6 +3295,7 @@ export default {
         async load(event) {
             if (event) {
                 this.currentPage = event.page + 1;
+                // console.log(this.currentPage);
             }
             await this.fetchStaff();
         },
@@ -3369,7 +3372,7 @@ export default {
             if (this.search.OrganizationZoneID) {
                 url += "&OrganizationZoneID=" + this.search.OrganizationZoneID;
             }
-
+            this.currentPage
             let params = {
                 size: this.rowPerPage,
                 page: this.currentPage,
@@ -3788,16 +3791,12 @@ export default {
                     // ในกรณีที่สามารถเพิ่มข้อมูลได้ ให้เพิ่มรูปต่อ
                     this.close_add();
 
-                    console.log("FREEDOM");
-
                     if (this.form.StaffImages !== undefined) {
                         this.uploadPhoto(res.data.StaffID, formData);
                     }
 
-                    console.log("FREEDOM1");
                     this.load();
 
-                    console.log("FREEDOM2");
                     this.$toast.add({
                         severity: "success",
                         summary: "สำเร็จ",
@@ -4134,6 +4133,201 @@ export default {
                         life: 5000,
                     });
                 });
+        },
+
+        async exportExcel() {
+            this.isLoading = true;
+            let url =
+                this.url.ExportStaff + "?orderByField=StaffID&orderBy=desc";
+
+            if (this.search.StaffNumber) {
+                url += "&StaffNumber=" + this.search.StaffNumber;
+            }
+            if (this.search.StaffGivenName) {
+                url += "&StaffGivenName=" + this.search.StaffGivenName;
+            }
+            if (this.search.StaffSurname) {
+                url += "&StaffSurname=" + this.search.StaffSurname;
+            }
+            if (this.search.StaffIdentificationNumber) {
+                url +=
+                    "&StaffIdentificationNumber=" +
+                    this.search.StaffIdentificationNumber;
+            }
+            if (this.search.StaffOrganizationID) {
+                url +=
+                    "&StaffOrganizationID=" + this.search.StaffOrganizationID;
+            }
+            if (this.search.OrganizationID) {
+                url += "&OrganizationID=" + this.search.OrganizationID;
+            }
+            if (this.search.StaffPositionID) {
+                url += "&StaffPositionID=" + this.search.StaffPositionID;
+            }
+            if (this.search.StaffProvinceID) {
+                url += "&StaffProvinceID=" + this.search.StaffProvinceID;
+            }
+            if (this.search.StaffAmphurID) {
+                url += "&StaffAmphurID=" + this.search.StaffAmphurID;
+            }
+            if (this.search.StaffTumbolID) {
+                url += "&StaffTumbolID=" + this.search.StaffTumbolID;
+            }
+            if (this.search.StaffStartDate) {
+                url += "&StaffStartDate=" + this.search.StaffStartDate;
+            }
+            if (this.search.StaffEndDate) {
+                url += "&StaffEndDate=" + this.search.StaffEndDate;
+            }
+
+            if (this.search.StaffStatus) {
+                url += "&StaffStatus=" + this.search.StaffStatus;
+            }
+
+            if (this.search.AIZoneID) {
+                url += "&OrganizationAiZoneID=" + this.search.AIZoneID;
+            }
+
+            if (this.search.OrganizationZoneID) {
+                url += "&OrganizationZoneID=" + this.search.OrganizationZoneID;
+            }
+
+            let params = {
+                size: this.rowPerPage,
+                page: this.currentPage,
+                // includeAll: false,
+            };
+
+            await axios
+                .get(url, {
+                    signal: this.controller.signal,
+                    params: {
+                        ...params,
+                        size: 100000,
+                        page: 1,
+                    },
+                })
+                .then((response) => {
+                    this.json_data = response.data.rows;
+                })
+                .finally(() => {
+                    this.isLoading = false;
+                });
+        },
+
+        async onExport() {
+            this.exportExcel().then(() => {
+                setTimeout(async () => {
+                    const workbook = new ExcelJS.Workbook();
+                    const worksheet = workbook.addWorksheet("รายการ", {
+                        pageSetup: { orientation: "landscape" },
+                        headerFooter: {
+                            firstHeader: "Hello Exceljs",
+                            firstFooter: "Hello World",
+                        },
+                    });
+
+                    worksheet.columns = [
+                        {
+                            header: "รหัสบุคลากร",
+                            key: "รหัสบุคลากร",
+                            width: 25,
+                            outlineLevel: 1,
+                        },
+                        {
+                            header: "ชื่อ",
+                            key: "ชื่อ",
+                            width: 25,
+                            outlineLevel: 1,
+                        },
+                        {
+                            header: "นามสกุล",
+                            key: "นามสกุล",
+                            width: 25,
+                            outlineLevel: 1,
+                        },
+                        {
+                            header: "หน่วยงานที่สังกัด",
+                            key: "หน่วยงานที่สังกัด",
+                            width: 25,
+                            outlineLevel: 1,
+                        },
+                        {
+                            header: "ประเภทบุคลากร",
+                            key: "ประเภทบุคลากร",
+                            width: 25,
+                            outlineLevel: 1,
+                        },
+                        {
+                            header: "ตำแหน่งงาน",
+                            key: "ตำแหน่งงาน",
+                            width: 25,
+                            outlineLevel: 1,
+                        },
+                        {
+                            header: "อีเมล",
+                            key: "อีเมล",
+                            width: 25,
+                            outlineLevel: 1,
+                        },
+
+                        {
+                            header: "วันที่เริ่มทำงาน",
+                            key: "วันที่เริ่มทำงาน",
+                            width: 25,
+                            outlineLevel: 1,
+                        },
+                        {
+                            header: "วันสิ้นสุดการทำงาน",
+                            key: "วันสิ้นสุดการทำงาน",
+                            width: 25,
+                            outlineLevel: 1,
+                        },
+                    ];
+
+                    worksheet.addRows(this.json_data);
+
+                    worksheet.eachRow((row) => {
+                        // row.height = 45;
+                        row.eachCell(function (cell) {
+                            cell.alignment = {
+                                vertical: "middle",
+                                horizontal: "center",
+                                wrapText: true,
+                            };
+                        });
+                    });
+
+                    const row = worksheet.getRow(1);
+                    row.height = 20;
+
+                    worksheet.insertRow(1, "รายการบุคลากร");
+                    worksheet.mergeCells("A1:K1");
+                    worksheet.getCell("A1").value = "รายการทะเบียนบุคลากร";
+                    worksheet.getCell("A1").alignment = {
+                        vertical: "middle",
+                        horizontal: "center",
+                    };
+                    const font = { name: "Arial", size: 18, bold: true };
+                    worksheet.getCell("A1").font = font;
+
+                    const font1 = { name: "Arial", size: 18, bold: true };
+                    worksheet.getCell("A1").font = font1;
+
+                    // Images
+                    const buffer = await workbook.xlsx.writeBuffer();
+                    const blob = new Blob([buffer], {
+                        type: "application/octet-stream",
+                    });
+                    const href = URL.createObjectURL(blob);
+                    const link = document.createElement("a");
+                    link.href = href;
+                    link.download = "รายการบุคลากร.xlsx";
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }, 1000);
+            });
         },
     },
 };

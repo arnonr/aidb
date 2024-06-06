@@ -446,7 +446,7 @@
 
                     <Column
                         field="all"
-                        header="จำนวนตัว"
+                        header="จำนวนตัว/ฟาร์ม"
                         class="text-center"
                         exportFooter="&#8203;"
                     ></Column>

@@ -535,7 +535,7 @@
                     ></Column>
                     <Column
                         field="result_day1"
-                        header="จำนวนวัน"
+                        header="จำนวนวัน/ครั้ง"
                         class="text-center"
                         exportFooter="&#8203;"
                     ></Column>
@@ -606,6 +606,7 @@ export default {
                 Report24: "/report/report24",
                 Report25: "/report/report25",
                 Report26: "/report/report26",
+                Report27: "/report/report27",
                 Project: "/project/selection?includeAll=false&isActive=1",
                 Staff: "/staff/selection?includeAll=false&isActive=1",
             },
@@ -1374,7 +1375,7 @@ export default {
                 });
         },
 
-        fetchReport() {
+        async fetchReport() {
             this.isLoading = true;
             //  Fetch Report
             let params = {};
@@ -1453,12 +1454,12 @@ export default {
                 params["Projects"] = JSON.stringify(this.search.ProjectIDArray);
             }
 
-            axios
+            await axios
                 .get(this.url.Report, {
                     signal: this.controller.signal,
                     params: params,
                 })
-                .then((res) => {
+                .then(async (res) => {
                     //
                     this.data.main = res.data.data.map((x) => {
                         return x;
@@ -1533,7 +1534,7 @@ export default {
                     }
 
                     //   report 24
-                    axios
+                    await axios
                         .get(this.url.Report24, {
                             signal: this.controller.signal,
                             params: params,
@@ -1561,13 +1562,29 @@ export default {
                             //     });
                         })
                         .finally(() => {
-                            this.isLoading = false;
                             this.loader = true;
                         });
 
                     //   report 26
-                    axios
+                    await axios
                         .get(this.url.Report26, {
+                            signal: this.controller.signal,
+                            params: params,
+                        })
+                        .then((res) => {
+                            //
+                            this.data.main = [
+                                ...this.data.main,
+                                ...res.data.data,
+                            ];
+                        })
+                        .finally(() => {
+                            this.loader = true;
+                        });
+
+                    //   report 27
+                    await axios
+                        .get(this.url.Report27, {
                             signal: this.controller.signal,
                             params: params,
                         })

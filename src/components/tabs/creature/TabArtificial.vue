@@ -266,7 +266,11 @@
                     </div>
                     <div
                         class="col-12 lg:col-6"
-                        v-if="checkMethod == 3 || checkMethod == 4"
+                        v-if="
+                            checkMethod == 3 ||
+                            checkMethod == 4 ||
+                            checkMethod == 5
+                        "
                     >
                         <label class="block text-600 text-sm font-bold mb-2">
                             น้ำเชื้อ <span class="text-red-500"> *</span></label
@@ -287,7 +291,11 @@
                     </div>
                     <div
                         class="col-12 lg:col-6"
-                        v-if="checkMethod == 3 || checkMethod == 4"
+                        v-if="
+                            checkMethod == 3 ||
+                            checkMethod == 4 ||
+                            checkMethod == 5
+                        "
                     >
                         <label class="block text-600 text-sm font-bold mb-2">
                             จำนวนโด๊ส</label
@@ -349,7 +357,10 @@
                             }"
                         />
                     </div>
-                    <div class="col-12 lg:col-6" v-if="checkMethod == 4">
+                    <div
+                        class="col-12 lg:col-6"
+                        v-if="checkMethod == 4 || checkMethod == 5"
+                    >
                         <label class="block text-600 text-sm font-bold mb-2">
                             จำนวนครั้งที่ผสม (ครั้ง)<span class="text-red-500">
                                 *</span
@@ -365,7 +376,7 @@
                             readonly
                         />
                     </div>
-                    <div class="col-12 lg:col-6" v-if="checkMethod == 3">
+                    <div class="col-12 lg:col-6" v-if="checkMethod == 3 || checkMethod == 5">
                         <label class="block text-600 text-sm font-bold mb-2">
                             จำนวนครั้งที่ผสม (ครั้ง)<span class="text-red-500">
                                 *</span
@@ -1666,7 +1677,7 @@ export default {
             // Search
             isSelection: false,
 
-            checkMethod: 0,
+            checkMethod: 5,
             // Static Data
             isLoading: false,
             data: [],
@@ -1778,6 +1789,9 @@ export default {
             } else if ($event.value == "Buck") {
                 this.data[this.index].InseminationTime = 0;
                 this.checkMethod = 2;
+            } else if ($event.value == "AI") {
+                this.data[this.index].InseminationTime = 1;
+                this.checkMethod = 5;
             } else if ($event.value == "VAI") {
                 this.checkMethod = 3;
                 this.data[this.index].InseminationTime = 2;
@@ -2273,6 +2287,7 @@ export default {
 
             this.data[this.index].ResponsibilityStaffID = this.user.StaffID;
             this.data[this.index].GoatAIMethodID = "AI";
+            this.data[this.index].InseminationTime = 1;
             var date = null;
             await axios
                 .get(`animal/get-by-farm-id?AnimalID=${this.AnimalID}`, {

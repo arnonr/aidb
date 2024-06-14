@@ -379,7 +379,6 @@
                     (item.id == 9 && animal_id == 1) ||
                     (item.id == 4 && animal_id != 3)
                   " -->
-                                {{ item.alert }}
                                 <DailyAlertItem
                                     :title="item.title"
                                     :alert="item.alert"

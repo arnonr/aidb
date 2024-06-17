@@ -607,6 +607,8 @@ export default {
                 Report25: "/report/report25",
                 Report26: "/report/report26",
                 Report27: "/report/report27",
+                Report28: "/report/report28",
+                Report29: "/report/report29",
                 Project: "/project/selection?includeAll=false&isActive=1",
                 Staff: "/staff/selection?includeAll=false&isActive=1",
             },
@@ -1585,6 +1587,42 @@ export default {
                     //   report 27
                     await axios
                         .get(this.url.Report27, {
+                            signal: this.controller.signal,
+                            params: params,
+                        })
+                        .then((res) => {
+                            //
+                            this.data.main = [
+                                ...this.data.main,
+                                ...res.data.data,
+                            ];
+                        })
+                        .finally(() => {
+                            this.isLoading = false;
+                            this.loader = true;
+                        });
+
+                    //   report 28
+                    await axios
+                        .get(this.url.Report28, {
+                            signal: this.controller.signal,
+                            params: params,
+                        })
+                        .then((res) => {
+                            //
+                            this.data.main = [
+                                ...this.data.main,
+                                ...res.data.data,
+                            ];
+                        })
+                        .finally(() => {
+                            this.isLoading = false;
+                            this.loader = true;
+                        });
+
+                    //   report 29
+                    await axios
+                        .get(this.url.Report29, {
                             signal: this.controller.signal,
                             params: params,
                         })

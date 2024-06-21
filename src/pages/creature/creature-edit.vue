@@ -1302,23 +1302,24 @@ export default {
                 this.project = response.data.rows;
             });
 
-        await axios
-            .get(this.apiFarm + "&FarmAnimalType=[" + this.animal_id + "]", {
-                signal: this.controller.signal,
-            })
-            .then(() => {
-                // this.farm = response.data.rows.map((item) => {
-                //   return {
-                //     FarmID: item.FarmID,
-                //     FarmName: item.FarmName,
-                //     OrganizationID: item.OrganizationID,
-                //     AIZoneID: item.AIZoneID,
-                //     Fullname: item.FarmIdentificationNumber + ", " + item.FarmName,
-                //     OrganizationZoneName: item.OrganizationZone.OrganizationZoneName,
-                //   };
-                // });
-                // console.log(this.farm);
-            });
+        // await axios
+        //     .get(this.apiFarm + "&FarmAnimalType=[" + this.animal_id + "]", {
+        //         signal: this.controller.signal,
+        //     })
+        //     .then(() => {
+        //         // this.farm = response.data.rows.map((item) => {
+        //         //   return {
+        //         //     FarmID: item.FarmID,
+        //         //     FarmName: item.FarmName,
+        //         //     OrganizationID: item.OrganizationID,
+        //         //     AIZoneID: item.AIZoneID,
+        //         //     Fullname: item.FarmIdentificationNumber + ", " + item.FarmName,
+        //         //     OrganizationZoneName: item.OrganizationZone.OrganizationZoneName,
+        //         //   };
+        //         // });
+        //         // console.log(this.farm);
+        //     });
+
         await axios
             .get(this.apiAnimalSex, { signal: this.controller.signal })
             .then((response) => {

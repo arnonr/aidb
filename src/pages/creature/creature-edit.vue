@@ -1287,6 +1287,21 @@ export default {
             this.form.AnimalTypeID = 17;
         }
 
+        if (this.animal_id == 1) {
+            this.apiProject += "&ProjectLevel=ANIMAL&AnimalTypeID=[1,2,41,42]";
+        } else if (this.animal_id == 2) {
+            this.apiProject += "&ProjectLevel=ANIMAL&AnimalTypeID=[3,4,43,44]";
+        } else if (this.animal_id == 3) {
+            this.apiProject +=
+                "&ProjectLevel=ANIMAL&AnimalTypeID=[17,18,45,46]";
+        }
+
+        await axios
+            .get(this.apiProject, { signal: this.controller.signal })
+            .then((response) => {
+                this.project = response.data.rows;
+            });
+
         await axios
             .get(this.apiFarm + "&FarmAnimalType=[" + this.animal_id + "]", {
                 signal: this.controller.signal,
@@ -1420,19 +1435,6 @@ export default {
             this.apiAnimalFatherID += "&isRemove=0";
         }
 
-        if (this.animal_id == 1) {
-            this.apiProject += "&ProjectLevel=ANIMAL&AnimalTypeID=[1,2,41,42]";
-        } else if (this.animal_id == 2) {
-            this.apiProject += "&ProjectLevel=ANIMAL&AnimalTypeID=[3,4,43,44]";
-        } else if (this.animal_id == 3) {
-            this.apiProject +=
-                "&ProjectLevel=ANIMAL&AnimalTypeID=[17,18,45,46]";
-        }
-        await axios
-            .get(this.apiProject, { signal: this.controller.signal })
-            .then((response) => {
-                this.project = response.data.rows;
-            });
         await axios
             .get(this.apiAnimalStatusID, { signal: this.controller.signal })
             .then((response) => {

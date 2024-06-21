@@ -1215,9 +1215,11 @@ export default {
             ],
 
             alive: [
-                { name: "ขาย", key: "A", value: 1 },
-                { name: "ตาย", key: "B", value: 2 },
-                { name: "คัดทิ้ง", key: "C", value: 3 },
+                // "สถานะการมีชีวิต 1 = มีชีวิต, 0 = เสียชีวิต, 2 ขาย, 3 คัดทิ้ง",
+                { name: "ตาย", key: "A", value: 0 },
+                { name: "มีชีวิต", key: "B", value: 1 },
+                { name: "ขาย", key: "C", value: 2 },
+                { name: "คัดทิ้ง", key: "E", value: 3 },
             ],
 
             Percent: [

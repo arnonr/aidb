@@ -344,7 +344,7 @@ const RegisteredAnimalReport = async (id) => {
                         border: [false, false, false, false],
                       },
                       {
-                        text: result.AnimalDadName.replace(/,/g, '\n'),
+                        text: result.AnimalDadName?.replace(/,/g, '\n'),
                         bold: true,
                         alignment: "center",
                         style: "info",
@@ -371,7 +371,7 @@ const RegisteredAnimalReport = async (id) => {
                       },
                       {
                         // text: result.AnimalMomName+"<br>"+"dsdas",
-                        text: result.AnimalMomName.replace(/,/g, '\n'),
+                        text: result.AnimalMomName?.replace(/,/g, '\n'),
                         bold: true,
                         alignment: "center",
                         style: "info",

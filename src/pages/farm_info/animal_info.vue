@@ -930,8 +930,8 @@
                 height="200"
                 alt="Image Text"
                 preview
-                v-if="form.AnimalImagePath"
-                :src="form.AnimalImagePath"
+                v-if="form.AnimalImagePath1"
+                :src="form.AnimalImagePath1"
               >
               </Image>
               <Image

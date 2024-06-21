@@ -358,22 +358,25 @@ export default createStore({
                 delete form.StaffMobilePhone;
                 form.StaffID = this.state.staff.StaffID;
                 form.RegisterDate = new Date();
+                form.isRemove = 0;
 
                 if (this.state.staff.userID != null) {
-                    axios.put("/user/" + this.state.staff.userID, form).then(() => {
-                        commit("set_user", null);
-                        axios
-                            .put(
-                                `/staff/${this.state.staff.StaffID}/mobile-phone`,
-                                mobile
-                            )
-                            .then(() => {
-                                resolve();
-                            })
-                            .catch((errors) => {
-                                reject(errors);
-                            });
-                    });
+                    axios
+                        .put("/user/" + this.state.staff.userID, form)
+                        .then(() => {
+                            commit("set_user", null);
+                            axios
+                                .put(
+                                    `/staff/${this.state.staff.StaffID}/mobile-phone`,
+                                    mobile
+                                )
+                                .then(() => {
+                                    resolve();
+                                })
+                                .catch((errors) => {
+                                    reject(errors);
+                                });
+                        });
                 } else {
                     axios.post("/user/register", form).then(() => {
                         commit("set_user", null);

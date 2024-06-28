@@ -2114,7 +2114,7 @@ export default {
                                         // console.log("FREEDOM1");
 
                                         window.location.href =
-                                            "http://bblp-aidm.dld.go.th/agency/creature";
+                                            "http://biotech-cbg.dld.go.th/agency/creature";
                                     }
                                 }
                             }

@@ -1161,7 +1161,7 @@ export default {
             apiProject: "/project/selection?includeAll=false",
             url: {
                 Animal: "/animal/all-not-event",
-                ExportAnimal: "/animal/export-excel?isActive=1",
+                ExportAnimal: "/animal/export-excel",
                 Farm: "/farm/selection?includeAll=false",
                 AIZone: "/ai-zone/selection?includeAll=false",
                 OrganizationZone:

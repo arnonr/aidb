@@ -1008,7 +1008,7 @@
                                         >
                                             <RadioButton
                                                 :id="isAlive.key"
-                                                name="category"
+                                                name="category-1"
                                                 v-model="form.AnimalAlive"
                                                 :disabled="true"
                                                 :readonly="true"
@@ -1276,7 +1276,7 @@ export default {
         await this.project_check();
 
         this.form.isActive = this.status[0];
-        this.form.AnimalAlive = this.alive[0];
+        this.form.AnimalAlive = this.alive[1];
 
         if (this.animal_id == 1) {
             this.form.AnimalTypeID = 1;
@@ -1504,6 +1504,9 @@ export default {
                     );
                 }
             });
+
+            // console.log(item)
+            console.log(this.form)
     },
     watch: {
         // "form.FarmID"(val) {
@@ -1985,12 +1988,13 @@ export default {
                         id.AnimalFirstBreed = this.FirstBreed[1];
                     }
 
+                    console.log(id.AnimalAlive);
+                    console.log(this.alive);
                     if (id.AnimalAlive == 1) {
                         id.AnimalAlive = this.alive[1];
                     } else if (id.AnimalAlive == 0) {
                         id.AnimalAlive = this.alive[0];
                     }
-
 
                     if (id.isActive == 1) {
                         id.isActive = this.status[0];

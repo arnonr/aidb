@@ -1009,7 +1009,6 @@
                                             <RadioButton
                                                 :id="isAlive.key"
                                                 name="category"
-                                                :value="isAlive"
                                                 v-model="form.AnimalAlive"
                                                 :disabled="true"
                                                 :readonly="true"
@@ -1987,10 +1986,11 @@ export default {
                     }
 
                     if (id.AnimalAlive == 1) {
-                        id.AnimalAlive = this.alive[0];
-                    } else if (id.AnimalAlive == 0) {
                         id.AnimalAlive = this.alive[1];
+                    } else if (id.AnimalAlive == 0) {
+                        id.AnimalAlive = this.alive[0];
                     }
+
 
                     if (id.isActive == 1) {
                         id.isActive = this.status[0];

@@ -497,6 +497,26 @@
                     v-model="params.FarmerName"
                   />
                 </div> -->
+
+                                <div class="col-12 sm:col-6 lg:col-4">
+                                    <label
+                                        for="Province"
+                                        class="block text-600 text-sm font-bold mb-2"
+                                    >
+                                        การระบุสายพันธุ์
+                                    </label>
+                                    <Dropdown
+                                        :showClear="true"
+                                        class="w-full"
+                                        id="selectedFarm"
+                                        placeholder="ทั้งหมด"
+                                        optionLabel="name"
+                                        optionValue="value"
+                                        :options="AnimalBreedType"
+                                        :filter="true"
+                                        v-model="params.AnimalBreedType"
+                                    />
+                                </div>
                                 <div class="col-12 sm:col-6 lg:col-4">
                                     <label
                                         for="Province"
@@ -793,7 +813,7 @@
                     :paginator="true"
                     v-model:rows="rowPerPage"
                     paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
-                    :rowsPerPageOptions="[10, 20, 50,500]"
+                    :rowsPerPageOptions="[10, 20, 50, 500]"
                     responsiveLayout="scroll"
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
                     :totalRecords="table.total"
@@ -1197,6 +1217,11 @@ export default {
             Tumbol: [],
             Amphur: [],
             Province: [],
+            AnimalBreedType: [
+                { name: "ทั้งหมด", value: 1 },
+                { name: "ยังไม่ได้ระบุสายพันธุ์", value: 2 },
+                { name: "ระบุสายพันธุ์แล้ว", value: 3 },
+            ],
 
             rowPerPage: 10,
             currentPage: 1,
@@ -1232,6 +1257,7 @@ export default {
                 orderByField: "AnimalID",
                 orderBy: "desc",
                 IsActive: null,
+                AnimalBreedType: null,
             },
 
             table: {
@@ -2386,6 +2412,11 @@ export default {
                 );
             }
             this.params.ProjectID = JSON.stringify(this.params.ProjectID);
+
+            if (this.search.AnimalBreedType) {
+                params["AnimalBreedType"] = this.search.AnimalBreedType;
+            }
+
             axios
                 .get(this.url.Animal, {
                     signal: this.controller.signal,

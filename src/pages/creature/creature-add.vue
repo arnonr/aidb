@@ -241,18 +241,18 @@
                                         >
                                             หมายเลข NID</label
                                         >
-                                        <InputText
+                                        <!-- <InputText
                                             type="text"
                                             class="w-full"
                                             placeholder=""
                                             v-model="form.AnimalNationalID"
-                                        />
+                                        /> -->
 
-                                        <!-- <InputMask
+                                        <InputMask
                                             class="w-full"
                                             v-model="form.AnimalNationalID"
-                                            mask="999999Na99999"
-                                        /> -->
+                                            mask="999999**99999"
+                                        />
                                     </div>
                                     <div class="field col-12 sm:col-6">
                                         <label

@@ -214,6 +214,11 @@
                                             placeholder=""
                                             v-model="form.AnimalNationalID"
                                         />
+                                        <!-- <InputMask
+                                            class="w-full"
+                                            v-model="form.AnimalNationalID"
+                                            mask="999999**99999"
+                                        /> -->
                                     </div>
                                     <div class="field col-12 sm:col-6">
                                         <label
@@ -1505,8 +1510,8 @@ export default {
                 }
             });
 
-            // console.log(item)
-            console.log(this.form)
+        // console.log(item)
+        console.log(this.form);
     },
     watch: {
         // "form.FarmID"(val) {

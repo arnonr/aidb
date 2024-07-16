@@ -899,17 +899,27 @@
           </Column> -->
                     <Column
                         field="AnimalAlive"
-                        header="สถานะ"
+                        header="สถานะการคัดจำหน่าย"
                         class="text-center"
                         exportFooter="&#8203;"
                     >
                         <template #body="slotProps">
                             <div
-                                v-if="
-                                    slotProps.data.AnimalAlive == 1 ||
-                                    slotProps.data.AnimalAlive == status[0]
-                                "
                             >
+                                <Tag class="w-full" :severity="slotProps.data.AnimalAlive == 1 ? 'success' : 'error'"
+                                    >{{ alive[slotProps.data.AnimalAlive].name  }}</Tag
+                                >
+                            </div>
+                        </template>
+                    </Column>
+                    <Column
+                        field="isActive"
+                        header="สถานะ"
+                        class="text-center"
+                        exportFooter="&#8203;"
+                    >
+                        <template #body="slotProps">
+                            <div v-if="slotProps.data.isActive">
                                 <Tag class="w-full" severity="success"
                                     >เปิดใช้งาน</Tag
                                 >
@@ -1198,6 +1208,13 @@ export default {
                 AnimalFatherEarID: null,
                 AnimalMotherEarID: null,
             },
+            alive: [
+                // "สถานะการมีชีวิต 1 = มีชีวิต, 0 = เสียชีวิต, 2 ขาย, 3 คัดทิ้ง",
+                { name: "ตาย", key: "A", value: 0 },
+                { name: "มีชีวิต", key: "B", value: 1 },
+                { name: "ขาย", key: "C", value: 2 },
+                { name: "คัดทิ้ง", key: "E", value: 3 },
+            ],
 
             breadcrumb: [
                 { label: "หน้าหลัก", to: "/" },

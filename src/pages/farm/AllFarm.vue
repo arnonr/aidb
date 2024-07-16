@@ -770,8 +770,8 @@
                                 {{
                                     detailInfo.Projects === "undefined" &&
                                     detailInfo.Projects.length === 0
-                                        ? formatArray(detailInfo.Projects)
-                                        : "-"
+                                        ? "-"
+                                        : formatArray(detailInfo.Projects)
                                 }}
                             </span>
                         </div>

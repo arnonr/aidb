@@ -733,6 +733,7 @@
 import axios from "axios";
 import dayjs from "dayjs";
 import buddhistEra from "dayjs/plugin/buddhistEra";
+import locale from "dayjs/locale/th";
 import PageTitle from "@/components/PageTitle.vue";
 import router from "@/router";
 import { mapGetters } from "vuex";
@@ -745,7 +746,8 @@ export default {
     data() {
         return {
             url: {
-                FeedProgram: "feed-program",
+                FeedProgram: "/feed-program",
+                FeedProgramProgressAnimal: "/feed-program-progress-animal",
                 Food: "/food",
                 Vaccine: "/vaccine-activity",
                 Farm: "/farm",
@@ -841,6 +843,7 @@ export default {
                 FarmAnimalType: null,
             },
             // Static Data
+            checkInsert: false,
             isLoading: false,
             loader: false,
             total: null,
@@ -892,6 +895,8 @@ export default {
             animalData: [],
             foods: [],
             foodList: [],
+            params: {},
+            filtered: {},
             //
             controller: new AbortController(),
         };
@@ -1073,6 +1078,7 @@ export default {
         },
         "search.FarmID"() {
             this.fetchProgram();
+            this.loadProgram();
             if (this.isLoading == false) {
                 this.isLoading = true;
                 setTimeout(() => {
@@ -1188,6 +1194,56 @@ export default {
         close_progress() {
             this.display_progress = false;
         },
+        async loadProgram() {
+            let params = {};
+
+            if (this.animal_id == 1) {
+                params["AnimalTypeID"] = "[1,2,41,42]";
+            } else if (this.animal_id == 2) {
+                params["AnimalTypeID"] = "[3,4,43,44]";
+            } else if (this.animal_id == 3) {
+                params["AnimalTypeID"] = "[17,18,45,46]";
+            }
+
+            axios
+                .get(this.url.FeedProgram + "?FarmID=" + this.search.FarmID, {
+                    params: this.params,
+                    signal: this.controller.signal,
+                })
+                .then((response) => {
+                    this.total = response.data.total;
+                    this.program = response.data.rows;
+
+                    if (this.curpage == 0 || this.curpage == 1) {
+                        for (let i = 0; i < this.program.length; i++) {
+                            this.program[i].show_id = i + 1;
+                            if (
+                                this.program[i].StartDate != null ||
+                                this.program[i].EndDate != null
+                            ) {
+                                this.program[i].StartDate = dayjs(
+                                    this.program[i].StartDate
+                                )
+                                    .locale(locale)
+                                    .format("DD/MM/YYYY");
+                                this.program[i].EndDate = dayjs(
+                                    this.program[i].EndDate
+                                )
+                                    .locale(locale)
+                                    .format("DD/MM/YYYY");
+                            }
+                        }
+                    } else {
+                        let start = (this.curpage - 1) * 15;
+                        for (let i = 0; i < this.program.length; i++) {
+                            this.program[i].show_id = i + 1 + start;
+                        }
+                    }
+                })
+                .finally(() => {
+                    this.isLoading = false;
+                });
+        },
         async addProgress() {
             let data = this.program.find(
                 (x) => x.FeedProgramID == this.form.FeedProgramID
@@ -1196,6 +1252,7 @@ export default {
             // console.log(data);
 
             if (this.form.FeedType === "TMR") {
+                console.log(data);
                 await axios
                     .post("/feed-program-progress", this.form)
                     .then(async (res) => {
@@ -1229,7 +1286,7 @@ export default {
                         // this.$router.push("/activity/food");
                     })
                     .catch((err) => {
-                        // console.log(err);
+                        console.log(err);
                         this.$toast.add({
                             severity: "error",
                             summary: "ล้มเหลว",
@@ -1241,6 +1298,7 @@ export default {
                         this.fetchAnimal();
                         // this.loadAnimal();
                     });
+                this.fetchAnimal();
 
                 // this.loadAnimal();
             } else if (this.form.FeedType === "FOOD") {
@@ -1304,7 +1362,29 @@ export default {
                     });
 
                 // this.loadAnimal();
+                this.fetchAnimal();
             }
+        },
+
+        async insertAnimal(formData) {
+            // console.log(formData);
+            axios
+                .post(this.url.FeedProgramProgressAnimal, formData)
+                .then(() => {
+                    this.checkInsert = true;
+                })
+                // error
+                .catch((err) => {
+                    this.$toast.add({
+                        severity: "error",
+                        summary: "ล้มเหลว",
+                        detail: err.response.data.error.message,
+                        life: 5000,
+                    });
+                });
+            // return await new Promise(() => {
+
+            // });
         },
 
         formatArray(value) {
@@ -1369,6 +1449,103 @@ export default {
                 total += this.foods[i].Total;
             }
             this.form.TotalQuantity = total;
+        },
+
+        setWeight($event, $id) {
+            let form = {
+                Weight: $event.value,
+            };
+            axios
+                .put(this.url.FeedProgramProgressAnimal + "/" + $id, form)
+                .then(() => {
+                    this.$toast.add({
+                        severity: "success",
+                        summary: "สำเร็จ",
+                        detail: "ข้อมูลถูกบันทึก",
+                        // detail: "เพิ่มข้อมูลเสร็จสิ้น",
+                        life: 500,
+                    });
+                })
+                .catch((err) => {
+                    this.$toast.add({
+                        severity: "error",
+                        summary: "ล้มเหลว",
+                        detail: err.response.data.error.message,
+                        life: 5000,
+                    });
+                });
+        },
+        setHeight($event, $id) {
+            let form = {
+                Height: $event.value,
+            };
+            axios
+                .put(this.url.FeedProgramProgressAnimal + "/" + $id, form)
+                .then(() => {
+                    this.$toast.add({
+                        severity: "success",
+                        summary: "สำเร็จ",
+                        detail: "ข้อมูลถูกบันทึก",
+                        // detail: "เพิ่มข้อมูลเสร็จสิ้น",
+                        life: 500,
+                    });
+                })
+                .catch((err) => {
+                    this.$toast.add({
+                        severity: "error",
+                        summary: "ล้มเหลว",
+                        detail: err.response.data.error.message,
+                        life: 5000,
+                    });
+                });
+        },
+        setLength($event, $id) {
+            let form = {
+                Length: $event.value,
+            };
+            axios
+                .put(this.url.FeedProgramProgressAnimal + "/" + $id, form)
+                .then(() => {
+                    this.$toast.add({
+                        severity: "success",
+                        summary: "สำเร็จ",
+                        detail: "ข้อมูลถูกบันทึก",
+                        // detail: "เพิ่มข้อมูลเสร็จสิ้น",
+                        life: 500,
+                    });
+                })
+                .catch((err) => {
+                    this.$toast.add({
+                        severity: "error",
+                        summary: "ล้มเหลว",
+                        detail: err.response.data.error.message,
+                        life: 5000,
+                    });
+                });
+        },
+        setCrossSectionalArea($event, $id) {
+            let form = {
+                CrossSectionalArea: $event.value,
+            };
+            axios
+                .put(this.url.FeedProgramProgressAnimal + "/" + $id, form)
+                .then(() => {
+                    this.$toast.add({
+                        severity: "success",
+                        summary: "สำเร็จ",
+                        detail: "ข้อมูลถูกบันทึก",
+                        // detail: "เพิ่มข้อมูลเสร็จสิ้น",
+                        life: 500,
+                    });
+                })
+                .catch((err) => {
+                    this.$toast.add({
+                        severity: "error",
+                        summary: "ล้มเหลว",
+                        detail: err.response.data.error.message,
+                        life: 5000,
+                    });
+                });
         },
 
         loadDefault() {
@@ -1722,7 +1899,8 @@ export default {
         fetchAnimal() {
             axios
                 .get(
-                    "/feed-program-progress-animal?FeedProgramProgressID=" +
+                    this.url.FeedProgramProgressAnimal +
+                        "?FeedProgramProgressID=" +
                         this.FeedProgramProgressID,
                     { signal: this.controller.signal }
                 )

@@ -152,6 +152,11 @@ export default [
             to: "/project/detail",
           },
           {
+            label: "โครงการ Thaiblack",
+            icon: "pi pi-fw pi-circle",
+            to: "/project/thaiblack",
+          },
+          {
             label: "โครงการ RedGoat",
             icon: "pi pi-fw pi-circle",
             to: "/project/redgoat",

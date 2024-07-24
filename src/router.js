@@ -742,15 +742,15 @@ const routes = [
         component: () => import("./pages/project/project-detail-diary.vue"),
       },
       {
-        path: "/project/detail-ai",
-        name: "project-detail-ai",
-        component: () => import("./pages/project/project-detail-ai.vue"),
-      },
-      {
         path: "/project/thaiblack",
-        name: "thaiblack",
-        component: () => import("./pages/project/thaiblack.vue"),
+        name: "project-thaiblack",
+        component: () => import("./pages/project/project-thaiblack.vue"),
       },
+    //   {
+    //     path: "/project/thaiblack",
+    //     name: "thaiblack",
+    //     component: () => import("./pages/project/thaiblack.vue"),
+    //   },
       {
         path: "/project/redgoat",
         name: "redgoat",

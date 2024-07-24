@@ -1684,6 +1684,22 @@ export default {
                 // },
             ];
 
+            items.push({
+                label: "Thaiblack",
+                icon: "pi pi-search",
+                command: () => {
+                    let tab = {
+                        id: 0,
+                        animal_id: this.animal_id,
+                    };
+
+                    store.dispatch("tabAnimal", tab);
+
+                    store.dispatch("animalInfo", data);
+                    this.displaytab = true;
+                },
+            });
+
             if (menu.includes(2)) {
                 items.push({
                     label: "ผสมเทียม",
@@ -2329,22 +2345,7 @@ export default {
                     size: 10,
                 })
                 .then((response) => {
-                    for (let i = 0; i < response.data.Projects.length; i++) {
-                        if (
-                            this.data.Projects[i] ==
-                            "โครงการสร้างโคเนื้อคุณภาพสูง"
-                        ) {
-                            this.isProjectThaiBlack = true;
-                        }
-                        if (
-                            this.data.Projects[i] ==
-                            "โครงการพัฒนาแพะพันธุ์แดงสุราษฎร์"
-                        ) {
-                            this.isProjectRedGoat = true;
-                        }
-                    }
-
-                    let data = response.data.filter((x) => {
+                    let data = response.data.rows.filter((x) => {
                         for (let i = 0; i < x.Projects.length; i++) {
                             if (
                                 x.Projects[i] == "โครงการสร้างโคเนื้อคุณภาพสูง"
@@ -2352,19 +2353,19 @@ export default {
                                 return true;
                             }
 
-                            if (
-                                this.data.Projects[i] ==
-                                "โครงการพัฒนาแพะพันธุ์แดงสุราษฎร์"
-                            ) {
-                                return true;
-                            }
+                            // if (
+                            //     this.data.Projects[i] ==
+                            //     "โครงการพัฒนาแพะพันธุ์แดงสุราษฎร์"
+                            // ) {
+                            //     return true;
+                            // }
                         }
                         return false;
                     });
                     this.params.page = data.currPage;
                     this.table.total = data.total;
                     this.table.last_page = data.lastPage;
-                    this.data = data.rows;
+                    this.data = data;
                 })
                 .finally(() => {
                     this.isLoading = false;

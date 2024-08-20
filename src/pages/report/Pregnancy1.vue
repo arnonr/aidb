@@ -569,7 +569,7 @@ export default {
   },
   data() {
     return {
-      title: "รายงานสรุปตรวจท้องๅ",
+      title: "รายงานสรุปตรวจท้อง",
       data: [],
       totalStatus: {
         all: 0,
@@ -632,7 +632,7 @@ export default {
   watch: {
     // ค้นหา
     "search.day"() {
-      this.fetchReport();
+    //   this.fetchReport();
 
       if (this.isLoading == false) {
         this.isLoading = true;
@@ -657,7 +657,7 @@ export default {
           this.fetchProvince();
           this.fetchOrganization();
           //   this.fetchStaff();
-          this.fetchReport();
+        //   this.fetchReport();
           this.dropdown.Amphurs = [];
           this.dropdown.Tumbols = [];
 
@@ -686,7 +686,7 @@ export default {
           this.fetchProvince();
           this.fetchOrganization();
           //   this.fetchStaff();
-          this.fetchReport();
+          // this.fetchReport();
 
           this.search.ProvinceID = null;
           this.search.AmphurID = null;
@@ -702,7 +702,7 @@ export default {
       this.fetchAmphur();
       this.fetchOrganization();
       this.fetchStaff();
-      this.fetchReport();
+      // this.fetchReport();
 
       if (this.isLoading == false) {
         this.isLoading = true;
@@ -720,7 +720,7 @@ export default {
       this.fetchTumbol();
       this.fetchOrganization();
       this.fetchStaff();
-      this.fetchReport();
+      // this.fetchReport();
 
       if (this.isLoading == false) {
         this.isLoading = true;
@@ -736,7 +736,7 @@ export default {
     "search.TumbolID"() {
       this.fetchOrganization();
       this.fetchStaff();
-      this.fetchReport();
+      // this.fetchReport();
 
       if (this.isLoading == false) {
         this.isLoading = true;
@@ -749,7 +749,7 @@ export default {
     },
     "search.OrganizationTypeID"() {
       this.fetchOrganization();
-      this.fetchReport();
+      // this.fetchReport();
 
       if (this.isLoading == false) {
         this.isLoading = true;
@@ -761,9 +761,9 @@ export default {
       }
     },
     "search.OrganizationID"() {
-      //   this.fetchReport();
+      //   // this.fetchReport();
       this.fetchStaff();
-      this.fetchReport();
+      // this.fetchReport();
 
       if (this.isLoading == false) {
         this.isLoading = true;
@@ -776,7 +776,7 @@ export default {
     },
 
     "search.FarmID"() {
-      this.fetchReport();
+      // this.fetchReport();
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -785,7 +785,7 @@ export default {
       }
     },
     "search.ProjectIDArray"() {
-      this.fetchReport();
+      // this.fetchReport();
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -794,7 +794,7 @@ export default {
       }
     },
     "search.StaffID"() {
-      this.fetchReport();
+      // this.fetchReport();
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -823,7 +823,7 @@ export default {
       this.fetchOrganizationType();
       this.fetchOrganization();
       this.fetchStaff();
-      this.fetchReport();
+      // this.fetchReport();
     },
 
     load() {

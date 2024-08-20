@@ -944,7 +944,7 @@ export default {
       this.fetchOrganizationType();
       this.fetchOrganization();
       this.fetchStaff();
-      this.fetchReport();
+    //   this.fetchReport();
     },
 
     load() {

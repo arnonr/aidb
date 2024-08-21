@@ -1,10 +1,10 @@
 <template>
     <div class="grid">
         <div class="col-12">
-            <PageTitle title="เพิ่มข้อมูลตรวจโรค" :pages="breadcrumb" />
+            <PageTitle title="เพิ่มข้อมูล" :pages="breadcrumb" />
 
             <div class="card">
-                <h1 class="text-2xl text-600 mb-5">เพิ่มข้อมูลตรวจโรค</h1>
+                <h1 class="text-2xl text-600 mb-5">เพิ่มข้อมูล Thaiblack</h1>
                 <div v-if="loader" class="formgrid grid mb-3">
                     <div class="field col-12 sm:col-12">
                         <label class="block text-600 text-sm font-bold mb-2">
@@ -15,112 +15,20 @@
                             v-model="form.FullName"
                             disabled
                         />
-                        <!-- <Dropdown
-              v-if="form.FarmID == null"
-              class="w-full"
-              v-model="form.FarmID"
-              :options="Farm.data"
-              optionLabel="FarmIdentificationNumber"
-              optionValue="FarmID"
-              :virtualScrollerOptions="{
-                lazy: true,
-                onLazyLoad: onLazyLoad,
-                itemSize: Farm.total,
-                showLoader: true,
-                loading: loading,
-                delay: 250,
-              }"
-              :filter="true"
-              :showClear="true"
-              placeholder="เลือกหมายเลขฟาร์ม"
-              @change="load"
-            >
-              <template v-slot:loader="{ options }">
-                <div class="flex align-items-center p-2" style="height: 38px">
-                  <Skeleton
-                    :width="options.even ? '60%' : '50%'"
-                    height="1rem"
-                  />
-                </div>
-              </template>
-
-              <template #option="slotProps">
-                <div class="p-dropdown-car-option">
-                  <span
-                    >{{ slotProps.option.FarmIdentificationNumber }} |
-                    {{ slotProps.option.FarmName }}
-                  </span>
-                </div>
-              </template>
-            </Dropdown> -->
                     </div>
-                    <div class="field col-12 sm:col-6">
-                        <label
-                            for="diseaseexamined"
-                            class="block text-600 text-sm font-bold mb-2"
-                            >โรคที่ทำการตรวจ<span class="text-red-500">
-                                *</span
-                            ></label
-                        >
-                        <Dropdown
-                            class="w-full"
-                            v-model="form.DiseaseID"
-                            :options="itemDisease.disease"
-                            optionLabel="DiseaseName"
-                            optionValue="DiseaseID"
-                            :class="{ 'p-invalid': !form.DiseaseID && valid }"
-                            :filter="true"
-                            :showClear="true"
-                            placeholder="เลือกหรือค้นหาโรคที่ตรวจ"
-                        />
-                    </div>
-                    <div class="field col-12 sm:col-6">
-                        <label
-                            for="chooseinspection"
-                            class="block text-600 text-sm font-bold mb-2"
-                            >เลือกวิธีการตรวจ</label
-                        >
-                        <Dropdown
-                            class="w-full"
-                            v-model="form.DiseaseMethodID"
-                            :options="itemDisease.diseasemethod"
-                            optionLabel="DiseaseMethodName"
-                            optionValue="DiseaseMethodID"
-                            :filter="true"
-                            :showClear="true"
-                            placeholder="เลือกหรือค้นหาวิธีการตรวจ"
-                        >
-                        </Dropdown>
-                    </div>
-
-                    <div class="field col-12 sm:col-6">
-                        <label
-                            for="other"
-                            class="block text-600 text-sm font-bold mb-2"
-                            >วิธีอื่น ๆ</label
-                        >
-                        <InputText
-                            type="text"
-                            v-model="form.DiseaseMethodOther"
-                            class="w-full"
-                            placeholder="วิธีอื่น ๆ"
-                        />
-                    </div>
-                    <!-- <div class="field col-12 sm:col-6" /> -->
-
-                    <div class="field col-12 sm:col-6">
+                    <div class="field col-12 sm:col-4">
                         <label
                             for="date"
                             class="block text-600 text-sm font-bold mb-2"
-                            >วันที่ตรวจ<span class="text-red-500">
+                            >วันที่บันทึก<span class="text-red-500">
                                 *</span
                             ></label
                         >
 
                         <Datepicker
-                            v-model="form.DiseaseActivityDate"
+                            v-model="form.ThaiblackDate"
                             :class="{
-                                'p-invalid': !form.DiseaseActivityDate && valid,
+                                'p-invalid': !form.ThaiblackDate && valid,
                             }"
                             id="dateRange"
                             locale="th"
@@ -128,54 +36,6 @@
                             utc
                             :enableTimePicker="false"
                             :maxDate="new Date()"
-                            cancelText="ยกเลิก"
-                            selectText="ยืนยัน"
-                            placeholder="เลือกวันที่"
-                        >
-                            <template #year-overlay-value="{ text }">
-                                {{ parseInt(text) + 543 }}
-                            </template>
-                            <template #year="{ year }">
-                                {{ year + 543 }}
-                            </template>
-                        </Datepicker>
-                    </div>
-
-                    <div class="field col-12 sm:col-4">
-                        <label class="block text-600 text-sm font-bold mb-2">
-                            ระยะห่างการตรวจครั้งต่อไป
-                        </label>
-                        <Dropdown
-                            class="w-full"
-                            v-model="form.DiseaseNextMonth"
-                            :options="DiseaseNextMonth"
-                            optionLabel="label"
-                            optionValue="id"
-                            :class="{ 'p-invalid': valid }"
-                            :showClear="true"
-                            placeholder="ระยะห่างการตรวจครั้งต่อไป"
-                        />
-                    </div>
-
-                    <div class="field col-12 sm:col-4">
-                        <label
-                            for="nexttime"
-                            class="block text-600 text-sm font-bold mb-2"
-                            >วันที่ตรวจครั้งถัดไป<span class="text-red-500">
-                                *</span
-                            ></label
-                        >
-
-                        <Datepicker
-                            v-model="form.DiseaseNextDate"
-                            :class="{
-                                'p-invalid': !form.DiseaseNextDate && valid,
-                            }"
-                            id="dateRange"
-                            locale="th"
-                            :format="format"
-                            utc
-                            :enableTimePicker="false"
                             cancelText="ยกเลิก"
                             selectText="ยืนยัน"
                             placeholder="เลือกวันที่"
@@ -212,29 +72,29 @@
                         />
                     </div>
 
-                    <div class="field col-12 sm:col-6">
+                    <div class="field col-12 sm:col-4">
                         <label
-                            for="inspectionagency"
+                            for="codeofficer"
                             class="block text-600 text-sm font-bold mb-2"
-                            >หน่วยงานที่ตรวจ</label
+                            >รอบการบันทึก<span class="text-red-500">
+                                *</span
+                            ></label
                         >
                         <Dropdown
+                            :autoOptionFocus="true"
+                            emptyMessage="ไม่มีข้อมูล"
+                            emptyFilterMessage="ไม่พบข้อมูล"
                             class="w-full"
-                            v-model="form.OrganizationID"
-                            :options="organization"
-                            optionLabel="OrganizationName"
-                            optionValue="OrganizationID"
-                            :filter="true"
-                            :showClear="true"
-                            placeholder="เลือกหน่วยงาน"
+                            id="selectedScheme"
+                            placeholder="รอบการบันทึก"
+                            :options="project_level"
+                            optionLabel="name"
+                            :class="{
+                                'p-invalid': !form.ThaiblackRound && valid,
+                            }"
+                            v-model="form.ThaiblackRound"
                         />
                     </div>
-                    <!-- <div class="field col-12 sm:col-6">
-            <label class="block text-600 text-sm font-bold mb-2">
-              หมายเหตุ
-            </label>
-            <InputText class="w-full" type="text" v-model="form.Remark" />
-          </div> -->
                 </div>
                 <div v-else class="grid">
                     <div class="col-12">
@@ -324,38 +184,136 @@
                         </Column>
                         <Column
                             field="AnimalID"
-                            header="ผลการตรวจ"
+                            header="น้ำหนัก(กก.)"
                             class="text-center"
                             :sortable="true"
                         >
                             <template #body="slotProps">
                                 <div>
-                                    <Dropdown
-                                        v-model="slotProps.data.DiseaseResultID"
-                                        :options="itemDisease.diseaseresult"
-                                        optionLabel="DiseaseResultName"
-                                        optionValue="DiseaseResultID"
+                                    <InputText
                                         class="w-full"
-                                        :class="{
-                                            'p-invalid':
-                                                !form.DiseaseResultID && valid,
-                                        }"
-                                        :showClear="true"
-                                        :disabled="
-                                            !form.AnimalID.includes(
-                                                slotProps.data.AnimalID
-                                            )
-                                        "
-                                        placeholder="ผลการตรวจ"
-                                        @change="
-                                            selected(
-                                                $event,
-                                                slotProps.data.AnimalID
-                                            )
-                                        "
-                                        id="test"
-                                    >
-                                    </Dropdown>
+                                        v-model="slotProps.data.Weigth"
+                                    />
+                                </div>
+                            </template>
+                        </Column>
+                        <Column
+                            field="AnimalID"
+                            header="ความสูง(ซ.ม.)"
+                            class="text-center"
+                            :sortable="true"
+                        >
+                            <template #body="slotProps">
+                                <div>
+                                    <InputText
+                                        class="w-full"
+                                        v-model="slotProps.data.Height"
+                                    />
+                                </div>
+                            </template>
+                        </Column>
+                        <Column
+                            field="AnimalID"
+                            header="ความยาว(ซ.ม.)"
+                            class="text-center"
+                            :sortable="true"
+                        >
+                            <template #body="slotProps">
+                                <div>
+                                    <InputText
+                                        class="w-full"
+                                        v-model="slotProps.data.Length"
+                                    />
+                                </div>
+                            </template>
+                        </Column>
+                        <Column
+                            field="AnimalID"
+                            header="รอบอก(ซ.ม.)"
+                            class="text-center"
+                            :sortable="true"
+                        >
+                            <template #body="slotProps">
+                                <div>
+                                    <InputText
+                                        class="w-full"
+                                        v-model="slotProps.data.Width"
+                                    />
+                                </div>
+                            </template>
+                        </Column>
+                        <Column
+                            field="AnimalID"
+                            header="พื้นที่หน้าตัด(นิ้ว)"
+                            class="text-center"
+                            :sortable="true"
+                        >
+                            <template #body="slotProps">
+                                <div>
+                                    <InputText
+                                        class="w-full"
+                                        v-model="slotProps.data.Section"
+                                    />
+                                </div>
+                            </template>
+                        </Column>
+                        <Column
+                            field="AnimalID"
+                            header="ความหนาไขมัน(T12-13)นิ้ว"
+                            class="text-center"
+                            :sortable="true"
+                        >
+                            <template #body="slotProps">
+                                <div>
+                                    <InputText
+                                        class="w-full"
+                                        v-model="slotProps.data.FatThick"
+                                    />
+                                </div>
+                            </template>
+                        </Column>
+                        <Column
+                            field="AnimalID"
+                            header="ไขมันแทรกเนื้อ(%)"
+                            class="text-center"
+                            :sortable="true"
+                        >
+                            <template #body="slotProps">
+                                <div>
+                                    <InputText
+                                        class="w-full"
+                                        v-model="slotProps.data.FatInserted"
+                                    />
+                                </div>
+                            </template>
+                        </Column>
+                        <Column
+                            field="AnimalID"
+                            header="ความหนาไขมันสะโพก(นิ้ว)"
+                            class="text-center"
+                            :sortable="true"
+                        >
+                            <template #body="slotProps">
+                                <div>
+                                    <InputText
+                                        class="w-full"
+                                        v-model="slotProps.data.FatThickHip"
+                                    />
+                                </div>
+                            </template>
+                        </Column>
+                        <Column
+                            field="AnimalID"
+                            header="หมายเหตุ(ถ้ามี)"
+                            class="text-center"
+                            :sortable="true"
+                        >
+                            <template #body="slotProps">
+                                <div>
+                                    <InputText
+                                        class="w-full"
+                                        v-model="slotProps.data.Remark"
+                                    />
                                 </div>
                             </template>
                         </Column>
@@ -409,9 +367,9 @@ export default {
             key: this.$route.params.id,
             url: "/animal?FarmID=" + this.$route.params.id,
             apiPersonal: "/staff/selection?includeAll=false",
-            postDiseaseActivity: "/disease-activity",
+            postThaiblack: "/thaiblack/multisave",
             urlOrganization: "/organization/selection?includeAll=false",
-            urlDisease: "/disease",
+            urlDisease: "/thaiblack",
             urlDiseaseMethod: "/disease-method",
             DiseaseNextMonth: [
                 { label: "1 เดือน", id: 1 },
@@ -420,6 +378,25 @@ export default {
                 { label: "6 เดือน", id: 6 },
             ],
             id: "AnimalID",
+            selectedIds: [],
+            project_level: [
+                {
+                    id: "1",
+                    name: "210 วัน",
+                },
+                {
+                    id: "2",
+                    name: "400 วัน",
+                },
+                {
+                    id: "3",
+                    name: "600 วัน",
+                },
+                {
+                    id: "4",
+                    name: "800 วัน",
+                },
+            ],
             columns: [
                 {
                     field: "show_id",
@@ -427,7 +404,7 @@ export default {
                 },
                 {
                     field: "AnimalEarID",
-                    header: "หมายเลขสัตว์",
+                    header: "หมายเลขใบหู",
                 },
                 {
                     field: "AnimalName",
@@ -438,17 +415,13 @@ export default {
                     header: "อายุ",
                 },
                 {
-                    field: "AnimalBornType",
-                    header: "ลักษณะการเกิด",
-                },
-                {
-                    field: "AnimalStatus.AnimalStatusName",
+                    field: "AnimalStatusName",
                     header: "สถานะ",
                 },
-                {
-                    field: "AnimalFarm.FarmName",
-                    header: "สัตว์อยู่ที่ฟาร์ม...",
-                },
+                // {
+                //     field: "AnimalFarm.FarmName",
+                //     header: "สัตว์อยู่ที่ฟาร์ม...",
+                // },
             ],
             isLoading: false,
             loader: false,
@@ -472,7 +445,7 @@ export default {
             Farm: [],
             Lastactivity: null,
             breadcrumb: [
-                { label: "ข้อมูลสุขภาพ : ตรวจโรค", to: "/activity/disease" },
+                { label: "ข้อมูล : Thaiblack", to: "/activity/disease" },
                 { label: "", to: "" },
             ],
             controller: new AbortController(),
@@ -490,7 +463,7 @@ export default {
             }
             this.form.AnimalID = res;
 
-            //   console.log(this.form.AnimalID.value)
+            console.log(this.form.Animal);
 
             //   form.Animal.select = 1
 
@@ -596,7 +569,15 @@ export default {
                 .get(url, { signal: this.controller.signal })
                 .then((response) => {
                     this.total = response.data.total;
-                    this.data = response.data.rows;
+                    this.data = response.data.rows.map((x) => {
+                        return {
+                            AnimalID: x.AnimalID,
+                            AnimalEarID: x.AnimalEarID,
+                            AnimalAge: x.AnimalAge,
+                            AnimalName: x.AnimalName,
+                            AnimalStatusName: x.AnimalStatus.AnimalStatusName,
+                        };
+                    });
 
                     if (this.curpage == 0 || this.curpage == 1) {
                         for (let i = 0; i < this.data.length; i++) {
@@ -645,47 +626,6 @@ export default {
                 });
 
             axios
-                .get(this.urlDisease, {
-                    signal: this.controller.signal,
-                })
-                .then((res) => {
-                    this.itemDisease.disease = res.data.rows;
-                })
-                .finally(() => {
-                    this.isLoading = false;
-                });
-            axios
-                .get(this.urlDiseaseMethod, {
-                    signal: this.controller.signal,
-                })
-                .then((res) => {
-                    this.itemDisease.diseasemethod = res.data.rows;
-                })
-                .finally(() => {
-                    this.isLoading = false;
-                });
-            axios
-                .get("/disease-result", {
-                    signal: this.controller.signal,
-                })
-                .then((res) => {
-                    this.itemDisease.diseaseresult = res.data.rows;
-                })
-                .finally(() => {
-                    this.isLoading = false;
-                });
-            await axios
-                .get(this.urlOrganization, {
-                    signal: this.controller.signal,
-                })
-                .then((response) => {
-                    this.organization = response.data.rows;
-                })
-                .finally(() => {
-                    this.loader = true;
-                });
-
-            axios
                 .get("/farm/" + this.form.FarmID, {
                     signal: this.controller.signal,
                 })
@@ -725,11 +665,9 @@ export default {
         },
         validation() {
             if (
-                !this.form.DiseaseID ||
-                !this.form.DiseaseActivityDate ||
-                !this.form.DiseaseNextDate ||
+                !this.form.ThaiblackDate ||
                 !this.form.ResponsibilityStaffID ||
-                !this.form.AnimalID
+                !this.form.ThaiblackRound
             ) {
                 this.valid = true;
                 this.$toast.add({
@@ -748,118 +686,57 @@ export default {
                 return;
             }
 
-            await axios
-                .post(this.postDiseaseActivity, this.form, {
-                    signal: this.controller.signal,
-                })
-                .then(() => {
-                    axios
-                        .get(this.postDiseaseActivity)
-                        .then((res) => {
-                            this.Lastactivity = res.data.rows.slice(-1)[0];
+            let data = [];
+            data = this.form.Animal.map((x) => {
+                return {
+                    ThaiblackDate: dayjs(this.form.ThaiblackDate).format(
+                        "YYYY-MM-DD"
+                    ),
+                    ResponsibilityStaffID: this.form.ResponsibilityStaffID,
+                    CreatedUserID: this.form.ResponsibilityStaffID,
+                    CreatedDatetime: dayjs().format("YYYY-MM-DD"),
+                    ThaiblackRound: this.form.ThaiblackRound.id,
+                    ...x,
+                };
+            });
 
-                            for (
-                                let i = 0;
-                                i < this.form.AnimalID.length;
-                                i++
-                            ) {
-                                let DiseaseResultID = this.form.Animal.find(
-                                    (x) => {
-                                        return (
-                                            x.AnimalID == this.form.AnimalID[i]
-                                        );
-                                    }
-                                );
-
-                                axios
-                                    .post("/disease-activity-animal", {
-                                        DiseaseActivityID:
-                                            this.Lastactivity.DiseaseActivityID,
-                                        AnimalID: this.form.AnimalID[i],
-                                        DiseaseResultID:
-                                            DiseaseResultID.DiseaseResultID,
-                                        Remark: this.Lastactivity
-                                            .DiseaseMethodOther,
-                                        isActive: 1,
-                                    })
-                                    .then(() => {})
-
-                                    .finally(() => {
-                                        this.isLoading = false;
-                                    });
-                            }
-
-                            //   this.load();
-                            this.$toast.add({
-                                severity: "success",
-                                summary: "สำเร็จ",
-                                detail: "ข้อมูลตรวจโรคถูกบันทึก",
-                                life: 2000,
-                            });
-                            setTimeout(() => {
-                                this.$router.push("/activity/diagnose");
-                            }, 3000);
-                        })
-                        .finally(() => {
-                            this.isLoading = false;
-                        });
-                })
-                .catch((err) => {
-                    this.$toast.add({
-                        severity: "error",
-                        summary: "ล้มเหลว",
-                        detail: err.response.data.error.message,
-                        life: 5000,
-                    });
-                })
-                .finally(() => {
-                    this.isLoading = false;
+            try {
+                await axios.post(this.postThaiblack, {
+                    animals: data,
                 });
+
+                this.$toast.add({
+                    severity: "success",
+                    summary: "สำเร็จ",
+                    detail: "ข้อมูลถูกบันทึก",
+                    life: 2000,
+                });
+                setTimeout(() => {
+                    this.$router.push("/project/thaiblack");
+                }, 3000);
+            } catch (error) {
+                console.error("Error saving data:", error);
+                this.$toast.add({
+                    severity: "error",
+                    summary: "ล้มเหลว",
+                    detail: "เกิดข้อผิดพลาดในการบันทึกข้อมูล",
+                    life: 5000,
+                });
+            } finally {
+                this.isLoading = false;
+            }
+            //
         },
         selected($event, id) {
+            console.log(id);
             let item = this.form.Animal.find((x) => {
                 return x.AnimalID == id;
             });
-
             item["DiseaseResultID"] = $event.value;
-
-            console.log(this.form.Animal);
-
-            // this.DiseaseActivityAnimalResult = [
-            //     {
-            //         AnimalID: id,
-            //         DiseaseResultID: $event.value,
-            //     },
-            // ];
-
-            //   axios
-            //     .put("/disease-activity-animal/" + id, {
-            //       DiseaseResultID: $event.value,
-            //     })
-            //     .then(() => {
-            //       this.$toast.add({
-            //         severity: "success",
-            //         summary: "สำเร็จ",
-            //         detail: "อัพเดทข้อมูลเรียบร้อย",
-            //         life: 2000,
-            //       });
-            //     })
-            //     .finally(() => {
-            //       this.isLoading = false;
-            //     });
         },
-
-        // onLazyLoad() {
-        //   this.loading = true;
-
-        //   if (this.loadLazyTimeout) {
-        //     clearTimeout(this.loadLazyTimeout);
-        //   }
-
-        //   this.loadLazyTimeout = setTimeout(() => {
-        //     this.loading = false;
-        //   }, Math.random() * 1000 + 250);
-        // },
+        onSelectionChange(event) {
+            console.log(event);
+        },
     },
     unmounted() {
         this.controller.abort();

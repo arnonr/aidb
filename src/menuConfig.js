@@ -152,12 +152,12 @@ export default [
             to: "/project/detail",
           },
           {
-            label: "โครงการ Thaiblack",
+            label: "บันทึกการเจริญเติบโต โคเนื้อ",
             icon: "pi pi-fw pi-circle",
             to: "/project/thaiblack",
           },
           {
-            label: "โครงการ RedGoat",
+            label: "บันทึกการเจริญเติบโต แพะ",
             icon: "pi pi-fw pi-circle",
             to: "/project/redgoat",
           },

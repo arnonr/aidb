@@ -429,7 +429,6 @@
                             utc
                             :enableTimePicker="false"
                             :maxDate="new Date()"
-                            :minDate="olddate"
                             cancelText="ยกเลิก"
                             selectText="ยืนยัน"
                             @update:model-value="date()"
@@ -586,12 +585,12 @@
                             utc
                             :enableTimePicker="false"
                             :maxDate="new Date()"
-                            :minDate="olddate"
                             cancelText="ยกเลิก"
                             selectText="ยืนยัน"
                             @update:model-value="date()"
                             placeholder="วันที่ผสม"
                         >
+                        <!-- :minDate="olddate" -->
                             <template #year-overlay-value="{ text }">
                                 {{ parseInt(text) + 543 }}
                             </template>
@@ -731,7 +730,6 @@
                             utc
                             :enableTimePicker="false"
                             :maxDate="new Date()"
-                            :minDate="olddate"
                             cancelText="ยกเลิก"
                             selectText="ยืนยัน"
                             @update:model-value="date()"
@@ -876,7 +874,6 @@
                             utc
                             :enableTimePicker="false"
                             :maxDate="new Date()"
-                            :minDate="olddate"
                             cancelText="ยกเลิก"
                             selectText="ยืนยัน"
                             @update:model-value="date()"
@@ -1021,7 +1018,6 @@
                             :format="format"
                             utc
                             :enableTimePicker="false"
-                            :minDate="olddate"
                             :maxDate="new Date()"
                             cancelText="ยกเลิก"
                             selectText="ยืนยัน"
@@ -1315,7 +1311,6 @@
                             :format="format"
                             utc
                             :enableTimePicker="false"
-                            :minDate="olddate"
                             :maxDate="new Date()"
                             cancelText="ยกเลิก"
                             selectText="ยืนยัน"
@@ -1353,7 +1348,6 @@
                             utc
                             :enableTimePicker="false"
                             :maxDate="new Date()"
-                            :minDate="olddate"
                             cancelText="ยกเลิก"
                             selectText="ยืนยัน"
                             @update:model-value="date()"

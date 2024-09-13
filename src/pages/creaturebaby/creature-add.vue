@@ -1510,7 +1510,8 @@ export default {
                 !this.form.OrganizationZoneID ||
                 !this.form.AnimalStatusID ||
                 !this.form.isActive ||
-                !this.form.AnimalTypeID
+                !this.form.AnimalTypeID ||
+                this.form.AnimalBreedID1 == null
             ) {
                 this.valid = true;
                 this.$toast.add({

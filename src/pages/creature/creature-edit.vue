@@ -645,7 +645,6 @@
                                                     optionLabel="Fullname"
                                                     optionValue="AnimalBreedID"
                                                     placeholder="เลือกสายพันธุ์ที่ 1"
-                                                    :showClear="true"
                                                     :filter="true"
                                                     v-model="
                                                         form.AnimalBreedID1
@@ -750,7 +749,6 @@
                                                     optionLabel="Fullname"
                                                     optionValue="AnimalBreedID"
                                                     placeholder="เลือกสายพันธุ์ที่ 2"
-                                                    :showClear="true"
                                                     :filter="true"
                                                     v-model="
                                                         form.AnimalBreedID2
@@ -810,7 +808,6 @@
                                                     optionLabel="Fullname"
                                                     optionValue="AnimalBreedID"
                                                     placeholder="เลือกสายพันธุ์ที่ 3"
-                                                    :showClear="true"
                                                     :filter="true"
                                                     v-model="
                                                         form.AnimalBreedID3
@@ -873,7 +870,6 @@
                                                     optionLabel="Fullname"
                                                     optionValue="AnimalBreedID"
                                                     placeholder="เลือกสายพันธุ์ที่ 4"
-                                                    :showClear="true"
                                                     :filter="true"
                                                     v-model="
                                                         form.AnimalBreedID4
@@ -936,7 +932,6 @@
                                                     optionLabel="Fullname"
                                                     optionValue="AnimalBreedID"
                                                     placeholder="เลือกสายพันธุ์ที่ 5"
-                                                    :showClear="true"
                                                     :filter="true"
                                                     v-model="
                                                         form.AnimalBreedID5

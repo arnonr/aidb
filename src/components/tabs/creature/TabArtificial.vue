@@ -376,7 +376,10 @@
                             readonly
                         />
                     </div>
-                    <div class="col-12 lg:col-6" v-if="checkMethod == 3 || checkMethod == 5">
+                    <div
+                        class="col-12 lg:col-6"
+                        v-if="checkMethod == 3 || checkMethod == 5"
+                    >
                         <label class="block text-600 text-sm font-bold mb-2">
                             จำนวนครั้งที่ผสม (ครั้ง)<span class="text-red-500">
                                 *</span
@@ -403,7 +406,8 @@
                         v-if="this.data[this.index].InseminationTime > 0"
                     >
                         <label class="block text-600 text-sm font-bold mb-2">
-                            วันที่ผสมครั้งที่ 1</label
+                            วันที่ผสมครั้งที่ 1
+                            <span class="text-red-500"> *</span></label
                         >
 
                         <!-- <Calendar
@@ -590,7 +594,7 @@
                             @update:model-value="date()"
                             placeholder="วันที่ผสม"
                         >
-                        <!-- :minDate="olddate" -->
+                            <!-- :minDate="olddate" -->
                             <template #year-overlay-value="{ text }">
                                 {{ parseInt(text) + 543 }}
                             </template>
@@ -2159,6 +2163,40 @@ export default {
         add() {
             this.isLoading = true;
             this.display_confirm_ma = false;
+
+            if (this.animal_id == 3) {
+                if (this.data[this.index].GoatAIMethodID == null) {
+                    this.$toast.add({
+                        severity: "error",
+                        summary: "ล้มเหลว",
+                        detail: "วิธีการผสม จำเป็นต้องระบุ",
+                        life: 5000,
+                    });
+                    return;
+                }
+                console.log(this.data[this.index].GoatAIMethodID);
+                if (this.data[this.index].GoatAIMethodID != "Buck") {
+                    if (this.data[this.index].SemenID == null) {
+                        this.$toast.add({
+                            severity: "error",
+                            summary: "ล้มเหลว",
+                            detail: "น้ำเชื้อ จำเป็นต้องระบุ",
+                            life: 5000,
+                        });
+                        return;
+                    }
+
+                    if (this.data[this.index].AIDate1 == null) {
+                        this.$toast.add({
+                            severity: "error",
+                            summary: "ล้มเหลว",
+                            detail: "วันที่ผสม จำเป็นต้องระบุ",
+                            life: 5000,
+                        });
+                        return;
+                    }
+                }
+            }
 
             if (this.animal_id == 3) {
                 this.data[this.index].AIDate = this.data[this.index].AIDate1;

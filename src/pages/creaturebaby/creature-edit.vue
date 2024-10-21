@@ -813,11 +813,11 @@ export default {
     this.form.AnimalAlive = this.alive[0];
 
     if (this.animal_id == 1) {
-      this.form.AnimalTypeID = 1;
+    //   this.form.AnimalTypeID = 1;
     } else if (this.animal_id == 2) {
-      this.form.AnimalTypeID = 3;
+    //   this.form.AnimalTypeID = 3;
     } else if (this.animal_id == 3) {
-      this.form.AnimalTypeID = 17;
+    //   this.form.AnimalTypeID = 17;
     }
 
     axios

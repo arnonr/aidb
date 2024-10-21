@@ -1485,6 +1485,8 @@ export default {
         params["AnimalTypeID"] = "[1,2,41,42]";
       }
 
+      params['is_active'] = 1;
+
       axios
         .get(this.animal_url, {
           signal: this.controller.signal,

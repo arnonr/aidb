@@ -253,7 +253,7 @@ export default {
   data() {
     return {
       apiFarm: "/farm?isActive=1",
-      animal_url: "/animal/get-by-farm-id",
+      animal_url: "/animal/get-by-farm-id&isActive=1",
       getOrganizationZone: "/organization-zone",
       getProvince: "/province?includeAll=false&isActive=1",
       getAmphur: "/amphur?includeAll=false&isActive=1",

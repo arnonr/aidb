@@ -1672,7 +1672,7 @@ export default {
                     // console.log("FREEDOM1");
 
                     window.location.href =
-                      "http://biotech-cbg.dld.go.th/agency/creature";
+                      "https://biotech-cbg.dld.go.th/agency/creature";
                   }
                 }
               }

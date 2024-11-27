@@ -2176,7 +2176,7 @@ export default {
       }
 
       if (this.search.FarmID) {
-        params["FarmID"] = this.search.FarmID;
+        params["FarmID"] = this.search.FarmID.FarmID;
       }
 
       if (this.search.FarmStatusID) {

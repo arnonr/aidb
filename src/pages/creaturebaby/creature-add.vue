@@ -154,6 +154,29 @@
                       readonly
                     />
                   </div> -->
+
+                  <div class="field col-12 sm:col-6">
+                                        <label
+                                            class="block text-600 text-sm font-bold mb-2"
+                                            >ชนิดสัตว์
+                                        </label>
+                                        <Dropdown
+                                            class="w-full"
+                                            :options="animaltype"
+                                            optionLabel="AnimalTypeName"
+                                            optionValue="AnimalTypeID"
+                                            placeholder="เลือกชนิดสัตว์"
+                                            :showClear="true"
+                                            :filter="true"
+                                            v-model="form.AnimalTypeID"
+                                            :class="{
+                                                'p-invalid':
+                                                    !form.AnimalTypeID && valid,
+                                            }"
+                                        >
+                                        </Dropdown>
+                                    </div>
+                                    
                                     <div class="field col-12 sm:col-6">
                                         <label
                                             class="block text-600 text-sm font-bold mb-2"
@@ -213,28 +236,6 @@
                                             }"
                                         />
                                     </div>
-                                    <div class="field col-12 sm:col-6">
-                                        <label
-                                            class="block text-600 text-sm font-bold mb-2"
-                                            >สถานะ
-                                        </label>
-                                        <Dropdown
-                                            class="w-full"
-                                            :options="animalstatus"
-                                            optionLabel="AnimalStatusName"
-                                            optionValue="AnimalStatusID"
-                                            placeholder="เลือกสถานะ"
-                                            :showClear="true"
-                                            :filter="true"
-                                            v-model="form.AnimalStatusID"
-                                            :class="{
-                                                'p-invalid':
-                                                    !form.AnimalStatusID &&
-                                                    valid,
-                                            }"
-                                        >
-                                        </Dropdown>
-                                    </div>
 
                                     <div class="field col-12 sm:col-6">
                                         <label
@@ -260,27 +261,31 @@
                                             }"
                                         />
                                     </div>
+
                                     <div class="field col-12 sm:col-6">
                                         <label
                                             class="block text-600 text-sm font-bold mb-2"
-                                            >ชนิดสัตว์
+                                            >สถานะ
                                         </label>
                                         <Dropdown
                                             class="w-full"
-                                            :options="animaltype"
-                                            optionLabel="AnimalTypeName"
-                                            optionValue="AnimalTypeID"
-                                            placeholder="เลือกชนิดสัตว์"
+                                            :options="animalstatus"
+                                            optionLabel="AnimalStatusName"
+                                            optionValue="AnimalStatusID"
+                                            placeholder="เลือกสถานะ"
                                             :showClear="true"
                                             :filter="true"
-                                            v-model="form.AnimalTypeID"
+                                            v-model="form.AnimalStatusID"
                                             :class="{
                                                 'p-invalid':
-                                                    !form.AnimalTypeID && valid,
+                                                    !form.AnimalStatusID &&
+                                                    valid,
                                             }"
                                         >
                                         </Dropdown>
                                     </div>
+
+                                   
                                     <div class="field col-12 sm:col-6">
                                         <label
                                             class="block text-600 text-sm font-bold mb-2"
@@ -824,7 +829,8 @@ export default {
         return {
             url: "/animal",
             urlNumber: "/animal/generate-number",
-            apiFarm: "/farm?isActive=1",
+            apiFarm: "/farm/selection?isActive=1&includeAll=false",
+            // apiFarm: "/farm?isActive=1",
             apiPersonal: "/staff?isActive=1",
             apiAnimalSex: "/animal-sex?isActive=1",
             apiAnimalFatherID: "/animal/id-and-name?isActive=1",
@@ -1000,6 +1006,8 @@ export default {
             this.form.OrganizationID = this.bornItem.OrganizationID;
             this.filtered.FarmID = this.bornItem.FarmID;
             this.filtered.AnimalBirthDate = this.bornItem.AnimalBirthDate;
+
+            console.log(this.bornItem);
         }
 
         if (this.bornItem.BornType == "EMBRYO") {
@@ -1041,7 +1049,7 @@ export default {
             this.filtered.AnimalTypeID = val;
             // console.log(this.filtered.AnimalTypeID);
 
-            // this.callGennumber();
+            this.callGennumber();
         },
 
         "form.OrganizationID"(val) {
@@ -1068,6 +1076,9 @@ export default {
             if (this.checkFather) {
                 this.callCheckBreed();
             }
+        },
+        "form.AnimalSexID"() {
+            this.callStatus1();
         },
     },
     methods: {
@@ -1311,7 +1322,9 @@ export default {
                     } else if (totalday < 30 * 24) {
                         this.animalstatus = this.animalstatusDefault.filter(
                             (x) => {
-                                return x.AnimalStatusName === "โคหนุ่ม";
+                                return x.AnimalStatusName === "โครุ่น";
+
+                                // return x.AnimalStatusName === "โคหนุ่ม";
                             }
                         );
                     } else {
@@ -1326,8 +1339,12 @@ export default {
                             }
                         );
                     }
+
+
+                console.log("FREEDOM1");
+                console.log(this.animalstatusDefault);
+                console.log(this.animalstatus);
                 } else {
-                    console.log("FREEDOM1");
                     if (totalday < 30 * 4) {
                         this.animalstatus = this.animalstatusDefault.filter(
                             (x) => {
@@ -1344,14 +1361,15 @@ export default {
                         this.animalstatus = this.animalstatusDefault.filter(
                             (x) => {
                                 return (
-                                    x.AnimalStatusName !== "โคสาว" &&
-                                    x.AnimalStatusName !== "โคสาว" &&
-                                    x.AnimalStatusName !== "โคแม่พันธุ์" &&
+                                    x.AnimalStatusName !== "โครุ่น" &&
+                                    x.AnimalStatusName !== "โคพ่อพันธุ์" &&
                                     x.AnimalStatusName !== "ลูกโค"
                                 );
                             }
                         );
                     }
+
+                    console.log(this.animalstatus);
                 }
             }
             if (this.animal_id == 2) {
@@ -1501,6 +1519,8 @@ export default {
             return items;
         },
         validation() {
+        console.log(this.form)
+        // 
             if (
                 !this.form.AnimalIdentificationID ||
                 !this.form.AnimalSexID ||
@@ -1529,7 +1549,9 @@ export default {
         load() {
             this.isLoading = true;
             axios
-                .get(this.apiFarm, { signal: this.controller.signal })
+                .get(this.apiFarm + "&FarmID=" + this.bornItem.FarmID, {
+                    signal: this.controller.signal,
+                })
                 .then((response) => {
                     this.farm = response.data.rows.map((item) => {
                         return {
@@ -1540,8 +1562,8 @@ export default {
                                 item.FarmIdentificationNumber +
                                 ", " +
                                 item.FarmName,
-                            OrganizationZoneName:
-                                item.OrganizationZone.OrganizationZoneName,
+                            // OrganizationZoneName:
+                            //     item.OrganizationZone.OrganizationZoneName,
                         };
                     });
                 });
@@ -1552,9 +1574,7 @@ export default {
                 });
 
             this.apiPersonal +=
-                "&StaffOrganizationID=" +
-                this.user.Staff.StaffOrganizationID +
-                "&isActive=1";
+                "&StaffOrganizationID=" + this.user.Staff.StaffOrganizationID;
             axios
                 .get(this.apiPersonal, { signal: this.controller.signal })
                 .then((response) => {
@@ -1761,6 +1781,7 @@ export default {
                                 item.AnimalStatusID === 15
                         );
                         this.animalstatusDefault = [...this.animalstatus];
+
                         this.callStatus1();
                     }
                 });
@@ -1802,6 +1823,8 @@ export default {
                 // console.log(this.urlNumber);
                 let date = JSON.stringify(this.filtered.AnimalBirthDate);
                 let AnimalBirthDate = date.slice(1, 11);
+
+                console.log("FFREEDOM5")
 
                 axios
                     .get(this.apiAnimalSex, { signal: this.controller.signal })
@@ -1887,7 +1910,7 @@ export default {
             this.form.isActive = this.form.isActive.value;
             this.form.AnimalAlive = this.form.AnimalAlive.value;
 
-            if (this.form.AnimalFirstBreed) {
+            if (!this.form.AnimalFirstBreed) {
                 this.form.AnimalFirstBreed = 0;
             }
             if (this.form.AnimalBornType) {

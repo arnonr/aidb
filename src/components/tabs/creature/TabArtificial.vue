@@ -576,7 +576,7 @@
                         v-if="this.data[this.index].InseminationTime > 1"
                     >
                         <label class="block text-600 text-sm font-bold mb-2">
-                            วันที่ผสมครั้งที่ 2</label
+                            วันที่ผสมครั้งที่ 2 <span class="text-red-500"> *</span></label
                         >
                         <Datepicker
                             v-model="data[index].AIDate2"
@@ -721,7 +721,7 @@
                         v-if="this.data[this.index].InseminationTime > 2"
                     >
                         <label class="block text-600 text-sm font-bold mb-2">
-                            วันที่ผสมครั้งที่ 3</label
+                            วันที่ผสมครั้งที่ 3 <span class="text-red-500"> *</span></label
                         >
                         <Datepicker
                             v-model="data[index].AIDate3"
@@ -865,7 +865,7 @@
                         v-if="this.data[this.index].InseminationTime > 3"
                     >
                         <label class="block text-600 text-sm font-bold mb-2">
-                            วันที่ผสมครั้งที่ 4</label
+                            วันที่ผสมครั้งที่ 4 <span class="text-red-500"> *</span></label
                         >
                         <Datepicker
                             v-model="data[index].AIDate4"
@@ -1009,7 +1009,7 @@
                         v-if="this.data[this.index].InseminationTime > 4"
                     >
                         <label class="block text-600 text-sm font-bold mb-2">
-                            วันที่ผสมครั้งที่ 5</label
+                            วันที่ผสมครั้งที่ 5 <span class="text-red-500"> *</span></label
                         >
 
                         <Datepicker

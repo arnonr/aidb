@@ -1124,7 +1124,7 @@ export default {
           locale: th,
         }
       );
-      return `${formatStart}`;
+      return `${formatStart}`;  
     },
     getFarmer() {
       if (this.search.FarmerPID) {
@@ -1149,7 +1149,6 @@ export default {
           )
           .then((res) => {
             // this.form = res.data.rows[0];
-            console.log(res.data)
             if(res.data.rows.newFarmID != null){
                 window.location.href = "/farm/edit/"+res.data.rows.newFarmID;
                 // res.newFarmID

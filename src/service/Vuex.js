@@ -362,7 +362,10 @@ export default createStore({
 
                 if (this.state.staff.userID != null) {
                     axios
-                        .put("/user/" + this.state.staff.userID, form)
+                        .put("/user/" + this.state.staff.userID, {
+                            ...form,
+                            MobilePhone: mobile,
+                        })
                         .then(() => {
                             commit("set_user", null);
                             axios

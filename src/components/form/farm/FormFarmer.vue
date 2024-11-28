@@ -1149,6 +1149,11 @@ export default {
           )
           .then((res) => {
             // this.form = res.data.rows[0];
+            console.log(res.data)
+            if(res.data.rows.newFarmID != null){
+                window.location.href = "/farm/edit/"+res.data.rows.newFarmID;
+                // res.newFarmID
+            }
 
             if (Array.isArray(res.data.rows)) {
               this.form = res.data.rows[0];
@@ -1287,6 +1292,8 @@ export default {
                         }
                       });
                     }
+
+                    // if(res1.dataFromAPI)
                   }
 
                   // return res;

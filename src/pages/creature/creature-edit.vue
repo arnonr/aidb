@@ -236,6 +236,30 @@
                                     <div class="field col-12 sm:col-6">
                                         <label
                                             class="block text-600 text-sm font-bold mb-2"
+                                            >ชนิดสัตว์
+                                            <span class="text-red-500"
+                                                >*</span
+                                            ></label
+                                        >
+                                        <Dropdown
+                                            class="w-full"
+                                            :options="animaltype"
+                                            optionLabel="AnimalTypeName"
+                                            optionValue="AnimalTypeID"
+                                            placeholder="เลือกชนิดสัตว์"
+                                            :showClear="true"
+                                            :filter="true"
+                                            v-model="form.AnimalTypeID"
+                                            :class="{
+                                                'p-invalid':
+                                                    !form.AnimalTypeID && valid,
+                                            }"
+                                        >
+                                        </Dropdown>
+                                    </div>
+                                    <div class="field col-12 sm:col-6">
+                                        <label
+                                            class="block text-600 text-sm font-bold mb-2"
                                         >
                                             ชื่อสัตว์
                                             <span class="text-red-500"
@@ -303,30 +327,7 @@
                                         </Dropdown>
                                     </div>
 
-                                    <div class="field col-12 sm:col-6">
-                                        <label
-                                            class="block text-600 text-sm font-bold mb-2"
-                                            >ชนิดสัตว์
-                                            <span class="text-red-500"
-                                                >*</span
-                                            ></label
-                                        >
-                                        <Dropdown
-                                            class="w-full"
-                                            :options="animaltype"
-                                            optionLabel="AnimalTypeName"
-                                            optionValue="AnimalTypeID"
-                                            placeholder="เลือกชนิดสัตว์"
-                                            :showClear="true"
-                                            :filter="true"
-                                            v-model="form.AnimalTypeID"
-                                            :class="{
-                                                'p-invalid':
-                                                    !form.AnimalTypeID && valid,
-                                            }"
-                                        >
-                                        </Dropdown>
-                                    </div>
+                                  
                                     <div class="field col-12 sm:col-6">
                                         <label
                                             class="block text-600 text-sm font-bold mb-2"
@@ -1361,8 +1362,13 @@ export default {
                                     item.AnimalBreedCode +
                                     ", " +
                                     item.AnimalBreedName,
+                                    AnimalTypeID: item.AnimalTypeID,
                             };
                         });
+
+
+                        this.animalbreedDefault = this.animalbreed;
+
                 } else if (this.animal_id == 2) {
                     this.animalbreed = response.data.rows
                         .filter(
@@ -1380,8 +1386,12 @@ export default {
                                     item.AnimalBreedCode +
                                     ", " +
                                     item.AnimalBreedName,
+                                    AnimalTypeID: item.AnimalTypeID,
                             };
                         });
+
+
+                        this.animalbreedDefault = [...this.animalbreed];
                 } else if (this.animal_id == 3) {
                     this.animalbreed = response.data.rows
                         .filter(
@@ -1399,8 +1409,12 @@ export default {
                                     item.AnimalBreedCode +
                                     ", " +
                                     item.AnimalBreedName,
+                                    AnimalTypeID: item.AnimalTypeID,
                             };
                         });
+
+
+                        this.animalbreedDefault = [...this.animalbreed];
                 }
 
                 // this.animalbreed = response.data.rows.map((item) => {
@@ -1537,6 +1551,12 @@ export default {
 
         "form.AnimalTypeID"(val) {
             this.filtered.AnimalTypeID = val;
+            if (this.animalbreedDefault != undefined) {
+                let animalbreedFind = this.animalbreedDefault.filter((x) => {
+                    return x.AnimalTypeID == this.filtered.AnimalTypeID;
+                });
+                this.animalbreed = [...animalbreedFind];
+            }
             this.callGennumber();
         },
 

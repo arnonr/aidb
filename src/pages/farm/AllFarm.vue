@@ -466,7 +466,9 @@
                                         :model="
                                             getItems(
                                                 slotProps.data.FarmID,
-                                                slotProps.data.AIZoneID
+                                                slotProps.data.AIZoneID,
+                                                slotProps.data
+                                                    .FarmIdentificationNumber
                                             )
                                         "
                                     >
@@ -1665,8 +1667,28 @@ export default {
                 }
             }
         },
-        getItems(id, AIZoneID) {
+        getItems(id, AIZoneID, FarmIdentificationNumber) {
             const items = [
+                {
+                    label: "อัพเดท e-regis",
+                    icon: "pi pi-refresh",
+                    command: () => {
+                        axios
+                            .get("/farmer/fetch-api-farmer-with-eregis", {
+                                signal: this.controller.signal,
+                                params: {
+                                    FarmIdentificationNumber:
+                                        FarmIdentificationNumber,
+                                },
+                            })
+                            .then((res) => {
+                                console.log(res);
+                            })
+                            .finally(() => {
+                                this.isLoading = false;
+                            });
+                    },
+                },
                 {
                     label: "ลบ",
                     icon: "pi pi-trash",
@@ -1960,7 +1982,7 @@ export default {
                 params["FarmAnimalType"] = 98;
             } else {
                 params["FarmAnimalType"] = this.search.FarmAnimalType;
-            }   
+            }
 
             //     if (isNaN(this.search.FarmAnimalType)) {
             //     this.search.FarmAnimalType = 98;

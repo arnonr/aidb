@@ -2460,7 +2460,7 @@ export default {
 
             // check not match breed
 
-            if (this.form.AnimalBreedPercent1 || this.form.AnimalBreedID1) {
+            if (this.form.AnimalFirstBreed == 1) {
                 if (
                     this.form.AnimalBreedPercent1 == null ||
                     this.form.AnimalBreedID1 == null

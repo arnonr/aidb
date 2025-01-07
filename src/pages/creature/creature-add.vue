@@ -2490,7 +2490,7 @@ export default {
 
             // check not match breed
 
-            if (this.form.AnimalBreedPercent1 || this.form.AnimalBreedID1) {
+            if (this.form.AnimalFirstBreed == 1) {
                 if (
                     this.form.AnimalBreedPercent1 == null ||
                     this.form.AnimalBreedID1 == null
@@ -2498,7 +2498,7 @@ export default {
                     this.$toast.add({
                         severity: "error",
                         summary: "ล้มเหลว",
-                        detail: "กรุณากรอกข้อมูลสายพันธุ์และสัดส่วนที่ 1 ให้ครบ",
+                        detail: "กรุณากรอกข้อมูลสายพันธุ์และสัดส่วนที่ 1",
                         life: 5000,
                     });
                     return false;

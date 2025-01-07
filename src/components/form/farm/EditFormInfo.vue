@@ -477,7 +477,11 @@ export default {
   mounted() {
     this.load();
 
-    if (store.state.user.GroupID === 1 || store.state.user.GroupID === 2) {
+    // if (store.state.user.GroupID === 1 || store.state.user.GroupID === 2) {
+    //   this.checkTypeUser = false;
+    // }
+
+    if (store.state.user.GroupID === 1) {
       this.checkTypeUser = false;
     }
   },

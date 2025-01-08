@@ -468,7 +468,9 @@
                                                 slotProps.data.FarmID,
                                                 slotProps.data.AIZoneID,
                                                 slotProps.data
-                                                    .FarmIdentificationNumber
+                                                    .FarmIdentificationNumber,
+                                                slotProps.data.Farmer
+                                                    .FarmerNumber
                                             )
                                         "
                                     >
@@ -1667,7 +1669,7 @@ export default {
                 }
             }
         },
-        getItems(id, AIZoneID, FarmIdentificationNumber) {
+        getItems(id, AIZoneID, FarmIdentificationNumber, FarmerNumber) {
             const items = [
                 {
                     label: "อัพเดท e-regis",
@@ -1679,6 +1681,7 @@ export default {
                                 params: {
                                     FarmIdentificationNumber:
                                         FarmIdentificationNumber,
+                                    FarmerPID: FarmerNumber,
                                 },
                             })
                             .then((res) => {

@@ -62,7 +62,8 @@ export default {
         this.error = null;
         await store
           .dispatch("registercheck", this.idcard)
-          .then(() => {
+          .then((res) => {
+            console.log(res)
             // this.nextPage();
             console.log(this.staff)
             if (this.staff.StaffOrganizationID == null) {

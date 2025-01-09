@@ -293,58 +293,69 @@ export default createStore({
                 axios
                     .get("/staff/staff-by-number/" + form)
                     .then((response) => {
-                        if (response.data.StaffNumber == form) {
-                            data = response.data;
+                        if (response.data.data != null) {
+                            if (response.data.StaffNumber == form) {
+                                data = response.data;
 
-                            axios
-                                .get(
-                                    "/user/user-by-staff-id/" +
-                                        response.data.StaffID
-                                )
-                                .then((response) => {
-                                    if (response.data) {
-                                        if (response.data.userID == null) {
+                                axios
+                                    .get(
+                                        "/user/user-by-staff-id/" +
+                                            response.data.StaffID
+                                    )
+                                    .then((response) => {
+                                        if (response.data) {
+                                            console.log(response.data);
+                                            if (response.data.UserID == null) {
+                                                commit("set_staff", {
+                                                    ...data,
+                                                    userID: response.data
+                                                        .userID,
+                                                });
+                                                resolve();
+                                            } else {
+                                                reject(
+                                                    "มีข้อมูลผู้ใช้งานอยู่แล้ว"
+                                                );
+                                            }
+                                        } else {
                                             commit("set_staff", {
                                                 ...data,
-                                                userID: response.data.userID,
+                                                userID: null,
                                             });
                                             resolve();
-                                        } else {
-                                            reject("มีข้อมูลผู้ใช้งานอยู่แล้ว");
                                         }
-                                    } else {
-                                        commit("set_staff", {
-                                            ...data,
-                                            userID: null,
-                                        });
-                                        resolve();
-                                    }
-                                });
-                        } else {
-                            axios
-                                .get("/staff/staff-by-number/" + form)
-                                .then((response) => {
-                                    if (response.data.StaffNumber == form) {
-                                        data = response.data;
-                                        axios
-                                            .get(
-                                                "/user/user-by-staff-id/" +
-                                                    response.data.StaffID
-                                            )
-                                            .then((response) => {
-                                                if (response.data) {
-                                                    reject(
-                                                        "มีข้อมูลผู้ใช้งานอยู่แล้ว"
-                                                    );
-                                                } else {
-                                                    commit("set_staff", data);
-                                                    resolve();
-                                                }
-                                            });
-                                    } else {
-                                        reject("ไม่พบข้อมูล");
-                                    }
-                                });
+                                    });
+                            } else {
+                                axios
+                                    .get("/staff/staff-by-number/" + form)
+                                    .then((response) => {
+                                        if (response.data.StaffNumber == form) {
+                                            data = response.data;
+                                            axios
+                                                .get(
+                                                    "/user/user-by-staff-id/" +
+                                                        response.data.StaffID
+                                                )
+                                                .then((response) => {
+                                                    if (response.data) {
+                                                        reject(
+                                                            "มีข้อมูลผู้ใช้งานอยู่แล้ว"
+                                                        );
+                                                    } else {
+                                                        commit(
+                                                            "set_staff",
+                                                            data
+                                                        );
+                                                        resolve();
+                                                    }
+                                                });
+                                        } else {
+                                            reject("ไม่พบข้อมูล");
+                                        }
+                                    });
+                            }
+                        }else{
+                            reject(response.data.message);
                         }
                     })
                     .catch((errors) => {

@@ -1669,29 +1669,29 @@ export default {
                 }
             }
         },
-        getItems(id, AIZoneID, FarmIdentificationNumber, FarmerIdentificationNumber) {
+        getItems(id, AIZoneID) {
             const items = [
-                {
-                    label: "อัพเดท e-regis",
-                    icon: "pi pi-refresh",
-                    command: () => {
-                        axios
-                            .get("/farmer/fetch-api-farmer-with-eregis", {
-                                signal: this.controller.signal,
-                                params: {
-                                    FarmIdentificationNumber:
-                                        FarmIdentificationNumber,
-                                    farmerPID: FarmerIdentificationNumber,
-                                },
-                            })
-                            .then((res) => {
-                                console.log(res);
-                            })
-                            .finally(() => {
-                                this.isLoading = false;
-                            });
-                    },
-                },
+                // {
+                //     label: "อัพเดท e-regis",
+                //     icon: "pi pi-refresh",
+                //     command: () => {
+                //         axios
+                //             .get("/farmer/fetch-api-farmer-with-eregis", {
+                //                 signal: this.controller.signal,
+                //                 params: {
+                //                     FarmIdentificationNumber:
+                //                         FarmIdentificationNumber,
+                //                     farmerPID: FarmerIdentificationNumber,
+                //                 },
+                //             })
+                //             .then((res) => {
+                //                 console.log(res);
+                //             })
+                //             .finally(() => {
+                //                 this.isLoading = false;
+                //             });
+                //     },
+                // },
                 {
                     label: "ลบ",
                     icon: "pi pi-trash",

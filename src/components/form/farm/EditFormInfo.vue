@@ -481,7 +481,7 @@ export default {
     //   this.checkTypeUser = false;
     // }
 
-    if (store.state.user.GroupID === 1) {
+    if (store.state.user.GroupID === 1 || store.state.user.GroupID === 2) {
       this.checkTypeUser = false;
     }
   },

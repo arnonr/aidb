@@ -1500,7 +1500,7 @@ export default {
             return `${formatStart}`;
         },
         callCheckBreed() {
-            console.log(this.checkMother);
+            // console.log(this.checkMother);
             if (this.checkMother != null && this.checkFather != null) {
                 axios
                     .get(
@@ -1555,7 +1555,7 @@ export default {
                                     d1[i].AnimalBreedPercent;
                             }
                         }
-                        console.log(this.form);
+                        // console.log(this.form);
 
                         // for (let i = 0; i < response.data.length; i++) {
                         //   if (i == 0) {
@@ -1802,7 +1802,7 @@ export default {
 
                         this.animalbreedDefault = this.animalbreed;
                         // console.log(this.animalbreed)
-                        console.log(this.animalbreedDefault);
+                        // console.log(this.animalbreedDefault);
 
                         // console.log(this.animalbreedDefault);
                     } else if (this.animal_id == 2) {
@@ -2051,7 +2051,7 @@ export default {
                     if (this.form.AnimalSexID == 1) {
                         this.animalstatus = this.animalstatusDefault.filter(
                             (x) => {
-                                console.log(x.AnimalStatusName);
+                                // console.log(x.AnimalStatusName);
                                 return (
                                     x.AnimalStatusName !== "โคสาว" &&
                                     x.AnimalStatusName !== "โคแม่พันธุ์"
@@ -2093,7 +2093,7 @@ export default {
                     if (this.form.AnimalSexID == 1) {
                         this.animalstatus = this.animalstatusDefault.filter(
                             (x) => {
-                                console.log(x.AnimalStatusName);
+                                // console.log(x.AnimalStatusName);
                                 return (
                                     x.AnimalStatusName !== "กระบือสาว" &&
                                     x.AnimalStatusName !== "กระบือแม่พันธุ์"
@@ -2103,7 +2103,7 @@ export default {
                     } else {
                         this.animalstatus = this.animalstatusDefault.filter(
                             (x) => {
-                                console.log(x.AnimalStatusName);
+                                // console.log(x.AnimalStatusName);
                                 return (
                                     x.AnimalStatusName !== "กระบือรุ่น" &&
                                     x.AnimalStatusName !== "กระบือพ่อพันธุ์" &&
@@ -2136,7 +2136,7 @@ export default {
                     if (this.form.AnimalSexID == 1) {
                         this.animalstatus = this.animalstatusDefault.filter(
                             (x) => {
-                                console.log(x.AnimalStatusName);
+                                // console.log(x.AnimalStatusName);
                                 return (
                                     x.AnimalStatusName !== "แพะสาว" &&
                                     x.AnimalStatusName !== "แพะแม่พันธุ์"
@@ -2146,7 +2146,7 @@ export default {
                     } else {
                         this.animalstatus = this.animalstatusDefault.filter(
                             (x) => {
-                                console.log(x.AnimalStatusName);
+                                // console.log(x.AnimalStatusName);
                                 return (
                                     x.AnimalStatusName !== "แพะรุ่น" &&
                                     x.AnimalStatusName !== "แพะพ่อพันธุ์" &&
@@ -2259,7 +2259,7 @@ export default {
                         );
                     }
                 } else {
-                    console.log(totalday);
+                    // console.log(totalday);
                     if (totalday < 30 * 6) {
                         this.animalstatus = this.animalstatusDefault.filter(
                             (x) => {
@@ -2370,17 +2370,17 @@ export default {
                 total += parseFloat(this.form.AnimalBreedPercent5);
             }
 
-            console.log(this.form.AnimalBreedPercent1);
-            console.log(this.form.AnimalBreedPercent2);
-            console.log(this.form.AnimalBreedPercent3);
-            console.log(this.form.AnimalBreedPercent4);
-            console.log(this.form.AnimalBreedPercent5);
+            // console.log(this.form.AnimalBreedPercent1);
+            // console.log(this.form.AnimalBreedPercent2);
+            // console.log(this.form.AnimalBreedPercent3);
+            // console.log(this.form.AnimalBreedPercent4);
+            // console.log(this.form.AnimalBreedPercent5);
 
-            console.log(this.form.AnimalBreedID1);
-            console.log(this.form.AnimalBreedID2);
-            console.log(this.form.AnimalBreedID3);
-            console.log(this.form.AnimalBreedID4);
-            console.log(this.form.AnimalBreedID5);
+            // console.log(this.form.AnimalBreedID1);
+            // console.log(this.form.AnimalBreedID2);
+            // console.log(this.form.AnimalBreedID3);
+            // console.log(this.form.AnimalBreedID4);
+            // console.log(this.form.AnimalBreedID5);
 
             if (
                 (this.form.AnimalBreedID1 == this.form.AnimalBreedID2 ||
@@ -2477,7 +2477,7 @@ export default {
                 });
                 return false;
             } else if (total < 100) {
-                console.log(total);
+                // console.log(total);
                 this.valid = true;
                 this.$toast.add({
                     severity: "error",
@@ -2489,11 +2489,13 @@ export default {
             }
 
             // check not match breed
-
-            if (this.form.AnimalFirstBreed == 1) {
+            if (this.form.AnimalFirstBreed.id == 1) {
+                // console.log(this.form.AnimalMotherID);
                 if (
                     this.form.AnimalBreedPercent1 == null ||
-                    this.form.AnimalBreedID1 == null
+                    this.form.AnimalBreedID1 == null ||
+                    this.form.AnimalBreedPercent1 == undefined ||
+                    this.form.AnimalBreedID1 == undefined
                 ) {
                     this.$toast.add({
                         severity: "error",
@@ -2504,6 +2506,10 @@ export default {
                     return false;
                 }
             }
+            console.log(this.form.AnimalFirstBreed);
+            console.log(this.form.AnimalBreedPercent1);
+            console.log(this.form.AnimalBreedID1);
+            console.log("FFFF");
 
             if (this.form.AnimalBreedPercent2 || this.form.AnimalBreedID2) {
                 if (
@@ -2590,6 +2596,8 @@ export default {
             }
 
             // post
+
+            // console.log("FREEDOM");
             axios
                 .post(this.url, {
                     ...this.form,

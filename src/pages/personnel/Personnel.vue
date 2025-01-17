@@ -261,6 +261,13 @@
                             icon="pi pi-download"
                             class="mb-3 p-button-raised p-button-raised p-button-success"
                         />
+
+                        <Button
+                            @click="onUpdateAllFarmer()"
+                            label="UpdateAllFarmer"
+                            icon="pi pi-download"
+                            class="mb-3 ml-2 p-button-raised p-button-raised p-button-danger"
+                        />
                     </div>
                 </div>
 
@@ -3372,7 +3379,7 @@ export default {
             if (this.search.OrganizationZoneID) {
                 url += "&OrganizationZoneID=" + this.search.OrganizationZoneID;
             }
-            this.currentPage
+            this.currentPage;
             let params = {
                 size: this.rowPerPage,
                 page: this.currentPage,
@@ -4328,6 +4335,15 @@ export default {
                     document.body.removeChild(link);
                 }, 1000);
             });
+        },
+
+        async onUpdateAllFarmer() {
+            await axios
+                .get("/farmer/update-all-farmer-farmer-with-eregis", {})
+                .then((response) => {
+                    console.log(response);
+                })
+                .finally(() => {});
         },
     },
 };

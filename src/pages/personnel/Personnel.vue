@@ -262,12 +262,12 @@
                             class="mb-3 p-button-raised p-button-raised p-button-success"
                         />
 
-                        <Button
+                        <!-- <Button
                             @click="onUpdateAllFarmer()"
                             label="UpdateAllFarmer"
                             icon="pi pi-download"
                             class="mb-3 ml-2 p-button-raised p-button-raised p-button-danger"
-                        />
+                        /> -->
                     </div>
                 </div>
 

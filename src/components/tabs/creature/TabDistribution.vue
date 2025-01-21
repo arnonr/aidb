@@ -308,6 +308,7 @@ import { th } from "date-fns/locale";
 import Swal from "sweetalert2";
 import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
+import dayjs from "dayjs";
 
 export default {
     components: {
@@ -532,6 +533,26 @@ export default {
                 });
                 this.valid = true;
                 return false;
+            }
+
+            if (this.data[this.index - 1]) {
+                const DistributionDateOld = dayjs(
+                    this.data[this.index - 1].DistributionDate
+                ); // แปลงเป็น dayjs object
+                const DistributionDate = dayjs(
+                    this.data[this.index].DistributionDate
+                ); // แปลงเป็น dayjs object
+
+                if (DistributionDate.isBefore(DistributionDateOld)) {
+                    this.$toast.add({
+                        severity: "error",
+                        summary: "ล้มเหลว",
+                        detail: "ไม่สามารถทำก่อนกิจกรรมครั้งก่อนได้",
+                        life: 5000,
+                    });
+                    this.valid = true;
+                    return false;
+                }
             }
 
             return true;

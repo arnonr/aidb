@@ -1806,16 +1806,20 @@ export default {
             this.data[this.index].Dose = 1;
         },
         getItems(id) {
-            const items = [
-                {
-                    label: "ลบ",
-                    icon: "pi pi-trash",
-                    command: () => {
-                        this.open_delete(id);
+
+            if(id == this.data.length - 1){
+                const items = [
+                    {
+                        label: "ลบ",
+                        icon: "pi pi-trash",
+                        command: () => {
+                            this.open_delete(id);
+                        },
                     },
-                },
-            ];
-            return items;
+                ];
+                return items;
+            }
+
         },
         // ตรวจสอบ AnimalBirthDate ภายใน 365 วัน
         async checkBirthDate() {
@@ -1986,6 +1990,40 @@ export default {
                     });
                     this.valid = true;
                     return false;
+                }
+
+                const AIDate = dayjs(this.data[this.index].AIDate); // แปลงเป็น dayjs object
+                const AnimalBirthDate = dayjs(
+                    this.data_animal.rows[0].AnimalBirthDate
+                ); // แปลงเป็น dayjs object
+
+                console.log(AIDate);
+                console.log(AnimalBirthDate);
+
+                if (AIDate.isBefore(AnimalBirthDate)) {
+                    this.$toast.add({
+                        severity: "error",
+                        summary: "ล้มเหลว",
+                        detail: "วันที่ผสมเทียมต้องมากกว่าวันเกิด",
+                        life: 5000,
+                    });
+                    this.valid = true;
+                    return false;
+                }
+
+                if (this.data[this.index - 1]) {
+                    const AIDateOld = dayjs(this.data[this.index - 1].AIDate); // แปลงเป็น dayjs object
+
+                    if (AIDate.isBefore(AIDateOld)) {
+                        this.$toast.add({
+                            severity: "error",
+                            summary: "ล้มเหลว",
+                            detail: "วันที่ผสมเทียมต้องมากกว่าวันผสมรอบก่อน",
+                            life: 5000,
+                        });
+                        this.valid = true;
+                        return false;
+                    }
                 }
             }
 

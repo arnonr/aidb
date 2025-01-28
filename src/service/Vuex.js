@@ -293,10 +293,11 @@ export default createStore({
                 axios
                     .get("/staff/staff-by-number/" + form)
                     .then((response) => {
-                        if (response.data.data != null) {
+                        console.log(response.data);
+                        if (response.data != null) {
                             if (response.data.StaffNumber == form) {
                                 data = response.data;
-
+                                console.log(data);
                                 axios
                                     .get(
                                         "/user/user-by-staff-id/" +
@@ -359,6 +360,7 @@ export default createStore({
                         }
                     })
                     .catch((errors) => {
+                        console.log(errors);
                         reject(errors);
                     });
             });

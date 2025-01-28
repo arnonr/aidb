@@ -60,6 +60,7 @@ export default {
     async submit() {
       if (this.idcard) {
         this.error = null;
+        
         await store
           .dispatch("registercheck", this.idcard)
           .then((res) => {
@@ -73,6 +74,7 @@ export default {
             }
           })
           .catch((errors) => {
+            console.log("fragment")
             this.error = errors;
           });
       }

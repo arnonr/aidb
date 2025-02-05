@@ -1460,7 +1460,7 @@ export default {
             // Province IN AIZOne
             if (this.form.AIZoneID != null) {
                 if (this.form.AIZoneID != 99) {
-                    params["AIZoneID"] = this.form.AIZoneID;
+                    params["OrganizationAiZoneID"] = this.form.AIZoneID;
                 }
             }
 

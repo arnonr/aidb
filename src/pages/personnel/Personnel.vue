@@ -3529,15 +3529,15 @@ export default {
             }
 
             if (this.search.StaffProvinceID != null) {
-                params["ProvinceID"] = this.search.StaffProvinceID;
+                params["OrganizationProvinceID"] = this.search.StaffProvinceID;
             }
 
             if (this.search.StaffAmphurID != null) {
-                params["AmphurID"] = this.search.StaffAmphurID;
+                params["OrganizationAmphurID"] = this.search.StaffAmphurID;
             }
 
             if (this.search.StaffTumbolID != null) {
-                params["TumbolID"] = this.search.StaffTumbolID;
+                params["OrganizationTumbolID"] = this.search.StaffTumbolID;
             }
 
             params["includeProvince"] = "true";

@@ -875,15 +875,15 @@ export default {
             }
 
             if (this.search.ProvinceID != null) {
-                params["ProvinceID"] = this.search.ProvinceID;
+                params["OrganizationProvinceID"] = this.search.ProvinceID;
             }
 
             if (this.search.AmphurID != null) {
-                params["AmphurID"] = this.search.AmphurID;
+                params["OrganizationAmphurID"] = this.search.AmphurID;
             }
 
             if (this.search.TumbolID != null) {
-                params["TumbolID"] = this.search.TumbolID;
+                params["OrganizationTumbolID"] = this.search.TumbolID;
             }
 
             axios

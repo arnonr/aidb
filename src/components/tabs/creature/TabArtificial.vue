@@ -339,7 +339,7 @@
                         <label class="block text-600 text-sm font-bold mb-2">
                             พ่อพันธุ์<span class="text-red-500"> *</span></label
                         >
-                        <Dropdown
+                        <!-- <Dropdown
                             :show-clear="true"
                             :virtualScrollerOptions="{ itemSize: 38 }"
                             emptyMessage="ไม่มีข้อมูล"
@@ -355,7 +355,17 @@
                                 'p-invalid':
                                     !data[index].BreederAnimalID && valid,
                             }"
-                        />
+                        /> -->
+
+                        <v-select
+                            v-model="data[index].BreederAnimalID"
+                            :options="selection.Animal"
+                            @search="fetchFather"
+                            label="Fullname"
+                            value="AnimalID"
+                            class="w-full"
+                            placeholder="เลือกพ่อพันธุ์ พิมพ์เลขใบหู 3 ตัวอักษรเพื่อค้นหา"
+                        ></v-select>
                     </div>
                     <div
                         class="col-12 lg:col-6"
@@ -1251,23 +1261,16 @@
                         <label class="block text-600 text-sm font-bold mb-2">
                             พ่อพันธุ์<span class="text-red-500"> *</span></label
                         >
-                        <Dropdown
-                            :show-clear="true"
-                            :virtualScrollerOptions="{ itemSize: 38 }"
-                            emptyMessage="ไม่มีข้อมูล"
-                            emptyFilterMessage="ไม่พบข้อมูล"
-                            class="w-full"
-                            placeholder="เลือกพ่อพันธุ์"
-                            optionLabel="Fullname"
-                            optionValue="AnimalID"
+
+                        <v-select
                             v-model="data[index].BreederAnimalID"
                             :options="selection.Animal"
-                            :filter="true"
-                            :class="{
-                                'p-invalid':
-                                    !data[index].BreederAnimalID && valid,
-                            }"
-                        />
+                            @search="fetchFather"
+                            label="Fullname"
+                            value="AnimalID"
+                            class="w-full"
+                            placeholder="เลือกพ่อพันธุ์ พิมพ์เลขใบหู 3 ตัวอักษรเพื่อค้นหา"
+                        ></v-select>
                     </div>
                     <div class="col-12 lg:col-6">
                         <label class="block text-600 text-sm font-bold mb-2">
@@ -1524,8 +1527,13 @@ import { format } from "date-fns";
 import { th } from "date-fns/locale";
 import Swal from "sweetalert2";
 import { setupCache } from "axios-cache-adapter";
+import vSelect from "vue-select";
+import "vue-select/dist/vue-select.css";
 
 export default {
+    components: {
+        vSelect,
+    },
     emits: ["refresh_secret_status", "onclear_display"],
     props: {
         permit: {
@@ -1566,7 +1574,7 @@ export default {
             // Selection
             show: {},
             selection: {
-                Animal: null,
+                Animal: [],
                 Staff: null,
                 Project: null,
                 Semen: null,
@@ -1806,8 +1814,7 @@ export default {
             this.data[this.index].Dose = 1;
         },
         getItems(id) {
-
-            if(id == this.data.length - 1){
+            if (id == this.data.length - 1) {
                 const items = [
                     {
                         label: "ลบ",
@@ -1819,7 +1826,6 @@ export default {
                 ];
                 return items;
             }
-
         },
         // ตรวจสอบ AnimalBirthDate ภายใน 365 วัน
         async checkBirthDate() {
@@ -2038,18 +2044,7 @@ export default {
                     this.isSelection = true;
 
                     // ตั้งค่า ดึงข้อมูลแพะพ่อพัน
-                    if (this.animal_id == 1) {
-                        this.LoadSelection.Animal =
-                            "/animal/all-not-event?AnimalTypeID=[1,2,41,42]&isActive=1&AnimalSexID=1";
-                    }
-                    if (this.animal_id == 2) {
-                        this.LoadSelection.Animal =
-                            "/animal/all-not-event?AnimalTypeID=[3,4,43,44]&isActive=1&AnimalSexID=1";
-                    }
-                    if (this.animal_id == 3) {
-                        this.LoadSelection.Animal =
-                            "/animal/all-not-event?AnimalTypeID=[17,18,45,46]&isActive=1&AnimalSexID=1";
-                    }
+
                     for (let i in this.LoadSelection) {
                         if (this.LoadSelection[i] == "/project") {
                             this.LoadSelection[i] =
@@ -2176,6 +2171,46 @@ export default {
                     });
                 resolve();
             });
+        },
+        fetchFather(fatherEarID) {
+            let url = "";
+            if (fatherEarID.length < 3) {
+                this.LoadSelection.Animal = [];
+                return;
+            }
+            if (this.animal_id == 1) {
+                url =
+                    "/animal/all-not-event?AnimalTypeID=[1,2,41,42]&isActive=1&AnimalSexID=1&AnimalEarID=" +
+                    fatherEarID;
+            }
+            if (this.animal_id == 2) {
+                url =
+                    "/animal/all-not-event?AnimalTypeID=[3,4,43,44]&isActive=1&AnimalSexID=1&AnimalEarID=" +
+                    fatherEarID;
+            }
+            if (this.animal_id == 3) {
+                url =
+                    "/animal/all-not-event?AnimalTypeID=[17,18,45,46]&isActive=1&AnimalSexID=1&AnimalEarID=" +
+                    fatherEarID;
+            }
+
+            axios
+                .get(url, {
+                    signal: this.controller.signal,
+                })
+                .then((response) => {
+                    this.selection.Animal = response.data.rows.map((item) => {
+                        console.log(item);
+                        return {
+                            AnimalID: item.AnimalID,
+                            AnimalIdentificationID: item.AnimalIdentificationID,
+                            Fullname:
+                                item.AnimalIdentificationID +
+                                ", " +
+                                item.AnimalName,
+                        };
+                    });
+                });
         },
         // create or update data
 

@@ -162,11 +162,11 @@
         // ป้องกันค้นหาเลขสัตว์อื่นแล้วเจอ
         let search = null;
         if (this.animal_id == 1) {
-          search = [1, 2, 41, 42];
+          search = [1,2,41,42];
         } else if (this.animal_id == 2) {
-          search = [3, 4, 43, 44];
+          search = [3,4,43,44];
         } else if (this.animal_id == 3) {
-          search = [17, 18, 45, 46];
+          search = [17,18,45,46];
         }
         await axios
           .get(`/animal/get-by-farm-id?AnimalTypeID=[${search}]`, {

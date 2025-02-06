@@ -73,7 +73,7 @@
                                                 >*</span
                                             ></label
                                         >
-                                        <Dropdown
+                                        <!-- <Dropdown
                                             class="w-full"
                                             :options="farm"
                                             optionLabel="Fullname"
@@ -89,7 +89,21 @@
                                                 'p-invalid':
                                                     !form.FarmID && valid,
                                             }"
-                                        />
+                                        /> -->
+
+                                        <v-select
+                                            v-model="form.FarmID"
+                                            :options="farm"
+                                            @search="fetchFarm"
+                                            label="Fullname"
+                                            value="FarmID"
+                                            class="w-full"
+                                            placeholder="เลือกฟาร์ม (พิมพ์ 3 ตัวอักษรเพื่อค้นหา)"
+                                            :class="{
+                                                'p-invalid':
+                                                    !form.FarmID && valid,
+                                            }"
+                                        ></v-select>
                                     </div>
 
                                     <div class="field col-12 sm:col-6">
@@ -1186,14 +1200,14 @@ export default {
     },
     watch: {
         "form.OrganizationZoneID"() {
-            this.fetchFarm();
+            // this.fetchFarm();
             this.fetchOrganization();
         },
         "form.FarmID"(val) {
             //  console.log(this.farm)
             if (Array.isArray(this.farm) && this.farm.length) {
                 // console.log(this.farm);
-                let temp = this.farm.filter((item) => item.FarmID == val);
+                let temp = this.farm.filter((item) => item.FarmID == val.FarmID);
                 // this.form.OrganizationZoneID = temp[0].OrganizationZoneID;
                 this.form.OrganizationID = temp[0].OrganizationID;
                 this.form.AIZoneID = temp[0].AIZoneID;
@@ -1394,7 +1408,12 @@ export default {
         //     this.animalfather_temp = [];
         //   }
         // },
-        fetchFarm() {
+        fetchFarm(FarmName) {
+            if (FarmName.length < 3) {
+                this.farm = [];
+                return;
+            }
+
             this.isLoading = true;
             if (
                 this.search.AIZoneID == null &&
@@ -1428,6 +1447,8 @@ export default {
                     params["OrganizationZoneID"] = this.form.OrganizationZoneID;
                 }
             }
+
+            params["FarmName"] = FarmName;
 
             axios
                 .get(this.apiFarm, {

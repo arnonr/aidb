@@ -138,8 +138,8 @@ app.use(GAuth, {
 // axios.defaults.baseURL = "http://178.128.216.177:8081/api/v1";
 
 //axios.defaults.baseURL = "http://122.155.208.221/api/v1";
-axios.defaults.baseURL = "http://localhost:8083/api/v1";
-// axios.defaults.baseURL = "https://biotech-cbg.dld.go.th/api/v1";
+// axios.defaults.baseURL = "http://localhost:8083/api/v1";
+axios.defaults.baseURL = "https://biotech-cbg.dld.go.th/api/v1";
 // axios.defaults.headers.common['Referer'] = "https://losadasdasssscalhost1",
 
 router.beforeEach(function (to, from, next) {

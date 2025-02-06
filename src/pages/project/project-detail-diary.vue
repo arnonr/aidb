@@ -911,11 +911,11 @@ export default {
             }
 
             if (this.animal_id == 1) {
-                params["AnimalTypeID"] = "[1, 2, 41, 42]";
+                params["AnimalTypeID"] = "[1,2,41,42]";
             } else if (this.animal_id == 2) {
-                params["AnimalTypeID"] = "[3, 4, 43, 44]";
+                params["AnimalTypeID"] = "[3,4,43,44]";
             } else if (this.animal_id == 3) {
-                params["AnimalTypeID"] = "[17, 18, 45, 46]";
+                params["AnimalTypeID"] = "[17,18,45,46]";
             }
 
             if (this.search.AIZoneID != null) {

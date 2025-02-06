@@ -1448,9 +1448,9 @@ export default {
             this.url.gender = "/gender?isActive=1";
             this.url.education = "/education?isActive=1";
             this.url.occupation = "/occupation?isActive=1";
-            this.url.province = "/province?isActive=1";
-            this.url.tumbol = "/tumbol?isActive=1";
-            this.url.amphur = "/amphur?isActive=1";
+            this.url.province = "/province/selection?includeAll=false&isActive=1";
+            this.url.tumbol = "/tumbol/selection?includeAll=false&isActive=1";
+            this.url.amphur = "/amphur/selection?includeAll=false&isActive=1";
             this.url.farm = "/farm";
 
             axios
@@ -1562,16 +1562,16 @@ export default {
                     this.isLoading = false;
                 });
 
-            axios
-                .get(this.url.farmer, {
-                    signal: this.controller.signal,
-                })
-                .then((res) => {
-                    this.data.farmer = res.data.rows;
-                })
-                .finally(() => {
-                    this.isLoading = false;
-                });
+            // axios
+            //     .get(this.url.farmer, {
+            //         signal: this.controller.signal,
+            //     })
+            //     .then((res) => {
+            //         this.data.farmer = res.data.rows;
+            //     })
+            //     .finally(() => {
+            //         this.isLoading = false;
+            //     });
 
             axios
                 .get(this.url.title, {

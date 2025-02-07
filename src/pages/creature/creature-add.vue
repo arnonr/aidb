@@ -203,6 +203,43 @@
                                         </Datepicker>
                                     </div>
 
+                                    <div class="field col-12 sm:col-6">
+                                        <label
+                                            class="block text-600 text-sm font-bold mb-2"
+                                        >
+                                            วันที่เข้าฝูง
+                                            <span class="text-red-500"
+                                                >*</span
+                                            ></label
+                                        >
+                                        <Datepicker
+                                            v-model="form.AnimalDateJoin"
+                                            :class="{
+                                                'p-invalid':
+                                                    !form.AnimalDateJoin &&
+                                                    valid,
+                                            }"
+                                            id="dateRange"
+                                            locale="th"
+                                            :format="format"
+                                            utc
+                                            :enableTimePicker="false"
+                                            :maxDate="new Date()"
+                                            cancelText="ยกเลิก"
+                                            selectText="ยืนยัน"
+                                            placeholder="วัน-เดือน-ปี"
+                                        >
+                                            <template
+                                                #year-overlay-value="{ text }"
+                                            >
+                                                {{ parseInt(text) + 543 }}
+                                            </template>
+                                            <template #year="{ year }">
+                                                {{ year + 543 }}
+                                            </template>
+                                        </Datepicker>
+                                    </div>
+
                                     <!-- <div class="field col-12 sm:col-6">
                     <label class="block text-600 text-sm font-bold mb-2">
                       พื้นที่เขตปศุสัตว์<span class="text-red-500">
@@ -474,42 +511,7 @@
                                             v-model="form.ProjectID"
                                         />
                                     </div>
-                                    <div class="field col-12 sm:col-6">
-                                        <label
-                                            class="block text-600 text-sm font-bold mb-2"
-                                        >
-                                            วันที่เข้าฝูง
-                                            <span class="text-red-500"
-                                                >*</span
-                                            ></label
-                                        >
-                                        <Datepicker
-                                            v-model="form.AnimalDateJoin"
-                                            :class="{
-                                                'p-invalid':
-                                                    !form.AnimalDateJoin &&
-                                                    valid,
-                                            }"
-                                            id="dateRange"
-                                            locale="th"
-                                            :format="format"
-                                            utc
-                                            :enableTimePicker="false"
-                                            :maxDate="new Date()"
-                                            cancelText="ยกเลิก"
-                                            selectText="ยืนยัน"
-                                            placeholder="วัน-เดือน-ปี"
-                                        >
-                                            <template
-                                                #year-overlay-value="{ text }"
-                                            >
-                                                {{ parseInt(text) + 543 }}
-                                            </template>
-                                            <template #year="{ year }">
-                                                {{ year + 543 }}
-                                            </template>
-                                        </Datepicker>
-                                    </div>
+
                                     <div class="field col-12 sm:col-6">
                                         <label
                                             class="block text-600 text-sm font-bold mb-2"
@@ -1207,7 +1209,9 @@ export default {
             //  console.log(this.farm)
             if (Array.isArray(this.farm) && this.farm.length) {
                 // console.log(this.farm);
-                let temp = this.farm.filter((item) => item.FarmID == val.FarmID);
+                let temp = this.farm.filter(
+                    (item) => item.FarmID == val.FarmID
+                );
                 // this.form.OrganizationZoneID = temp[0].OrganizationZoneID;
                 this.form.OrganizationID = temp[0].OrganizationID;
                 this.form.AIZoneID = temp[0].AIZoneID;
@@ -1223,8 +1227,15 @@ export default {
             this.checkAnimal = 2;
         },
 
-        "form.AnimalBirthDate"(val) {
-            this.filtered.AnimalBirthDate = val;
+        // "form.AnimalBirthDate"(val) {
+        //     this.filtered.AnimalBirthDate = val;
+        //     this.callGennumber();
+        //     this.callStatus();
+        //     this.callStatus1();
+        // },
+
+        "form.AnimalDateJoin"(val) {
+            this.filtered.AnimalDateJoin = val;
             this.callGennumber();
             this.callStatus();
             this.callStatus1();
@@ -1985,11 +1996,11 @@ export default {
                 });
         },
         callGennumber() {
-            if (this.filtered.AnimalBirthDate && this.filtered.AnimalTypeID) {
+            if (this.filtered.AnimalDateJoin && this.filtered.AnimalTypeID) {
                 // console.log(this.urlNumber);
 
-                let date = JSON.stringify(this.filtered.AnimalBirthDate);
-                let AnimalBirthDate = date.slice(1, 11);
+                let date = JSON.stringify(this.filtered.AnimalDateJoin);
+                let AnimalDateJoin = date.slice(1, 11);
 
                 axios
                     .get(this.apiAnimalSex, { signal: this.controller.signal })
@@ -2001,7 +2012,7 @@ export default {
                     "?FarmID=" +
                     this.filtered.FarmID +
                     "&BirthDate=" +
-                    AnimalBirthDate +
+                    AnimalDateJoin +
                     "&AnimalTypeID=" +
                     this.filtered.AnimalTypeID;
 
@@ -2622,6 +2633,7 @@ export default {
             axios
                 .post(this.url, {
                     ...this.form,
+                    FarmID: this.form.FarmID.FarmID,
                     AnimalMotherID: AnimalMotherID,
                     AnimalFatherID: AnimalFatherID,
                 })

@@ -1227,12 +1227,12 @@ export default {
             this.checkAnimal = 2;
         },
 
-        // "form.AnimalBirthDate"(val) {
-        //     this.filtered.AnimalBirthDate = val;
-        //     this.callGennumber();
-        //     this.callStatus();
-        //     this.callStatus1();
-        // },
+        "form.AnimalBirthDate"(val) {
+            this.filtered.AnimalBirthDate = val;
+            // this.callGennumber();
+            this.callStatus();
+            this.callStatus1();
+        },
 
         "form.AnimalDateJoin"(val) {
             this.filtered.AnimalDateJoin = val;
@@ -2048,6 +2048,7 @@ export default {
             // post
         },
         callStatus() {
+                console.log("FREEDM")
             if (this.filtered.AnimalBirthDate && this.filtered.AnimalSexID) {
                 let date = JSON.stringify(this.filtered.AnimalBirthDate);
                 let AnimalBirthDate = date.slice(1, 11);
@@ -2059,6 +2060,7 @@ export default {
                 // let totalday = date1.diff(date2, "day");
                 // เงื่อนไขการกำหนดสถานะสัตว์
                 // โคเนื้อ
+                console.log(total)
                 if (this.animal_id == 1) {
                     if (total < 4) {
                         // ลูกโค

@@ -1420,6 +1420,7 @@ export default {
         //   }
         // },
         fetchFarm(FarmName) {
+
             if (FarmName.length < 3) {
                 this.farm = [];
                 return;
@@ -1458,8 +1459,7 @@ export default {
                     params["OrganizationZoneID"] = this.form.OrganizationZoneID;
                 }
             }
-
-            params["FarmName"] = FarmName;
+            params["FarmNameOrFarmIdentificationNumber"] = FarmName;
 
             axios
                 .get(this.apiFarm, {

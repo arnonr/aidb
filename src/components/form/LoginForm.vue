@@ -61,7 +61,7 @@
               >หรือคุณจะสมัครบัญชีด้วย</span
             >
           </div>
-          <div class="mb-3">
+          <!-- <div class="mb-3">
             <Button
               type="button"
               class="p-3 w-full p-button-outlined p-button-secondary border-black-alpha-20 border-round-xl flex align-items-center justify-content-center"
@@ -76,10 +76,16 @@
                 >สมัครบัญชีด้วย Google</span
               >
             </Button>
-          </div>
+          </div> -->
         </form>
 
         <div
+          class="text-lg text-center mt-5 relative z-1 text-900 lg:text-black"
+        >
+          ระบบสมัครสมาชิกอยู่ระหว่างปรับปรุง
+        </div>
+
+        <!-- <div
           class="text-lg text-center mt-5 relative z-1 text-900 lg:text-black"
         >
           คุณยังไม่มีบัญชีเข้าใช้งาน?
@@ -89,7 +95,7 @@
           >
             สมัครบัญชี
           </router-link>
-        </div>
+        </div> -->
       </template>
     </Card>
   </div>

@@ -85,7 +85,7 @@
           ระบบสมัครสมาชิกอยู่ระหว่างปรับปรุง
         </div>
 
-        <!-- <div
+        <div
           class="text-lg text-center mt-5 relative z-1 text-900 lg:text-black"
         >
           คุณยังไม่มีบัญชีเข้าใช้งาน?
@@ -95,7 +95,7 @@
           >
             สมัครบัญชี
           </router-link>
-        </div> -->
+        </div>
       </template>
     </Card>
   </div>

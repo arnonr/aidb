@@ -921,11 +921,11 @@
                         <template #body="slotProps">
                             <div v-if="slotProps.data.isActive">
                                 <Tag class="w-full" severity="success"
-                                    >เปิดใช้งาน</Tag
+                                    >Active</Tag
                                 >
                             </div>
                             <div v-else>
-                                <Tag class="w-full bg-gray-500">ปิดใช้งาน</Tag>
+                                <Tag class="w-full bg-gray-500">Inactive</Tag>
                             </div>
                         </template>
                     </Column>
@@ -1250,15 +1250,15 @@ export default {
 
             Status: [
                 {
-                    StatusName: "ทั้งหมด",
+                    StatusName: "All",
                     StatusID: "",
                 },
                 {
-                    StatusName: "เปิดใช้งาน",
+                    StatusName: "Active",
                     StatusID: "1",
                 },
                 {
-                    StatusName: "ปิดใช้งาน",
+                    StatusName: "Inactive",
                     StatusID: "0",
                 },
             ],
@@ -1359,8 +1359,8 @@ export default {
                 },
             ],
             status: [
-                { name: "เปิดใช้งาน", key: "A", value: 1 },
-                { name: "ปิดใช้งาน", key: "B", value: 0 },
+                { name: "Active", key: "A", value: 1 },
+                { name: "Inactive", key: "B", value: 0 },
             ],
 
             //  cancel requests      permit: null,

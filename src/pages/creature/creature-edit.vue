@@ -330,6 +330,40 @@
                                     <div class="field col-12 sm:col-6">
                                         <label
                                             class="block text-600 text-sm font-bold mb-2"
+                                            >สถานะการคัดจำหน่าย</label
+                                        >
+                                        <InputText
+                                            class="w-full"
+                                            :value="form.AnimalAlive?.name"
+                                            disabled
+                                        />
+                                        <!-- <div
+                                            v-for="isAlive of alive"
+                                            :key="isAlive.key"
+                                            class="field-radiobutton"
+                                        > -->
+                                        <!-- <InputText
+                                                type="number"
+                                                class="w-full"
+                                                v-model="form.AnimalAlive"
+                                                min="0"
+                                            /> -->
+                                        <!-- <RadioButton
+                                                :id="isAlive.key"
+                                                name="category-1"
+                                                v-model="form.AnimalAlive"
+                                                :disabled="true"
+                                                :readonly="true"
+                                            />
+                                            <label :for="isAlive.key">{{
+                                                isAlive.name
+                                            }}</label> -->
+                                        <!-- </div> -->
+                                    </div>
+
+                                    <div class="field col-12 sm:col-6">
+                                        <label
+                                            class="block text-600 text-sm font-bold mb-2"
                                         >
                                             น้ำหนักแรกเกิด (กก.)</label
                                         >
@@ -998,30 +1032,7 @@
                                     <div
                                         class="field col-12 sm:col-12 lg:col-12"
                                     >
-                                        <div class="text-xl">
-                                            สถานะการคัดจำหน่าย
-                                        </div>
-                                        <div
-                                            v-for="isAlive of alive"
-                                            :key="isAlive.key"
-                                            class="field-radiobutton"
-                                        >
-                                            <RadioButton
-                                                :id="isAlive.key"
-                                                name="category-1"
-                                                v-model="form.AnimalAlive"
-                                                :disabled="true"
-                                                :readonly="true"
-                                            />
-                                            <label :for="isAlive.key">{{
-                                                isAlive.name
-                                            }}</label>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="field col-12 sm:col-12 lg:col-12"
-                                    >
-                                        <div class="text-xl">สถานะ</div>
+                                        <div class="text-xl mb-2">สถานะระบบ</div>
                                         <div
                                             v-for="isActive of status"
                                             :key="isActive.key"
@@ -1208,9 +1219,9 @@ export default {
             ],
 
             status: [
-                { name: "เปิดใช้งาน", key: "A", value: 1 },
-                { name: "ปิดใช้งาน", key: "B", value: 0 },
-                { name: "รออยู่", key: "B", value: 2 },
+                { name: "Active", key: "A", value: 1 },
+                { name: "Inactive", key: "B", value: 0 },
+                // { name: "รออยู่", key: "B", value: 2 },
             ],
 
             alive: [
@@ -4453,7 +4464,6 @@ export default {
                 }
             });
 
-      
             if (
                 this.form.AnimalBreedPercent1 &&
                 this.user.GroupID != 1 &&

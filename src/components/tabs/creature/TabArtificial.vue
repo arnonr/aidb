@@ -9,7 +9,11 @@
                 icon="pi pi-plus"
                 class="w-full md:w-auto"
                 @click="open"
-                v-if="AnimalSecretStatus.includes(2) && permit[0].IsAdd"
+                v-if="
+                    AnimalSecretStatus.includes(2) &&
+                    permit[0].IsAdd &&
+                    this.animalInfo.isActive == 1
+                "
             />
 
             <!-- //   {{ AnimalSecretStatus.includes(2) && permit[0].IsAdd }} 
@@ -40,9 +44,9 @@
 
         <Column header="น้ำเชื้อ/พ่อพันธุ์" class="text-center">
             <template #body="slotProps">
-                <span v-if="slotProps.data.SemenNumber != null">{{
-                    slotProps.data.SemenNumber
-                }}</span>
+                <span v-if="slotProps.data.SemenNumber != null"
+                    >{{ slotProps.data.SemenNumber }}
+                </span>
                 <span v-else>{{
                     slotProps.data.BreederAnimal?.AnimalEarID
                 }}</span>
@@ -70,6 +74,7 @@
                     @click="edit(slotProps.data.show_id - 1)"
                     class="p-button-sm p-button-outlined p-button-warning"
                     :model="getItems(slotProps.data.show_id - 1)"
+                    :disabled="this.animalInfo.isActive == 0"
                 >
                 </SplitButton>
             </template>
@@ -1545,6 +1550,11 @@ export default {
             required: false,
             default: false,
         },
+        animalInfo: {
+            type: Object,
+            required: false,
+            default: null,
+        },
     },
 
     data() {
@@ -2168,6 +2178,7 @@ export default {
                         this.show.farm = `${response.data.rows[0].AnimalFarm.FarmIdentificationNumber}, ${response.data.rows[0].AnimalFarm.FarmName} `;
                         this.show.AnimalBirthDate =
                             response.data.rows[0].AnimalBirthDate;
+                        this.show.isActive = response.data.rows[0].isActive;
                     });
                 resolve();
             });

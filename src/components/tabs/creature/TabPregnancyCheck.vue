@@ -9,7 +9,11 @@
                 icon="pi pi-plus"
                 class="w-full md:w-auto"
                 @click="open"
-                v-if="AnimalSecretStatus.includes(4) && permit[0].IsAdd"
+                v-if="
+                    AnimalSecretStatus.includes(4) &&
+                    permit[0].IsAdd &&
+                    this.animalInfo.isActive == 1
+                "
             />
         </div>
     </div>
@@ -42,6 +46,7 @@
                     @click="edit(slotProps.data.show_id - 1)"
                     class="p-button-sm p-button-outlined p-button-warning"
                     :model="getItems(slotProps.data.show_id - 1)"
+                    :disabled="this.animalInfo.isActive == 0"
                 >
                 </SplitButton>
             </template>
@@ -354,6 +359,11 @@ export default {
             required: false,
             default: false,
         },
+        animalInfo: {
+            type: Object,
+            required: false,
+            default: null,
+        },
     },
     data() {
         return {
@@ -501,7 +511,7 @@ export default {
             return `${formatStart}`;
         },
         getItems(id) {
-            if(id == this.data.length - 1){
+            if (id == this.data.length - 1) {
                 const items = [
                     {
                         label: "ลบ",
@@ -513,7 +523,7 @@ export default {
                 ];
                 return items;
             }
-            
+
             // const items = [
             //     {
             //         label: "ลบ",
@@ -767,6 +777,7 @@ export default {
                     this.show.id = response.data.rows[0].AnimalEarID;
                     this.show.name = response.data.rows[0].AnimalName;
                     this.show.farm = `${response.data.rows[0].AnimalFarm.FarmIdentificationNumber}, ${response.data.rows[0].AnimalFarm.FarmName} `;
+                    this.show.isActive = response.data.rows[0].isActive;
                 });
 
             await axios

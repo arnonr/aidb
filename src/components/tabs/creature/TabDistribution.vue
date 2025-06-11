@@ -9,7 +9,11 @@
                 icon="pi pi-plus"
                 class="w-full md:w-auto"
                 @click="open"
-                v-if="AnimalSecretStatus.includes(1) && permit[0].IsAdd"
+                v-if="
+                    AnimalSecretStatus.includes(1) &&
+                    permit[0].IsAdd &&
+                    this.animalInfo.isActive == 1
+                "
             />
         </div>
     </div>
@@ -33,8 +37,19 @@
         </Column>
         <Column header="จัดการ" class="text-center">
             <template #body="slotProps">
-                <SplitButton
+                <Button
                     v-if="
+                        slotProps.data.show_id == total &&
+                        this.animalInfo.isActive == 0 
+                    "
+                    label="ลบ"
+                    icon="pi pi-trash"
+                    @click="open_delete(slotProps.data.show_id - 1)"
+                    class="p-button-sm p-button-outlined p-button-danger"
+                />
+                <!-- สำหรับกรณีอื่นๆ ให้แสดง SplitButton ตามเดิม -->
+                <SplitButton
+                    v-else-if="
                         slotProps.data.show_id == total ||
                         this.user.GroupID == 1
                     "
@@ -43,17 +58,9 @@
                     @click="edit(slotProps.data.show_id - 1)"
                     class="p-button-sm p-button-outlined p-button-warning"
                     :model="getItems(slotProps.data.show_id - 1)"
+                    :disabled="this.animalInfo.isActive == 0"
                 >
                 </SplitButton>
-                <!-- <SplitButton
-          v-else
-          label="แก้ไข"
-          icon="pi pi-pencil"
-          @click="edit(slotProps.index)"
-          class="p-button-sm p-button-outlined p-button-warning"
-          :model="getItems(slotProps.index)"
-        >
-        </SplitButton> -->
             </template>
         </Column>
         <template #empty> ไม่พบข้อมูล </template>
@@ -324,6 +331,11 @@ export default {
             type: Boolean,
             required: false,
             default: false,
+        },
+        animalInfo: {
+            type: Object,
+            required: false,
+            default: null,
         },
     },
     data() {

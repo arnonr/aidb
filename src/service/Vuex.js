@@ -351,11 +351,13 @@ export default createStore({
                                                     }
                                                 });
                                         } else {
-                                            reject("ไม่พบข้อมูล");
+                                            reject(
+                                                "ไม่พบข้อมูล กรุณาลงทะเบียนที่ https://bblp-dairy.dld.go.th/registerfull"
+                                            );
                                         }
                                     });
                             }
-                        }else{
+                        } else {
                             reject(response.data.message);
                         }
                     })

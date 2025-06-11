@@ -9,7 +9,7 @@
                 icon="pi pi-plus"
                 class="w-full md:w-auto"
                 @click="open"
-                v-if="permit[0].IsAdd"
+                v-if="permit[0].IsAdd && animalInfo.isActive == 1"
             />
         </div>
     </div>
@@ -43,6 +43,7 @@
                     @click="edit(slotProps.data.show_id - 1)"
                     class="p-button-sm p-button-outlined p-button-warning"
                     :model="getItems(slotProps.data.show_id - 1)"
+                    :disabled="this.animalInfo.isActive == 0"
                 >
                 </SplitButton>
                 <!-- <SplitButton
@@ -383,6 +384,11 @@ export default {
             required: false,
             default: false,
         },
+        animalInfo: {
+            type: Object,
+            required: false,
+            default: null,
+        },
     },
     data() {
         return {
@@ -595,8 +601,10 @@ export default {
                     .then((response) => {
                         this.show.id = response.data.rows[0].AnimalEarID;
                         this.show.name = response.data.rows[0].AnimalName;
-                        this.show.AnimalSexID = response.data.rows[0].AnimalSexID;
+                        this.show.AnimalSexID =
+                            response.data.rows[0].AnimalSexID;
                         this.show.farm = `${response.data.rows[0].AnimalFarm.FarmIdentificationNumber}, ${response.data.rows[0].AnimalFarm.FarmName} `;
+                        this.show.isActive = response.data.rows[0].isActive;
                     });
                 resolve();
             });

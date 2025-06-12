@@ -833,6 +833,28 @@
             </Column> -->
           <Column
             field="AnimalAlive"
+            header="สถานะการคัดจำหน่าย"
+            class="text-center"
+            exportFooter="&#8203;"
+          >
+            <template #body="slotProps">
+              <div
+                v-if="
+                  slotProps.data.AnimalAlive == 1
+                "
+              >
+                <Tag class="w-full" severity="success">มีชีวิต</Tag>
+              </div>
+              <div v-else-if="slotProps.data.AnimalAlive == 0">
+                <Tag class="w-full bg-gray-500">ตาย</Tag>
+              </div>
+              <div v-else-if="slotProps.data.AnimalAlive == 3">
+                <Tag class="w-full bg-gray-500">คัดทิ้ง</Tag>
+              </div>
+            </template>
+          </Column>
+          <Column
+            field="isActive"
             header="สถานะ"
             class="text-center"
             exportFooter="&#8203;"
@@ -840,14 +862,13 @@
             <template #body="slotProps">
               <div
                 v-if="
-                  slotProps.data.AnimalAlive == 1 ||
-                  slotProps.data.AnimalAlive == status[0]
+                  slotProps.data.isActive == 1
                 "
               >
-                <Tag class="w-full" severity="success">มีชีวิต</Tag>
+                <Tag class="w-full" severity="success">Active</Tag>
               </div>
               <div v-else>
-                <Tag class="w-full bg-gray-500">เสียชีวิต</Tag>
+                <Tag class="w-full bg-gray-500">Inactive</Tag>
               </div>
             </template>
           </Column>

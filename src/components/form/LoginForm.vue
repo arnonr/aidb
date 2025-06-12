@@ -79,11 +79,11 @@
           </div> -->
         </form>
 
-        <div
+        <!-- <div
           class="text-lg text-center mt-5 relative z-1 text-900 lg:text-black"
         >
           ระบบสมัครสมาชิกอยู่ระหว่างปรับปรุง
-        </div>
+        </div> -->
 
         <div
           class="text-lg text-center mt-5 relative z-1 text-900 lg:text-black"

@@ -843,7 +843,7 @@
                   slotProps.data.AnimalAlive == 1
                 "
               >
-                <Tag class="w-full" severity="success">มีชีวิต</Tag>
+                <Tag class="w-full" severity="">-</Tag>
               </div>
               <div v-else-if="slotProps.data.AnimalAlive == 0">
                 <Tag class="w-full bg-gray-500">ตาย</Tag>

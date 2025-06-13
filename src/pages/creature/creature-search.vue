@@ -906,7 +906,7 @@
                         <template #body="slotProps">
                             <div
                             >
-                                <Tag class="w-full" :severity="slotProps.data.AnimalAlive == 1 ? 'success' : 'error'"
+                                <Tag class="w-full" :severity="slotProps.data.AnimalAlive == 1 ? '' : 'error'"
                                     >{{ alive[slotProps.data.AnimalAlive].name  }}</Tag
                                 >
                             </div>
@@ -1211,7 +1211,7 @@ export default {
             alive: [
                 // "สถานะการมีชีวิต 1 = มีชีวิต, 0 = เสียชีวิต, 2 ขาย, 3 คัดทิ้ง",
                 { name: "ตาย", key: "A", value: 0 },
-                { name: "มีชีวิต", key: "B", value: 1 },
+                { name: "-", key: "B", value: 1 },
                 { name: "ขาย", key: "C", value: 2 },
                 { name: "คัดทิ้ง", key: "E", value: 3 },
             ],

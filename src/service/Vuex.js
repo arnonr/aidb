@@ -352,7 +352,7 @@ export default createStore({
                                                 });
                                         } else {
                                             reject(
-                                                "ไม่พบข้อมูล กรุณาลงทะเบียนที่ https://bblp-dairy.dld.go.th/registerfull"
+                                                "ไม่พบข้อมูล กรุณาลงทะเบียนที่ <br><a href='https://bblp-dairy.dld.go.th/registerfull' target='_blank'>https://bblp-dairy.dld.go.th/registerfull</a>"
                                             );
                                         }
                                     });

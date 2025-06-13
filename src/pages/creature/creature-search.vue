@@ -2406,7 +2406,8 @@ export default {
             }
 
             if (this.search.Status) {
-                params["AnimalAlive"] = this.search.Status;
+                console.log(this.search);
+                params["isActive"] = Number(this.search.Status);
             }
 
             this.setParam();
@@ -2433,6 +2434,8 @@ export default {
             if (this.search.AnimalBreedType) {
                 params["AnimalBreedType"] = this.search.AnimalBreedType;
             }
+
+            console.log(params);
 
             axios
                 .get(this.url.Animal, {

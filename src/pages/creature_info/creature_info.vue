@@ -177,6 +177,7 @@
                             @refresh_secret_status="refresh_secret_status"
                             :display_prop="display"
                             @onclear_display="clear_display"
+                            
                         />
                     </TabPanel>
                     <TabPanel header="ย้ายฝากตัวอ่อน">
@@ -508,6 +509,7 @@ export default {
                     }
 
                     store.dispatch("animalInfo", this.data);
+                    console.log(this.data);
                 })
                 .finally(() => {
                     this.IsSearch = false;

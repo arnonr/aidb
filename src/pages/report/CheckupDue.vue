@@ -527,6 +527,7 @@
                                     openAnimal(
                                         slotProps.data.AnimalID,
                                         slotProps.data.AnimalEarID
+                                        // slotProps.data.isActive
                                     )
                                 "
                                 class="p-button-sm p-button-outlined p-button-warning"
@@ -990,9 +991,7 @@ export default {
                             id: 0,
                             animal_id: this.animal_id,
                         };
-
                         store.dispatch("tabAnimal", tab);
-
                         store.dispatch("animalInfo", data);
                         this.displaytab = true;
                     },
@@ -1024,6 +1023,8 @@ export default {
                             id: 2,
                             animal_id: this.animal_id,
                         };
+
+                    
 
                         store.dispatch("tabAnimal", tab);
 

@@ -1947,8 +1947,6 @@ export default {
                         return x;
                     });
 
-                    console.log(res.data.data);
-
                     let e = this.dropdown.AIZones.find((x) => {
                         return x.AIZoneID == this.search.AIZoneID;
                     });

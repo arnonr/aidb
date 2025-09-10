@@ -373,13 +373,13 @@
                         style="width: 20%"
                     >
                     </Column>
-                    <Column
+                    <!-- <Column
                         field="percent"
                         header="อัตราการผสมติด"
                         class="text-center"
                         style="width: 20%"
                     >
-                    </Column>
+                    </Column> -->
                     <Column
                         field="childM"
                         header="จำนวนลูกเกิด (ผู้)"

@@ -148,7 +148,8 @@
                         />
                     </div>
 
-                    <div class="col-12 sm:col-6 lg:col-6">
+                  
+                    <div class="col-6 sm:col-6 lg:col-6">
                         <label
                             for="dateRange"
                             class="block text-600 text-sm font-bold mb-2"
@@ -156,16 +157,15 @@
                             ช่วงวันที่รายงาน</label
                         >
                         <Datepicker
-                            v-model="search.day"
-                            range
-                            id="dateRange"
+                            v-model="search.StartDate"
+                            id="dateRange1"
                             locale="th"
                             :format="format"
                             utc
                             :enableTimePicker="false"
                             cancelText="ยกเลิก"
                             selectText="ยืนยัน"
-                            placeholder="ตั้งแต่วันที่ - จนถึงวันที่"
+                            placeholder="ตั้งแต่วันที่"
                         >
                             <template #year-overlay-value="{ text }">
                                 {{ parseInt(text) + 543 }}
@@ -176,24 +176,31 @@
                         </Datepicker>
                     </div>
 
-                    <div class="col-12 sm:col-12 lg:col-6">
+                    <div class="col-6 sm:col-6 lg:col-6">
                         <label
-                            for="searchStaffID"
+                            for="dateRange"
                             class="block text-600 text-sm font-bold mb-2"
                         >
-                            บุคลากร</label
+                            ถึงวันที่</label
                         >
-                        <Dropdown
-                            :showClear="true"
-                            class="w-full"
-                            placeholder="ทั้งหมด"
-                            optionLabel="StaffFullName"
-                            optionValue="StaffID"
-                            :virtualScrollerOptions="{ itemSize: 38 }"
-                            :options="dropdown.Staffs"
-                            :filter="true"
-                            v-model="search.StaffID"
-                        />
+                        <Datepicker
+                            v-model="search.EndDate"
+                            id="dateRange2"
+                            locale="th"
+                            :format="format"
+                            utc
+                            :enableTimePicker="false"
+                            cancelText="ยกเลิก"
+                            selectText="ยืนยัน"
+                            placeholder="จนถึงวันที่"
+                        >
+                            <template #year-overlay-value="{ text }">
+                                {{ parseInt(text) + 543 }}
+                            </template>
+                            <template #year="{ year }">
+                                {{ year + 543 }}
+                            </template>
+                        </Datepicker>
                     </div>
 
                     <div class="col-12 sm:col-12 lg:col-12">
@@ -564,6 +571,8 @@ import { mapGetters } from "vuex";
 import PageTitle from "@/components/PageTitle.vue";
 import dayjs from "dayjs";
 import { ref } from "vue";
+import { format } from "date-fns";
+import { th } from "date-fns/locale";
 
 export default {
     themeChangeListener: null,
@@ -1438,19 +1447,22 @@ export default {
                 params["StaffID"] = this.search.StaffID;
             }
 
-            if (this.search.day) {
-                params["StartDate"] = this.search.day[0];
-                params["EndDate"] = this.search.day[1];
-            }
+            // if (this.search.day) {
+            //     params["StartDate"] = this.search.day[0];
+            //     params["EndDate"] = this.search.day[1];
+            // }
 
-            if (this.search.created_day) {
-                params["StartDate_Created"] = dayjs(
-                    this.search.created_day[0]
-                ).format("YYYY-MM-DD");
-                params["EndDate_Created"] = dayjs(
-                    this.search.created_day[1]
-                ).format("YYYY-MM-DD");
-            }
+            // if (this.search.created_day) {
+            //     params["StartDate_Created"] = dayjs(
+            //         this.search.created_day[0]
+            //     ).format("YYYY-MM-DD");
+            //     params["EndDate_Created"] = dayjs(
+            //         this.search.created_day[1]
+            //     ).format("YYYY-MM-DD");
+            // }
+
+            params["StartDate"] = this.search.StartDate;
+            params["EndDate"] = this.search.EndDate;
 
             if (this.search.ProjectIDArray) {
                 params["Projects"] = JSON.stringify(this.search.ProjectIDArray);
@@ -1658,6 +1670,19 @@ export default {
 
         fetchReportAnimal(AnimalID) {
             this.data.animal_main = AnimalID;
+        },
+        format(date) {
+            const dayStart = date.getDate();
+            const monthStart = date.getMonth();
+            const yearStart = date.getFullYear() + 543;
+            const formatStart = format(
+                new Date(yearStart, monthStart, dayStart),
+                "dd/MM/yyyy",
+                {
+                    locale: th,
+                }
+            );
+            return `${formatStart}`;
         },
     },
 

@@ -212,7 +212,7 @@
                         <hr />
                     </div>
 
-                    <div class="col-12 sm:col-6 lg:col-6">
+                    <div class="col-3 sm:col-3 lg:col-3">
                         <label
                             for="dateRange"
                             class="block text-600 text-sm font-bold mb-2"
@@ -220,17 +220,16 @@
                             ช่วงวันที่บันทึกข้อมูล</label
                         >
                         <Datepicker
-                            v-model="search.created_day"
-                            range
+                            v-model="search.StartDate_Created"
                             :disabled="isSelectCreatedDayDisabled"
-                            id="dateRange"
+                            id="dateRange3"
                             locale="th"
                             :format="format"
                             utc
                             :enableTimePicker="false"
                             cancelText="ยกเลิก"
                             selectText="ยืนยัน"
-                            placeholder="ตั้งแต่วันที่ - จนถึงวันที่"
+                            placeholder="ตั้งแต่วันที่"
                         >
                             <template #year-overlay-value="{ text }">
                                 {{ parseInt(text) + 543 }}
@@ -241,7 +240,35 @@
                         </Datepicker>
                     </div>
 
-                    <div class="col-12 sm:col-6 lg:col-6">
+                    <div class="col-3 sm:col-3 lg:col-3">
+                        <label
+                            for="dateRange"
+                            class="block text-600 text-sm font-bold mb-2"
+                        >
+                            ถึงวันที่</label
+                        >
+                        <Datepicker
+                            v-model="search.EndDate_Created"
+                            :disabled="isSelectCreatedDayDisabled"
+                            id="dateRange4"
+                            locale="th"
+                            :format="format"
+                            utc
+                            :enableTimePicker="false"
+                            cancelText="ยกเลิก"
+                            selectText="ยืนยัน"
+                            placeholder="ถึงวันที่"
+                        >
+                            <template #year-overlay-value="{ text }">
+                                {{ parseInt(text) + 543 }}
+                            </template>
+                            <template #year="{ year }">
+                                {{ year + 543 }}
+                            </template>
+                        </Datepicker>
+                    </div>
+
+                    <div class="col-3 sm:col-3 lg:col-3">
                         <label
                             for="dateRange"
                             class="block text-600 text-sm font-bold mb-2"
@@ -249,17 +276,44 @@
                             ช่วงวันที่ตรวจท้อง</label
                         >
                         <Datepicker
-                            v-model="search.day"
-                            range
+                            v-model="search.StartDate"
                             :disabled="isSelectDayDisabled"
-                            id="dateRange"
+                            id="dateRange1"
                             locale="th"
                             :format="format"
                             utc
                             :enableTimePicker="false"
                             cancelText="ยกเลิก"
                             selectText="ยืนยัน"
-                            placeholder="ตั้งแต่วันที่ - จนถึงวันที่"
+                            placeholder="ตั้งแต่วันที่"
+                        >
+                            <template #year-overlay-value="{ text }">
+                                {{ parseInt(text) + 543 }}
+                            </template>
+                            <template #year="{ year }">
+                                {{ year + 543 }}
+                            </template>
+                        </Datepicker>
+                    </div>
+
+                    <div class="col-3 sm:col-3 lg:col-3">
+                        <label
+                            for="dateRange"
+                            class="block text-600 text-sm font-bold mb-2"
+                        >
+                            ถึงวันที่</label
+                        >
+                        <Datepicker
+                            v-model="search.EndDate"
+                            :disabled="isSelectDayDisabled"
+                            id="dateRange2"
+                            locale="th"
+                            :format="format"
+                            utc
+                            :enableTimePicker="false"
+                            cancelText="ยกเลิก"
+                            selectText="ยืนยัน"
+                            placeholder="จนถึงวันที่"
                         >
                             <template #year-overlay-value="{ text }">
                                 {{ parseInt(text) + 543 }}
@@ -698,6 +752,8 @@ import { mapGetters } from "vuex";
 import PageTitle from "@/components/PageTitle.vue";
 import dayjs from "dayjs";
 import { ref } from "vue";
+import { format } from "date-fns";
+import { th } from "date-fns/locale";
 
 export default {
     themeChangeListener: null,
@@ -784,7 +840,7 @@ export default {
         // ค้นหา
 
         "data.main"() {},
-        "search.created_day"(val) {
+        "search.StartDate_Created"(val) {
             if (val) {
                 // this.search.day = null;
                 this.isSelectDayDisabled = true;
@@ -804,7 +860,7 @@ export default {
                 }, 1000);
             }
         },
-        "search.day"(val) {
+        "search.StartDate"(val) {
             if (val) {
                 // this.search.created_day = null;
                 this.isSelectDayDisabled = false;
@@ -1098,11 +1154,11 @@ export default {
             if (this.search.OrganizationID) {
                 url += "&OrganizationID=" + this.search.OrganizationID;
             }
-            if (this.search.dateStart) {
-                url += "&StartDate=" + this.search.dateStart;
+            if (this.search.StartDate) {
+                url += "&StartDate=" + this.search.StartDate;
             }
-            if (this.search.dateEnd) {
-                url += "&EndDate=" + this.search.dateEnd;
+            if (this.search.EndDate) {
+                url += "&EndDate=" + this.search.EndDate;
             }
 
             axios
@@ -1584,19 +1640,11 @@ export default {
                 params["StaffID"] = this.search.StaffID;
             }
 
-            if (this.search.day) {
-                params["StartDate"] = this.search.day[0];
-                params["EndDate"] = this.search.day[1];
-            }
+            params["StartDate"] = this.search.StartDate;
+            params["EndDate"] = this.search.EndDate;
 
-            if (this.search.created_day) {
-                params["StartDate_Created"] = dayjs(
-                    this.search.created_day[0]
-                ).format("YYYY-MM-DD");
-                params["EndDate_Created"] = dayjs(
-                    this.search.created_day[1]
-                ).format("YYYY-MM-DD");
-            }
+            params["StartDate_Created"] = this.search.StartDate_Created;
+            params["EndDate_Created"] = this.search.EndDate_Created;
 
             if (this.search.isActive != null) {
                 params["StaffIsActive"] = this.search.isActive;
@@ -1815,6 +1863,19 @@ export default {
             this.loadLazyTimeout = setTimeout(() => {
                 this.loading = false;
             }, Math.random() * 1000 + 250);
+        },
+        format(date) {
+            const dayStart = date.getDate();
+            const monthStart = date.getMonth();
+            const yearStart = date.getFullYear() + 543;
+            const formatStart = format(
+                new Date(yearStart, monthStart, dayStart),
+                "dd/MM/yyyy",
+                {
+                    locale: th,
+                }
+            );
+            return `${formatStart}`;
         },
 
         fetchReportAnimal(AnimalID) {

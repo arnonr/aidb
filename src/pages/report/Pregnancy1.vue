@@ -612,6 +612,8 @@ import PageTitle from "@/components/PageTitle.vue";
 
 import dayjs from "dayjs";
 // import { format } from "date-fns";
+import { format } from "date-fns";
+import { th } from "date-fns/locale";
 
 import { ref } from "vue";
 export default {
@@ -1122,6 +1124,19 @@ export default {
                     this.isLoading = false;
                     this.loader = true;
                 });
+        },
+        format(date) {
+            const dayStart = date.getDate();
+            const monthStart = date.getMonth();
+            const yearStart = date.getFullYear() + 543;
+            const formatStart = format(
+                new Date(yearStart, monthStart, dayStart),
+                "dd/MM/yyyy",
+                {
+                    locale: th,
+                }
+            );
+            return `${formatStart}`;
         },
 
         fetchAIZone() {

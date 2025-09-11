@@ -3845,7 +3845,12 @@ export default {
             this.form.isActive = this.form.isActive.value;
             axios
                 .put(this.url.editStaff + "/" + this.form.StaffID, this.form)
-                .then(() => {
+                .then(async () => {
+                    // เช็คว่ามีรูปมั้ย
+                    if (this.form.StaffImages !== undefined) {
+                        await this.uploadPhoto(this.form.StaffID, formData);
+                    }
+
                     this.load();
                     this.close_edit();
 
@@ -3864,17 +3869,12 @@ export default {
                         life: 5000,
                     });
                 });
-
-            // เช็คว่ามีรูปมั้ย
-            if (this.form.StaffImages !== undefined) {
-                this.uploadPhoto(this.form.StaffID, formData);
-            }
         },
 
         async uploadPhoto(id, formData) {
             // multipart/form-data
             await axios
-                .post(this.url.editStaff + "/photo/" + id, formData,{
+                .post(this.url.editStaff + "/photo/" + id, formData, {
                     headers: {
                         "Content-Type": "multipart/form-data",
                     },

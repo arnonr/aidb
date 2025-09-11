@@ -1667,12 +1667,12 @@ export default {
             if (this.search.StaffID) {
                 params["StaffID"] = this.search.StaffID;
             }
+            
+            params["StartDate"] = this.search.StartDate ? dayjs(this.search.StartDate).format("YYYY-MM-DD") : undefined;
+            params["EndDate"] = this.search.EndDate ? dayjs(this.search.EndDate).format("YYYY-MM-DD") : undefined;
 
-            params["StartDate"] = this.search.StartDate;
-            params["EndDate"] = this.search.EndDate;
-
-            params["StartDate_Created"] = this.search.StartDate_Created;
-            params["EndDate_Created"] = this.search.EndDate_Created;
+            params["StartDate_Created"] = this.search.StartDate_Created ? dayjs(this.search.StartDate_Created).format("YYYY-MM-DD") : undefined;
+            params["EndDate_Created"] = this.search.EndDate_Created ? dayjs(this.search.EndDate_Created).format("YYYY-MM-DD") : undefined;
 
             // if (this.search.dateStart) {
             //   params["StartDate"] = this.search.dateStart;

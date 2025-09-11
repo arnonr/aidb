@@ -1461,8 +1461,8 @@ export default {
             //     ).format("YYYY-MM-DD");
             // }
 
-            params["StartDate"] = this.search.StartDate;
-            params["EndDate"] = this.search.EndDate;
+            params["StartDate"] = this.search.StartDate ? dayjs(this.search.StartDate).format("YYYY-MM-DD") : undefined;
+            params["EndDate"] = this.search.EndDate ? dayjs(this.search.EndDate).format("YYYY-MM-DD") : undefined;
 
             if (this.search.ProjectIDArray) {
                 params["Projects"] = JSON.stringify(this.search.ProjectIDArray);

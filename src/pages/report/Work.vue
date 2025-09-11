@@ -1035,8 +1035,8 @@ export default {
                 params["OrganizationTypeID"] = this.search.OrganizationTypeID;
             }
 
-            params["StartDate"] = this.search.StartDate;
-            params["EndDate"] = this.search.EndDate;
+            params["StartDate"] = this.search.StartDate ? dayjs(this.search.StartDate).format("YYYY-MM-DD") : undefined;
+            params["EndDate"] = this.search.EndDate ? dayjs(this.search.EndDate).format("YYYY-MM-DD") : undefined;
 
             if (this.animal_id == 1) {
                 params["AnimalTypeID"] = "[1,2,41,42]";

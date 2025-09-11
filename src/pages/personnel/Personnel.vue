@@ -3872,8 +3872,13 @@ export default {
         },
 
         async uploadPhoto(id, formData) {
+            // multipart/form-data
             await axios
-                .post(this.url + "/photo/" + id, formData)
+                .post(this.url.editStaff + "/photo/" + id, formData,{
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                })
                 .then(() => {})
                 .catch((err) => {
                     this.form.isActive = this.dropdown.statuses[0];

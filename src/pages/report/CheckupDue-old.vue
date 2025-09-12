@@ -206,6 +206,7 @@
               cancelText="ยกเลิก"
               selectText="ยืนยัน"
               placeholder="ตั้งแต่วันที่ - จนถึงวันที่"
+              autoApply
             >
               <template #year-overlay-value="{ text }">
                 {{ parseInt(text) + 543 }}
@@ -235,6 +236,7 @@
               cancelText="ยกเลิก"
               selectText="ยืนยัน"
               placeholder="ตั้งแต่วันที่ - จนถึงวันที่"
+              autoApply
             >
               <template #year-overlay-value="{ text }">
                 {{ parseInt(text) + 543 }}

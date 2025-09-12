@@ -41,6 +41,7 @@
               selectText="ยืนยัน"
               placeholder="วันที่"
               v-model="params.DateShow"
+              autoApply
             >
               <template #year-overlay-value="{ text }">
                 {{ parseInt(text) + 543 }}
@@ -254,6 +255,7 @@
                 cancelText="ยกเลิก"
                 selectText="ยืนยัน"
                 placeholder="เลือกวันที่เผยแพร่"
+                autoApply
               >
                 <template #year-overlay-value="{ text }">
                   {{ parseInt(text) + 543 }}

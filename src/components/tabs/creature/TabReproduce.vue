@@ -124,6 +124,7 @@
                             cancelText="ยกเลิก"
                             selectText="ยืนยัน"
                             placeholder="วันที่เป็นสัด"
+                            autoApply
                         >
                             <template #year-overlay-value="{ text }">
                                 {{ parseInt(text) + 543 }}
@@ -1097,6 +1098,7 @@
                             cancelText="ยกเลิก"
                             selectText="ยืนยัน"
                             placeholder="วันที่ตรวจ"
+                            autoApply
                         >
                             <template #year-overlay-value="{ text }">
                                 {{ parseInt(text) + 543 }}
@@ -1192,6 +1194,7 @@
                             cancelText="ยกเลิก"
                             selectText="ยืนยัน"
                             placeholder="วันที่เป็นสัด"
+                            autoApply
                         >
                             <template #year-overlay-value="{ text }">
                                 {{ parseInt(text) + 543 }}
@@ -2075,6 +2078,7 @@
                             cancelText="ยกเลิก"
                             selectText="ยืนยัน"
                             placeholder="วันที่ตรวจ"
+                            autoApply
                         >
                             <template #year-overlay-value="{ text }">
                                 {{ parseInt(text) + 543 }}

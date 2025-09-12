@@ -210,6 +210,7 @@
                             cancelText="ยกเลิก"
                             selectText="ยืนยัน"
                             placeholder="วันที่ผสม"
+                            autoApply
                         >
                             <template #year-overlay-value="{ text }">
                                 {{ parseInt(text) + 543 }}
@@ -350,6 +351,7 @@
                             cancelText="ยกเลิก"
                             selectText="ยืนยัน"
                             placeholder="วันที่คลอด"
+                            autoApply
                         >
                             <template #year-overlay-value="{ text }">
                                 {{ parseInt(text) + 543 }}

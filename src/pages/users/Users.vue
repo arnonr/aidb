@@ -703,6 +703,7 @@
                   cancelText="ยกเลิก"
                   selectText="ยืนยัน"
                   placeholder="วันที่เริ่มงาน"
+                  autoApply
                 >
                   <template #year-overlay-value="{ text }">
                     {{ parseInt(text) + 543 }}
@@ -737,6 +738,7 @@
                   cancelText="ยกเลิก"
                   selectText="ยืนยัน"
                   placeholder="วันที่สิ้นสุดการทำงาน"
+                  autoApply
                 >
                   <template #year-overlay-value="{ text }">
                     {{ parseInt(text) + 543 }}
@@ -771,6 +773,7 @@
                   cancelText="ยกเลิก"
                   selectText="ยืนยัน"
                   placeholder="วันที่ออกบัตร"
+                  autoApply
                 >
                   <template #year-overlay-value="{ text }">
                     {{ parseInt(text) + 543 }}
@@ -805,6 +808,7 @@
                   cancelText="ยกเลิก"
                   selectText="ยืนยัน"
                   placeholder="วันที่บัตรหมดอายุ"
+                  autoApply
                 >
                   <template #year-overlay-value="{ text }">
                     {{ parseInt(text) + 543 }}
@@ -924,6 +928,7 @@
                 cancelText="ยกเลิก"
                 selectText="ยืนยัน"
                 placeholder="วัน-เดือน-ปี (เกิด)"
+                autoApply
               >
                 <template #year-overlay-value="{ text }">
                   {{ parseInt(text) + 543 }}

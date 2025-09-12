@@ -452,6 +452,7 @@
                             selectText="ยืนยัน"
                             @update:model-value="date()"
                             placeholder="วันที่ผสม"
+                            autoApply
                         >
                             <template #year-overlay-value="{ text }">
                                 {{ parseInt(text) + 543 }}
@@ -609,6 +610,7 @@
                             selectText="ยืนยัน"
                             @update:model-value="date()"
                             placeholder="วันที่ผสม"
+                            autoApply
                         >
                             <!-- :minDate="olddate" -->
                             <template #year-overlay-value="{ text }">
@@ -755,6 +757,7 @@
                             selectText="ยืนยัน"
                             @update:model-value="date()"
                             placeholder="วันที่ผสม"
+                            autoApply
                         >
                             <template #year-overlay-value="{ text }">
                                 {{ parseInt(text) + 543 }}
@@ -900,6 +903,7 @@
                             selectText="ยืนยัน"
                             @update:model-value="date()"
                             placeholder="วันที่ผสม"
+                            autoApply
                         >
                             <template #year-overlay-value="{ text }">
                                 {{ parseInt(text) + 543 }}
@@ -1046,6 +1050,7 @@
                             selectText="ยืนยัน"
                             @update:model-value="date()"
                             placeholder="วันที่ผสม"
+                            autoApply
                         >
                             <template #year-overlay-value="{ text }">
                                 {{ parseInt(text) + 543 }}
@@ -1330,6 +1335,7 @@
                             :maxDate="new Date()"
                             cancelText="ยกเลิก"
                             selectText="ยืนยัน"
+                            autoApply
                             @update:model-value="date()"
                             placeholder="วันที่ผสม"
                         >
@@ -1362,6 +1368,7 @@
                             @update:model-value="date()"
                             placeholder="ประมาณการ"
                             readonly
+                            autoApply
                         >
                             <template #year-overlay-value="{ text }">
                                 {{ parseInt(text) + 543 }}

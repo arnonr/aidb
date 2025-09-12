@@ -127,6 +127,7 @@
                             cancelText="ยกเลิก"
                             selectText="ยืนยัน"
                             placeholder="วันที่ตรวจ"
+                            autoApply
                         >
                             <template #year-overlay-value="{ text }">
                                 {{ parseInt(text) + 543 }}

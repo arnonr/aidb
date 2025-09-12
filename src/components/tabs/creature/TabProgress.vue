@@ -140,6 +140,7 @@
                             cancelText="ยกเลิก"
                             selectText="ยืนยัน"
                             placeholder="วันที่ติดตาม"
+                            autoApply
                         >
                             <template #year-overlay-value="{ text }">
                                 {{ parseInt(text) + 543 }}

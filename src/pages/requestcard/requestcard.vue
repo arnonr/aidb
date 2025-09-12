@@ -233,6 +233,7 @@
                 cancelText="ยกเลิก"
                 selectText="ยืนยัน"
                 placeholder="วันที่ออกบัตร"
+                autoApply
               >
                 <template #year-overlay-value="{ text }">
                   {{ parseInt(text) + 543 }}
@@ -265,6 +266,7 @@
                 cancelText="ยกเลิก"
                 selectText="ยืนยัน"
                 placeholder="วันที่บัตรหมดอายุ"
+                autoApply
               >
                 <template #year-overlay-value="{ text }">
                   {{ parseInt(text) + 543 }}
@@ -296,6 +298,7 @@
                 cancelText="ยกเลิก"
                 selectText="ยืนยัน"
                 placeholder="วันที่อนุมัติ"
+                autoApply
               >
                 <template #year-overlay-value="{ text }">
                   {{ parseInt(text) + 543 }}

@@ -186,6 +186,7 @@
                             selectText="ยืนยัน"
                             @update:model-value="date()"
                             placeholder="วันที่แท้ง"
+                            autoApply
                         >
                             <template #year-overlay-value="{ text }">
                                 {{ parseInt(text) + 543 }}

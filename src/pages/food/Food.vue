@@ -378,6 +378,7 @@
                         selectText="ยืนยัน"
                         placeholder="เลือกวันที่"
                         :maxDate="new Date()"
+                        autoApply
                     >
                         <template #year-overlay-value="{ text }">
                             {{ parseInt(text) + 543 }}

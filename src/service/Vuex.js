@@ -10,6 +10,13 @@ const vuexLocal = new VuexPersistence({
 export default createStore({
     plugins: [vuexLocal.plugin],
     state: {
+        dropdownCache: {
+            organizationZones: [],
+            organizations: [],
+            aiZones: [],
+            provinces: [],
+            lastUpdated: null,
+        },
         animal: {
             id: null,
             name: "",
@@ -130,6 +137,19 @@ export default createStore({
         },
     },
     mutations: {
+        SET_DROPDOWN_DATA(state, { type, data }) {
+            state.dropdownCache[type] = data;
+            state.dropdownCache.lastUpdated = Date.now();
+        },
+        CLEAR_DROPDOWN_CACHE(state) {
+            state.dropdownCache = {
+                organizationZones: [],
+                organizations: [],
+                aiZones: [],
+                provinces: [],
+                lastUpdated: null,
+            };
+        },
         set_animal(state, animal) {
             state.animal = animal;
         },
@@ -204,6 +224,45 @@ export default createStore({
         },
     },
     actions: {
+        async fetchDropdownData({ commit, state }, { type, params = {} }) {
+            // ตรวจสอบ cache ก่อน
+            const cacheAge =
+                Date.now() - (state.dropdownCache.lastUpdated || 0);
+            const cacheExpiry = 5 * 60 * 1000; // 5 นาที
+
+            if (
+                cacheAge < cacheExpiry &&
+                state.dropdownCache[type].length > 0
+            ) {
+                return state.dropdownCache[type];
+            }
+
+            try {
+                let url = "";
+                switch (type) {
+                    case "organizationZones":
+                        url =
+                            "/organization-zone/selection?includeAll=false&isActive=1";
+                        break;
+                    case "organizations":
+                        url = "/organization/selection";
+                        break;
+                    case "aiZones":
+                        url = "/ai-zone/selection?includeAll=false";
+                        break;
+                    case "provinces":
+                        url = "/province/selection";
+                        break;
+                }
+
+                const response = await axios.get(url, { params });
+                commit("SET_DROPDOWN_DATA", { type, data: response.data.rows });
+                return response.data.rows;
+            } catch (error) {
+                console.error(`Error fetching ${type}:`, error);
+                return [];
+            }
+        },
         selectAnimal({ commit }, animal) {
             commit("set_animal", animal);
         },

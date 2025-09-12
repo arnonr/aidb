@@ -1345,13 +1345,6 @@
                         <label class="block text-600 text-sm font-bold mb-2">
                             ประมาณการวันคลอด</label
                         >
-                        <!-- <Calendar
-              v-model="data[index].EstimateBirthDate"
-              dateFormat="dd/mm/yy"
-              class="w-full"
-              :disabled="true"
-            /> -->
-
                         <Datepicker
                             v-model="data[index].EstimateBirthDate"
                             :class="{
@@ -2229,6 +2222,9 @@ export default {
             if (this.validation() == false) {
                 return;
             }
+
+            console.log(this.data[this.index-1].AIDate);
+
 
             if (this.data[this.index - 1]) {
                 let dateDiffMA = dayjs(this.data[this.index].AIDate).diff(

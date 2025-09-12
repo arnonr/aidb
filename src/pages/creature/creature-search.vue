@@ -904,10 +904,17 @@
                         exportFooter="&#8203;"
                     >
                         <template #body="slotProps">
-                            <div
-                            >
-                                <Tag class="w-full" :severity="slotProps.data.AnimalAlive == 1 ? '' : 'error'"
-                                    >{{ alive[slotProps.data.AnimalAlive].name  }}</Tag
+                            <div>
+                                <Tag
+                                    class="w-full"
+                                    :severity="
+                                        slotProps.data.AnimalAlive == 1
+                                            ? ''
+                                            : 'error'
+                                    "
+                                    >{{
+                                        alive[slotProps.data.AnimalAlive].name
+                                    }}</Tag
                                 >
                             </div>
                         </template>
@@ -944,7 +951,8 @@
                                 :model="
                                     getItems(
                                         slotProps.data.AnimalID,
-                                        slotProps.data.AnimalEarID
+                                        slotProps.data.AnimalEarID,
+                                        slotProps.data.AnimalSecretStatus
                                     )
                                 "
                             >
@@ -1148,6 +1156,19 @@
             </form>
         </Dialog>
         <!-- End View Dialog -->
+
+
+        <Dialog
+            header="กิจกรรม"
+            v-model:visible="displaytab"
+            :draggable="false"
+            :style="{ width: '75vw' }"
+            :modal="false"
+            :dismissableMask="true"
+        >
+            <VueCreatureInfo :display="true" v-if="displaytab" />
+        </Dialog>
+
     </div>
 </template>
 
@@ -1161,21 +1182,26 @@ import RegisteredAnimalReport from "./RegisteredAnimalReport";
 // import JsonExcel from "vue-json-excel3";
 import ExcelJS from "exceljs";
 
+import VueCreatureInfo from "../farm_info/creature_info.vue";
 import dayjs from "dayjs";
 import buddhistEra from "dayjs/plugin/buddhistEra";
 import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
+import DropdownMixin from "@/mixins/DropdownMixin";
 
 // import locale from "dayjs/locale/th";
 
 export default {
+    mixins: [DropdownMixin],
     components: {
         PageTitle,
         vSelect,
+        VueCreatureInfo,
         // JsonExcel,
     },
     data() {
         return {
+            displaytab: false,
             urlOrganization:
                 "/organization/selection?includeAll=false&isActive=1",
             urlOrganizationZone:
@@ -1800,31 +1826,46 @@ export default {
         // // ค้นหา
     },
     methods: {
-        getItems(id, earid) {
+        openFirstTab(id, menu, earid) {
+            let data = {
+                AnimalEarID: earid,
+            };
+            let tab = {
+                id: 0,
+                animal_id: this.animal_id,
+            };
+
+            store.dispatch("tabAnimal", tab);
+            store.dispatch("animalInfo", data);
+            this.displaytab = true;
+        },
+        getItems(AnimalID, AnimalEarID, AnimalSecretStatus) {
             const items = [
                 {
                     label: "บันทึกกิจกรรม",
                     icon: "pi pi-eye",
                     command: async () => {
-                        let data = {
-                            AnimalEarID: earid,
-                        };
-                        store.dispatch("animalInfo", data);
-                        this.$router.push("/activity/creature_info_detail");
+                        this.openFirstTab(AnimalID, AnimalSecretStatus, AnimalEarID);
+
+                        // let data = {
+                        //     AnimalEarID: earid,
+                        // };
+                        // store.dispatch("animalInfo", data);
+                        // this.$router.push("/activity/creature_info_detail");
                     },
                 },
                 {
                     label: "พิมพ์ประวัติ",
                     icon: "pi pi-eye",
                     command: async () => {
-                        await RegisteredAnimalReport(id);
+                        await RegisteredAnimalReport(AnimalID);
                     },
                 },
                 {
                     label: "ลบ",
                     icon: "pi pi-trash",
                     command: () => {
-                        this.open_delete(id);
+                        this.open_delete(AnimalID);
                     },
                 },
             ];
@@ -1890,44 +1931,59 @@ export default {
             this.exportExcel();
         },
 
-        fetchAIZone() {
-            let params = {};
-            //  Fetch AIZone
-            axios
-                .get(this.url.AIZone, {
-                    signal: this.controller.signal,
-                    params: params,
-                })
-                .then((res) => {
-                    this.dropdown.AIZones = res.data.rows;
+        async fetchAIZone() {
+            this.dropdown.AIZones = await this.loadAIZones();
 
-                    this.dropdown.AIZones.push({
-                        AIZoneID: 99,
-                        AIZoneName: "ทั้งหมด",
-                    });
-                })
-                .finally(() => {
-                    this.isLoading = false;
-                });
+            this.dropdown.AIZones.push({
+                AIZoneID: 99,
+                AIZoneName: "ทั้งหมด",
+            });
+
+            // let params = {};
+            // //  Fetch AIZone
+            // axios
+            //     .get(this.url.AIZone, {
+            //         signal: this.controller.signal,
+            //         params: params,
+            //     })
+            //     .then((res) => {
+            //         this.dropdown.AIZones = res.data.rows;
+
+            //         this.dropdown.AIZones.push({
+            //             AIZoneID: 99,
+            //             AIZoneName: "ทั้งหมด",
+            //         });
+            //     })
+            //     .finally(() => {
+            //         this.isLoading = false;
+            //     });
         },
-        fetchOrganizationZone() {
-            let params = {};
-            //  Fetch OrganizationZone
-            axios
-                .get(this.url.OrganizationZone, {
-                    signal: this.controller.signal,
-                    params: params,
-                })
-                .then((res) => {
-                    this.dropdown.OrganizationZones = res.data.rows;
-                    this.dropdown.OrganizationZones.push({
-                        OrganizationZoneID: 99,
-                        OrganizationZoneName: "ทั้งหมด",
-                    });
-                })
-                .finally(() => {
-                    this.isLoading = false;
-                });
+        async fetchOrganizationZone() {
+            // let params = {};
+            // //  Fetch OrganizationZone
+            // axios
+            //     .get(this.url.OrganizationZone, {
+            //         signal: this.controller.signal,
+            //         params: params,
+            //     })
+            //     .then((res) => {
+            //         this.dropdown.OrganizationZones = res.data.rows;
+            //         this.dropdown.OrganizationZones.push({
+            //             OrganizationZoneID: 99,
+            //             OrganizationZoneName: "ทั้งหมด",
+            //         });
+            //     })
+            //     .finally(() => {
+            //         this.isLoading = false;
+            //     });
+
+            this.dropdown.OrganizationZones =
+                await this.loadOrganizationZones();
+
+            this.dropdown.OrganizationZones.push({
+                OrganizationZoneID: 99,
+                OrganizationZoneName: "ทั้งหมด",
+            });
         },
         fetchProject() {
             let params = {};
@@ -1952,7 +2008,7 @@ export default {
                     this.isLoading = false;
                 });
         },
-        fetchProvince() {
+        async fetchProvince() {
             //  Fetch Province
             let params = {};
 
@@ -1963,17 +2019,19 @@ export default {
             if (this.search.OrganizationZoneID != null) {
                 params["OrganizationZoneID"] = this.search.OrganizationZoneID;
             }
-            axios
-                .get(this.url.Province, {
-                    signal: this.controller.signal,
-                    params: params,
-                })
-                .then((res) => {
-                    this.dropdown.Provinces = res.data.rows;
-                })
-                .finally(() => {
-                    this.isLoading = false;
-                });
+            // axios
+            //     .get(this.url.Province, {
+            //         signal: this.controller.signal,
+            //         params: params,
+            //     })
+            //     .then((res) => {
+            //         this.dropdown.Provinces = res.data.rows;
+            //     })
+            //     .finally(() => {
+            //         this.isLoading = false;
+            //     });
+
+            this.dropdown.Provinces = await this.loadProvinces(params);
         },
 
         fetchAnimalSex() {

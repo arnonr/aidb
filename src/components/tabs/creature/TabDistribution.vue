@@ -40,7 +40,7 @@
                 <Button
                     v-if="
                         slotProps.data.show_id == total &&
-                        this.animalInfo.isActive == 0 
+                        this.animalInfo.isActive == 0
                     "
                     label="ลบ"
                     icon="pi pi-trash"
@@ -253,11 +253,12 @@
                         <v-select
                             v-model="data[index].DestinationFarmID"
                             :options="selection.DestinationFarmIDFilter"
-                            @search="fetchDestinationFarmOptions"
+                            @search="debouncedFetchDestinationFarmOptions"
                             label="Fullname"
                             value="FarmID"
                             class="w-full"
                             placeholder="เลือกฟาร์มปลายทาง (พิมพ์ 3 ตัวอักษรเพื่อค้นหา)"
+                            :disabled="search.AIZoneID == null"
                         ></v-select>
                     </div>
                 </div>
@@ -317,6 +318,7 @@ import Swal from "sweetalert2";
 import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
 import dayjs from "dayjs";
+import { debounce } from "lodash";
 
 export default {
     components: {
@@ -350,9 +352,8 @@ export default {
             id: "DistributionID",
             // Name
             name: "การคัดจำหน่าย",
-            search: {},
             //load_selection
-
+            debouncedFetchDestinationFarmOptions: null,
             DestinationFarmID: "/farm/selection?includeAll=false&isActive=1",
             LoadSelection: {
                 Staff: "/staff/selection?includeAll=false&isActive=1",
@@ -444,10 +445,18 @@ export default {
                     icon: "pi pi-times",
                 },
             ],
+            search: {
+                AIZoneID: null,
+            },
             controller: new AbortController(),
         };
     },
     async mounted() {
+        this.debouncedFetchDestinationFarmOptions = debounce(
+            this.fetchDestinationFarmOptions,
+            500
+        );
+
         await this.load();
         await this.load_selection();
         if (
@@ -470,6 +479,7 @@ export default {
             // this.
             this.data[this.index].DestinationFarmID = null;
             this.selection.DestinationFarmIDFilter = [];
+            console.log(this.search.AIZoneID);
             //   this.fetchFarm();
         },
         "search.OrganizationZoneID"() {
@@ -964,6 +974,10 @@ export default {
     },
     unmounted() {
         this.controller.abort();
+        // ยกเลิก debounced function ถ้ามี
+        if (this.debouncedFetchDestinationFarmOptions) {
+            this.debouncedFetchDestinationFarmOptions.cancel();
+        }
     },
 };
 </script>

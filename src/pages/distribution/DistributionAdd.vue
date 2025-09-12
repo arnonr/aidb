@@ -61,7 +61,6 @@
               class="block text-600 text-sm font-bold mb-2"
               >ประเภทการคัดจำหน่าย<span class="text-red-500"> *</span></label
             >
-
             <Dropdown
               class="w-full"
               v-model="form.DistributionType"

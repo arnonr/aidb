@@ -357,6 +357,11 @@ export default createStore({
                             if (response.data.StaffNumber == form) {
                                 data = response.data;
                                 console.log(data);
+
+                                if(data.StaffStatus != "ปฏิบัติงานอยู่") {
+                                    reject("ไม่สามารถสมัครได้ เนื่องจากบุคลากร" + data.StaffStatus)
+                                }
+                                
                                 axios
                                     .get(
                                         "/user/user-by-staff-id/" +

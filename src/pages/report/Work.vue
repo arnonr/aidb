@@ -247,6 +247,28 @@
                         />
                     </div>
 
+                    <div class="col-12 sm:col-12 lg:col-6">
+                        <label
+                            for="searchStaffID"
+                            class="block text-600 text-sm font-bold mb-2"
+                        >
+                            สถานะการปฏิบัติงาน</label
+                        >
+                        <Dropdown
+                            :showClear="true"
+                            class="w-full"
+                            optionLabel="name"
+                            optionValue="name"
+                            :options="[
+                                { name: 'ปฏิบัติงานอยู่' },
+                                { name: 'เกษียณ' },
+                                { name: 'ลาออก' },
+                            ]"
+                            :filter="true"
+                            v-model="search.StaffStatus"
+                        />
+                    </div>
+
                     <div class="col-12 sm:col-12 lg:col-12">
                         <Button
                             @click="fetchReport()"
@@ -1037,9 +1059,17 @@ export default {
             if (this.search.OrganizationTypeID) {
                 params["OrganizationTypeID"] = this.search.OrganizationTypeID;
             }
+            console.log(this.search.StaffStatus);
+            if (this.search.StaffStatus) {
+                params["StaffStatus"] = this.search.StaffStatus;
+            }
 
-            params["StartDate"] = this.search.StartDate ? dayjs(this.search.StartDate).format("YYYY-MM-DD") : undefined;
-            params["EndDate"] = this.search.EndDate ? dayjs(this.search.EndDate).format("YYYY-MM-DD") : undefined;
+            params["StartDate"] = this.search.StartDate
+                ? dayjs(this.search.StartDate).format("YYYY-MM-DD")
+                : undefined;
+            params["EndDate"] = this.search.EndDate
+                ? dayjs(this.search.EndDate).format("YYYY-MM-DD")
+                : undefined;
 
             if (this.animal_id == 1) {
                 params["AnimalTypeID"] = "[1,2,41,42]";

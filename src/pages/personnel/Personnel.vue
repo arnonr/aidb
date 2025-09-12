@@ -3858,6 +3858,13 @@ export default {
 
             // change data
             this.form.isActive = this.form.isActive.value;
+
+
+            if(this.form.StaffStatus != "ปฏิบัติงานอยู่") {
+                this.form.isActive = 0;
+            } 
+
+
             axios
                 .put(this.url.editStaff + "/" + this.form.StaffID, this.form)
                 .then(async () => {

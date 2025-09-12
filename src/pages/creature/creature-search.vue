@@ -1905,19 +1905,19 @@ export default {
             }
         },
         // Axios
-        loadDefault() {
+        async loadDefault() {
             this.isLoading = true;
-            this.fetchAIZone();
+            await this.fetchAIZone();
             //   this.fetchAnialBreed();
-            this.fetchOrganizationZone();
-            this.fetchProject();
-            this.fetchProvince();
-            this.fetchAmphur();
-            this.fetchTumbol();
-            this.fetchOrganizationType();
-            this.fetchOrganization();
+            await this.fetchOrganizationZone();
+            await this.fetchProject();
+            await this.fetchProvince();
+            await this.fetchAmphur();
+            await this.fetchTumbol();
+            await this.fetchOrganizationType();
+            await this.fetchOrganization();
             //   this.fetchSelectionFarm();
-            this.fetchAnimalBreed();
+            await this.fetchAnimalBreed();
             //   this.fetchAnimal();
         },
         async load(event) {

@@ -1856,7 +1856,9 @@ export default {
                     signal: this.controller.signal,
                 })
                 .then((res) => {
-                    this.data_animal = res.data;
+                    console.log(res.data.rows);
+                    // this.data_animal = res.data;
+                    this.data_animal = res.data.rows;
                 });
             if (
                 dayjs().diff(
@@ -2008,9 +2010,12 @@ export default {
                     return false;
                 }
 
+                console.log(this.data[this.index]);
+                console.log(this.data_animal.rows);
+
                 const AIDate = dayjs(this.data[this.index].AIDate); // แปลงเป็น dayjs object
                 const AnimalBirthDate = dayjs(
-                    this.data_animal.rows[0].AnimalBirthDate
+                    this.data[this.index].Animal.AnimalBirthDate
                 ); // แปลงเป็น dayjs object
 
                 console.log(AIDate);

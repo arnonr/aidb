@@ -452,11 +452,9 @@ export default {
         };
     },
     async mounted() {
-        this.debouncedFetchDestinationFarmOptions = debounce(
-            this.fetchDestinationFarmOptions,
-            500
-        );
-
+        // สร้าง debounced function
+        this.debouncedFetchDestinationFarmOptions = debounce(this.fetchDestinationFarmOptions, 500);
+        
         await this.load();
         await this.load_selection();
         if (
@@ -886,10 +884,6 @@ export default {
             if (search.length < 3) {
                 this.selection.DestinationFarmIDFilter = [];
                 return;
-                // this.selection.DestinationFarmIDFilter =
-                //   this.selection.DestinationFarmID.filter((x) => {
-                //     return x.Fullname.includes(search); //|| x.FarmIdentificationNumber.includes(search);
-                //   });
             } else {
                 let params = {};
 
@@ -902,20 +896,11 @@ export default {
 
                 params["Fullname"] = search;
 
-                // if (this.search.OrganizationZoneID != null) {
-                //   params["OrganizationZoneID"] = this.search.OrganizationZoneID;
-                // } else {
-                //   this.selection.DestinationFarmIDFilter = [];
-                //   return;
-                // }
-
                 await axios
                     .get(this.DestinationFarmID, {
                         signal: this.controller.signal,
                         params: {
                             ...params,
-                            //   FarmIdentificationNumber: "",
-                            //   FarmName: "",
                             size: undefined,
                             page: 1,
                         },

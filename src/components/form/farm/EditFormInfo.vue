@@ -696,7 +696,7 @@ export default {
         });
 
       axios
-        .get(this.urlProvince, {
+        .get(this.urlProvince+"&size=500000", {
           signal: this.controller.signal,
         })
         .then((res) => {
@@ -708,7 +708,7 @@ export default {
         });
 
       axios
-        .get(this.urlTumbol, {
+        .get(this.urlTumbol+"&size=500000", {
           signal: this.controller.signal,
         })
         .then((res) => {
@@ -720,7 +720,7 @@ export default {
         });
 
       axios
-        .get(this.urlAmphur, {
+        .get(this.urlAmphur+"&size=500000", {
           signal: this.controller.signal,
         })
         .then((res) => {

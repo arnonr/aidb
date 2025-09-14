@@ -1,7 +1,7 @@
 <template>
   <div class="mb-5">
     <h1 class="text-xl mb-2 font-light">ข้อมูลฟาร์ม</h1>
-    <p class="p-0 m-0 text-500">ป้อนรายละเอียดฟาร์ม</p>
+    <p class="p-0 m-0 text-500">ป้อนรายละเอียดฟาร์ม2</p>
   </div>
   <form class="grid">
     <div class="col-12 lg:col-12">

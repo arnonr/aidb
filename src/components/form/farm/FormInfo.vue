@@ -1,7 +1,7 @@
 <template>
   <div class="mb-5">
     <h1 class="text-xl mb-2 font-light">ข้อมูลฟาร์ม</h1>
-    <p class="p-0 m-0 text-500">ป้อนรายละเอียดฟาร์ม</p>
+    <p class="p-0 m-0 text-500">ป้อนรายละเอียดฟาร์ม3</p>
   </div>
   <form class="grid">
     <div class="col-12 lg:col-12">
@@ -510,8 +510,9 @@ export default {
 
       this.organization_tmp = this.organization.filter((item) => {
         return (
-          item.OrganizationProvinceID == val &&
-          (item.OrganizationTypeID == "2" || item.OrganizationTypeID == "11")
+          item.OrganizationProvinceID == val 
+        //   &&
+        //   (item.OrganizationTypeID == "2" || item.OrganizationTypeID == "11")
         );
       });
 
@@ -765,7 +766,7 @@ export default {
     },
     fetchAmphur() {
       axios
-        .get(this.urlAmphur, {
+        .get(this.urlAmphur+"&size=500000", {
           signal: this.controller.signal,
         })
         .then((res) => {
@@ -781,7 +782,7 @@ export default {
     },
     fetchTumbol() {
       axios
-        .get(this.urlTumbol, {
+        .get(this.urlTumbol+"&size=500000", {
           signal: this.controller.signal,
         })
         .then((res) => {
@@ -806,7 +807,7 @@ export default {
     fetchOrganization() {
       // Organization
       axios
-        .get(this.urlOrganization, {
+        .get(this.urlOrganization+"&size=500000", {
           signal: this.controller.signal,
         })
         .then((res) => {

@@ -139,43 +139,21 @@ app.use(GAuth, {
 
 // สร้าง axios instances แยกกัน
 const apiClient1 = axios.create({
-    baseURL: "http://localhost:8083/api/v1",
+    baseURL: "https://biotech-cbg.dld.go.th/api/v1",
     timeout: 10000,
 });
 
 const apiClient2 = axios.create({
-    baseURL: "http://localhost:3102/api/v2", // URL ที่สอง
+    // baseURL: "http://localhost:3102/api/v2", 
+    baseUrl:'"https://biotech-cbg.dld.go.th/api/v2',
     timeout: 10000,
 });
-
-// apiClient1.interceptors.request.use(
-//   (config) => {
-//     // const token = localStorage.getItem('token1');
-//     // if (token) {
-//     //   config.headers.Authorization = `Bearer ${token}`;
-//     // }
-//     return config;
-//   },
-//   (error) => Promise.reject(error)
-// );
-
-// apiClient2.interceptors.request.use(
-//   (config) => {
-//     // เพิ่ม headers หรือ token สำหรับ API ที่สอง
-//     // const token = localStorage.getItem('token2');
-//     // if (token) {
-//     //   config.headers.Authorization = `Bearer ${token}`;
-//     // }
-//     return config;
-//   },
-//   (error) => Promise.reject(error)
-// );
 
 export { apiClient1, apiClient2 };
 
 //axios.defaults.baseURL = "http://122.155.208.221/api/v1";
-axios.defaults.baseURL = "http://localhost:8083/api/v1";
-// axios.defaults.baseURL = "https://biotech-cbg.dld.go.th/api/v1";
+// axios.defaults.baseURL = "http://localhost:8083/api/v1";
+axios.defaults.baseURL = "https://biotech-cbg.dld.go.th/api/v1";
 
 router.beforeEach(function (to, from, next) {
     window.scrollTo(0, 0);

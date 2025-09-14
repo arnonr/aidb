@@ -2230,9 +2230,6 @@ export default {
                 return;
             }
 
-            console.log(this.data[this.index-1].AIDate);
-
-
             if (this.data[this.index - 1]) {
                 let dateDiffMA = dayjs(this.data[this.index].AIDate).diff(
                     this.data[this.index - 1].AIDate,
@@ -2254,6 +2251,8 @@ export default {
         add() {
             this.isLoading = true;
             this.display_confirm_ma = false;
+
+            console.log("FREEDOM")
 
             if (this.animal_id == 3) {
                 if (this.data[this.index].GoatAIMethodID == null) {
@@ -2299,11 +2298,16 @@ export default {
                     }
                 }
             }
+
+            console.log("FREEDOM1")
+
             if (
                 this.index == this.data.length - 1 &&
                 !this.data[this.index].CreatedUserID
             ) {
                 //create data
+
+            console.log("FREEDOM2")
 
                 axios
                     .post(this.url, this.data[this.index])
@@ -2331,6 +2335,8 @@ export default {
             }
             // update data
             else if (this.index < this.data.length) {
+
+            console.log("FREEDOM3")
                 if (this.validation() == false) {
                     this.isLoading = false;
                     return;

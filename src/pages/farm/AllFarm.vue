@@ -1745,9 +1745,6 @@ export default {
         fetchAIZone() {
             let params = {};
 
-            console.log(apiClient2.defaults.baseURL);
-            console.log("TONG")
-
             //  Fetch AIZone
             apiClient2
                 .get(this.url.AIZone, {

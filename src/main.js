@@ -145,7 +145,7 @@ const apiClient1 = axios.create({
 
 const apiClient2 = axios.create({
     // baseURL: "http://localhost:3102/api/v2", 
-    baseURL:'"https://biotech-cbg.dld.go.th/api/v2',
+    baseURL: 'https://biotech-cbg.dld.go.th/api/v2',
     timeout: 10000,
 });
 

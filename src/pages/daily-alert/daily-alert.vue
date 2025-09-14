@@ -150,10 +150,11 @@
               for="searchSubDistrict"
               class="block text-600 text-sm font-bold mb-2"
             >
-              ฟาร์ม</label
+            ฟาร์ม (โปรดระบุศูนย์วิจัยหรือเขตพื้นที่ปศุสัตว์ก่อนเลือกฟาร์ม)</label
             >
             <Dropdown
               class="w-full"
+              :disabled="search.OrganizationZoneID == null && search.AIZoneID == null"
               v-model="search.FarmID"
               :options="dropdown.Farms"
               optionLabel="Fullname"
@@ -166,7 +167,7 @@
             </Dropdown>
           </div>
 
-          <div class="col-12 sm:col-12 lg:col-12">
+          <div class="col-12 sm:col-6 lg:col-6">
             <label
               for="searchSubDistrict"
               class="block text-600 text-sm font-bold mb-2"
@@ -183,6 +184,22 @@
               display="chip"
             />
           </div>
+
+          <div class="col-12 sm:col-12 lg:col-12">
+            <div class="text-sm text-red-500 text-center mb-2 mt-5">
+                            (โปรดระบุศูนย์วิจัยหรือเขตพื้นที่ปศุสัตว์ก่อนกดปุ่มค้นหา)
+                        </div>
+
+            <Button
+              @click="fetchAnimal"
+              :disabled="search.OrganizationZoneID == null && search.AIZoneID == null"
+              label="ค้นหา"
+              icon=""
+              style="width: 100%"
+              class="mr-2 mb-3"
+            />
+          </div>
+
         </div>
       </div>
     </div>
@@ -366,16 +383,16 @@ export default {
         },
       ],
       url: {
-        AIZone: "/ai-zone/selection?isActive=1&includeAll=false",
-        OrganizationZone: "/organization-zone/selection?isActive=1&includeAll=false",
-        Province: "/province/selection?isActive=1&includeAll=false",
-        Amphur: "/amphur/selection?isActive=1&includeAll=false",
-        Tumbol: "/tumbol/selection?isActive=1&includeAll=false",
-        OrganizationType: "/organization-type/selection?isActive=1&includeAll=false",
-        Organization: "/organization/selection?isActive=1&includeAll=false",
-        Farm: "/farm/selection?isActive=1&includeAll=false",
+        AIZone: "/ai-zone/selection?isActive=1",
+        OrganizationZone: "/organization-zone/selection?isActive=1",
+        Province: "/province/selection?isActive=1",
+        Amphur: "/amphur/selection?isActive=1",
+        Tumbol: "/tumbol/selection?isActive=1",
+        OrganizationType: "/organization-type/selection?isActive=1",
+        Organization: "/organization/selection?isActive=1",
+        Farm: "/farm/selection?isActive=1",
         Report: "/report/report13",
-        Project: "/project/selection?isActive=1&includeAll=false",
+        Project: "/project/selection?isActive=1",
         getByFarmID: "/animal/get-by-farm-id-1",
       },
       dropdown: {
@@ -433,7 +450,7 @@ export default {
           this.search.FarmID = null;
           this.fetchProvince();
           this.fetchOrganization();
-          this.fetchAnimal();
+        //   this.fetchAnimal();
           this.fetchFarm();
           this.dropdown.Amphurs = [];
           this.dropdown.Tumbols = [];
@@ -459,7 +476,7 @@ export default {
         setTimeout(() => {
           this.fetchProvince();
           this.fetchOrganization();
-          this.fetchAnimal();
+        //   this.fetchAnimal();
           this.search.ProvinceID = null;
           this.search.AmphurID = null;
           this.search.TumbolID = null;
@@ -473,7 +490,7 @@ export default {
     "search.ProvinceID"() {
       this.fetchAmphur();
       this.fetchOrganization();
-      this.fetchAnimal();
+    //   this.fetchAnimal();
 
       if (this.isLoading == false) {
         this.isLoading = true;
@@ -490,7 +507,7 @@ export default {
     "search.AmphurID"() {
       this.fetchTumbol();
       this.fetchOrganization();
-      this.fetchAnimal();
+    //   this.fetchAnimal();
 
       if (this.isLoading == false) {
         this.isLoading = true;
@@ -505,7 +522,7 @@ export default {
     },
     "search.TumbolID"() {
       this.fetchOrganization();
-      this.fetchAnimal();
+    //   this.fetchAnimal();
 
       if (this.isLoading == false) {
         this.isLoading = true;
@@ -529,7 +546,7 @@ export default {
       }
     },
     "search.OrganizationID"() {
-      this.fetchAnimal();
+    //   this.fetchAnimal();
 
       if (this.isLoading == false) {
         this.isLoading = true;
@@ -540,7 +557,7 @@ export default {
       }
     },
     "search.FarmID"() {
-      this.fetchAnimal();
+    //   this.fetchAnimal();
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -549,7 +566,7 @@ export default {
       }
     },
     "search.ProjectIDArray"() {
-      this.fetchAnimal();
+    //   this.fetchAnimal();
       if (this.isLoading == false) {
         this.isLoading = true;
         setTimeout(() => {
@@ -601,7 +618,7 @@ export default {
     },
 
     async load() {
-      this.fetchAnimal();
+    //   this.fetchAnimal();
     },
 
     fetchAIZone() {
@@ -620,7 +637,7 @@ export default {
         });
     },
     fetchOrganizationZone() {
-      let params = { includeAll: false, isActive: 1 };
+      let params = { includeAll: false };
       //  Fetch OrganizationZone
       axios
         .get(this.url.OrganizationZone, {

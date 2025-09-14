@@ -995,6 +995,7 @@ export default {
             if (this.search.OrganizationID) {
                 url += "&OrganizationID=" + this.search.OrganizationID;
             }
+            
             if (this.search.dateStart) {
                 url += "&StartDate=" + this.search.dateStart;
             }
@@ -1465,6 +1466,24 @@ export default {
 
             params["StartDate"] = this.search.StartDate ? dayjs(this.search.StartDate).format("YYYY-MM-DD") : undefined;
             params["EndDate"] = this.search.EndDate ? dayjs(this.search.EndDate).format("YYYY-MM-DD") : undefined;
+
+
+
+            // ถ้าไม่่ได้ใส่ dateStart และ dateEnd ให้ dateStart-365 วันจากวันปัจจุบันและ dateEnd คือปัจจุบัน
+        
+            if (this.search.StartDate== null && this.search.EndDate == null) {
+                params["StartDate"] = dayjs().subtract(365, 'day').format('YYYY-MM-DD');
+                params["EndDate"] = dayjs().format('YYYY-MM-DD');
+            }
+
+            if (this.search.StartDate == null && this.search.EndDate != null) {
+                params["StartDate"] = dayjs(params["EndDate"]).subtract(365, 'day').format('YYYY-MM-DD');
+            }
+
+            if (this.search.StartDate != null && this.search.EndDate == null) {
+                params["EndDate"] = dayjs().format('YYYY-MM-DD');
+            }
+
 
             if (this.search.ProjectIDArray) {
                 params["Projects"] = JSON.stringify(this.search.ProjectIDArray);

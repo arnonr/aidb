@@ -726,7 +726,7 @@
                                     <div
                                         class="field col-12 sm:col-12 lg:col-12"
                                     >
-                                        <div class="text-xl">Status</div>
+                                        <div class="text-xl">สถานภาพในระบบ</div>
                                         <div
                                             v-for="isAlive of alive"
                                             :key="isAlive.key"
@@ -744,7 +744,7 @@
                                             }}</label>
                                         </div>
                                     </div>
-                                    <div
+                                    <!-- <div
                                         class="field col-12 sm:col-12 lg:col-12"
                                     >
                                         <div class="text-xl">สถานะ</div>
@@ -764,7 +764,7 @@
                                                 isActive.name
                                             }}</label>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                             <div

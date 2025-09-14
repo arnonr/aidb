@@ -1040,7 +1040,7 @@
                                     <div
                                         class="field col-12 sm:col-12 lg:col-12"
                                     >
-                                        <div class="text-xl mb-2">สถานะระบบ</div>
+                                 <div class="text-xl">สถานภาพในระบบ</div>
                                         <div
                                             v-for="isActive of status"
                                             :key="isActive.key"

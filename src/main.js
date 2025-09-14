@@ -117,13 +117,13 @@ import GAuth from "vue3-google-oauth2";
 
 const app = createApp(AppWrapper);
 let gauthClientId =
-  "413588373927-vk2f1rqog6lbqh9b2t91fjrnq2vvrhnt.apps.googleusercontent.com";
+    "413588373927-vk2f1rqog6lbqh9b2t91fjrnq2vvrhnt.apps.googleusercontent.com";
 app.use(GAuth, {
-  clientId: gauthClientId,
-  scope: "email",
-  prompt: "consent",
-  fetch_basic_profile: false,
-  plugin_name: "vue3-google-oauth2",
+    clientId: gauthClientId,
+    scope: "email",
+    prompt: "consent",
+    fetch_basic_profile: false,
+    plugin_name: "vue3-google-oauth2",
 });
 
 // window.gapi.client
@@ -137,101 +137,136 @@ app.use(GAuth, {
 
 // axios.defaults.baseURL = "http://178.128.216.177:8081/api/v1";
 
+// สร้าง axios instances แยกกัน
+const apiClient1 = axios.create({
+    baseURL: "http://localhost:8083/api/v1",
+    timeout: 10000,
+});
+
+const apiClient2 = axios.create({
+    baseURL: "http://localhost:3102/api/v2", // URL ที่สอง
+    timeout: 10000,
+});
+
+// apiClient1.interceptors.request.use(
+//   (config) => {
+//     // const token = localStorage.getItem('token1');
+//     // if (token) {
+//     //   config.headers.Authorization = `Bearer ${token}`;
+//     // }
+//     return config;
+//   },
+//   (error) => Promise.reject(error)
+// );
+
+// apiClient2.interceptors.request.use(
+//   (config) => {
+//     // เพิ่ม headers หรือ token สำหรับ API ที่สอง
+//     // const token = localStorage.getItem('token2');
+//     // if (token) {
+//     //   config.headers.Authorization = `Bearer ${token}`;
+//     // }
+//     return config;
+//   },
+//   (error) => Promise.reject(error)
+// );
+
+export { apiClient1, apiClient2 };
+
 //axios.defaults.baseURL = "http://122.155.208.221/api/v1";
-// axios.defaults.baseURL = "http://localhost:8083/api/v1";
-axios.defaults.baseURL = "https://biotech-cbg.dld.go.th/api/v1";
-// axios.defaults.headers.common['Referer'] = "https://losadasdasssscalhost1",
+axios.defaults.baseURL = "http://localhost:8083/api/v1";
+// axios.defaults.baseURL = "https://biotech-cbg.dld.go.th/api/v1";
 
 router.beforeEach(function (to, from, next) {
-  window.scrollTo(0, 0);
-  next();
+    window.scrollTo(0, 0);
+    next();
 });
 
 app.config.globalProperties.$appState = reactive({
-  theme: "lara-light-indigo",
-  darkTheme: false,
+    theme: "lara-light-indigo",
+    darkTheme: false,
 });
 
 app.use(PrimeVue, {
-  ripple: true,
-  inputStyle: "outlined",
-  locale: {
-    startsWith: "Starts with",
-    contains: "Contains",
-    notContains: "Not contains",
-    endsWith: "Ends with",
-    equals: "Equals",
-    notEquals: "Not equals",
-    noFilter: "No Filter",
-    lt: "Less than",
-    lte: "Less than or equal to",
-    gt: "Greater than",
-    gte: "Greater than or equal to",
-    dateIs: "Date is",
-    dateIsNot: "Date is not",
-    dateBefore: "Date is before",
-    dateAfter: "Date is after",
-    clear: "เคลียร์",
-    apply: "นำมาใช้",
-    matchAll: "Match All",
-    matchAny: "Match Any",
-    addRule: "Add Rule",
-    removeRule: "Remove Rule",
-    accept: "ยืนยัน",
-    reject: "ยกเลิก",
-    choose: "เลือก",
-    upload: "อัพโหลด",
-    cancel: "ยกเลิก",
-    dayNames: [
-      "อาทิตย์",
-      "จันทร์",
-      "อังคาร",
-      "พุธ",
-      "พฤหัสบดี",
-      "ศุกร์",
-      "เสาร์",
-    ],
-    dayNamesShort: ["อา", "จ", "อ", "พ", "พฤ", "ศ", "ส"],
-    dayNamesMin: ["อา", "จ", "อ", "พ", "พฤ", "ศ", "ส"],
-    monthNames: [
-      "มกราคม",
-      "กุมภาพันธ์",
-      "มีนาคม",
-      "เมษายน",
-      "พฤษภาคม",
-      "มิถุนายน",
-      "กรกฎาคม",
-      "สิงหาคม",
-      "กันยายน",
-      "ตุลาคม",
-      "พฤศจิกายน",
-      "ธันวาคม",
-    ],
-    monthNamesShort: [
-      "ม.ค.",
-      "ก.พ.",
-      "มี.ค.",
-      "เม.ย.",
-      "พ.ค.",
-      "มิ.ย.",
-      "ก.ค.",
-      "ส.ค.",
-      "ก.ย.",
-      "ต.ค.",
-      "พ.ย.",
-      "ธ.ค.",
-    ],
-    today: "วันนี้",
-    weekHeader: "Wk",
-    firstDayOfWeek: 0,
-    dateFormat: "mm/dd/yy",
-    weak: "Weak",
-    medium: "Medium",
-    strong: "Strong",
-    passwordPrompt: "Enter a password",
-    emptyFilterMessage: "No results found",
-    emptyMessage: "No available options",
-  },
+    ripple: true,
+    inputStyle: "outlined",
+    locale: {
+        startsWith: "Starts with",
+        contains: "Contains",
+        notContains: "Not contains",
+        endsWith: "Ends with",
+        equals: "Equals",
+        notEquals: "Not equals",
+        noFilter: "No Filter",
+        lt: "Less than",
+        lte: "Less than or equal to",
+        gt: "Greater than",
+        gte: "Greater than or equal to",
+        dateIs: "Date is",
+        dateIsNot: "Date is not",
+        dateBefore: "Date is before",
+        dateAfter: "Date is after",
+        clear: "เคลียร์",
+        apply: "นำมาใช้",
+        matchAll: "Match All",
+        matchAny: "Match Any",
+        addRule: "Add Rule",
+        removeRule: "Remove Rule",
+        accept: "ยืนยัน",
+        reject: "ยกเลิก",
+        choose: "เลือก",
+        upload: "อัพโหลด",
+        cancel: "ยกเลิก",
+        dayNames: [
+            "อาทิตย์",
+            "จันทร์",
+            "อังคาร",
+            "พุธ",
+            "พฤหัสบดี",
+            "ศุกร์",
+            "เสาร์",
+        ],
+        dayNamesShort: ["อา", "จ", "อ", "พ", "พฤ", "ศ", "ส"],
+        dayNamesMin: ["อา", "จ", "อ", "พ", "พฤ", "ศ", "ส"],
+        monthNames: [
+            "มกราคม",
+            "กุมภาพันธ์",
+            "มีนาคม",
+            "เมษายน",
+            "พฤษภาคม",
+            "มิถุนายน",
+            "กรกฎาคม",
+            "สิงหาคม",
+            "กันยายน",
+            "ตุลาคม",
+            "พฤศจิกายน",
+            "ธันวาคม",
+        ],
+        monthNamesShort: [
+            "ม.ค.",
+            "ก.พ.",
+            "มี.ค.",
+            "เม.ย.",
+            "พ.ค.",
+            "มิ.ย.",
+            "ก.ค.",
+            "ส.ค.",
+            "ก.ย.",
+            "ต.ค.",
+            "พ.ย.",
+            "ธ.ค.",
+        ],
+        today: "วันนี้",
+        weekHeader: "Wk",
+        firstDayOfWeek: 0,
+        dateFormat: "mm/dd/yy",
+        weak: "Weak",
+        medium: "Medium",
+        strong: "Strong",
+        passwordPrompt: "Enter a password",
+        emptyFilterMessage: "No results found",
+        emptyMessage: "No available options",
+    },
 });
 app.use(ConfirmationService);
 app.use(ToastService);
@@ -324,9 +359,5 @@ app.component("TreeTable", TreeTable);
 app.component("TriStateCheckbox", TriStateCheckbox);
 app.component("Datepicker", Datepicker);
 app.component("BlockViewer", BlockViewer);
-
-// app.component("VueAwesomePaginate", VueAwesomePaginate);
-
-// app.component('paginate', Paginate)
 
 app.use(VueAwesomePaginate).mount("#app");

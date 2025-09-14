@@ -159,11 +159,15 @@
                         for="searchSubDistrict"
                         class="block text-600 text-sm font-bold mb-2"
                     >
-                    ฟาร์ม (โปรดระบุศูนย์วิจัยหรือเขตพื้นที่ปศุสัตว์ก่อนเลือกฟาร์ม)</label
+                        ฟาร์ม
+                        (โปรดระบุศูนย์วิจัยหรือเขตพื้นที่ปศุสัตว์ก่อนเลือกฟาร์ม)</label
                     >
                     <v-select
                         v-model="search.FarmID"
-                        :disabled="search.OrganizationZoneID == null && search.AIZoneID == null"
+                        :disabled="
+                            search.OrganizationZoneID == null &&
+                            search.AIZoneID == null
+                        "
                         :options="dropdown.Farms"
                         @search="fetchSelectionFarm"
                         label="Fullname"
@@ -1080,6 +1084,7 @@ export default {
     },
     mounted() {
         this.loadDefault();
+        this.loadSearchFromLocalStorage();
 
         // if (this.farmDataItem) {
         //   this.search.FarmID = this.farmDataItem.FarmID;
@@ -1277,14 +1282,56 @@ export default {
                 }, 1000);
             }
         },
-        'displaytab'() {
+        displaytab() {
             this.load();
-        }
+        },
     },
     unmounted() {
         this.controller.abort();
     },
     methods: {
+        loadSearchFromLocalStorage() {
+            try {
+                const savedConfig = localStorage.getItem("AIDMappConfig");
+                if (savedConfig) {
+                    const config = JSON.parse(savedConfig);
+
+                    // ตั้งค่าค่า default จาก localStorage
+                    if (config.AIZoneID) {
+                        this.search.AIZoneID = config.AIZoneID;
+                    }
+                    if (config.OrganizationZoneID) {
+                        this.search.OrganizationZoneID =
+                            config.OrganizationZoneID;
+                    }
+                    if (config.ProvinceID) {
+                        this.search.ProvinceID = config.ProvinceID;
+                    }
+                    if (config.AmphurID) {
+                        this.search.AmphurID = config.AmphurID;
+                    }
+                    if (config.TumbolID) {
+                        this.search.TumbolID = config.TumbolID;
+                    }
+                    if (config.OrganizationID) {
+                        this.search.OrganizationID = config.OrganizationID;
+                    }
+                    if (config.FarmID) {
+                        this.search.FarmID = config.FarmID;
+                    }
+
+                    // ถ้ามี FarmID ให้โหลดข้อมูลฟาร์มและสัตว์ทันที
+                    if (config.FarmID) {
+                        this.load();
+                    }
+                }
+            } catch (error) {
+                console.error(
+                    "Error loading search config from localStorage:",
+                    error
+                );
+            }
+        },
         clear() {
             this.displaytab = false;
             //   this.loadAnimal();
@@ -1941,16 +1988,15 @@ export default {
             };
 
             // ตรวจสอบว่ามีเมนู "ผสมเทียม" หรือไม่
-          
-                let tab = {
-                    id: 0,
-                    animal_id: this.animal_id,
-                };
 
-                store.dispatch("tabAnimal", tab);
-                store.dispatch("animalInfo", data);
-                this.displaytab = true;
-           
+            let tab = {
+                id: 0,
+                animal_id: this.animal_id,
+            };
+
+            store.dispatch("tabAnimal", tab);
+            store.dispatch("animalInfo", data);
+            this.displaytab = true;
         },
 
         openAnimal(id, earid) {
@@ -2287,7 +2333,6 @@ export default {
             //   });
         },
     },
-    
 };
 </script>
 

@@ -158,11 +158,15 @@
                                 for="searchSubDistrict"
                                 class="block text-600 text-sm font-bold mb-2"
                             >
-                                ฟาร์ม (โปรดระบุศูนย์วิจัยหรือเขตพื้นที่ปศุสัตว์ก่อนเลือกฟาร์ม)</label
+                                ฟาร์ม
+                                (โปรดระบุศูนย์วิจัยหรือเขตพื้นที่ปศุสัตว์ก่อนเลือกฟาร์ม)</label
                             >
                             <v-select
                                 v-model="search.FarmID"
-                                :disabled="search.OrganizationZoneID == null && search.AIZoneID == null"
+                                :disabled="
+                                    search.OrganizationZoneID == null &&
+                                    search.AIZoneID == null
+                                "
                                 :options="dropdown.Farms"
                                 @search="fetchSelectionFarm"
                                 label="Fullname"
@@ -1231,7 +1235,7 @@ import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
 import ExcelJS from "exceljs";
 // src/store/modules/api.js
-import { apiClient2 } from '@/main.js'
+import { apiClient2 } from "@/main.js";
 
 export default {
     components: {
@@ -1407,6 +1411,9 @@ export default {
             this.search.OrganizationZoneID =
                 store.state.user.Staff.Organization.OrganizationZoneID;
         }
+        setTimeout(() => {
+            this.loadSearchFromLocalStorage();
+        }, 1000);
     },
     watch: {
         "search.AIZoneID"(val) {
@@ -1765,7 +1772,6 @@ export default {
                     params: params,
                 })
                 .then((res) => {
-
                     this.dropdown.OrganizationZones = res.data.data.items;
                     this.dropdown.OrganizationZones.push({
                         OrganizationZoneID: 99,
@@ -1819,12 +1825,12 @@ export default {
                     this.dropdown.Provinces = res.data.data.items;
                 })
                 .catch((error) => {
-                    console.error('Error fetching provinces:', error);
+                    console.error("Error fetching provinces:", error);
                     this.$toast.add({
-                        severity: 'error',
-                        summary: 'Error',
-                        detail: 'Failed to fetch provinces',
-                        life: 3000
+                        severity: "error",
+                        summary: "Error",
+                        detail: "Failed to fetch provinces",
+                        life: 3000,
                     });
                 })
                 .finally(() => {
@@ -1941,15 +1947,17 @@ export default {
                     params: params,
                 })
                 .then((res) => {
-                    this.dropdown.Organizations = res.data.data.items.map((item) => {
-                        return {
-                            OrganizationID: item.OrganizationID,
-                            OrganizationFull:
-                                item.OrganizationCode +
-                                ", " +
-                                item.OrganizationName,
-                        };
-                    });
+                    this.dropdown.Organizations = res.data.data.items.map(
+                        (item) => {
+                            return {
+                                OrganizationID: item.OrganizationID,
+                                OrganizationFull:
+                                    item.OrganizationCode +
+                                    ", " +
+                                    item.OrganizationName,
+                            };
+                        }
+                    );
                 })
                 .finally(() => {
                     this.isLoading = false;
@@ -2666,40 +2674,56 @@ export default {
         onSearch() {
             this.load();
         },
+        loadSearchFromLocalStorage() {
+            try {
+                const savedConfig = localStorage.getItem("AIDMappConfig");
+                if (savedConfig) {
+                    const config = JSON.parse(savedConfig);
 
-        // filterProvince($event) {
-        //   let val = $event.value;
-        //   if (val) {
-        //     this.selection.Province.data = this.selection.Province.temp;
-        //     this.selection.Province.data = this.selection.Province.data.filter(
-        //       (item) => item.AIZoneID == val
-        //     );
-        //   } else {
-        //     this.selection.Province.data = this.selection.Province.temp;
-        //   }
-        // },
-        // filterAmphur($event) {
-        //   let val = $event.value;
-        //   if (val) {
-        //     this.selection.Amphur.data = this.selection.Amphur.temp;
-        //     this.selection.Amphur.data = this.selection.Amphur.data.filter(
-        //       (item) => item.ProvinceID == val
-        //     );
-        //   } else {
-        //     this.selection.Amphur.data = this.selection.Amphur.temp;
-        //   }
-        // },
-        // filterTumbol($event) {
-        //   let val = $event.value;
-        //   if (val) {
-        //     this.selection.Tumbol.data = this.selection.Tumbol.temp;
-        //     this.selection.Tumbol.data = this.selection.Tumbol.data.filter(
-        //       (item) => item.AmphurID == val
-        //     );
-        //   } else {
-        //     this.selection.Tumbol.data = this.selection.Tumbol.temp;
-        //   }
-        // },
+                    // ตั้งค่าค่า default จาก localStorage
+                    if (config.AIZoneID) {
+                        this.search.AIZoneID = config.AIZoneID;
+                    }
+                    if (config.OrganizationZoneID) {
+                        this.search.OrganizationZoneID =
+                            config.OrganizationZoneID;
+                    }
+
+                    if (config.OrganizationZoneID || config.AIZoneID) {
+                        if (config.ProvinceID) {
+                            setTimeout(() => {
+                                this.search.ProvinceID = config.ProvinceID;
+                            }, 200);
+                        }
+                        if (config.AmphurID) {
+                            setTimeout(() => {
+                                this.search.AmphurID = config.AmphurID;
+                            }, 600);
+                        }
+                        if (config.TumbolID) {
+                            setTimeout(() => {
+                                this.search.TumbolID = config.TumbolID;
+                            }, 800);
+                        }
+                        if (config.OrganizationID) {
+                            setTimeout(() => {
+                                this.search.OrganizationID = config.OrganizationID;
+                            }, 1000);
+                        }
+                        if (config.FarmID) {
+                            setTimeout(() => {
+                                this.search.FarmID = config.FarmID;
+                            }, 1500);
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error(
+                    "Error loading search config from localStorage:",
+                    error
+                );
+            }
+        },
     },
     unmounted() {
         // this.controller.abort();

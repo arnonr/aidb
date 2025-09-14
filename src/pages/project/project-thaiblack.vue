@@ -34,7 +34,7 @@
                         class="ml-2"
                     />
                 </router-link>
-                <router-link
+                <!-- <router-link
                     :to="'/project/detail-ai?projects=' + search.ProjectIDArray"
                 >
                     <Button
@@ -42,7 +42,7 @@
                         label="โครงการผสมเทียม"
                         class="ml-2"
                     />
-                </router-link>
+                </router-link> -->
             </div>
 
             <div class="card mb-5">
@@ -200,11 +200,12 @@
                             for="searchSubDistrict"
                             class="block text-600 text-sm font-bold mb-2"
                         >
-                            ฟาร์ม</label
+                        ฟาร์ม (โปรดระบุศูนย์วิจัยหรือเขตพื้นที่ปศุสัตว์ก่อนเลือกฟาร์ม)</label
                         >
 
                         <v-select
                             v-model="search.FarmID"
+                            :disabled="search.OrganizationZoneID == null && search.AIZoneID == null"
                             :options="dropdown.Farms"
                             @search="fetchFarm"
                             label="Fullname"

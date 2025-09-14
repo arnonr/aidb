@@ -306,8 +306,13 @@
                     </div>
 
                     <div class="col-12 sm:col-12 lg:col-12">
+                        <div class="text-sm text-red-500 text-center mb-2 mt-5">
+                            (โปรดระบุศูนย์วิจัยหรือเขตพื้นที่ปศุสัตว์ก่อนกดปุ่มค้นหา)
+                        </div>
+                      
                         <Button
                             @click="fetchReport()"
+                             :disabled="search.OrganizationZoneID == null && search.AIZoneID == null"
                             label="ค้นหา"
                             icon=""
                             style="width: 100%"

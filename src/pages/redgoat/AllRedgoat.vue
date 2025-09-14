@@ -161,11 +161,12 @@
                                 for="searchSubDistrict"
                                 class="block text-600 text-sm font-bold mb-2"
                             >
-                                ฟาร์ม</label
+                            ฟาร์ม (โปรดระบุศูนย์วิจัยหรือเขตพื้นที่ปศุสัตว์ก่อนเลือกฟาร์ม)</label
                             >
                             <Dropdown
                                 class="w-full"
                                 v-model="search.FarmID"
+                                :disabled="search.OrganizationZoneID == null && search.AIZoneID == null"
                                 :options="dropdown.Farms"
                                 optionLabel="Fullname"
                                 optionValue="FarmID"

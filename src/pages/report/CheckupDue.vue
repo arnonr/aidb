@@ -153,9 +153,11 @@
                             for="searchFarmID"
                             class="block text-600 text-sm font-bold mb-2"
                         >
-                            ฟาร์ม</label
+                        ฟาร์ม
+                        (โปรดระบุศูนย์วิจัยหรือเขตพื้นที่ปศุสัตว์ก่อนเลือกฟาร์ม)</label
                         >
                         <v-select
+                            :disabled="search.OrganizationZoneID == null && search.AIZoneID == null"
                             v-model="search.FarmID"
                             :options="dropdown.Farms"
                             @search="fetchSelectionFarm"
@@ -229,8 +231,13 @@
                     </div>
 
                     <div class="col-12 sm:col-12 lg:col-12">
+
+                        <div class="text-sm text-red-500 text-center mb-2 mt-5">
+                            (โปรดระบุศูนย์วิจัยหรือเขตพื้นที่ปศุสัตว์ก่อนกดปุ่มค้นหา)
+                        </div>
                         <Button
                             @click="onSearch"
+                            :disabled="search.OrganizationZoneID == null && search.AIZoneID == null"
                             label="ค้นหา"
                             icon=""
                             style="width: 100%"

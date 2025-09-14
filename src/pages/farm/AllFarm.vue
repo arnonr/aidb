@@ -158,10 +158,11 @@
                                 for="searchSubDistrict"
                                 class="block text-600 text-sm font-bold mb-2"
                             >
-                                ฟาร์ม</label
+                                ฟาร์ม (โปรดระบุศูนย์วิจัยหรือเขตพื้นที่ปศุสัตว์ก่อนเลือกฟาร์ม)</label
                             >
                             <v-select
                                 v-model="search.FarmID"
+                                :disabled="search.OrganizationZoneID == null && search.AIZoneID == null"
                                 :options="dropdown.Farms"
                                 @search="fetchSelectionFarm"
                                 label="Fullname"
@@ -1229,6 +1230,8 @@ import store from "@/service/Vuex";
 import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
 import ExcelJS from "exceljs";
+// src/store/modules/api.js
+import { apiClient2 } from '@/main.js'
 
 export default {
     components: {
@@ -1275,20 +1278,20 @@ export default {
                 },
             ],
 
-            urlFarm: "/farm/selection?includeAll=false",
-            urlProvince: "/province/selection?includeAll=false",
+            urlFarm: "/farm?includeAll=false",
+            urlProvince: "/province?includeAll=false",
             url: {
                 Farm: "/farm",
                 ExportFarm: "/farm/export-excel?isActive=1",
-                FarmStatus: "/farm-status/selection?isActive=1",
-                AIZone: "/ai-zone/selection?isActive=1",
-                OrganizationZone: "/organization-zone/selection?isActive=1",
+                FarmStatus: "/farm-status?isActive=1",
+                AIZone: "/ai-zone?isActive=1",
+                OrganizationZone: "/organization-zone?isActive=1",
                 Province: "/province/selection?isActive=1",
-                Amphur: "/amphur/selection?isActive=1",
-                Tumbol: "/tumbol/selection?isActive=1",
-                OrganizationType: "/organization-type/selection?isActive=1",
-                Organization: "/organization/selection?isActive=1",
-                Project: "/project/selection?includeAll=false&isActive=1",
+                Amphur: "/amphur?isActive=1",
+                Tumbol: "/tumbol?isActive=1",
+                OrganizationType: "/organization-type?isActive=1",
+                Organization: "/organization?isActive=1",
+                Project: "/project?includeAll=false&isActive=1",
             },
             dropdown: {
                 AIZones: [],
@@ -1735,14 +1738,13 @@ export default {
         fetchAIZone() {
             let params = {};
             //  Fetch AIZone
-            axios
+            apiClient2
                 .get(this.url.AIZone, {
                     signal: this.controller.signal,
                     params: params,
                 })
                 .then((res) => {
-                    this.dropdown.AIZones = res.data.rows;
-
+                    this.dropdown.AIZones = res.data.data.items;
                     this.dropdown.AIZones.push({
                         AIZoneID: 99,
                         AIZoneName: "ทั้งหมด",
@@ -1757,13 +1759,14 @@ export default {
         fetchOrganizationZone() {
             let params = {};
             //  Fetch OrganizationZone
-            axios
+            apiClient2
                 .get(this.url.OrganizationZone, {
                     signal: this.controller.signal,
                     params: params,
                 })
                 .then((res) => {
-                    this.dropdown.OrganizationZones = res.data.rows;
+
+                    this.dropdown.OrganizationZones = res.data.data.items;
                     this.dropdown.OrganizationZones.push({
                         OrganizationZoneID: 99,
                         OrganizationZoneName: "ทั้งหมด",
@@ -1777,20 +1780,20 @@ export default {
             let params = {};
 
             if (this.animal_id == 1) {
-                params["AnimalTypeID"] = "[1,2,41,42]";
+                params["AnimalTypeID"] = "1,2,41,42";
             } else if (this.animal_id == 2) {
-                params["AnimalTypeID"] = "[3,4,43,44]";
+                params["AnimalTypeID"] = "3,4,43,44";
             } else if (this.animal_id == 3) {
-                params["AnimalTypeID"] = "[17,18,45,46]";
+                params["AnimalTypeID"] = "17,18,45,46";
             }
 
-            axios
+            apiClient2
                 .get(this.url.Project, {
                     signal: this.controller.signal,
                     params: params,
                 })
                 .then((res) => {
-                    this.dropdown.Projects = res.data.rows;
+                    this.dropdown.Projects = res.data.data.items;
                 })
                 .finally(() => {
                     this.isLoading = false;
@@ -1807,13 +1810,22 @@ export default {
             if (this.search.OrganizationZoneID != null) {
                 params["OrganizationZoneID"] = this.search.OrganizationZoneID;
             }
-            axios
+            apiClient2
                 .get(this.urlProvince, {
                     signal: this.controller.signal,
                     params: params,
                 })
                 .then((res) => {
-                    this.dropdown.Provinces = res.data.rows;
+                    this.dropdown.Provinces = res.data.data.items;
+                })
+                .catch((error) => {
+                    console.error('Error fetching provinces:', error);
+                    this.$toast.add({
+                        severity: 'error',
+                        summary: 'Error',
+                        detail: 'Failed to fetch provinces',
+                        life: 3000
+                    });
                 })
                 .finally(() => {
                     this.isLoading = false;
@@ -1834,13 +1846,13 @@ export default {
                 params["ProvinceID"] = this.search.ProvinceID;
             }
 
-            axios
+            apiClient2
                 .get(this.url.Amphur, {
                     signal: this.controller.signal,
                     params: params,
                 })
                 .then((res) => {
-                    this.dropdown.Amphurs = res.data.rows;
+                    this.dropdown.Amphurs = res.data.data.items;
                 })
                 .finally(() => {
                     this.isLoading = false;
@@ -1861,13 +1873,13 @@ export default {
                 params["AmphurID"] = this.search.AmphurID;
             }
 
-            axios
+            apiClient2
                 .get(this.url.Tumbol, {
                     signal: this.controller.signal,
                     params: params,
                 })
                 .then((res) => {
-                    this.dropdown.Tumbols = res.data.rows;
+                    this.dropdown.Tumbols = res.data.data.items;
                 })
                 .finally(() => {
                     this.isLoading = false;
@@ -1876,13 +1888,13 @@ export default {
         fetchOrganizationType() {
             let params = {};
 
-            axios
+            apiClient2
                 .get(this.url.OrganizationType, {
                     signal: this.controller.signal,
                     params: params,
                 })
                 .then((res) => {
-                    this.dropdown.OrganizationTypes = res.data.rows;
+                    this.dropdown.OrganizationTypes = res.data.data.items;
                 })
                 .finally(() => {
                     this.isLoading = false;
@@ -1923,13 +1935,13 @@ export default {
                 params["OrganizationTumbolID"] = this.search.TumbolID;
             }
 
-            axios
+            apiClient2
                 .get(this.url.Organization, {
                     signal: this.controller.signal,
                     params: params,
                 })
                 .then((res) => {
-                    this.dropdown.Organizations = res.data.rows.map((item) => {
+                    this.dropdown.Organizations = res.data.data.items.map((item) => {
                         return {
                             OrganizationID: item.OrganizationID,
                             OrganizationFull:
@@ -1946,13 +1958,13 @@ export default {
         fetchFarmStatus() {
             //  Fetch Province
             let params = {};
-            axios
+            apiClient2
                 .get(this.url.FarmStatus, {
                     signal: this.controller.signal,
                     params: params,
                 })
                 .then((res) => {
-                    this.dropdown.FarmStatuses = res.data.rows;
+                    this.dropdown.FarmStatuses = res.data.data.items;
                 })
                 .finally(() => {
                     this.isLoading = false;
@@ -2152,13 +2164,13 @@ export default {
 
             params["Fullname"] = search;
 
-            axios
+            apiClient2
                 .get(this.urlFarm, {
                     signal: this.controller.signal,
                     params: { ...params, size: undefined, page: 1 },
                 })
                 .then((res) => {
-                    this.dropdown.Farms = res.data.rows;
+                    this.dropdown.Farms = res.data.data.items;
                 })
                 .finally(() => {
                     this.isLoading = false;

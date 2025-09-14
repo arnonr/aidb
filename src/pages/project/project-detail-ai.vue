@@ -61,7 +61,7 @@
                     />
                 </router-link>
 
-                <router-link
+                <!-- <router-link
                     :to="'/project/detail-ai?projects=' + search.ProjectIDArray"
                 >
                     <Button
@@ -69,7 +69,7 @@
                         label="โครงการผสมเทียม"
                         class="ml-2"
                     />
-                </router-link>
+                </router-link> -->
             </div>
 
             <div class="card mb-5">

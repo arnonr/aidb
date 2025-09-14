@@ -158,9 +158,14 @@
                             for="searchSubDistrict"
                             class="block text-600 text-sm font-bold mb-2"
                         >
-                            ฟาร์ม</label
+                            ฟาร์ม
+                            (โปรดระบุศูนย์วิจัยหรือเขตพื้นที่ปศุสัตว์ก่อนเลือกฟาร์ม)</label
                         >
                         <v-select
+                            :disabled="
+                                search.OrganizationZoneID == null &&
+                                search.AIZoneID == null
+                            "
                             v-model="search.FarmID"
                             :options="dropdown.Farms"
                             @search="fetchSelectionFarm"
@@ -1157,7 +1162,6 @@
         </Dialog>
         <!-- End View Dialog -->
 
-
         <Dialog
             header="กิจกรรม"
             v-model:visible="displaytab"
@@ -1168,7 +1172,6 @@
         >
             <VueCreatureInfo :display="true" v-if="displaytab" />
         </Dialog>
-
     </div>
 </template>
 
@@ -1845,7 +1848,11 @@ export default {
                     label: "บันทึกกิจกรรม",
                     icon: "pi pi-eye",
                     command: async () => {
-                        this.openFirstTab(AnimalID, AnimalSecretStatus, AnimalEarID);
+                        this.openFirstTab(
+                            AnimalID,
+                            AnimalSecretStatus,
+                            AnimalEarID
+                        );
 
                         // let data = {
                         //     AnimalEarID: earid,

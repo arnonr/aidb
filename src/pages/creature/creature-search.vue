@@ -2387,7 +2387,7 @@ export default {
                 ...this.params,
                 size: this.rowPerPage,
                 page: this.currentPage,
-                orderByField: "FarmID",
+                orderByField: "AnimalID",
                 orderBy: "desc",
                 // includeAll: false,
             };

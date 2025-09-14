@@ -1744,6 +1744,10 @@ export default {
         },
         fetchAIZone() {
             let params = {};
+
+            console.log(apiClient2.defaults.baseURL);
+            console.log("TONG")
+
             //  Fetch AIZone
             apiClient2
                 .get(this.url.AIZone, {
@@ -2707,7 +2711,8 @@ export default {
                         }
                         if (config.OrganizationID) {
                             setTimeout(() => {
-                                this.search.OrganizationID = config.OrganizationID;
+                                this.search.OrganizationID =
+                                    config.OrganizationID;
                             }, 1000);
                         }
                         if (config.FarmID) {

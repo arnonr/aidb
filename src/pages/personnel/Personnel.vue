@@ -369,6 +369,14 @@
                     >
                     </Column>
                     <Column
+                        field="StaffStatus"
+                        header="สถานะบุคลากร"
+                        class="text-center"
+                        :sortable="true"
+                        exportFooter="&#8203;"
+                    >
+                    </Column>
+                    <Column
                         field="CardStatus"
                         header="สถานะบัตร"
                         class="text-center"

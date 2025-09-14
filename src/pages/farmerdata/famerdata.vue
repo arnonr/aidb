@@ -2618,8 +2618,8 @@ export default {
                             outlineLevel: 1,
                         },
                         {
-                            header: "หมายเลขฟาร์ม",
-                            key: "หมายเลขฟาร์ม",
+                            header: "ทะเบียนฟาร์ม",
+                            key: "ทะเบียนฟาร์ม",
                             width: 25,
                             outlineLevel: 1,
                         },

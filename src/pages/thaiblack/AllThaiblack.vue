@@ -195,6 +195,25 @@
                                 display="chip"
                             />
                         </div>
+
+                        <div class="col-6 sm:col-6 lg:col-6">
+                            <label
+                                for="searchSubDistrict"
+                                class="block text-600 text-sm font-bold mb-2"
+                            >
+                                รอบการบันทึก</label
+                            >
+                            <Dropdown
+                                v-model="search.Round"
+                                :options="dropdown.Rounds"
+                                optionLabel="name"
+                                optionValue="id"
+                                placeholder="เลือกรอบการบันทึก"
+                                class="w-full"
+                                style="max-width: 900px"
+                                :showClear="true"
+                            />
+                        </div>
                     </div>
                 </div>
                 <!--  -->
@@ -687,6 +706,24 @@ export default {
                     { name: "ทุกประเภทสัตว์", id: 99 },
                     { name: "ยังไม่ได้เลือกชนิดสัตว์", id: 98 },
                 ],
+                Rounds: [
+                    {
+                        id: "1",
+                        name: "210 วัน",
+                    },
+                    {
+                        id: "2",
+                        name: "400 วัน",
+                    },
+                    {
+                        id: "3",
+                        name: "600 วัน",
+                    },
+                    {
+                        id: "4",
+                        name: "800 วัน",
+                    },
+                ],
             },
             search: {
                 // global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -702,6 +739,7 @@ export default {
                 OrganizationID: null,
                 FarmID: null,
                 FarmAnimalType: null,
+                Round: null,
             },
             status: [
                 { name: "เปิดใช้งาน", key: "A", value: 1 },
@@ -790,6 +828,11 @@ export default {
         }
     },
     watch: {
+        "search.Round"() {
+            if (this.search.FarmID != null) {
+                this.fetchThaiblack();
+            }
+        },
         "search.AIZoneID"(val) {
             if (val) {
                 this.search.OrganizationZoneID = null;
@@ -1427,6 +1470,10 @@ export default {
                 params["FarmID"] = this.search.FarmID;
             } else {
                 return;
+            }
+
+            if (this.search.Round) {
+                params["ThaiblackRound"] = Number(this.search.Round);
             }
 
             axios

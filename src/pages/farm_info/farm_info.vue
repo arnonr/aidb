@@ -1276,6 +1276,9 @@ export default {
                 }, 1000);
             }
         },
+        'displaytab'() {
+            this.load();
+        }
     },
     unmounted() {
         this.controller.abort();
@@ -2283,6 +2286,7 @@ export default {
             //   });
         },
     },
+    
 };
 </script>
 

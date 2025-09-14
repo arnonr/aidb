@@ -450,14 +450,12 @@ export default {
           this.search.FarmID = null;
           this.fetchProvince();
           this.fetchOrganization();
-        //   this.fetchAnimal();
           this.fetchFarm();
           this.dropdown.Amphurs = [];
           this.dropdown.Tumbols = [];
           this.search.ProvinceID = null;
           this.search.AmphurID = null;
           this.search.TumbolID = null;
-          //   this.search.OrganizationTypeID = null;
           this.isLoading = false;
         }, 1000);
       }
@@ -678,6 +676,10 @@ export default {
     fetchProvince() {
       //  Fetch Province
       let params = { includeAll: false };
+
+      if(this.search.AIZoneID == null && this.search.OrganizationZoneID == null) {
+        return;
+      }
 
       if (this.search.AIZoneID != null) {
         params["AIZoneID"] = this.search.AIZoneID;

@@ -543,15 +543,6 @@
 
                     <Column header="จัดการ" class="text-center">
                         <template #body="slotProps">
-                            <!-- <SplitButton
-                v-if="slotProps.data.show_id == total || this.user.GroupID == 1"
-                label="แก้ไข"
-                icon="pi pi-pencil"
-                @click="edit(slotProps.data.show_id - 1)"
-                class="p-button-sm p-button-outlined p-button-warning"
-                :model="getItems(slotProps.data.show_id - 1)"
-              >
-              </SplitButton> -->
                             <Button
                                 label="ดูข้อมูล"
                                 class="w-full md:w-auto"
@@ -561,76 +552,6 @@
                             />
                         </template>
                     </Column>
-
-                    <!--  <Column
-              field="AnimalName"
-              header="ชื่อโค"
-              class="text-center"
-              exportFooter="&#8203;"
-            ></Column>
-            <Column
-              field="pregnancyCheckup"
-              header="สถานะ"
-              :sortable="true"
-              class="text-center"
-              exportFooter="&#8203;"
-            ></Column>
-            <Column
-              field="FarmName"
-              header="ชื่อฟาร์ม"
-              :sortable="true"
-              class="text-center"
-              exportFooter="&#8203;"
-            ></Column>
-            <Column
-              field="AmphurName"
-              header="อำเภอ"
-              class="text-center"
-              exportFooter="&#8203;"
-              :sortable="true"
-            ></Column>
-            <Column
-              field="ProvinceName"
-              header="จังหวัด"
-              class="text-center"
-              exportFooter="&#8203;"
-              :sortable="true"
-            ></Column>
-            <Column
-              field="Par"
-              header="ท้องที่"
-              class="text-center"
-              exportFooter="&#8203;"
-              :sortable="true"
-            ></Column>
-            <Column
-              field="TimeNo"
-              header="ครั้งที่ผสม"
-              class="text-center"
-              exportFooter="&#8203;"
-              :sortable="true"
-            ></Column>
-            <Column
-              field="ThaiAIDate"
-              header="วันที่ผสม"
-              class="text-center"
-              exportFooter="&#8203;"
-              :sortable="true"
-            ></Column>
-            <Column
-              field="SemenNumber"
-              header="น้ำเชื้อ"
-              class="text-center"
-              exportFooter="&#8203;"
-              :sortable="true"
-            ></Column>
-            <Column
-              field="ResponsibilityStaffName"
-              header="เจ้าหน้าที่"
-              class="text-center"
-              exportFooter="&#8203;"
-              :sortable="true"
-            ></Column> -->
                     <template #empty> ไม่พบข้อมูล </template>
                     <template #loading>
                         <h1 class="text-white text-center">
@@ -1574,6 +1495,7 @@ export default {
 
         fetchReport() {
             //  Fetch Report
+            this.isLoading = true;
 
             this.locked1 = [];
             this.toggleLock({

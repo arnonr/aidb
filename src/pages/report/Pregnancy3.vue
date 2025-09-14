@@ -1507,6 +1507,7 @@ export default {
         },
 
         fetchReport() {
+            this.isLoading = true;
             //  Fetch Report
             let params = {};
 

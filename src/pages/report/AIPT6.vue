@@ -1600,6 +1600,7 @@ export default {
 
         fetchReport() {
             //  Fetch Report
+            this.isLoading = true;
 
             this.locked1 = [];
             this.toggleLock({

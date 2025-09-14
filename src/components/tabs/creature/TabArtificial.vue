@@ -106,13 +106,26 @@
                                 *</span
                             ></label
                         >
+                        <v-select
+                            v-model="data[index].ResponsibilityStaffID"
+                            :options="selection.Staff"
+                            @search="debouncedFetchSelectionStaffOptions"
+                            label="StaffFullName"
+                            value="StaffID"
+                            class="w-full"
+                            placeholder="เลือกรหัสเจ้าหน้าที่ผสมเทียม พิมพ์ 3 ตัวอักษรเพื่อค้นหา"
+                        ></v-select>
+
+
+                        <!-- 
                         <Dropdown
                             :show-clear="true"
                             :virtualScrollerOptions="{ itemSize: 38 }"
                             emptyMessage="ไม่มีข้อมูล"
                             emptyFilterMessage="ไม่พบข้อมูล"
                             class="w-full"
-                            placeholder="เลือกรหัสเจ้าหน้าที่ผสมเทียม"
+                            placeholder="เลือกรหัสเจ้าหน้าที่ผสมเทียม พิมพ์ 3 ตัวอักษรเพื่อค้นหา"
+                            @search="fetchSelectionStaff"
                             optionLabel="StaffFullName"
                             optionValue="StaffID"
                             v-model="data[index].ResponsibilityStaffID"
@@ -129,7 +142,7 @@
                                     !data[index].ResponsibilityStaffID && valid,
                             }"
                         >
-                        </Dropdown>
+                        </Dropdown> -->
                     </div>
 
                     <div class="col-12 lg:col-6">
@@ -1191,7 +1204,18 @@
                                 *</span
                             ></label
                         >
-                        <Dropdown
+
+                        <v-select
+                            v-model="data[index].ResponsibilityStaffID"
+                            :options="selection.Staff"
+                            @search="debouncedFetchSelectionStaffOptions"
+                            label="StaffFullName"
+                            value="StaffID"
+                            class="w-full"
+                            placeholder="เลือกรหัสเจ้าหน้าที่ผสมเทียม พิมพ์ 3 ตัวอักษรเพื่อค้นหา"
+                        ></v-select>
+
+                        <!-- <Dropdown
                             :show-clear="true"
                             :virtualScrollerOptions="{ itemSize: 38 }"
                             emptyMessage="ไม่มีข้อมูล"
@@ -1214,7 +1238,7 @@
                                     !data[index].ResponsibilityStaffID && valid,
                             }"
                         >
-                        </Dropdown>
+                        </Dropdown> -->
                     </div>
 
                     <div class="col-12 lg:col-6">
@@ -1534,6 +1558,7 @@ import Swal from "sweetalert2";
 import { setupCache } from "axios-cache-adapter";
 import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
+import { debounce } from "lodash";
 
 export default {
     components: {
@@ -1559,6 +1584,7 @@ export default {
 
     data() {
         return {
+            debouncedFetchSelectionStaffOptions: null,
             // API
             url: "/ai",
             // ID
@@ -1726,6 +1752,7 @@ export default {
         };
     },
     async mounted() {
+        await this.fetchAnimal();
         // console.log(this.user.Staff.StaffOrganizationID);
         // =============================================== //
         // สร้าง cache instance
@@ -1735,6 +1762,11 @@ export default {
         axios.create({
             adapter: this.cache.adapter,
         });
+
+        this.debouncedFetchSelectionStaffOptions = debounce(
+            this.fetchSelectionStaff,
+            500
+        );
 
         // =============================================== //
 
@@ -1772,6 +1804,36 @@ export default {
         }),
     },
     methods: {
+        fetchSelectionStaff(search) {
+            if (search.length < 3) {
+                this.selection.Staff = [];
+                return;
+            }
+            console.log("FREEDOM");
+            let params = {
+                size: 500000,
+                page: this.currentPage,
+                orderByField: "StaffID",
+                orderBy: "desc",
+                isActive: 1,
+                includeAll: false,
+                // includeAll: false,
+            };
+
+            params["StaffGivenName"] = search;
+
+            axios
+                .get("staff/selection", {
+                    signal: this.controller.signal,
+                    params: { ...params, size: undefined, page: 1 },
+                })
+                .then((res) => {
+                    this.selection.Staff = res.data.rows;
+                })
+                .finally(() => {
+                    this.isLoading = false;
+                });
+        },
         format(date) {
             const dayStart = date.getDate();
             const monthStart = date.getMonth();
@@ -1837,6 +1899,15 @@ export default {
                 return items;
             }
         },
+        async fetchAnimal() {
+            await axios
+                .get("/animal?AnimalID=" + this.AnimalID, {
+                    signal: this.controller.signal,
+                })
+                .then((res) => {
+                    this.data_animal = res.data.rows;
+                });
+        },
         // ตรวจสอบ AnimalBirthDate ภายใน 365 วัน
         async checkBirthDate() {
             var month = 0;
@@ -1851,18 +1922,9 @@ export default {
                 month = 6;
                 month_text = "6";
             }
-            await axios
-                .get("/animal?AnimalID=" + this.AnimalID, {
-                    signal: this.controller.signal,
-                })
-                .then((res) => {
-                    console.log(res.data.rows);
-                    // this.data_animal = res.data;
-                    this.data_animal = res.data.rows;
-                });
             if (
                 dayjs().diff(
-                    this.data_animal.rows[0].AnimalBirthDate,
+                    this.data_animal[0].AnimalBirthDate,
                     "month"
                 ) < month
             ) {
@@ -2009,17 +2071,10 @@ export default {
                     this.valid = true;
                     return false;
                 }
-
-                console.log(this.data[this.index]);
-                console.log(this.data_animal.rows);
-
                 const AIDate = dayjs(this.data[this.index].AIDate); // แปลงเป็น dayjs object
                 const AnimalBirthDate = dayjs(
-                    this.data[this.index].Animal.AnimalBirthDate
+                    this.data_animal[0].AnimalBirthDate
                 ); // แปลงเป็น dayjs object
-
-                console.log(AIDate);
-                console.log(AnimalBirthDate);
 
                 if (AIDate.isBefore(AnimalBirthDate)) {
                     this.$toast.add({
@@ -2066,15 +2121,17 @@ export default {
                                 this.LoadSelection[i] +
                                 "?ProjectLevel=AI&includeAll=false&isActive=1";
                         }
-
-                        if (this.LoadSelection[i] == "/staff") {
+                        if (
+                            this.LoadSelection[i] ==
+                            "/staff/selection?includeAll=false&isActive=1"
+                        ) {
                             this.LoadSelection[i] =
                                 this.LoadSelection[i] +
                                 "?StaffOrganizationID=" +
                                 this.user.Staff.StaffOrganizationID +
                                 "&includeAll=false&isActive=1";
                         }
-                        // console.log(555);
+
                         if (
                             this.LoadSelection[i] ==
                             "/semen/selection?includeAll=false&isActive=1"
@@ -2256,8 +2313,7 @@ export default {
         add() {
             this.isLoading = true;
             this.display_confirm_ma = false;
-
-            console.log("FREEDOM")
+            
 
             if (this.animal_id == 3) {
                 if (this.data[this.index].GoatAIMethodID == null) {
@@ -2304,7 +2360,7 @@ export default {
                 }
             }
 
-            console.log("FREEDOM1")
+            console.log(this.data[this.index]);
 
             if (
                 this.index == this.data.length - 1 &&
@@ -2312,10 +2368,12 @@ export default {
             ) {
                 //create data
 
-            console.log("FREEDOM2")
-
                 axios
-                    .post(this.url, this.data[this.index])
+                    .post(this.url, {
+                        ...this.data[this.index],
+                        ResponsibilityStaffID:
+                        this.data[this.index].ResponsibilityStaffID.StaffID,
+                    })
                     .then(() => {
                         this.checkMethod = 0;
                         setTimeout(() => {
@@ -2340,12 +2398,14 @@ export default {
             }
             // update data
             else if (this.index < this.data.length) {
-
-            console.log("FREEDOM3")
                 if (this.validation() == false) {
                     this.isLoading = false;
                     return;
                 }
+
+                // this.data[this.index].ResponsibilityStaffID = this.data[this.index].ResponsibilityStaffID.StaffID;
+                // console.log(this.data[this.index].ResponsibilityStaffID.StaffID);
+
                 delete this.data[this.index].Animal;
                 delete this.data[this.index].Staff;
                 delete this.data[this.index].Project;
@@ -2353,11 +2413,13 @@ export default {
                 delete this.data[this.index].BreederAnimal;
                 delete this.data[this.index].BCS;
                 delete this.data[this.index].show_id;
+
                 axios
-                    .put(
-                        this.url + "/" + this.data[this.index][this.id],
-                        this.data[this.index]
-                    )
+                    .put(this.url + "/" + this.data[this.index][this.id], {
+                        ...this.data[this.index],
+                        ResponsibilityStaffID:
+                            this.data[this.index].ResponsibilityStaffID.StaffID,
+                    })
                     .then(() => {
                         this.isLoading = false;
                         this.close();
@@ -2418,8 +2480,8 @@ export default {
                 AnimalID: this.AnimalID,
             });
             var animal = null;
-
-            this.data[this.index].ResponsibilityStaffID = this.user.StaffID;
+            console.log(this.user);
+            this.data[this.index].ResponsibilityStaffID = this.user.Staff;
             this.data[this.index].GoatAIMethodID = "AI";
             this.data[this.index].InseminationTime = 1;
             var date = null;
@@ -2497,6 +2559,20 @@ export default {
             this.index = id;
             this.formheader = "แก้ไข";
 
+            // staff
+            const checkHaveStaff = this.selection.Staff.find(
+                (item) =>
+                    item.StaffID == this.data[this.index].ResponsibilityStaffID
+            );
+
+            if (checkHaveStaff == undefined) {
+                this.selection.Staff.push(this.data[this.index].Staff);
+                this.data[this.index].ResponsibilityStaffID =
+                    this.data[this.index].Staff;
+            } else {
+                this.data[this.index].ResponsibilityStaffID = checkHaveStaff;
+            }
+
             this.temp = JSON.parse(JSON.stringify(this.data[this.index]));
             this.display = true;
         },
@@ -2526,7 +2602,10 @@ export default {
         },
     },
     unmounted() {
-        this.controller.abort();
+        this.controller.abort(); // ยกเลิก debounced function ถ้ามี
+        if (this.debouncedFetchSelectionStaffOptions) {
+            this.debouncedFetchSelectionStaffOptions.cancel();
+        }
     },
 };
 </script>

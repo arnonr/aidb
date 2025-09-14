@@ -533,7 +533,7 @@ export default {
         OrganizationID: null,
         FarmID: null,
       },
-      id: "VaccineActivityID",
+      id: "DistributionID",
       name: "คัดจำหน่าย",
       columns: [
         {

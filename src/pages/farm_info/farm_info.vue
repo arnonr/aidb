@@ -1845,8 +1845,8 @@ export default {
                 .get(this.url.Farm, {
                     signal: this.controller.signal,
                     params: {
-                        Fullname: "พัฒ",
-                        OrganizationZoneID: 1,
+                        Fullname: search,
+                        OrganizationZoneID: this.search.OrganizationZoneID,
                         orderBy: "desc",
                         // orderByField: "FarmID",
                         page: 1,

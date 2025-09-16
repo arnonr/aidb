@@ -113,7 +113,7 @@
                             label="StaffFullName"
                             value="StaffID"
                             class="w-full"
-                            placeholder="เลือกรหัสเจ้าหน้าที่ผสมเทียม พิมพ์ 3 ตัวอักษรเพื่อค้นหา"
+                            placeholder="พิมพ์ 3 ตัวอักษรเพื่อค้นหา"
                         ></v-select>
 
 
@@ -1809,7 +1809,7 @@ export default {
                 this.selection.Staff = [];
                 return;
             }
-            console.log("FREEDOM");
+            
             let params = {
                 size: 500000,
                 page: this.currentPage,
@@ -1820,7 +1820,7 @@ export default {
                 // includeAll: false,
             };
 
-            params["StaffGivenName"] = search;
+            params["SearchNumberAndName"] = search;
 
             axios
                 .get("staff/selection", {

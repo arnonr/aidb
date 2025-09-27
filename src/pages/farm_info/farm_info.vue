@@ -177,6 +177,23 @@
                     ></v-select>
                 </div>
 
+                <div class="col-12 sm:col-12 lg:col-12">
+                    <div class="text-sm text-red-500 text-center mb-2 mt-5">
+                        (โปรดระบุฟาร์มก่อนกดปุ่มค้นหา)
+                    </div>
+
+                    <Button
+                        @click="load"
+                        :disabled="
+                            search.FarmID == null
+                        "
+                        label="ค้นหา"
+                        icon=""
+                        style="width: 100%"
+                        class="mr-2 mb-3"
+                    />
+                </div>
+
                 <!-- <div class="col-12 sm:col-6 lg:col-6">
           <label
             for="FarmerFullName"
@@ -1243,15 +1260,15 @@ export default {
             }
         },
         "search.FarmID"() {
-            this.load();
-            //   this.loadAnimal();
+            // this.load();
+            // //   this.loadAnimal();
 
-            if (this.isLoading == false) {
-                this.isLoading = true;
-                setTimeout(() => {
-                    this.isLoading = false;
-                }, 1000);
-            }
+            // if (this.isLoading == false) {
+            //     this.isLoading = true;
+            //     setTimeout(() => {
+            //         this.isLoading = false;
+            //     }, 1000);
+            // }
         },
         "search.ProjectIDArray"() {
             //   this.fetchFarm();

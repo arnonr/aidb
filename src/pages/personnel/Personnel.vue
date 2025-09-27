@@ -529,6 +529,7 @@
                         header="จัดการ"
                         class="text-center"
                         exportFooter="&#8203;"
+                        v-if="isPermission()"
                     >
                         <template #body="slotProps">
                             <SplitButton
@@ -2893,6 +2894,7 @@ import axios from "axios";
 import PageTitle from "@/components/PageTitle.vue";
 // import store from "@/service/Vuex";
 import { mapGetters } from "vuex";
+import store from "@/service/Vuex";
 
 // import ExcelJS from "exceljs";
 
@@ -3224,6 +3226,16 @@ export default {
         "form.StaffTumbolID"() {},
     },
     methods: {
+        isPermission() {
+            if (
+                store.state.user.GroupID === 1 ||
+                store.state.user.GroupID === 2
+            ) {
+                return true;
+            } else {
+                return false;
+            }
+        },
         // format(date) {
         //   const dayStart = date.getDate();
         //   const monthStart = date.getMonth();
@@ -3867,11 +3879,9 @@ export default {
             // change data
             this.form.isActive = this.form.isActive.value;
 
-
-            if(this.form.StaffStatus != "ปฏิบัติงานอยู่") {
+            if (this.form.StaffStatus != "ปฏิบัติงานอยู่") {
                 this.form.isActive = 0;
-            } 
-
+            }
 
             axios
                 .put(this.url.editStaff + "/" + this.form.StaffID, this.form)

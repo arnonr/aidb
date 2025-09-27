@@ -93,9 +93,10 @@
         v-on:after-hide="clear()"
     >
         <div class="grid">
-            <div class="col-12">หมายเลขสัตว์ : {{ show.id }}</div>
-            <div class="col-12">ชื่อ : {{ show.name }}</div>
-            <div class="col-12">ฟาร์ม : {{ show.farm }}</div>
+            <div class="col-12 font-bold">หมายเลขสัตว์ : {{ show.id }}</div>
+            <div class="col-12 font-bold">ชื่อ : {{ show.name }}</div>
+            <div class="col-12 font-bold">ฟาร์ม : {{ show.farm }}</div>
+            <div class="col-12 font-bold">ท้องที่ : {{ data[index].PAR }}</div>
         </div>
         <form class="grid mt-2" v-if="animal_id == 3">
             <div class="col-12 lg:col-12">
@@ -115,7 +116,6 @@
                             class="w-full"
                             placeholder="พิมพ์ 3 ตัวอักษรเพื่อค้นหา"
                         ></v-select>
-
 
                         <!-- 
                         <Dropdown
@@ -1198,47 +1198,39 @@
         <form class="grid mt-2" v-else>
             <div class="col-12 lg:col-12">
                 <div class="grid">
+                   
+
+
+
                     <div class="col-12 lg:col-6">
                         <label class="block text-600 text-sm font-bold mb-2">
-                            รหัสเจ้าหน้าที่ผสมเทียม<span class="text-red-500">
-                                *</span
-                            ></label
+                            วันที่ผสม<span class="text-red-500"> *</span></label
                         >
 
-                        <v-select
-                            v-model="data[index].ResponsibilityStaffID"
-                            :options="selection.Staff"
-                            @search="debouncedFetchSelectionStaffOptions"
-                            label="StaffFullName"
-                            value="StaffID"
-                            class="w-full"
-                            placeholder="เลือกรหัสเจ้าหน้าที่ผสมเทียม พิมพ์ 3 ตัวอักษรเพื่อค้นหา"
-                        ></v-select>
-
-                        <!-- <Dropdown
-                            :show-clear="true"
-                            :virtualScrollerOptions="{ itemSize: 38 }"
-                            emptyMessage="ไม่มีข้อมูล"
-                            emptyFilterMessage="ไม่พบข้อมูล"
-                            class="w-full"
-                            placeholder="เลือกรหัสเจ้าหน้าที่ผสมเทียม"
-                            optionLabel="StaffFullName"
-                            optionValue="StaffID"
-                            v-model="data[index].ResponsibilityStaffID"
-                            :options="selection.Staff"
-                            :filterFields="[
-                                'StaffNumber',
-                                'StaffGivenName',
-                                'StaffSurname',
-                            ]"
-                            :filter="true"
-                            filterPlaceholder="รหัสเจ้าหน้าที่ผสมเทียม"
+                        <Datepicker
+                            v-model="data[index].AIDate"
                             :class="{
-                                'p-invalid':
-                                    !data[index].ResponsibilityStaffID && valid,
+                                'p-invalid': !data[index].AIDate && valid,
                             }"
+                            id="dateRange"
+                            locale="th"
+                            :format="format"
+                            utc
+                            :enableTimePicker="false"
+                            :maxDate="new Date()"
+                            cancelText="ยกเลิก"
+                            selectText="ยืนยัน"
+                            autoApply
+                            @update:model-value="date()"
+                            placeholder="วันที่ผสม"
                         >
-                        </Dropdown> -->
+                            <template #year-overlay-value="{ text }">
+                                {{ parseInt(text) + 543 }}
+                            </template>
+                            <template #year="{ year }">
+                                {{ year + 543 }}
+                            </template>
+                        </Datepicker>
                     </div>
 
                     <div class="col-12 lg:col-6">
@@ -1262,6 +1254,38 @@
                                     !data[index].GoatAIMethodID && valid,
                             }"
                         />
+                    </div>
+
+                    <div class="col-12 lg:col-6">
+                        <label class="block text-600 text-sm font-bold mb-2">
+                            ประมาณการวันคลอด</label
+                        >
+                        <Datepicker
+                            v-model="data[index].EstimateBirthDate"
+                            :class="{
+                                'p-invalid':
+                                    !data[index].EstimateBirthDate && valid,
+                            }"
+                            id="dateRange"
+                            locale="th"
+                            :format="format"
+                            utc
+                            :enableTimePicker="false"
+                            :maxDate="new Date()"
+                            cancelText="ยกเลิก"
+                            selectText="ยืนยัน"
+                            @update:model-value="date()"
+                            placeholder="ประมาณการ"
+                            readonly
+                            autoApply
+                        >
+                            <template #year-overlay-value="{ text }">
+                                {{ parseInt(text) + 543 }}
+                            </template>
+                            <template #year="{ year }">
+                                {{ year + 543 }}
+                            </template>
+                        </Datepicker>
                     </div>
 
                     <div
@@ -1327,82 +1351,7 @@
                             class="w-full"
                         />
                     </div>
-
-                    <div class="col-12 lg:col-6">
-                        <label class="block text-600 text-sm font-bold mb-2">
-                            วันที่ผสม<span class="text-red-500"> *</span></label
-                        >
-
-                        <!-- <Calendar
-              :showIcon="true"
-              :manualInput="false"
-              :maxDate="new Date()"
-              v-model="data[index].AIDate"
-              dateFormat="dd/mm/yy"
-              class="w-full"
-              @update:model-value="date()"
-              :class="{
-                'p-invalid': !data[index].AIDate && valid,
-              }"
-            /> -->
-
-                        <Datepicker
-                            v-model="data[index].AIDate"
-                            :class="{
-                                'p-invalid': !data[index].AIDate && valid,
-                            }"
-                            id="dateRange"
-                            locale="th"
-                            :format="format"
-                            utc
-                            :enableTimePicker="false"
-                            :maxDate="new Date()"
-                            cancelText="ยกเลิก"
-                            selectText="ยืนยัน"
-                            autoApply
-                            @update:model-value="date()"
-                            placeholder="วันที่ผสม"
-                        >
-                            <template #year-overlay-value="{ text }">
-                                {{ parseInt(text) + 543 }}
-                            </template>
-                            <template #year="{ year }">
-                                {{ year + 543 }}
-                            </template>
-                        </Datepicker>
-                    </div>
-                    <div class="col-12 lg:col-6">
-                        <label class="block text-600 text-sm font-bold mb-2">
-                            ประมาณการวันคลอด</label
-                        >
-                        <Datepicker
-                            v-model="data[index].EstimateBirthDate"
-                            :class="{
-                                'p-invalid':
-                                    !data[index].EstimateBirthDate && valid,
-                            }"
-                            id="dateRange"
-                            locale="th"
-                            :format="format"
-                            utc
-                            :enableTimePicker="false"
-                            :maxDate="new Date()"
-                            cancelText="ยกเลิก"
-                            selectText="ยืนยัน"
-                            @update:model-value="date()"
-                            placeholder="ประมาณการ"
-                            readonly
-                            autoApply
-                        >
-                            <template #year-overlay-value="{ text }">
-                                {{ parseInt(text) + 543 }}
-                            </template>
-                            <template #year="{ year }">
-                                {{ year + 543 }}
-                            </template>
-                        </Datepicker>
-                    </div>
-                    <div class="col-12 lg:col-6">
+                    <!-- <div class="col-12 lg:col-6">
                         <label class="block text-600 text-sm font-bold mb-2">
                             ท้องที่<span class="text-red-500"> *</span></label
                         >
@@ -1414,7 +1363,7 @@
                                 'p-invalid': !data[index].PAR && valid,
                             }"
                         />
-                    </div>
+                    </div> -->
 
                     <div class="col-12 lg:col-6">
                         <label class="block text-600 text-sm font-bold mb-2">
@@ -1429,6 +1378,21 @@
                             :class="{
                                 'p-invalid': !data[index].TimeNo && valid,
                             }"
+                        />
+                    </div>
+                    <div class="col-12 lg:col-6">
+                        <label class="block text-600 text-sm font-bold mb-2">
+                            คะแนนร่างกาย</label
+                        >
+                        <Dropdown
+                            emptyMessage="ไม่มีข้อมูล"
+                            emptyFilterMessage="ไม่พบข้อมูล"
+                            class="w-full"
+                            placeholder="เลือกคะแนนร่างกาย"
+                            optionLabel="BCSName"
+                            optionValue="BCSID"
+                            v-model="data[index].BCSID"
+                            :options="selection.BCS"
                         />
                     </div>
                     <div class="col-12 lg:col-6">
@@ -1451,18 +1415,20 @@
                     </div>
                     <div class="col-12 lg:col-6">
                         <label class="block text-600 text-sm font-bold mb-2">
-                            คะแนนร่างกาย</label
+                            รหัสเจ้าหน้าที่ผสมเทียม<span class="text-red-500">
+                                *</span
+                            ></label
                         >
-                        <Dropdown
-                            emptyMessage="ไม่มีข้อมูล"
-                            emptyFilterMessage="ไม่พบข้อมูล"
+
+                        <v-select
+                            v-model="data[index].ResponsibilityStaffID"
+                            :options="selection.Staff"
+                            @search="debouncedFetchSelectionStaffOptions"
+                            label="StaffFullName"
+                            value="StaffID"
                             class="w-full"
-                            placeholder="เลือกคะแนนร่างกาย"
-                            optionLabel="BCSName"
-                            optionValue="BCSID"
-                            v-model="data[index].BCSID"
-                            :options="selection.BCS"
-                        />
+                            placeholder="เลือกรหัสเจ้าหน้าที่ผสมเทียม พิมพ์ 3 ตัวอักษรเพื่อค้นหา"
+                        ></v-select>
                     </div>
                 </div>
             </div>
@@ -1809,7 +1775,7 @@ export default {
                 this.selection.Staff = [];
                 return;
             }
-            
+
             let params = {
                 size: 500000,
                 page: this.currentPage,
@@ -1923,10 +1889,8 @@ export default {
                 month_text = "6";
             }
             if (
-                dayjs().diff(
-                    this.data_animal[0].AnimalBirthDate,
-                    "month"
-                ) < month
+                dayjs().diff(this.data_animal[0].AnimalBirthDate, "month") <
+                month
             ) {
                 await Swal.fire({
                     title: `อายุน้อยกว่า ${month_text} เดือน ต้องการบันทึกผสมเทียมหรือไม่`,
@@ -2313,7 +2277,6 @@ export default {
         add() {
             this.isLoading = true;
             this.display_confirm_ma = false;
-            
 
             if (this.animal_id == 3) {
                 if (this.data[this.index].GoatAIMethodID == null) {
@@ -2372,7 +2335,7 @@ export default {
                     .post(this.url, {
                         ...this.data[this.index],
                         ResponsibilityStaffID:
-                        this.data[this.index].ResponsibilityStaffID.StaffID,
+                            this.data[this.index].ResponsibilityStaffID.StaffID,
                     })
                     .then(() => {
                         this.checkMethod = 0;

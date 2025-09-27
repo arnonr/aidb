@@ -988,14 +988,16 @@ export default {
           this.noti[2].AnimalID = response.data.noti.noti3Animal;
           this.noti[3].alert = response.data.noti.noti4;
           this.noti[3].AnimalID = response.data.noti.noti4Animal;
-          this.noti[4].alert = response.data.noti.noti5;
-          this.noti[4].AnimalID = response.data.noti.noti5Animal;
-          this.noti[5].alert = response.data.noti.noti6;
-          this.noti[5].AnimalID = response.data.noti.noti6Animal;
-          this.noti[6].alert = response.data.noti.noti7;
-          this.noti[6].AnimalID = response.data.noti.noti7Animal;
-          this.noti[7].alert = response.data.noti.noti8;
-          this.noti[7].AnimalID = response.data.noti.noti8Animal;
+          this.noti[4].alert = response.data.noti.noti4;
+          this.noti[4].AnimalID = response.data.noti.noti4Animal;
+          this.noti[5].alert = response.data.noti.noti5;
+          this.noti[5].AnimalID = response.data.noti.noti5Animal;
+          this.noti[6].alert = response.data.noti.noti6;
+          this.noti[6].AnimalID = response.data.noti.noti6Animal;
+          this.noti[7].alert = response.data.noti.noti7;
+          this.noti[7].AnimalID = response.data.noti.noti7Animal;
+          this.noti[8].alert = response.data.noti.noti8;
+          this.noti[8].AnimalID = response.data.noti.noti8Animal;
           for (let i in this.noti) {
             if (this.noti[i].alert == null) {
               this.noti[i].alert = 0;

@@ -382,6 +382,13 @@
             exportFooter="&#8203;"
             :sortable="true"
           ></Column>
+           <Column
+            field="total"
+            header="จำนวนวันหลังผสม"
+            class="text-center"
+            exportFooter="&#8203;"
+            :sortable="true"
+          ></Column>
           <Column
             field="total"
             header="น้ำเชื้อ"
@@ -392,13 +399,6 @@
           <Column
             field="total"
             header="เจ้าหน้าที่"
-            class="text-center"
-            exportFooter="&#8203;"
-            :sortable="true"
-          ></Column>
-           <Column
-            field="total"
-            header="จำนวนวันหลังผสม"
             class="text-center"
             exportFooter="&#8203;"
             :sortable="true"

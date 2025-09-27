@@ -82,11 +82,6 @@
             :sortable="true"
           ></Column>
           <Column
-            field="ThaiAIDateDiff"
-            header="จำนวนวันหลังผสม"
-            :sortable="true"
-          ></Column>
-          <Column
             field="TimeNo"
             header="ครั้งที่ผสม"
             class="text-center"
@@ -95,6 +90,11 @@
           <Column
             field="ThaiAIDate"
             header="วันที่ผสม"
+            :sortable="true"
+          ></Column>
+          <Column
+            field="ThaiAIDateDiff"
+            header="จำนวนวันหลังผสม"
             :sortable="true"
           ></Column>
           <Column

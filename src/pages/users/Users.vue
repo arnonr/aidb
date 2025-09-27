@@ -329,7 +329,7 @@
                       @click="edit()"
                     />
                     <Button
-                      v-if="item.label == 'ลบ'"
+                      v-if="item.label == 'ปิดการใช้งาน'"
                       :label="item.label"
                       :icon="item.icon"
                       class="p-button-text w-full text-left"
@@ -563,7 +563,7 @@
         <i class="pi pi-trash" style="font-size: 5rem" />
         <br />
         <span class="text-xl"
-          >คุณต้องการลบ{{ name }}ลำดับที่
+          >คุณต้องการปิดการใช้งาน{{ name }}ลำดับที่
           {{ data[index].show_id }} ใช่หรือไม่</span
         >
       </div>
@@ -1413,7 +1413,7 @@ export default {
           icon: "pi pi-pencil",
         },
         {
-          label: "ลบ",
+          label: "ปิดการใช้งาน",
           icon: "pi pi-times",
         },
       ],
@@ -2307,7 +2307,7 @@ export default {
     // remove data
     remove() {
       axios
-        .delete(this.url.user + "/" + this.data[this.index][this.id])
+        .put(this.url.user + "/" + this.data[this.index][this.id], { isActive: 0 })
         .then(() => {
           this.close_delete();
           this.load();

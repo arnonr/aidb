@@ -374,6 +374,7 @@
                 <div class="grid align-items-center">
                     <div class="col-12">
                         <div class="grid" v-if="isLoading == false">
+                      
                             <div
                                 v-for="item in noti"
                                 :key="item.id"
@@ -976,7 +977,6 @@ export default {
                     params: params,
                 })
                 .then(async (response) => {
-                    console.log(response.data);
 
                     let check1 = this.noti.find((x) => {
                         return x.id == 1;
@@ -1076,8 +1076,9 @@ export default {
                     //     }
                     //   }
                     this.sortby = "desc";
-
-                    this.isLoading = false;
+                    setTimeout(() => {
+                        this.isLoading = false;
+                    }, 1000);
                 });
         },
         setAlert_AnimalID(id, title, name) {

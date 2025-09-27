@@ -1,5 +1,5 @@
 <template>
-    <router-link to="/activity/daily-alert/show">
+    <router-link to="/activity/daily-alert/show" target="_blank">
         <div class="list-alert grid align-items-center pl-2 xl:pl-8 pr-2 md:pr-3 py-3 border-round-3xl">
             <div class="col-12 sm:col-8">
                 <div class="flex justify-content-start align-items-center">
@@ -15,10 +15,10 @@
                     <span class="text-base text-indigo-800">
                         <Tag :value="alert" icon="pi pi-bell pr-1" class="bg-red-50 text-red-500 font-bold text-base">
                         </Tag>
-                        <span class="inline ml-2 text-sm">การแจ้งเตือน</span>
+                        <span class="inline ml-2 text-lg">การแจ้งเตือน</span>
                     </span>
-                    <Button icon="pi pi-eye" class="p-button-rounded p-button-text p-button-sm" />
-                </div>
+                    <Button icon="pi pi-eye" class="p-button-rounded p-button-text p-button-lg" />
+                </div>  
             </div>
         </div>
     </router-link>

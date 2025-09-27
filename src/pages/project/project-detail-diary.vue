@@ -228,11 +228,15 @@
                                 for="searchSubDistrict"
                                 class="block text-600 text-sm font-bold mb-2"
                             >
-                            ฟาร์ม (โปรดระบุศูนย์วิจัยหรือเขตพื้นที่ปศุสัตว์ก่อนเลือกฟาร์ม)</label
+                                ฟาร์ม
+                                (โปรดระบุศูนย์วิจัยหรือเขตพื้นที่ปศุสัตว์ก่อนเลือกฟาร์ม)</label
                             >
                             <v-select
                                 v-model="search.FarmID"
-                                :disabled="search.OrganizationZoneID == null && search.AIZoneID == null"
+                                :disabled="
+                                    search.OrganizationZoneID == null &&
+                                    search.AIZoneID == null
+                                "
                                 :options="dropdown.Farms"
                                 @search="fetchFarm"
                                 label="Fullname"
@@ -369,7 +373,7 @@
                 </div>
                 <div class="grid align-items-center">
                     <div class="col-12">
-                        <div class="grid">
+                        <div class="grid" v-if="isLoading == false">
                             <div
                                 v-for="item in noti"
                                 :key="item.id"
@@ -408,6 +412,18 @@
                     )
                   "
                 /> -->
+                            </div>
+                        </div>
+                        <div
+                            class="grid align-items-center"
+                            v-if="isLoading == true"
+                        >
+                            <div class="col-12">
+                                <div class="grid">
+                                    <div class="col-12">
+                                        <div class="loading"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -898,10 +914,10 @@ export default {
             let params = {
                 ...this.params,
                 size: undefined,
-                page: 1,
-                orderByField: "FarmID",
-                orderBy: "desc",
-                // includeAll: false,
+                // page: 1,
+                // orderByField: "FarmID",
+                // orderBy: "desc",
+                includeAll: false,
             };
 
             if (this.search.FarmAnimalType == null) {
@@ -998,7 +1014,6 @@ export default {
                     check6.alert = response.data.noti.noti6;
                     check6.AnimalID = response.data.noti.noti6Animal;
 
-
                     let check7 = this.noti.find((x) => {
                         return x.id == 7;
                     });
@@ -1026,7 +1041,6 @@ export default {
                     // this.noti[0].alert = await response.data.noti.noti1;
                     // this.noti[0].AnimalID = await response.data.noti
                     //     .noti1Animal;
-
 
                     // this.noti[1].alert = await response.data.noti.noti2;
                     // this.noti[1].AnimalID = await response.data.noti
@@ -1414,3 +1428,63 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+/* CSS สำหรับ preloader ที่มีรูปแบบเดียวกับ datatable */
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem 1rem;
+    min-height: 200px;
+    position: relative;
+}
+
+.loading::before {
+    content: "";
+    width: 3rem;
+    height: 3rem;
+    border: 3px solid #e9ecef;
+    border-top: 3px solid var(--primary-color);
+    border-radius: 50%;
+    animation: datatable-spin 1s linear infinite;
+}
+
+@keyframes datatable-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* ตัวเลือกเพิ่มเติม: ใช้ PrimeIcons แทน */
+.loading.with-icon::before {
+    content: "";
+    border: none;
+    width: 2rem;
+    height: 2rem;
+    background: none;
+    font-family: "primeicons";
+    font-size: 2rem;
+    color: var(--primary-color);
+    animation: datatable-spin 1s linear infinite;
+}
+
+/* ตัวเลือก: ใช้ ProgressSpinner style */
+.loading.progress-style {
+    background: transparent;
+}
+
+.loading.progress-style::before {
+    content: "";
+    width: 2rem;
+    height: 2rem;
+    border: 2px solid #e9ecef;
+    border-top: 2px solid var(--primary-color);
+    border-right: 2px solid var(--primary-color);
+    border-radius: 50%;
+    animation: datatable-spin 1s linear infinite;
+}
+</style>

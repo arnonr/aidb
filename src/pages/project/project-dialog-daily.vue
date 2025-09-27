@@ -8,7 +8,7 @@
           <div class="grid align-items-center mb-6 xl:px-8">
             <div class="col-12 md:col-6 xl:col-8">
               <h1 class="text-2xl sm:text-4xl mb-0 text-indigo-800 font-semibold">
-                แจ้งเตือนเหตุการณ์รายวัน
+                แจ้งเตือนเหตุการณ์รายวัน3
               </h1>
             </div>
             <div class="col-12 md:col-6 xl:col-4">

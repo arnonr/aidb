@@ -226,7 +226,7 @@
             />
           </div>
         </div>
-        <div class="grid align-items-center">
+        <div class="grid align-items-center" v-if="isLoading == false">
           <div class="col-12">
             <div class="grid">
               <div
@@ -267,6 +267,15 @@
                     )
                   "
                 />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="grid align-items-center" v-if="isLoading == true">
+          <div class="col-12">
+            <div class="grid">
+              <div class="col-12">
+                <div class="loading"></div>
               </div>
             </div>
           </div>
@@ -444,7 +453,7 @@ export default {
         this.isSelectOrganizationZoneDisabled = false;
       }
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.search.OrganizationID = null;
           this.search.FarmID = null;
@@ -456,7 +465,7 @@ export default {
           this.search.ProvinceID = null;
           this.search.AmphurID = null;
           this.search.TumbolID = null;
-          this.isLoading = false;
+        //   this.isLoading = false;
         }, 1000);
       }
     },
@@ -470,7 +479,7 @@ export default {
         this.isSelectOrganizationZoneDisabled = false;
       }
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.fetchProvince();
           this.fetchOrganization();
@@ -481,7 +490,7 @@ export default {
           //   this.search.OrganizationTypeID = null;
           this.search.OrganizationID = null;
           this.search.FarmID = null;
-          this.isLoading = false;
+        //   this.isLoading = false;
         }, 1000);
       }
     },
@@ -491,14 +500,14 @@ export default {
     //   this.fetchAnimal();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.search.AmphurID = null;
           this.search.TumbolID = null;
           //   this.search.OrganizationTypeID = null;
           this.search.OrganizationID = null;
           this.search.FarmID = null;
-          this.isLoading = false;
+        //   this.isLoading = false;
         }, 1000);
       }
     },
@@ -508,13 +517,13 @@ export default {
     //   this.fetchAnimal();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.search.TumbolID = null;
           //   this.search.OrganizationTypeID = null;
           this.search.OrganizationID = null;
           this.search.FarmID = null;
-          this.isLoading = false;
+        //   this.isLoading = false;
         }, 1000);
       }
     },
@@ -523,11 +532,11 @@ export default {
     //   this.fetchAnimal();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.search.OrganizationID = null;
           this.search.FarmID = null;
-          this.isLoading = false;
+        //   this.isLoading = false;
         }, 1000);
       }
     },
@@ -535,11 +544,11 @@ export default {
       this.fetchOrganization();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.search.OrganizationID = null;
           this.search.FarmID = null;
-          this.isLoading = false;
+        //   this.isLoading = false;
         }, 1000);
       }
     },
@@ -547,28 +556,28 @@ export default {
     //   this.fetchAnimal();
 
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
           this.search.FarmID = null;
-          this.isLoading = false;
+        //   this.isLoading = false;
         }, 1000);
       }
     },
     "search.FarmID"() {
     //   this.fetchAnimal();
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
-          this.isLoading = false;
+        //   this.isLoading = false;
         }, 1000);
       }
     },
     "search.ProjectIDArray"() {
     //   this.fetchAnimal();
       if (this.isLoading == false) {
-        this.isLoading = true;
+        // this.isLoading = true;
         setTimeout(() => {
-          this.isLoading = false;
+        //   this.isLoading = false;
         }, 1000);
       }
     },
@@ -603,7 +612,7 @@ export default {
   },
   methods: {
     loadDefault() {
-      this.isLoading = true;
+    //   this.isLoading = true;
       this.fetchAIZone();
       this.fetchOrganizationZone();
       this.fetchProject();
@@ -631,7 +640,7 @@ export default {
           this.dropdown.AIZones = res.data.rows;
         })
         .finally(() => {
-          this.isLoading = false;
+        //   this.isLoading = false;
         });
     },
     fetchOrganizationZone() {
@@ -646,7 +655,7 @@ export default {
           this.dropdown.OrganizationZones = res.data.rows;
         })
         .finally(() => {
-          this.isLoading = false;
+        //   this.isLoading = false;
         });
     },
     fetchProject() {
@@ -669,7 +678,7 @@ export default {
           this.dropdown.Projects = res.data.rows;
         })
         .finally(() => {
-          this.isLoading = false;
+        //   this.isLoading = false;
           this.loader = true;
         });
     },
@@ -703,7 +712,7 @@ export default {
           this.dropdown.Provinces = res.data.rows;
         })
         .finally(() => {
-          this.isLoading = false;
+        //   this.isLoading = false;
           this.loader = true;
         });
     },
@@ -731,7 +740,7 @@ export default {
           this.dropdown.Amphurs = res.data.rows;
         })
         .finally(() => {
-          this.isLoading = false;
+        //   this.isLoading = false;
           this.loader = true;
         });
     },
@@ -759,7 +768,7 @@ export default {
           this.dropdown.Tumbols = res.data.rows;
         })
         .finally(() => {
-          this.isLoading = false;
+        //   this.isLoading = false;
           this.loader = true;
         });
     },
@@ -775,7 +784,7 @@ export default {
           this.dropdown.OrganizationTypes = res.data.rows;
         })
         .finally(() => {
-          this.isLoading = false;
+        //   this.isLoading = false;
           this.loader = true;
         });
     },
@@ -829,7 +838,7 @@ export default {
           });
         })
         .finally(() => {
-          this.isLoading = false;
+        //   this.isLoading = false;
           this.loader = true;
         });
     },
@@ -905,11 +914,13 @@ export default {
           });
         })
         .finally(() => {
-          this.isLoading = false;
+        //   this.isLoading = false;
           this.loader = true;
         });
     },
     async fetchAnimal() {
+
+      this.isLoading = true;
       if (
         this.search.AIZoneID == null &&
         this.search.OrganizationZoneID == null
@@ -992,6 +1003,8 @@ export default {
           }
           this.sortby = "desc";
         });
+
+        this.isLoading = false;
     },
 
     setAlert_AnimalID(id, title, name) {
@@ -1005,3 +1018,64 @@ export default {
   },
 };
 </script>
+
+
+<style scoped>
+/* CSS สำหรับ preloader ที่มีรูปแบบเดียวกับ datatable */
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 1rem;
+  min-height: 200px;
+  position: relative;
+}
+
+.loading::before {
+  content: '';
+  width: 3rem;
+  height: 3rem;
+  border: 3px solid #e9ecef;
+  border-top: 3px solid var(--primary-color);
+  border-radius: 50%;
+  animation: datatable-spin 1s linear infinite;
+}
+
+@keyframes datatable-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ตัวเลือกเพิ่มเติม: ใช้ PrimeIcons แทน */
+.loading.with-icon::before {
+  content: '';
+  border: none;
+  width: 2rem;
+  height: 2rem;
+  background: none;
+  font-family: 'primeicons';
+  font-size: 2rem;
+  color: var(--primary-color);
+  animation: datatable-spin 1s linear infinite;
+}
+
+/* ตัวเลือก: ใช้ ProgressSpinner style */
+.loading.progress-style {
+  background: transparent;
+}
+
+.loading.progress-style::before {
+  content: '';
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid #e9ecef;
+  border-top: 2px solid var(--primary-color);
+  border-right: 2px solid var(--primary-color);
+  border-radius: 50%;
+  animation: datatable-spin 1s linear infinite;
+}
+</style>

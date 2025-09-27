@@ -158,46 +158,22 @@
         :modal="true"
         v-on:after-hide="clear()"
     >
+        <div class="grid">
+            <div class="col-12 font-bold">หมายเลขสัตว์ : {{ show.id }}</div>
+            <div class="col-12 font-bold">ชื่อ : {{ show.name }}</div>
+            <div class="col-12 font-bold">ฟาร์ม : {{ show.farm }}</div>
+            <div class="col-12 font-bold">วันที่ผสม : {{ show.ThaiAIDate }}</div>
+            <div class="col-12 font-bold">ท้องที่ : {{ data[index].PAR }}</div>
+        </div>
         <form class="grid mt-2">
             <div class="col-12 lg:col-12">
                 <div class="grid">
-                    <div class="col-12 lg:col-6">
-                        <label class="block text-600 text-sm font-bold mb-2">
-                            รหัสเจ้าหน้าที่ผสมเทียม<span class="text-red-500">
-                                *</span
-                            ></label
-                        >
-                        <Dropdown
-                            :virtualScrollerOptions="{ itemSize: 38 }"
-                            emptyMessage="ไม่มีข้อมูล"
-                            emptyFilterMessage="ไม่พบข้อมูล"
-                            class="w-full"
-                            placeholder="เลือกรหัสเจ้าหน้าที่ผสมเทียม"
-                            optionLabel="StaffFullName"
-                            optionValue="StaffID"
-                            v-model="data[index].ResponsibilityStaffID"
-                            :options="selection.Staff"
-                            :filterFields="[
-                                'StaffNumber',
-                                'StaffGivenName',
-                                'StaffSurname',
-                            ]"
-                            :filter="true"
-                            filterPlaceholder="รหัสเจ้าหน้าที่ผสมเทียม"
-                            :class="{
-                                'p-invalid':
-                                    !data[index].ResponsibilityStaffID && valid,
-                            }"
-                        >
-                        </Dropdown>
-                    </div>
+                   
 
-                    <div class="col-12 lg:col-6">
+                    <!-- <div class="col-12 lg:col-6">
                         <label class="block text-600 text-sm font-bold mb-2">
                             วันที่ผสม</label
                         >
-                        <!-- <InputText v-model="show.date" class="w-full" :disabled="true" /> -->
-
                         <Datepicker
                             v-model="show.date"
                             id="dateRange"
@@ -219,15 +195,11 @@
                                 {{ year + 543 }}
                             </template>
                         </Datepicker>
-                    </div>
-                    <div class="col-12 lg:col-6">
+                    </div> -->
+                    <!-- <div class="col-12 lg:col-6">
                         <label class="block text-600 text-sm font-bold mb-2">
                             ท้องที่</label
                         >
-                        <!-- <InputText
-              class="w-full"
-              :disabled="disabledPar"
-            /> -->
                         <InputNumber
                             v-model="data[index].PAR"
                             :max="limitPar"
@@ -236,50 +208,46 @@
                             :disabled="disabledPar"
                             class="w-full"
                         />
-                    </div>
+                    </div> -->
+
 
                     <div class="col-12 lg:col-6">
                         <label class="block text-600 text-sm font-bold mb-2">
-                            จำนวนที่คลอด (ตัว)<span class="text-red-500">
-                                *</span
+                            วันที่คลอด<span>
+                                ({{
+                                    AnimalID == 1
+                                        ? "ระยะห่างจากวันที่คลอดครั้งล่าสุด > 280 วัน"
+                                        : AnimalID == 2
+                                        ? "ระยะห่างจากวันที่คลอดครั้งล่าสุด > 280 วัน"
+                                        : "ระยะห่างจากวันที่คลอดครั้งล่าสุด > 180 วัน"
+                                }})*</span
                             ></label
                         >
-                        <InputNumber
-                            :min="1"
-                            v-model="data[index].Amount"
-                            class="w-full"
+                        <Datepicker
+                            v-model="data[index].GiveBirthDate"
                             :class="{
-                                'p-invalid': !data[index].Amount && valid,
+                                'p-invalid':
+                                    !data[index].GiveBirthDate && valid,
                             }"
-                        />
-                    </div>
-                    <div class="col-12 lg:col-6">
-                        <label class="block text-600 text-sm font-bold mb-2">
-                            จำนวนเพศผู้ (ตัว)<span class="text-red-500">
-                                *</span
-                            ></label
+                            id="dateRange"
+                            locale="th"
+                            :format="format"
+                            utc
+                            :enableTimePicker="false"
+                            :maxDate="new Date()"
+                            cancelText="ยกเลิก"
+                            selectText="ยืนยัน"
+                            placeholder="วันที่คลอด"
+                            autoApply
                         >
-                        <InputNumber
-                            :max="data[index].Amount - data[index].Female"
-                            :min="0"
-                            showButtons
-                            v-model="data[index].Male"
-                            class="w-full"
-                        />
-                    </div>
-                    <div class="col-12 lg:col-6">
-                        <label class="block text-600 text-sm font-bold mb-2">
-                            จำนวนเพศเมีย (ตัว)<span class="text-red-500">
-                                *</span
-                            ></label
-                        >
-                        <InputNumber
-                            :max="data[index].Amount - data[index].Male"
-                            :min="0"
-                            showButtons
-                            v-model="data[index].Female"
-                            class="w-full"
-                        />
+                            <template #year-overlay-value="{ text }">
+                                {{ parseInt(text) + 543 }}
+                            </template>
+                            <template #year="{ year }">
+                                {{ year + 543 }}
+                            </template>
+                        </Datepicker>
+                        <span>{{ this.textBirth }}</span>
                     </div>
 
                     <div class="col-12 lg:col-6">
@@ -324,44 +292,54 @@
                             }"
                         />
                     </div>
+
                     <div class="col-12 lg:col-6">
                         <label class="block text-600 text-sm font-bold mb-2">
-                            วันที่คลอด<span>
-                                ({{
-                                    AnimalID == 1
-                                        ? "ระยะห่างจากวันที่คลอดครั้งล่าสุด > 280 วัน"
-                                        : AnimalID == 2
-                                        ? "ระยะห่างจากวันที่คลอดครั้งล่าสุด > 280 วัน"
-                                        : "ระยะห่างจากวันที่คลอดครั้งล่าสุด > 180 วัน"
-                                }})*</span
+                            จำนวนที่คลอด (ตัว)<span class="text-red-500">
+                                *</span
                             ></label
                         >
-                        <Datepicker
-                            v-model="data[index].GiveBirthDate"
+                        <InputNumber
+                            :min="1"
+                            :max="3"
+                            v-model="data[index].Amount"
+                            class="w-full"
                             :class="{
-                                'p-invalid':
-                                    !data[index].GiveBirthDate && valid,
+                                'p-invalid': !data[index].Amount && valid,
                             }"
-                            id="dateRange"
-                            locale="th"
-                            :format="format"
-                            utc
-                            :enableTimePicker="false"
-                            :maxDate="new Date()"
-                            cancelText="ยกเลิก"
-                            selectText="ยืนยัน"
-                            placeholder="วันที่คลอด"
-                            autoApply
-                        >
-                            <template #year-overlay-value="{ text }">
-                                {{ parseInt(text) + 543 }}
-                            </template>
-                            <template #year="{ year }">
-                                {{ year + 543 }}
-                            </template>
-                        </Datepicker>
-                        <span>{{ this.textBirth }}</span>
+                            
+                        />
                     </div>
+                    <div class="col-12 lg:col-6">
+                        <label class="block text-600 text-sm font-bold mb-2">
+                            จำนวนเพศผู้ (ตัว)<span class="text-red-500">
+                                *</span
+                            ></label
+                        >
+                        <InputNumber
+                            :max="data[index].Amount - data[index].Female"
+                            :min="0"
+                            showButtons
+                            v-model="data[index].Male"
+                            class="w-full"
+                        />
+                    </div>
+                    <div class="col-12 lg:col-6">
+                        <label class="block text-600 text-sm font-bold mb-2">
+                            จำนวนเพศเมีย (ตัว)<span class="text-red-500">
+                                *</span
+                            ></label
+                        >
+                        <InputNumber
+                            :max="data[index].Amount - data[index].Male"
+                            :min="0"
+                            showButtons
+                            v-model="data[index].Female"
+                            class="w-full"
+                        />
+                    </div>
+
+                  
                     <div class="col-12 lg:col-6">
                         <label class="block text-600 text-sm font-bold mb-2">
                             คะแนนร่างกาย (BCS)</label
@@ -377,6 +355,7 @@
                             :options="selection.BCSID"
                         />
                     </div>
+
                     <div class="col-12 lg:col-6">
                         <label class="block text-600 text-sm font-bold mb-2">
                             หมายเหตุ</label
@@ -385,6 +364,39 @@
                             v-model="data[index].Remark"
                             class="w-full"
                         />
+                    </div>
+
+
+
+                    <div class="col-12 lg:col-6">
+                        <label class="block text-600 text-sm font-bold mb-2">
+                            รหัสเจ้าหน้าที่ผสมเทียม<span class="text-red-500">
+                                *</span
+                            ></label
+                        >
+                        <Dropdown
+                            :virtualScrollerOptions="{ itemSize: 38 }"
+                            emptyMessage="ไม่มีข้อมูล"
+                            emptyFilterMessage="ไม่พบข้อมูล"
+                            class="w-full"
+                            placeholder="เลือกรหัสเจ้าหน้าที่ผสมเทียม"
+                            optionLabel="StaffFullName"
+                            optionValue="StaffID"
+                            v-model="data[index].ResponsibilityStaffID"
+                            :options="selection.Staff"
+                            :filterFields="[
+                                'StaffNumber',
+                                'StaffGivenName',
+                                'StaffSurname',
+                            ]"
+                            :filter="true"
+                            filterPlaceholder="รหัสเจ้าหน้าที่ผสมเทียม"
+                            :class="{
+                                'p-invalid':
+                                    !data[index].ResponsibilityStaffID && valid,
+                            }"
+                        >
+                        </Dropdown>
                     </div>
                     <!-- <div class="col-12 lg:col-6">
             <label class="block text-600 text-sm font-bold mb-2">
@@ -1226,7 +1238,12 @@ export default {
                             console.log(this.lastInformation);
                         }
 
-                        this.show.isActive = response.data.rows[0].isActive;
+                       this.show.id = response.data.rows[0].AnimalEarID;
+                        this.show.name = response.data.rows[0].AnimalName;
+                        this.show.farm = response.data.rows[0].FarmName;
+                        this.show.ThaiAIDate =
+                            response.data.rows[0].ThaiAIDate;
+                        // this.show.isActive = response.data.rows[0].isActive;
                     })
                     .finally(() => {
                         this.isLoading = false;

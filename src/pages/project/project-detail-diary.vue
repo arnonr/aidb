@@ -679,7 +679,7 @@ export default {
                     this.search.TumbolID = null;
                     this.search.OrganizationID = null;
                     this.search.FarmID = null;
-                    this.isLoading = false;
+                    // this.isLoading = false;
                 }, 1000);
             }
         },
@@ -712,7 +712,7 @@ export default {
                     this.search.TumbolID = null;
                     this.search.OrganizationID = null;
                     this.search.FarmID = null;
-                    this.isLoading = false;
+                    // this.isLoading = false;
                 }, 1000);
             }
         },
@@ -732,7 +732,7 @@ export default {
                     //   this.search.OrganizationTypeID = null;
                     this.search.OrganizationID = null;
                     this.search.FarmID = null;
-                    this.isLoading = false;
+                    // this.isLoading = false;
                 }, 1000);
             }
         },
@@ -750,7 +750,7 @@ export default {
                     //   this.search.OrganizationTypeID = null;
                     this.search.OrganizationID = null;
                     this.search.FarmID = null;
-                    this.isLoading = false;
+                    // this.isLoading = false;
                 }, 1000);
             }
         },
@@ -764,7 +764,7 @@ export default {
                 setTimeout(() => {
                     this.search.OrganizationID = null;
                     this.search.FarmID = null;
-                    this.isLoading = false;
+                    // this.isLoading = false;
                 }, 1000);
             }
         },
@@ -777,7 +777,7 @@ export default {
                 setTimeout(() => {
                     this.search.OrganizationID = null;
                     this.search.FarmID = null;
-                    this.isLoading = false;
+                    // this.isLoading = false;
                 }, 1000);
             }
         },
@@ -790,7 +790,7 @@ export default {
                 setTimeout(() => {
                     this.search.OrganizationID = null;
                     this.search.FarmID = null;
-                    this.isLoading = false;
+                    // this.isLoading = false;
                 }, 1000);
             }
         },
@@ -800,7 +800,7 @@ export default {
             if (this.isLoading == false) {
                 // this.isLoading = true;
                 setTimeout(() => {
-                    this.isLoading = false;
+                    // this.isLoading = false;
                 }, 1000);
             }
         },
@@ -810,7 +810,7 @@ export default {
             if (this.isLoading == false) {
                 // this.isLoading = true;
                 setTimeout(() => {
-                    this.isLoading = false;
+                    // this.isLoading = false;
                 }, 1000);
             }
         },
@@ -821,7 +821,7 @@ export default {
             if (this.isLoading == false) {
                 // this.isLoading = true;
                 setTimeout(() => {
-                    this.isLoading = false;
+                    // this.isLoading = false;
                 }, 1000);
             }
         },
@@ -832,7 +832,7 @@ export default {
             if (this.isLoading == false) {
                 // this.isLoading = true;
                 setTimeout(() => {
-                    this.isLoading = false;
+                    // this.isLoading = false;
                 }, 1000);
             }
         },
@@ -842,7 +842,7 @@ export default {
             if (this.isLoading == false) {
                 // this.isLoading = true;
                 setTimeout(() => {
-                    this.isLoading = false;
+                    // this.isLoading = false;
                 }, 1000);
             }
         },
@@ -1122,7 +1122,7 @@ export default {
                     console.log(this.dropdown.AIZones);
                 })
                 .finally(() => {
-                    this.isLoading = false;
+                    // this.isLoading = false;
                 });
         },
         fetchOrganizationZone() {
@@ -1141,7 +1141,7 @@ export default {
                     });
                 })
                 .finally(() => {
-                    this.isLoading = false;
+                    // this.isLoading = false;
                 });
         },
         fetchProject() {
@@ -1164,7 +1164,7 @@ export default {
                     this.dropdown.Projects = res.data.rows;
                 })
                 .finally(() => {
-                    this.isLoading = false;
+                    // this.isLoading = false;
                 });
         },
         fetchProvince() {
@@ -1187,7 +1187,7 @@ export default {
                     this.dropdown.Provinces = res.data.rows;
                 })
                 .finally(() => {
-                    this.isLoading = false;
+                    // this.isLoading = false;
                 });
         },
         fetchAmphur() {
@@ -1214,7 +1214,7 @@ export default {
                     this.dropdown.Amphurs = res.data.rows;
                 })
                 .finally(() => {
-                    this.isLoading = false;
+                    // this.isLoading = false;
                 });
         },
         fetchTumbol() {
@@ -1241,7 +1241,7 @@ export default {
                     this.dropdown.Tumbols = res.data.rows;
                 })
                 .finally(() => {
-                    this.isLoading = false;
+                    // this.isLoading = false;
                 });
         },
         fetchOrganizationType() {
@@ -1256,7 +1256,7 @@ export default {
                     this.dropdown.OrganizationTypes = res.data.rows;
                 })
                 .finally(() => {
-                    this.isLoading = false;
+                    // this.isLoading = false;
                 });
         },
         fetchOrganization() {
@@ -1311,7 +1311,7 @@ export default {
                     });
                 })
                 .finally(() => {
-                    this.isLoading = false;
+                    // this.isLoading = false;
                 });
         },
 
@@ -1327,7 +1327,7 @@ export default {
                     this.dropdown.FarmStatuses = res.data.rows;
                 })
                 .finally(() => {
-                    this.isLoading = false;
+                    // this.isLoading = false;
                 });
         },
 
@@ -1337,7 +1337,7 @@ export default {
                 this.search.AIZoneID == null &&
                 this.search.OrganizationZoneID == null
             ) {
-                this.isLoading = false;
+                // this.isLoading = false;
                 return;
             }
 
@@ -1418,7 +1418,7 @@ export default {
                     this.dropdown.Farms = res.data.rows;
                 })
                 .finally(() => {
-                    this.isLoading = false;
+                    // this.isLoading = false;
                 });
 
             // if (this.search.FarmerFullName) {

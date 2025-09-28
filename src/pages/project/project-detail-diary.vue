@@ -18,7 +18,7 @@
                             emptyMessage="ไม่มีข้อมูล"
                             emptyFilterMessage="ไม่พบข้อมูล"
                             class="w-full"
-                            placeholder="ทั้งหมด"
+                            placeholder="เลือกโครงการ"
                             :options="dropdown.Projects"
                             optionLabel="ProjectName"
                             optionValue="ProjectID"
@@ -26,6 +26,9 @@
                             v-model="search.ProjectIDArray"
                             :virtualScrollerOptions="{ itemSize: 38 }"
                         />
+                        <span class="text-red-500 text-sm"
+                            >เลือกอย่างน้อย 1 โครงการ ก่อนกดปุ่มค้นหา</span
+                        >
                         <!-- v-model="filtered.ProjectID" -->
                     </div>
                 </div>
@@ -305,8 +308,14 @@
                         </div>
 
                         <div class="col-12 sm:col-12 lg:col-12">
+                            <div
+                                class="text-sm text-red-500 text-center mb-2 mt-5"
+                            >
+                            เลือกอย่างน้อย 1 โครงการ ก่อนกดปุ่มค้นหา
+                            </div>
                             <Button
                                 @click="onSearch"
+                                :disabled="search.ProjectIDArray == null || search.ProjectIDArray.length == 0"
                                 label="ค้นหา"
                                 icon=""
                                 style="width: 100%"

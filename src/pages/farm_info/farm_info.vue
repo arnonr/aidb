@@ -595,9 +595,9 @@
                                         <div>
                                             <Tag
                                                 severity="danger"
-                                                v-if="noti.noti5"
+                                                v-if="noti.noti6"
                                             >
-                                                {{ `${noti.noti5}` || "0" }}
+                                                {{ `${noti.noti6}` || "0" }}
                                             </Tag>
                                             <Tag severity="danger" v-else>
                                                 0
@@ -614,9 +614,9 @@
                                         <div>
                                             <Tag
                                                 severity="danger"
-                                                v-if="noti.noti6"
+                                                v-if="noti.noti5"
                                             >
-                                                {{ `${noti.noti6}` || "0" }}
+                                                {{ `${noti.noti5}` || "0" }}
                                             </Tag>
                                             <Tag severity="danger" v-else>
                                                 0
@@ -835,7 +835,9 @@
                                     -
                                     {{
                                         formatArray(slotProps.data.Notification)
-                                    }}</span
+                                    }}
+                                    
+                                    </span
                                 >
                             </template>
                         </Column>

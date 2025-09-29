@@ -71,6 +71,7 @@
         v-model:visible="display"
         :style="{ width: '50vw' }"
         :modal="true"
+        @hide="close()"
         v-on:after-hide="clear()"
     >
         <div class="grid">
@@ -308,7 +309,7 @@ import { format } from "date-fns";
 import { th } from "date-fns/locale";
 import Swal from "sweetalert2";
 export default {
-    emits: ["refresh_secret_status", "onclear_display"],
+    emits: ["refresh_secret_status", "onclear_display", "close_abortion"],
     props: {
         permit: {
             type: Array,
@@ -751,6 +752,7 @@ export default {
             this.display = true;
         },
         close() {
+            this.$emit("close_abortion");
             this.display = false;
         },
         open_delete(id) {

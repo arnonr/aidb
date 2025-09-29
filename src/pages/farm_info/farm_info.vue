@@ -724,7 +724,8 @@
                                 icon="pi pi-download"
                                 class="mb-3 p-button-raised p-button-raised p-button-success"
                                 @click="exportCSV($event)"
-                            >ดาวน์โหลด</Button>
+                                >ดาวน์โหลด</Button
+                            >
                         </div>
                     </div>
                     <DataTable
@@ -948,7 +949,20 @@
             :modal="false"
             :dismissableMask="true"
         >
-            <VueCreatureInfo :display="true" v-if="displaytab" :is_artificial_open="is_artificial_open" @close_artificial="is_artificial_open = false" />
+            <VueCreatureInfo
+                :display="true"
+                v-if="displaytab"
+                :is_artificial_open="is_artificial_open"
+                :is_pregnancy_open="is_pregnancy_open"
+                :is_abortion_open="is_abortion_open"
+                :is_birth_open="is_birth_open"
+                :is_distribution_open="is_distribution_open"
+                @close_artificial="is_artificial_open = false"
+                @close_pregnancy="is_pregnancy_open = false"
+                @close_abortion="is_abortion_open = false"
+                @close_birth="is_birth_open = false"
+                @close_distribution="is_distribution_open = false"
+            />
         </Dialog>
 
         <!-- <Creature_info
@@ -1047,6 +1061,10 @@ export default {
             noti: {},
             total: {},
             is_artificial_open: false,
+            is_pregnancy_open: false,
+            is_abortion_open: false,
+            is_birth_open: false,
+            is_distribution_open: false,
 
             // Start Selection
             selection: {
@@ -2101,6 +2119,7 @@ export default {
                         store.dispatch("tabAnimal", tab);
 
                         store.dispatch("animalInfo", data);
+
                         this.displaytab = true;
                     },
                 });
@@ -2118,6 +2137,8 @@ export default {
                         store.dispatch("tabAnimal", tab);
 
                         store.dispatch("animalInfo", data);
+
+                        this.is_pregnancy_open = true;
                         this.displaytab = true;
                     },
                 });
@@ -2135,6 +2156,7 @@ export default {
                         store.dispatch("tabAnimal", tab);
 
                         store.dispatch("animalInfo", data);
+                        this.is_abortion_open = true;
                         this.displaytab = true;
                     },
                 });
@@ -2152,6 +2174,7 @@ export default {
                         store.dispatch("tabAnimal", tab);
 
                         store.dispatch("animalInfo", data);
+                        this.is_birth_open = true;
                         this.displaytab = true;
                     },
                 });
@@ -2220,6 +2243,7 @@ export default {
                         store.dispatch("tabAnimal", tab);
 
                         store.dispatch("animalInfo", data);
+                        this.is_distribution_open = true;
                         this.displaytab = true;
 
                         // this.$router.push("/creature/edit/" + id);

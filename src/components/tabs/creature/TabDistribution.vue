@@ -9,6 +9,7 @@
                 icon="pi pi-plus"
                 class="w-full md:w-auto"
                 @click="open"
+                @hide="close()"
                 v-if="
                     AnimalSecretStatus.includes(1) &&
                     permit[0].IsAdd &&
@@ -324,7 +325,7 @@ export default {
     components: {
         vSelect,
     },
-    emits: ["refresh_secret_status", "onclear_display"],
+    emits: ["refresh_secret_status", "onclear_display", "close_distribution"],
     props: {
         permit: {
             type: Array,
@@ -862,6 +863,7 @@ export default {
             this.display = true;
         },
         close() {
+            this.$emit("close_distribution");
             this.display = false;
         },
         open_delete(id) {

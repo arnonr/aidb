@@ -156,6 +156,7 @@
         v-model:visible="display"
         :style="{ width: '50vw' }"
         :modal="true"
+        @hide="close()"
         v-on:after-hide="clear()"
     >
         <div class="grid">
@@ -806,6 +807,7 @@ export default {
         "tab-click",
         "refresh_secret_status",
         "onclear_display",
+        "close_birth",
     ],
     props: {
         permit: {
@@ -975,6 +977,7 @@ export default {
             this.AnimalSecretStatus.includes(6) &&
             this.permit[0].IsAdd
         ) {
+            console.log("open");
             this.open();
         }
     },
@@ -1466,6 +1469,7 @@ export default {
             this.display = true;
         },
         close() {
+            this.$emit("close_birth");
             this.display = false;
             this.displayViewConfirmBirth = false;
         },

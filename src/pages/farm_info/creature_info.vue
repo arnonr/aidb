@@ -20,24 +20,32 @@
                         <TabEmbryoTransfer
                             :permit="permit"
                             :animalInfo="this.animalInfo"
+                            :display_prop="is_pregnancy_open"
+                            @close_pregnancy="handleClosePregnancy"
                         />
                     </TabPanel>
                     <TabPanel header="ตรวจการตั้งท้อง">
                         <TabPregnancyCheck
                             :permit="permit"
                             :animalInfo="this.animalInfo"
+                            :display_prop="is_pregnancy_open"
+                            @close_pregnancy="handleClosePregnancy"
                         />
                     </TabPanel>
                     <TabPanel header="แท้ง">
                         <TabAbortion
                             :permit="permit"
                             :animalInfo="this.animalInfo"
+                            :display_prop="is_abortion_open"
+                            @close_abortion="handleCloseAbortion"
                         />
                     </TabPanel>
                     <TabPanel header="คลอด/ติดตามลูก">
                         <TabBirth
                             :permit="permit"
                             :animalInfo="this.animalInfo"
+                            :display_prop="is_birth_open"
+                            @close_birth="handleCloseBirth"
                         />
                     </TabPanel>
                     <TabPanel header="ลูก">
@@ -68,6 +76,8 @@
                         <TabDistribution
                             :permit="permit"
                             :animalInfo="this.animalInfo"
+                            :display_prop="is_distribution_open"
+                            @close_distribution="handleCloseDistribution"
                         />
                     </TabPanel>
                     <TabPanel header="คะแนนร่างกาย">
@@ -201,13 +211,33 @@ export default {
             required: false,
             default: false,
         },
+        is_pregnancy_open: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
+        is_abortion_open: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
+        is_birth_open: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
+        is_distribution_open: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
         display_prop: {
             type: Boolean,
             required: false,
             default: false,
         },
     },
-    emits: ["close_artificial"],
+    emits: ["close_artificial", "close_pregnancy", "close_abortion", "close_birth", "close_distribution"],
     data() {
         return {
             data: {
@@ -243,6 +273,18 @@ export default {
     methods: {
         handleCloseArtificial() {
             this.$emit("close_artificial");
+        },
+        handleClosePregnancy() {
+            this.$emit("close_pregnancy");
+        },
+        handleCloseAbortion() {
+            this.$emit("close_abortion");
+        },
+        handleCloseBirth() {
+            this.$emit("close_birth");
+        },
+        handleCloseDistribution() {
+            this.$emit("close_distribution");
         },
         async load() {
             await axios

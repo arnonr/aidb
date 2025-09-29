@@ -9,6 +9,7 @@
                 icon="pi pi-plus"
                 class="w-full md:w-auto"
                 @click="open"
+                @hide="close()"
                 v-if="
                     AnimalSecretStatus.includes(4) &&
                     permit[0].IsAdd &&
@@ -350,7 +351,7 @@ import { th } from "date-fns/locale";
 import Swal from "sweetalert2";
 import dayjs from "dayjs";
 export default {
-    emits: ["refresh_secret_status", "onclear_display"],
+    emits: ["refresh_secret_status", "onclear_display", "close_pregnancy"],
     props: {
         permit: {
             type: Array,
@@ -860,6 +861,7 @@ export default {
             this.display = true;
         },
         close() {
+            this.$emit("close_pregnancy");
             this.display = false;
         },
         open_delete(id) {

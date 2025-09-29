@@ -948,7 +948,7 @@
             :modal="false"
             :dismissableMask="true"
         >
-            <VueCreatureInfo :display="true" v-if="displaytab" />
+            <VueCreatureInfo :display="true" v-if="displaytab" :is_artificial_open="is_artificial_open" @close_artificial="is_artificial_open = false" />
         </Dialog>
 
         <!-- <Creature_info
@@ -1046,6 +1046,7 @@ export default {
             animal: [],
             noti: {},
             total: {},
+            is_artificial_open: false,
 
             // Start Selection
             selection: {
@@ -2081,6 +2082,8 @@ export default {
                         store.dispatch("tabAnimal", tab);
 
                         store.dispatch("animalInfo", data);
+
+                        this.is_artificial_open = true;
                         this.displaytab = true;
                     },
                 });

@@ -44,12 +44,14 @@
 
         <Column header="น้ำเชื้อ/พ่อพันธุ์" class="text-center">
             <template #body="slotProps">
-                <span v-if="slotProps.data.SemenNumber != null"
-                    >{{ slotProps.data.SemenNumber }}
-                </span>
-                <span v-else>{{
-                    slotProps.data.BreederAnimal?.AnimalEarID
-                }}</span>
+                <div v-if="slotProps.data">
+                    <span v-if="slotProps.data.SemenNumber != null"
+                        >{{ slotProps.data.SemenNumber }}
+                    </span>
+                    <span v-else>{{
+                        slotProps.data.BreederAnimal?.AnimalEarID
+                    }}</span>
+                </div>
             </template>
         </Column>
 
@@ -64,19 +66,21 @@
 
         <Column header="จัดการ" class="text-center">
             <template #body="slotProps">
-                <SplitButton
-                    v-if="
-                        slotProps.data.show_id == total ||
-                        this.user.GroupID == 1
-                    "
-                    label="แก้ไข"
-                    icon="pi pi-pencil"
-                    @click="edit(slotProps.data.show_id - 1)"
-                    class="p-button-sm p-button-outlined p-button-warning"
-                    :model="getItems(slotProps.data.show_id - 1)"
-                    :disabled="this.animalInfo.isActive == 0"
-                >
-                </SplitButton>
+                <div v-if="slotProps.data">
+                    <SplitButton
+                        v-if="
+                            slotProps.data.show_id == total ||
+                            this.user.GroupID == 1
+                        "
+                        label="แก้ไข"
+                        icon="pi pi-pencil"
+                        @click="edit(slotProps.data.show_id - 1)"
+                        class="p-button-sm p-button-outlined p-button-warning"
+                        :model="getItems(slotProps.data.show_id - 1)"
+                        :disabled="this.animalInfo.isActive == 0"
+                    >
+                    </SplitButton>
+                </div>
             </template>
         </Column>
         <template #empty> ไม่พบข้อมูล </template>
@@ -90,6 +94,7 @@
         v-model:visible="display"
         :style="{ width: '50vw' }"
         :modal="true"
+        @hide="close()"
         v-on:after-hide="clear()"
     >
         <div class="grid">
@@ -1198,10 +1203,6 @@
         <form class="grid mt-2" v-else>
             <div class="col-12 lg:col-12">
                 <div class="grid">
-                   
-
-
-
                     <div class="col-12 lg:col-6">
                         <label class="block text-600 text-sm font-bold mb-2">
                             วันที่ผสม<span class="text-red-500"> *</span></label
@@ -1530,7 +1531,7 @@ export default {
     components: {
         vSelect,
     },
-    emits: ["refresh_secret_status", "onclear_display"],
+    emits: ["refresh_secret_status", "onclear_display", "close_artificial"],
     props: {
         permit: {
             type: Array,
@@ -1545,6 +1546,11 @@ export default {
             type: Object,
             required: false,
             default: null,
+        },
+        is_open: {
+            type: Boolean,
+            required: false,
+            default: false,
         },
     },
 
@@ -1743,12 +1749,17 @@ export default {
 
         await this.load();
         await this.load_selection();
+
+        // if (this.is_open) {
+        //     this.open();
+        // }
+
         if (
             this.display_prop &&
             this.AnimalSecretStatus.includes(2) &&
             this.permit[0].IsAdd
         ) {
-            this.open();
+            await this.open();
         }
     },
     watch: {
@@ -2178,7 +2189,12 @@ export default {
         load() {
             return new Promise((resolve) => {
                 this.isLoading = true;
-                axios
+
+                // สร้าง array ของ promises เพื่อรอให้ทุก request เสร็จ
+                const promises = [];
+
+                // Promise สำหรับข้อมูลหลัก
+                const mainDataPromise = axios
                     .get(`${this.url}?AnimalID=${this.AnimalID}`, {
                         signal: this.controller.signal,
                     })
@@ -2194,7 +2210,11 @@ export default {
                     .finally(() => {
                         this.isLoading = false;
                     });
-                axios
+
+                promises.push(mainDataPromise);
+
+                // Promise สำหรับข้อมูล animal
+                const animalDataPromise = axios
                     .get(`animal?AnimalID=${this.AnimalID}`, {
                         signal: this.controller.signal,
                     })
@@ -2206,9 +2226,55 @@ export default {
                             response.data.rows[0].AnimalBirthDate;
                         this.show.isActive = response.data.rows[0].isActive;
                     });
-                resolve();
+
+                promises.push(animalDataPromise);
+
+                // รอให้ทุก promise เสร็จสิ้นก่อน resolve
+                Promise.all(promises)
+                    .then(() => {
+                        resolve();
+                    })
+                    .catch((error) => {
+                        console.error("Error loading data:", error);
+                        resolve(); // resolve แม้ว่าจะมี error เพื่อไม่ให้ app ค้าง
+                    });
             });
         },
+        // loadOld() {
+        //     return new Promise((resolve) => {
+        //         this.isLoading = true;
+
+        //         axios
+        //             .get(`${this.url}?AnimalID=${this.AnimalID}`, {
+        //                 signal: this.controller.signal,
+        //             })
+        //             .then((response) => {
+        //                 this.data = response.data.rows.filter(
+        //                     (item) => item.AnimalID === this.AnimalID
+        //                 );
+        //                 this.total = this.data.length;
+        //                 for (let i = 0; i < this.data.length; i++) {
+        //                     this.data[i].show_id = i + 1;
+        //                 }
+        //             })
+        //             .finally(() => {
+        //                 this.isLoading = false;
+        //             });
+        //         axios
+        //             .get(`animal?AnimalID=${this.AnimalID}`, {
+        //                 signal: this.controller.signal,
+        //             })
+        //             .then((response) => {
+        //                 this.show.id = response.data.rows[0].AnimalEarID;
+        //                 this.show.name = response.data.rows[0].AnimalName;
+        //                 this.show.farm = `${response.data.rows[0].AnimalFarm.FarmIdentificationNumber}, ${response.data.rows[0].AnimalFarm.FarmName} `;
+        //                 this.show.AnimalBirthDate =
+        //                     response.data.rows[0].AnimalBirthDate;
+        //                 this.show.isActive = response.data.rows[0].isActive;
+        //             });
+        //         resolve();
+        //     });
+        // },
         fetchFather(fatherEarID) {
             let url = "";
             if (fatherEarID.length < 3) {
@@ -2540,6 +2606,7 @@ export default {
             this.display = true;
         },
         close() {
+            this.$emit("close_artificial");
             this.display = false;
         },
         closeAlertMA() {

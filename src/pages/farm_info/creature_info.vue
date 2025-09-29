@@ -12,6 +12,8 @@
                         <TabArtificial
                             :permit="permit"
                             :animalInfo="this.animalInfo"
+                            :display_prop="is_artificial_open"
+                            @close_artificial="handleCloseArtificial"
                         />
                     </TabPanel>
                     <TabPanel header="ย้ายฝากตัวอ่อน">
@@ -193,6 +195,19 @@ export default {
         //   this.active = this.tabAnimal.id;
         // }
     },
+    props: {
+        is_artificial_open: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
+        display_prop: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
+    },
+    emits: ["close_artificial"],
     data() {
         return {
             data: {
@@ -226,6 +241,9 @@ export default {
         },
     },
     methods: {
+        handleCloseArtificial() {
+            this.$emit("close_artificial");
+        },
         async load() {
             await axios
                 .get("/animal?AnimalEarID=" + this.search, {

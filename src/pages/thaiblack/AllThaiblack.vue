@@ -218,16 +218,21 @@
                             />
                         </div>
 
+                        <div class="col-12 sm:col-12 lg:col-12">
+                            <div
+                                class="text-sm text-red-500 text-center mb-2 mt-5"
+                            >
+                                (โปรดระบุฟาร์มก่อนกดปุ่มค้นหา)
+                            </div>
 
-                    <div class="col-12 sm:col-12 lg:col-12">
-                        <Button
-                            @click="onSearch"
-                            label="ค้นหา"
-                            icon=""
-                            style="width: 100%"
-                            class="mr-2 mb-3"
-                        />
-                    </div>
+                            <Button
+                                @click="onSearch"
+                                label="ค้นหา"
+                                icon=""
+                                style="width: 100%"
+                                class="mr-2 mb-3"
+                            />
+                        </div>
                     </div>
                 </div>
                 <!--  -->
@@ -598,8 +603,8 @@ import vSelect from "vue-select";
 
 export default {
     components: {
-            PageTitle,
-            vSelect,
+        PageTitle,
+        vSelect,
     },
     data() {
         return {
@@ -1017,7 +1022,6 @@ export default {
         },
     },
     methods: {
-
         onSearch() {
             this.fetchThaiblack();
         },
@@ -1551,14 +1555,24 @@ export default {
                 });
                 return;
             } else {
-                const id = this.search.FarmID;
-                let item = this.dropdown.Farms.find(
-                    (id) => id.FarmID == this.search.FarmID
-                );
+                const item = this.search.FarmID;
 
-                const farm = item.FarmIdentificationNumber;
+                // console.log(id);
 
-                router.push({ name: "add-thaiblack", params: { id, farm } });
+                // console.log(this.dropdown.Farms);
+
+                // let item = this.dropdown.Farms.find(
+                //     (farm) => farm.FarmID == this.search.FarmID.FarmID
+                // );
+                // console.log(item);
+
+                router.push({
+                    name: "add-thaiblack",
+                    params: {
+                        id: item.FarmID,
+                        farm: item.FarmIdentificationNumber,
+                    },
+                });
             }
         },
 

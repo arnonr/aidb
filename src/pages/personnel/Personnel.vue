@@ -3100,17 +3100,17 @@ export default {
             return item.MenuID == 25;
         });
 
-        if (this.permit[0].IsPreview == 0) {
-            this.$toast.add({
-                severity: "error",
-                summary: "ล้มเหลว",
-                detail: "ไม่มีสิทธิ์ดูข้อมูล",
-                life: 5000,
-            });
-            return;
-        } else {
-            // this.load();
-        }
+        // if (this.permit[0].IsPreview == 0) {
+        //     this.$toast.add({
+        //         severity: "error",
+        //         summary: "ล้มเหลว",
+        //         detail: "ไม่มีสิทธิ์ดูข้อมูล",
+        //         life: 5000,
+        //     });
+        //     return;
+        // } else {
+        //     // this.load();
+        // }
     },
     watch: {
         "search.AIZoneID"(val) {

@@ -90,6 +90,7 @@
                             placeholder="รอบการบันทึก"
                             :options="project_level"
                             optionLabel="name"
+                            showClear="true"
                             :class="{
                                 'p-invalid': !form.ThaiblackRound && valid,
                             }"
@@ -183,6 +184,7 @@
                             :sortable="true"
                         >
                         </Column>
+
                         <Column
                             field="AnimalID"
                             header="น้ำหนัก(กก.)"
@@ -321,7 +323,7 @@
                     </DataTable>
                     <Paginator
                         @page="page($event)"
-                        :rows="15"
+                        :rows="100"
                         :totalRecords="total"
                     ></Paginator>
                     <div class="col-12 text-center mt-5">
@@ -366,7 +368,7 @@ export default {
     data() {
         return {
             key: this.$route.params.id,
-            url: "/animal?FarmID=" + this.$route.params.id,
+            url: "/animal?FarmID=" + this.$route.params.id+"&AnimalAlive=1&isActive=1",
             apiPersonal: "/staff/selection?includeAll=false",
             postThaiblack: "/thaiblack/multisave",
             urlOrganization: "/organization/selection?includeAll=false",
@@ -412,8 +414,8 @@ export default {
                     header: "ชื่อสัตว์",
                 },
                 {
-                    field: "AnimalAge",
-                    header: "อายุ",
+                    field: "AgeDay",
+                    header: "อายุ (วัน)",
                 },
                 {
                     field: "AnimalStatusName",
@@ -443,6 +445,7 @@ export default {
             },
             itemDisease: [],
             data: [],
+            data_all: [],
             Farm: [],
             Lastactivity: null,
             breadcrumb: [
@@ -453,12 +456,33 @@ export default {
         };
     },
     loadLazyTimeout: null,
-    watch: {
+        watch: {
+            "form.ThaiblackRound"() {
+            // this.form.ThaiblackRound = this.ThaiblackRound.id;
+
+            if (this.form.ThaiblackRound && this.form.ThaiblackRound.id == "1") {
+               console.log("210 วัน");
+            //    อายุวันสัตวทต้องอยู่ระหว่าง 180-270
+                this.data = this.data_all.filter((x) => x.AgeDay >= 180 && x.AgeDay <= 270);
+            } else if (this.form.ThaiblackRound && this.form.ThaiblackRound.id == "2") {
+                console.log("400 วัน");
+                this.data = this.data_all.filter((x) => x.AgeDay >= 370 && x.AgeDay <= 460);
+            } else if (this.form.ThaiblackRound && this.form.ThaiblackRound.id == "3") {
+                console.log("600 วัน");
+                this.data = this.data_all.filter((x) => x.AgeDay >= 570 && x.AgeDay <= 660);
+            } else if (this.form.ThaiblackRound && this.form.ThaiblackRound.id == "4") {
+                console.log("800 วัน");
+                this.data = this.data_all.filter((x) => x.AgeDay >= 770 && x.AgeDay <= 860);
+            }else{
+                this.data = [...this.data_all];
+            }
+        },
         "form.Animal"() {
             let val = [];
             let res = [];
 
             val = this.form.Animal;
+
             for (let index = 0; index < val.length; index++) {
                 res[index] = val[index].AnimalID;
             }
@@ -549,7 +573,7 @@ export default {
         },
         async load() {
             this.isLoading = true;
-            let url = this.url + "&size=15";
+            let url = this.url + "&size=100";
             url += "&page=";
             if (this.curpage) {
                 url += this.curpage;
@@ -566,19 +590,23 @@ export default {
                 url += "&AnimalTypeID=" + "[17,18,45,46]";
             }
 
+            
             axios
                 .get(url, { signal: this.controller.signal })
                 .then((response) => {
                     this.total = response.data.total;
-                    this.data = response.data.rows.map((x) => {
+                    this.data_all = response.data.rows.map((x) => {
                         return {
                             AnimalID: x.AnimalID,
                             AnimalEarID: x.AnimalEarID,
                             AnimalAge: x.AnimalAge,
                             AnimalName: x.AnimalName,
                             AnimalStatusName: x.AnimalStatus.AnimalStatusName,
+                            AgeDay:  dayjs().diff(x.AnimalBirthDate, "day"),
                         };
                     });
+
+                    this.data = [...this.data_all];
 
                     if (this.curpage == 0 || this.curpage == 1) {
                         for (let i = 0; i < this.data.length; i++) {
@@ -616,7 +644,7 @@ export default {
                             }
                         }
                     } else {
-                        let start = (this.curpage - 1) * 15;
+                        let start = (this.curpage - 1) * 100;
                         for (let i = 0; i < this.data.length; i++) {
                             this.data[i].show_id = i + 1 + start;
                         }
@@ -693,6 +721,7 @@ export default {
                     ThaiblackDate: dayjs(this.form.ThaiblackDate).format(
                         "YYYY-MM-DD"
                     ),
+                    
                     ResponsibilityStaffID: this.form.ResponsibilityStaffID,
                     CreatedUserID: this.form.ResponsibilityStaffID,
                     CreatedDatetime: dayjs().format("YYYY-MM-DD"),

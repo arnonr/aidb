@@ -1359,6 +1359,7 @@
                                     <span class="text-red-500">*</span></label
                                 >
                                 <InputText
+                                    :disabled="!isAdminPermission()"
                                     type="text"
                                     class="w-full"
                                     v-model="form.StaffNumber"

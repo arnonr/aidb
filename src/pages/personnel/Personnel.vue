@@ -600,6 +600,7 @@
                                     <span class="text-red-500">*</span></label
                                 >
                                 <InputText
+                                    :disabled="!isAdminPermission()"
                                     type="text"
                                     class="w-full"
                                     v-model="form.StaffNumber"
@@ -3230,6 +3231,15 @@ export default {
             if (
                 store.state.user.GroupID === 1 ||
                 store.state.user.GroupID === 2
+            ) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+         isAdminPermission() {
+            if (
+                store.state.user.GroupID === 1
             ) {
                 return true;
             } else {

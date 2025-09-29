@@ -446,7 +446,7 @@
           ></Column> -->
                     <Column
                         field="AnimalCount"
-                        :header="'จำนวนตัว'"
+                        :header="'จำนวนตัว (แม่)'"
                         class="text-center"
                         exportFooter="&#8203;"
                     >

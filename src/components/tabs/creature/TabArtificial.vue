@@ -272,6 +272,7 @@
                             ></label
                         >
                         <Dropdown
+                            :disabled="data[index].AIID"
                             emptyMessage="ไม่มีข้อมูล"
                             emptyFilterMessage="ไม่พบข้อมูล"
                             class="w-full"
@@ -1209,6 +1210,7 @@
                         >
 
                         <Datepicker
+                            :disabled="data[index].AIID"
                             v-model="data[index].AIDate"
                             :class="{
                                 'p-invalid': !data[index].AIDate && valid,
@@ -1241,6 +1243,7 @@
                             ></label
                         >
                         <Dropdown
+                            :disabled="data[index].AIID"
                             emptyMessage="ไม่มีข้อมูล"
                             emptyFilterMessage="ไม่พบข้อมูล"
                             class="w-full"
@@ -1373,6 +1376,7 @@
                             ></label
                         >
                         <InputNumber
+                            :disabled="data[index].AIID"
                             :min="show.TimeNo"
                             v-model="data[index].TimeNo"
                             class="w-full"

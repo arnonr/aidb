@@ -391,6 +391,28 @@
                                                 }}
                                                 ตัว</span
                                             >
+                                            <div
+                                                class="flex align-items-center mt-2"
+                                            >
+                                                <span
+                                                    class="text-sm text-gray-600"
+                                                    >ผู้
+                                                    {{
+                                                        `${total.all_male}` ||
+                                                        "0"
+                                                    }}
+                                                    ตัว</span
+                                                >
+                                                <span
+                                                    class="text-sm text-gray-600 ml-2"
+                                                    >เมีย
+                                                    {{
+                                                        `${total.all_female}` ||
+                                                        "0"
+                                                    }}
+                                                    ตัว</span
+                                                >
+                                            </div>
                                         </template>
                                     </Card>
                                 </div>
@@ -411,6 +433,28 @@
                                                 }}
                                                 ตัว</span
                                             >
+                                            <div
+                                                class="flex align-items-center mt-2"
+                                            >
+                                                <span
+                                                    class="text-sm text-gray-600"
+                                                    >ผู้
+                                                    {{
+                                                        `${total.child_male}` ||
+                                                        "0"
+                                                    }}
+                                                    ตัว</span
+                                                >
+                                                <span
+                                                    class="text-sm text-gray-600 ml-2"
+                                                    >เมีย
+                                                    {{
+                                                        `${total.child_female}` ||
+                                                        "0"
+                                                    }}
+                                                    ตัว</span
+                                                >
+                                            </div>
                                         </template>
                                     </Card>
                                 </div>
@@ -427,10 +471,24 @@
                                             <span
                                                 class="text-3xl sm:text-3xl md:text-4xl font-bold text-gray-800"
                                                 >{{
-                                                    `${total.young}` || "0"
+                                                    `${
+                                                        total.young
+                                                    }` || "0"
                                                 }}
                                                 ตัว</span
                                             >
+                                            <div
+                                                class="flex align-items-center mt-2"
+                                            >
+                                                <span
+                                                    class="text-sm text-gray-600"
+                                                    >ผู้
+                                                    {{
+                                                        `${total.young}` || "0"
+                                                    }}
+                                                    ตัว</span
+                                                >
+                                            </div>
                                         </template>
                                     </Card>
                                 </div>
@@ -443,15 +501,35 @@
                                             <h4
                                                 class="font-normal text-xl text-gray-700"
                                             >
-                                                สัตว์เป็นสาว
+                                                สัตว์หนุ่ม/สาว
                                             </h4>
                                             <span
                                                 class="text-3xl sm:text-3xl md:text-4xl font-bold text-gray-800"
                                                 >{{
-                                                    `${total.girl}` || "0"
+                                                    `${
+                                                        total.girl + total.boy
+                                                    }` || "0"
                                                 }}
                                                 ตัว</span
                                             >
+
+
+                                            <div
+                                                class="flex align-items-center mt-2"
+                                            >
+
+                                            <span class="text-sm text-gray-600"
+                                                >ผู้
+                                                {{ `${total.boy}` || "0" }}
+                                                ตัว</span
+                                            >
+                                            <span
+                                                class="text-sm text-gray-600 ml-2"
+                                                >เมีย
+                                                {{ `${total.girl}` || "0" }}
+                                                ตัว</span
+                                            >
+                                            </div>
                                         </template>
                                     </Card>
                                 </div>

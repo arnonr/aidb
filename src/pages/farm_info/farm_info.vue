@@ -184,9 +184,7 @@
 
                     <Button
                         @click="load"
-                        :disabled="
-                            search.FarmID == null
-                        "
+                        :disabled="search.FarmID == null"
                         label="ค้นหา"
                         icon=""
                         style="width: 100%"
@@ -720,13 +718,13 @@
                                 {{ animal.length }} ตัว
                             </h4>
                         </div>
-                        <div class="col-12 md:col-6 md:text-right">
-                            <button
+                        <div class="col-12 md:col-12 md:text-right">
+                            <Button
                                 label="ดาวน์โหลด"
                                 icon="pi pi-download"
-                                class="p-button-raised p-button-raised p-button-success"
+                                class="mb-3 p-button-raised p-button-raised p-button-success"
                                 @click="exportCSV($event)"
-                            />
+                            >ดาวน์โหลด</Button>
                         </div>
                     </div>
                     <DataTable
@@ -789,8 +787,18 @@
                             :sortable="true"
                         ></Column>
                         <Column
+                            field="AnimalSex"
+                            header="เพศ"
+                            :sortable="true"
+                        ></Column>
+                        <Column
                             field="AnimalStatusText"
                             header="สถานะสัตว์"
+                            :sortable="true"
+                        ></Column>
+                        <Column
+                            field="ProductionStatusText"
+                            header="สถานะการผลิต"
                             :sortable="true"
                         ></Column>
                         <Column
@@ -800,7 +808,13 @@
                         ></Column>
                         <Column
                             field="giveBirthDateLatest"
-                            header="วันที่คลอด"
+                            header="วันคลอด"
+                            :sortable="true"
+                        ></Column>
+                        <Column
+                            field="dayAfterCalve"
+                            header="จำนวนวันหลังคลอด"
+                            class="text-center"
                             :sortable="true"
                         ></Column>
                         <Column
@@ -811,7 +825,7 @@
                         ></Column>
                         <Column
                             field="ThaiAIDate"
-                            header="วันที่ผสม"
+                            header="วันผสม"
                             :sortable="true"
                         ></Column>
                         <Column
@@ -820,8 +834,13 @@
                             :sortable="true"
                         ></Column>
                         <Column
+                            field="SemenNumber"
+                            header="น้ำเชื้อ"
+                            :sortable="true"
+                        ></Column>
+                        <Column
                             field="PregnancyStatus"
-                            header="ตรวจท้อง"
+                            header="ผลตรวจท้อง"
                             :sortable="true"
                         ></Column>
                         <Column
@@ -836,9 +855,7 @@
                                     {{
                                         formatArray(slotProps.data.Notification)
                                     }}
-                                    
-                                    </span
-                                >
+                                </span>
                             </template>
                         </Column>
                         <!-- <Column field="cart" header="ตะกร้า">
@@ -1264,7 +1281,6 @@ export default {
         "search.FarmID"() {
             // this.load();
             // //   this.loadAnimal();
-
             // if (this.isLoading == false) {
             //     this.isLoading = true;
             //     setTimeout(() => {

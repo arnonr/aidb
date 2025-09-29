@@ -161,21 +161,23 @@
                                 for="searchSubDistrict"
                                 class="block text-600 text-sm font-bold mb-2"
                             >
-                            ฟาร์ม (โปรดระบุศูนย์วิจัยหรือเขตพื้นที่ปศุสัตว์ก่อนเลือกฟาร์ม)</label
+                                ฟาร์ม
+                                (โปรดระบุศูนย์วิจัยหรือเขตพื้นที่ปศุสัตว์ก่อนเลือกฟาร์ม)</label
                             >
-                            <Dropdown
-                                class="w-full"
+
+                            <v-select
+                                :disabled="
+                                    search.OrganizationZoneID == null &&
+                                    search.AIZoneID == null
+                                "
                                 v-model="search.FarmID"
-                                :disabled="search.OrganizationZoneID == null && search.AIZoneID == null"
                                 :options="dropdown.Farms"
-                                optionLabel="Fullname"
-                                optionValue="FarmID"
-                                :filter="true"
-                                :showClear="true"
-                                :virtualScrollerOptions="{ itemSize: 38 }"
-                                placeholder="เลือกหมายเลขฟาร์ม"
-                            >
-                            </Dropdown>
+                                @search="fetchFarm"
+                                label="Fullname"
+                                value="FarmID"
+                                class="w-full"
+                                placeholder="เลือกฟาร์มปลายทาง (พิมพ์ 3 ตัวอักษรเพื่อค้นหา)"
+                            ></v-select>
                         </div>
 
                         <div class="col-6 sm:col-6 lg:col-6">
@@ -215,6 +217,17 @@
                                 :showClear="true"
                             />
                         </div>
+
+
+                    <div class="col-12 sm:col-12 lg:col-12">
+                        <Button
+                            @click="onSearch"
+                            label="ค้นหา"
+                            icon=""
+                            style="width: 100%"
+                            class="mr-2 mb-3"
+                        />
+                    </div>
                     </div>
                 </div>
                 <!--  -->
@@ -580,10 +593,13 @@ import PageTitle from "@/components/PageTitle.vue";
 import router from "@/router";
 import { mapGetters } from "vuex";
 import store from "@/service/Vuex";
+import "vue-select/dist/vue-select.css";
+import vSelect from "vue-select";
 
 export default {
     components: {
-        PageTitle,
+            PageTitle,
+            vSelect,
     },
     data() {
         return {
@@ -601,7 +617,7 @@ export default {
                 Project: "/project/selection?includeAll=false&isActive=1",
             },
             apiPersonal: "/staff?isActive=1",
-            urlFarm: "/farm/selection?includeAll=false",
+            apiFarm: "/farm/selection?includeAll=false&isActive=1",
             urlProvince: "/province/selection?includeAll=false",
             json_data: [],
             personal: [],
@@ -831,7 +847,7 @@ export default {
     watch: {
         "search.Round"() {
             if (this.search.FarmID != null) {
-                this.fetchThaiblack();
+                // this.fetchThaiblack();
             }
         },
         "search.AIZoneID"(val) {
@@ -856,7 +872,7 @@ export default {
                 setTimeout(() => {
                     this.fetchProvince();
                     this.fetchOrganization();
-                    this.fetchFarm();
+                    // this.fetchFarm();
                     this.search.ProvinceID = null;
                     this.search.AmphurID = null;
                     this.search.TumbolID = null;
@@ -888,7 +904,7 @@ export default {
                 setTimeout(() => {
                     this.fetchProvince();
                     this.fetchOrganization();
-                    this.fetchFarm();
+                    // this.fetchFarm();
                     this.search.ProvinceID = null;
                     this.search.AmphurID = null;
                     this.search.TumbolID = null;
@@ -901,7 +917,7 @@ export default {
         "search.ProvinceID"() {
             this.fetchAmphur();
             this.fetchOrganization();
-            this.fetchFarm();
+            // this.fetchFarm();
             this.dropdown.Amphurs = [];
             this.dropdown.Tumbols = [];
 
@@ -920,7 +936,7 @@ export default {
         "search.AmphurID"() {
             this.fetchTumbol();
             this.fetchOrganization();
-            this.fetchFarm();
+            // this.fetchFarm();
             this.dropdown.Tumbols = [];
 
             if (this.isLoading == false) {
@@ -936,7 +952,7 @@ export default {
         },
         "search.TumbolID"() {
             this.fetchOrganization();
-            this.fetchFarm();
+            // this.fetchFarm();
 
             if (this.isLoading == false) {
                 this.isLoading = true;
@@ -960,7 +976,7 @@ export default {
             }
         },
         "search.OrganizationID"() {
-            this.fetchFarm();
+            // this.fetchFarm();
 
             if (this.isLoading == false) {
                 this.isLoading = true;
@@ -972,7 +988,7 @@ export default {
             }
         },
         "search.FarmID"() {
-            this.fetchThaiblack();
+            // this.fetchThaiblack();
             if (this.isLoading == false) {
                 this.isLoading = true;
                 setTimeout(() => {
@@ -981,7 +997,7 @@ export default {
             }
         },
         "search.ProjectIDArray"() {
-            this.fetchFarm();
+            // this.fetchFarm();
             if (this.isLoading == false) {
                 this.isLoading = true;
                 setTimeout(() => {
@@ -990,7 +1006,7 @@ export default {
             }
         },
         "search.FarmAnimalType"() {
-            this.fetchFarm();
+            // this.fetchFarm();
 
             if (this.isLoading == false) {
                 this.isLoading = true;
@@ -1001,6 +1017,10 @@ export default {
         },
     },
     methods: {
+
+        onSearch() {
+            this.fetchThaiblack();
+        },
         async edit(id) {
             if (this.permit[0].IsUpdate == 0) {
                 this.$toast.add({
@@ -1161,7 +1181,7 @@ export default {
             this.fetchTumbol();
             this.fetchOrganizationType();
             this.fetchOrganization();
-            this.fetchFarm();
+            // this.fetchFarm();
         },
         fetchAIZone() {
             let params = {};
@@ -1374,7 +1394,12 @@ export default {
                     this.isLoading = false;
                 });
         },
-        fetchFarm() {
+        fetchFarm(FarmName) {
+            if (FarmName.length < 3) {
+                this.dropdown.Farms = [];
+                return;
+            }
+
             this.isLoading = true;
             if (
                 this.search.AIZoneID == null &&
@@ -1443,9 +1468,11 @@ export default {
                 params["FarmID"] = this.search.FarmID;
             }
 
+            params["FarmNameOrFarmIdentificationNumber"] = FarmName;
+
             //
             axios
-                .get(this.urlFarm, {
+                .get(this.apiFarm, {
                     signal: this.controller.signal,
                     params: { ...params, size: undefined, page: 1 },
                 })
@@ -1468,7 +1495,7 @@ export default {
             };
 
             if (this.search.FarmID) {
-                params["FarmID"] = this.search.FarmID;
+                params["FarmID"] = this.search.FarmID.FarmID;
             } else {
                 return;
             }

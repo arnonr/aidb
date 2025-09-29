@@ -534,7 +534,7 @@ export default {
                 this.loader = true;
             });
         this.load();
-
+            
         this.breadcrumb[1].label = this.name;
         this.form.ResponsibilityStaffID = this.user.StaffID;
         this.form.OrganizationID = this.user.Staff.StaffOrganizationID;
@@ -723,7 +723,7 @@ export default {
                     ),
                     
                     ResponsibilityStaffID: this.form.ResponsibilityStaffID,
-                    CreatedUserID: this.form.ResponsibilityStaffID,
+                    // CreatedUserID: this.form.ResponsibilityStaffID,
                     CreatedDatetime: dayjs().format("YYYY-MM-DD"),
                     ThaiblackRound: this.form.ThaiblackRound.id,
                     ...x,

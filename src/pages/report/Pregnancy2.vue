@@ -329,13 +329,15 @@
                     </div>
 
                     <div class="col-12 sm:col-12 lg:col-12">
-
                         <div class="text-sm text-red-500 text-center mb-2 mt-5">
                             (โปรดระบุศูนย์วิจัยหรือเขตพื้นที่ปศุสัตว์ก่อนกดปุ่มค้นหา)
                         </div>
 
                         <Button
-                            :disabled="search.OrganizationZoneID == null && search.AIZoneID == null"
+                            :disabled="
+                                search.OrganizationZoneID == null &&
+                                search.AIZoneID == null
+                            "
                             @click="fetchReport()"
                             label="ค้นหา"
                             icon=""
@@ -517,13 +519,13 @@
                         exportFooter="&#8203;"
                     ></Column>
                     <Column
-                        field="AnimalRealCount"
+                        field="PregnancyCheckupCount"
                         header="จำนวนครั้ง"
                         class="text-center"
                         exportFooter="&#8203;"
                     ></Column>
                     <Column
-                        field="AnimalCount"
+                        field="AnimalRealCount"
                         header="จำนวนตัว"
                         class="text-center"
                         exportFooter="&#8203;"
@@ -1509,6 +1511,7 @@ export default {
                 AnimalBreedName: "สายพันธุ์ทั้งหมด",
                 AnimalRealCount: 0,
                 AnimalCount: 0,
+                PregnancyCheckupCount: 0,
                 status1: 0,
                 status2: 0,
                 status3: 0,
@@ -1572,11 +1575,19 @@ export default {
                 params["StaffID"] = this.search.StaffID;
             }
 
-            params["StartDate"] = this.search.StartDate ? dayjs(this.search.StartDate).format("YYYY-MM-DD") : undefined;
-            params["EndDate"] = this.search.EndDate  ? dayjs(this.search.EndDate).format("YYYY-MM-DD") : undefined;
+            params["StartDate"] = this.search.StartDate
+                ? dayjs(this.search.StartDate).format("YYYY-MM-DD")
+                : undefined;
+            params["EndDate"] = this.search.EndDate
+                ? dayjs(this.search.EndDate).format("YYYY-MM-DD")
+                : undefined;
 
-            params["StartDate_Created"] = this.search.StartDate_Created ? dayjs(this.search.StartDate_Created).format("YYYY-MM-DD") : undefined;
-            params["EndDate_Created"] = this.search.EndDate_Created ? dayjs(this.search.EndDate_Created).format("YYYY-MM-DD") : undefined;
+            params["StartDate_Created"] = this.search.StartDate_Created
+                ? dayjs(this.search.StartDate_Created).format("YYYY-MM-DD")
+                : undefined;
+            params["EndDate_Created"] = this.search.EndDate_Created
+                ? dayjs(this.search.EndDate_Created).format("YYYY-MM-DD")
+                : undefined;
 
             if (this.search.isActive != null) {
                 params["StaffIsActive"] = this.search.isActive;
@@ -1668,14 +1679,35 @@ export default {
 
                     let AnimalIDAll = [];
                     let AnimalRealCountAll = 0;
+                    let PregnancyCheckupCountAll = 0;
+
                     if (this.data.main.length != 0) {
                         this.totalStatus.all = 0;
                         this.totalStatus.status1 = 0;
                         this.totalStatus.status2 = 0;
                         this.totalStatus.status3 = 0;
                         this.data.main.forEach((x) => {
+                            console.log(
+                                "PregnancyCheckupCount:",
+                                x.PregnancyCheckupCount
+                            );
+                            console.log("AnimalRealCount:", x.AnimalRealCount);
+
+                            PregnancyCheckupCountAll =
+                                PregnancyCheckupCountAll +
+                                x.PregnancyCheckupCount;
+                            console.log(
+                                "PregnancyCheckupCountAll after adding:",
+                                PregnancyCheckupCountAll
+                            );
+
                             AnimalRealCountAll =
                                 AnimalRealCountAll + x.AnimalRealCount;
+                            console.log(
+                                "AnimalRealCountAll after adding:",
+                                AnimalRealCountAll
+                            );
+
                             x.AnimalID.forEach((e) => {
                                 AnimalIDAll.push(e);
                                 this.totalStatus.all = this.totalStatus.all + 1;
@@ -1695,10 +1727,12 @@ export default {
                         });
 
                         this.locked1 = [];
+
                         this.toggleLock({
                             id: 0,
                             AnimalBreedName: "สายพันธุ์ทั้งหมด",
                             AnimalRealCount: AnimalRealCountAll,
+                            PregnancyCheckupCount: PregnancyCheckupCountAll,
                             AnimalCount: this.totalStatus.all,
                             status1: this.totalStatus.status1,
                             status2: this.totalStatus.status2,

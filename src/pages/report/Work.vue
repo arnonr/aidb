@@ -155,7 +155,18 @@
                         >
                             บุคลากร</label
                         >
-                        <Dropdown
+
+                        <v-select
+                            v-model="search.StaffID"
+                            :options="dropdown.Staffs"
+                            @search="debouncedFetchSelectionStaffOptions"
+                            label="StaffFullName"
+                            value="StaffID"
+                            class="w-full"
+                            placeholder="ค้นหาบุคลากร พิมพ์ 3 ตัวอักษรเพื่อค้นหา"
+                        ></v-select>
+
+                        <!-- <Dropdown
                             :showClear="true"
                             class="w-full"
                             placeholder="ทั้งหมด"
@@ -165,7 +176,7 @@
                             :options="dropdown.Staffs"
                             :filter="true"
                             v-model="search.StaffID"
-                        />
+                        /> -->
                     </div>
                     <div class="col-3 sm:col-3 lg:col-3">
                         <label
@@ -445,11 +456,15 @@ import { format } from "date-fns";
 import { th } from "date-fns/locale";
 // import dayjs from "dayjs";
 // import { ref } from "vue";
+import { debounce } from "lodash";
+import vSelect from "vue-select";
+import "vue-select/dist/vue-select.css";
 
 export default {
     themeChangeListener: null,
     components: {
         PageTitle,
+        vSelect,
     },
     computed: {
         ...mapGetters({
@@ -460,6 +475,7 @@ export default {
     },
     data() {
         return {
+            debouncedFetchSelectionStaffOptions: null,
             head_detail: {
                 date_label: "",
             },
@@ -522,6 +538,11 @@ export default {
 
     mounted() {
         this.loadDefault();
+
+        this.debouncedFetchSelectionStaffOptions = debounce(
+            this.fetchStaff,
+            500
+        );
     },
 
     watch: {
@@ -628,7 +649,7 @@ export default {
         "search.ProvinceID"() {
             this.fetchAmphur();
             this.fetchOrganization();
-            this.fetchStaff();
+            // this.fetchStaff();
             //   this.fetchReport();
 
             if (this.isLoading == false) {
@@ -646,7 +667,7 @@ export default {
         "search.AmphurID"() {
             this.fetchTumbol();
             this.fetchOrganization();
-            this.fetchStaff();
+            // this.fetchStaff();
             //   this.fetchReport();
 
             if (this.isLoading == false) {
@@ -662,7 +683,7 @@ export default {
         },
         "search.TumbolID"() {
             this.fetchOrganization();
-            this.fetchStaff();
+            // this.fetchStaff();
             //   this.fetchReport();
 
             if (this.isLoading == false) {
@@ -689,7 +710,7 @@ export default {
         },
         "search.OrganizationID"() {
             //   this.fetchReport();
-            this.fetchStaff();
+            // this.fetchStaff();
             //   this.fetchReport();
 
             if (this.isLoading == false) {
@@ -748,7 +769,7 @@ export default {
             this.fetchTumbol();
             this.fetchOrganizationType();
             this.fetchOrganization();
-            this.fetchStaff();
+            // this.fetchStaff();
         },
         load() {
             this.isLoading = true;
@@ -965,7 +986,13 @@ export default {
                     this.loader = true;
                 });
         },
-        fetchStaff() {
+        fetchStaff(search) {
+
+            if (search.length < 3) {
+                this.dropdown.Staffs = [];
+                return;
+            }
+
             // Staffs
             if (
                 this.search.AIZoneID == null &&
@@ -985,21 +1012,24 @@ export default {
             //     params["OrganizationZoneID"] = this.search.OrganizationZoneID;
             //   }
 
-            if (this.search.ProvinceID != null) {
-                params["StaffProvinceID"] = this.search.ProvinceID;
-            }
+            // if (this.search.ProvinceID != null) {
+            //     params["StaffProvinceID"] = this.search.ProvinceID;
+            // }
 
-            if (this.search.AmphurID != null) {
-                params["StaffAmphurID"] = this.search.AmphurID;
-            }
+            // if (this.search.AmphurID != null) {
+            //     params["StaffAmphurID"] = this.search.AmphurID;
+            // }
 
-            if (this.search.TumbolID != null) {
-                params["StaffTumbolID"] = this.search.TumbolID;
-            }
+            // if (this.search.TumbolID != null) {
+            //     params["StaffTumbolID"] = this.search.TumbolID;
+            // }
 
-            if (this.search.OrganizationID != null) {
-                params["OrganizationID"] = this.search.OrganizationID;
-            }
+            // if (this.search.OrganizationID != null) {
+            //     params["OrganizationID"] = this.search.OrganizationID;
+            // }
+
+
+            params["SearchNumberAndName"] = search;
 
             axios
                 .get(this.url.Staff, {
@@ -1058,7 +1088,7 @@ export default {
             }
 
             if (this.search.StaffID) {
-                params["StaffID"] = this.search.StaffID;
+                params["StaffID"] = this.search.StaffID.StaffID;
             }
 
             if (this.search.OrganizationTypeID) {

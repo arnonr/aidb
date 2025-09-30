@@ -155,7 +155,18 @@
                         >
                             บุคลากร</label
                         >
-                        <Dropdown
+
+                        <v-select
+                            v-model="search.StaffID"
+                            :options="dropdown.Staffs"
+                            @search="debouncedFetchSelectionStaffOptions"
+                            label="StaffFullName"
+                            value="StaffID"
+                            class="w-full"
+                            placeholder="ค้นหาบุคลากร พิมพ์ 3 ตัวอักษรเพื่อค้นหา"
+                        ></v-select>
+
+                        <!-- <Dropdown
                             :showClear="true"
                             class="w-full"
                             placeholder="ทั้งหมด"
@@ -165,7 +176,7 @@
                             :options="dropdown.Staffs"
                             :filter="true"
                             v-model="search.StaffID"
-                        />
+                        /> -->
                     </div>
 
                     <div class="col-12 sm:col-6 lg:col-6">
@@ -687,11 +698,15 @@ import dayjs from "dayjs";
 import { ref } from "vue";
 import { format } from "date-fns";
 import { th } from "date-fns/locale";
+import { debounce } from "lodash";
+import vSelect from "vue-select";
+import "vue-select/dist/vue-select.css";
 
 export default {
     themeChangeListener: null,
     components: {
         PageTitle,
+        vSelect,
     },
     computed: {
         ...mapGetters({
@@ -702,6 +717,7 @@ export default {
     },
     data() {
         return {
+            debouncedFetchSelectionStaffOptions: null,
             totalStatus: {
                 all: 0,
                 status1: 0,
@@ -767,6 +783,11 @@ export default {
     loadLazyTimeout: null,
     mounted() {
         this.loadDefault();
+
+        this.debouncedFetchSelectionStaffOptions = debounce(
+            this.fetchStaff,
+            500
+        );
     },
 
     watch: {
@@ -872,7 +893,7 @@ export default {
         "search.ProvinceID"() {
             this.fetchAmphur();
             this.fetchOrganization();
-            this.fetchStaff();
+            // this.fetchStaff();
             //   this.fetchReport();
 
             if (this.isLoading == false) {
@@ -890,7 +911,7 @@ export default {
         "search.AmphurID"() {
             this.fetchTumbol();
             this.fetchOrganization();
-            this.fetchStaff();
+            // this.fetchStaff();
             //   this.fetchReport();
 
             if (this.isLoading == false) {
@@ -906,7 +927,7 @@ export default {
         },
         "search.TumbolID"() {
             this.fetchOrganization();
-            this.fetchStaff();
+            // this.fetchStaff();
             //   this.fetchReport();
 
             if (this.isLoading == false) {
@@ -933,7 +954,7 @@ export default {
         },
         "search.OrganizationID"() {
             //   this.fetchReport();
-            this.fetchStaff();
+            // this.fetchStaff();
             //   this.fetchReport();
 
             if (this.isLoading == false) {
@@ -996,7 +1017,7 @@ export default {
             this.fetchTumbol();
             this.fetchOrganizationType();
             this.fetchOrganization();
-            this.fetchStaff();
+            // this.fetchStaff();
             //   this.fetchReport();
         },
 
@@ -1446,7 +1467,13 @@ export default {
                     this.loader = true;
                 });
         },
-        fetchStaff() {
+        fetchStaff(search) {
+
+            if (search.length < 3) {
+                this.dropdown.Staffs = [];
+                return;
+            }
+
             // Staffs
             if (
                 this.search.AIZoneID == null &&
@@ -1466,21 +1493,25 @@ export default {
             //     params["OrganizationZoneID"] = this.search.OrganizationZoneID;
             //   }
 
-            if (this.search.ProvinceID != null) {
-                params["StaffProvinceID"] = this.search.ProvinceID;
-            }
+            // if (this.search.ProvinceID != null) {
+            //     params["StaffProvinceID"] = this.search.ProvinceID;
+            // }
 
-            if (this.search.AmphurID != null) {
-                params["StaffAmphurID"] = this.search.AmphurID;
-            }
+            // if (this.search.AmphurID != null) {
+            //     params["StaffAmphurID"] = this.search.AmphurID;
+            // }
 
-            if (this.search.TumbolID != null) {
-                params["StaffTumbolID"] = this.search.TumbolID;
-            }
+            // if (this.search.TumbolID != null) {
+            //     params["StaffTumbolID"] = this.search.TumbolID;
+            // }
 
-            if (this.search.OrganizationID != null) {
-                params["OrganizationID"] = this.search.OrganizationID;
-            }
+            // if (this.search.OrganizationID != null) {
+            //     params["OrganizationID"] = this.search.OrganizationID;
+            // }
+
+
+
+            params["SearchNumberAndName"] = search;
 
             axios
                 .get(this.url.Staff, {
@@ -1572,7 +1603,7 @@ export default {
             }
 
             if (this.search.StaffID) {
-                params["StaffID"] = this.search.StaffID;
+                params["StaffID"] = this.search.StaffID.StaffID;
             }
 
             params["StartDate"] = this.search.StartDate
@@ -1624,8 +1655,10 @@ export default {
                             let check = check_duplicate.find((x) => {
                                 return x.AnimalID == e.AnimalID;
                             });
-
+                            console.log(e);
+                            console.log(check);
                             if (check) {
+
                                 if (check.PregnancyCheckStatusName != "ท้อง") {
                                     if (
                                         check.PregnancyCheckStatusName ==
@@ -1637,9 +1670,20 @@ export default {
                                         check.PregnancyCheckStatusName ==
                                         "รอตรวจซ้ำ"
                                     ) {
+                                        console.log("FREEDOM");
                                         status3 = status3 - 1;
                                     }
 
+                                    if (e.PregnancyCheckStatusName == "ท้อง") {
+                                        status1 = status1 + 1;
+                                    } else if (
+                                        e.PregnancyCheckStatusName == "ไม่ท้อง"
+                                    ) {
+                                        status2 = status2 + 1;
+                                    } else {
+                                        status3 = status3 + 1;
+                                    }
+                                }else{
                                     if (e.PregnancyCheckStatusName == "ท้อง") {
                                         status1 = status1 + 1;
                                     } else if (
@@ -1662,13 +1706,9 @@ export default {
                                 }
                                 check_duplicate.push(e);
                             }
-
-                            //   if (check_duplicate.includes(e.AnimalID)) {
-                            //     //
-                            //   } else {
-                            //     check_duplicate.push(e.AnimalID);
-                            //   }
                         });
+
+                        console.log("status3:", status3);
 
                         x.status1 = status1;
                         x.status2 = status2;

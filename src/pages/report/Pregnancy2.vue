@@ -1468,7 +1468,6 @@ export default {
                 });
         },
         fetchStaff(search) {
-
             if (search.length < 3) {
                 this.dropdown.Staffs = [];
                 return;
@@ -1508,8 +1507,6 @@ export default {
             // if (this.search.OrganizationID != null) {
             //     params["OrganizationID"] = this.search.OrganizationID;
             // }
-
-
 
             params["SearchNumberAndName"] = search;
 
@@ -1658,7 +1655,6 @@ export default {
                             console.log(e);
                             console.log(check);
                             if (check) {
-
                                 if (check.PregnancyCheckStatusName != "ท้อง") {
                                     if (
                                         check.PregnancyCheckStatusName ==
@@ -1683,7 +1679,7 @@ export default {
                                     } else {
                                         status3 = status3 + 1;
                                     }
-                                }else{
+                                } else {
                                     if (e.PregnancyCheckStatusName == "ท้อง") {
                                         status1 = status1 + 1;
                                     } else if (
@@ -1809,10 +1805,10 @@ export default {
                     });
 
                     let s = null;
-                    if (this.dropdown.Staffs) {
-                        s = this.dropdown.Staffs.find((x) => {
-                            return x.StaffID == this.search.StaffID;
-                        });
+
+                    console.log(this.search.StaffID);
+                    if (this.search.StaffID) {
+                        s = this.search.StaffID;
                     }
 
                     this.data.head_detail = {

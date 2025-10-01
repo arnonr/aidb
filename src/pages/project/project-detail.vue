@@ -16,7 +16,7 @@
                             display="chip"
                             emptyMessage="ไม่มีข้อมูล"
                             emptyFilterMessage="ไม่พบข้อมูล"
-                            class="w-full"
+                            class="w-full hide-select-all"
                             placeholder="เลือกโครงการ"
                             :options="dropdown.Projects"
                             optionLabel="ProjectName"
@@ -24,6 +24,8 @@
                             :filter="true"
                             v-model="search.ProjectIDArray"
                             :virtualScrollerOptions="{ itemSize: 38 }"
+                            :showSelectAll="false"
+                            :selectAll="false"
                         />
                         <span class="text-red-500 text-sm"
                             >เลือกอย่างน้อย 1 โครงการ ก่อนกดปุ่มค้นหา</span
@@ -2815,4 +2817,8 @@ export default {
 .p-button:focus {
     box-shadow: #fff;
 }
+.p-multiselect-header .p-checkbox-box{
+    display: none !important;
+}
+
 </style>

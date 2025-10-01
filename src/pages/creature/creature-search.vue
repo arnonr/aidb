@@ -172,7 +172,7 @@
                             label="Fullname"
                             value="FarmID"
                             class="w-full"
-                            placeholder="เลือกฟาร์มปลายทาง (พิมพ์ 3 ตัวอักษรเพื่อค้นหา)"
+                            placeholder="เลือกฟาร์ม (พิมพ์ 3 ตัวอักษรเพื่อค้นหา)"
                         ></v-select>
                     </div>
 
@@ -2303,6 +2303,8 @@ export default {
                 return;
             }
 
+            console.log(search);
+
             this.isLoading = true;
             if (
                 this.search.AIZoneID == null &&
@@ -2363,9 +2365,11 @@ export default {
                 );
             }
 
-            if (this.search.FarmerFullName) {
-                params["FullName"] = this.search.FarmerFullName;
-            }
+            // if (this.search.FarmerFullName) {
+               
+            // }
+            console.log(search);
+            params["Fullname"] = search;
 
             let url_farm = "/farm/selection?includeAll=false";
             axios

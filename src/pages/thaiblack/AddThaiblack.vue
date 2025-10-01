@@ -4,7 +4,9 @@
             <PageTitle title="เพิ่มข้อมูล" :pages="breadcrumb" />
 
             <div class="card">
-                <h1 class="text-2xl text-600 mb-5">เพิ่มข้อมูล Thaiblack</h1>
+                <h1 class="text-2xl text-600 mb-5">
+                    เพิ่มข้อมูลบันทึกการเจริญเติบโต
+                </h1>
                 <div v-if="loader" class="formgrid grid mb-3">
                     <div class="field col-12 sm:col-12">
                         <label class="block text-600 text-sm font-bold mb-2">
@@ -196,6 +198,9 @@
                                     <InputText
                                         class="w-full"
                                         v-model="slotProps.data.Weigth"
+                                        :disabled="
+                                            !isAnimalSelected(slotProps.data)
+                                        "
                                     />
                                 </div>
                             </template>
@@ -211,6 +216,9 @@
                                     <InputText
                                         class="w-full"
                                         v-model="slotProps.data.Height"
+                                        :disabled="
+                                            !isAnimalSelected(slotProps.data)
+                                        "
                                     />
                                 </div>
                             </template>
@@ -226,6 +234,9 @@
                                     <InputText
                                         class="w-full"
                                         v-model="slotProps.data.Length"
+                                        :disabled="
+                                            !isAnimalSelected(slotProps.data)
+                                        "
                                     />
                                 </div>
                             </template>
@@ -241,6 +252,9 @@
                                     <InputText
                                         class="w-full"
                                         v-model="slotProps.data.Width"
+                                        :disabled="
+                                            !isAnimalSelected(slotProps.data)
+                                        "
                                     />
                                 </div>
                             </template>
@@ -256,6 +270,9 @@
                                     <InputText
                                         class="w-full"
                                         v-model="slotProps.data.Section"
+                                        :disabled="
+                                            !isAnimalSelected(slotProps.data)
+                                        "
                                     />
                                 </div>
                             </template>
@@ -271,6 +288,9 @@
                                     <InputText
                                         class="w-full"
                                         v-model="slotProps.data.FatThick"
+                                        :disabled="
+                                            !isAnimalSelected(slotProps.data)
+                                        "
                                     />
                                 </div>
                             </template>
@@ -286,6 +306,9 @@
                                     <InputText
                                         class="w-full"
                                         v-model="slotProps.data.FatInserted"
+                                        :disabled="
+                                            !isAnimalSelected(slotProps.data)
+                                        "
                                     />
                                 </div>
                             </template>
@@ -301,6 +324,9 @@
                                     <InputText
                                         class="w-full"
                                         v-model="slotProps.data.FatThickHip"
+                                        :disabled="
+                                            !isAnimalSelected(slotProps.data)
+                                        "
                                     />
                                 </div>
                             </template>
@@ -316,6 +342,9 @@
                                     <InputText
                                         class="w-full"
                                         v-model="slotProps.data.Remark"
+                                        :disabled="
+                                            !isAnimalSelected(slotProps.data)
+                                        "
                                     />
                                 </div>
                             </template>
@@ -368,7 +397,10 @@ export default {
     data() {
         return {
             key: this.$route.params.id,
-            url: "/animal?FarmID=" + this.$route.params.id+"&AnimalAlive=1&isActive=1",
+            url:
+                "/animal?FarmID=" +
+                this.$route.params.id +
+                "&AnimalAlive=1&isActive=1",
             apiPersonal: "/staff/selection?includeAll=false",
             postThaiblack: "/thaiblack/multisave",
             urlOrganization: "/organization/selection?includeAll=false",
@@ -449,31 +481,54 @@ export default {
             Farm: [],
             Lastactivity: null,
             breadcrumb: [
-                { label: "ข้อมูล : Thaiblack", to: "/activity/disease" },
+                {
+                    label: "ข้อมูล : บันทึกการเจริญเติบโต",
+                    to: "/activity/disease",
+                },
                 { label: "", to: "" },
             ],
             controller: new AbortController(),
         };
     },
     loadLazyTimeout: null,
-        watch: {
-            "form.ThaiblackRound"() {
+    watch: {
+        "form.ThaiblackRound"() {
             // this.form.ThaiblackRound = this.ThaiblackRound.id;
 
-            if (this.form.ThaiblackRound && this.form.ThaiblackRound.id == "1") {
-               console.log("210 วัน");
-            //    อายุวันสัตวทต้องอยู่ระหว่าง 180-270
-                this.data = this.data_all.filter((x) => x.AgeDay >= 180 && x.AgeDay <= 270);
-            } else if (this.form.ThaiblackRound && this.form.ThaiblackRound.id == "2") {
+            if (
+                this.form.ThaiblackRound &&
+                this.form.ThaiblackRound.id == "1"
+            ) {
+                console.log("210 วัน");
+                //    อายุวันสัตวทต้องอยู่ระหว่าง 180-270
+                this.data = this.data_all.filter(
+                    (x) => x.AgeDay >= 180 && x.AgeDay <= 270
+                );
+            } else if (
+                this.form.ThaiblackRound &&
+                this.form.ThaiblackRound.id == "2"
+            ) {
                 console.log("400 วัน");
-                this.data = this.data_all.filter((x) => x.AgeDay >= 370 && x.AgeDay <= 460);
-            } else if (this.form.ThaiblackRound && this.form.ThaiblackRound.id == "3") {
+                this.data = this.data_all.filter(
+                    (x) => x.AgeDay >= 370 && x.AgeDay <= 460
+                );
+            } else if (
+                this.form.ThaiblackRound &&
+                this.form.ThaiblackRound.id == "3"
+            ) {
                 console.log("600 วัน");
-                this.data = this.data_all.filter((x) => x.AgeDay >= 570 && x.AgeDay <= 660);
-            } else if (this.form.ThaiblackRound && this.form.ThaiblackRound.id == "4") {
+                this.data = this.data_all.filter(
+                    (x) => x.AgeDay >= 570 && x.AgeDay <= 660
+                );
+            } else if (
+                this.form.ThaiblackRound &&
+                this.form.ThaiblackRound.id == "4"
+            ) {
                 console.log("800 วัน");
-                this.data = this.data_all.filter((x) => x.AgeDay >= 770 && x.AgeDay <= 860);
-            }else{
+                this.data = this.data_all.filter(
+                    (x) => x.AgeDay >= 770 && x.AgeDay <= 860
+                );
+            } else {
                 this.data = [...this.data_all];
             }
         },
@@ -534,13 +589,18 @@ export default {
                 this.loader = true;
             });
         this.load();
-            
+
         this.breadcrumb[1].label = this.name;
         this.form.ResponsibilityStaffID = this.user.StaffID;
         this.form.OrganizationID = this.user.Staff.StaffOrganizationID;
     },
 
     methods: {
+        isAnimalSelected(animal) {
+            return this.form.Animal.some(
+                (selected) => selected[this.id] === animal[this.id]
+            );
+        },
         format(date) {
             const dayStart = date.getDate();
             const monthStart = date.getMonth();
@@ -590,7 +650,6 @@ export default {
                 url += "&AnimalTypeID=" + "[17,18,45,46]";
             }
 
-            
             axios
                 .get(url, { signal: this.controller.signal })
                 .then((response) => {
@@ -602,7 +661,7 @@ export default {
                             AnimalAge: x.AnimalAge,
                             AnimalName: x.AnimalName,
                             AnimalStatusName: x.AnimalStatus.AnimalStatusName,
-                            AgeDay:  dayjs().diff(x.AnimalBirthDate, "day"),
+                            AgeDay: dayjs().diff(x.AnimalBirthDate, "day"),
                         };
                     });
 
@@ -721,7 +780,7 @@ export default {
                     ThaiblackDate: dayjs(this.form.ThaiblackDate).format(
                         "YYYY-MM-DD"
                     ),
-                    
+
                     ResponsibilityStaffID: this.form.ResponsibilityStaffID,
                     // CreatedUserID: this.form.ResponsibilityStaffID,
                     CreatedDatetime: dayjs().format("YYYY-MM-DD"),

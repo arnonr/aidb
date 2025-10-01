@@ -173,7 +173,7 @@
                         label="Fullname"
                         value="FarmID"
                         class="w-full"
-                        placeholder="เลือกฟาร์มปลายทาง (พิมพ์ 3 ตัวอักษรเพื่อค้นหา)"
+                        placeholder="เลือกฟาร์ม (พิมพ์ 3 ตัวอักษรเพื่อค้นหา)"
                     ></v-select>
                 </div>
 

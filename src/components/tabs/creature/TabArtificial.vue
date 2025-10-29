@@ -2050,6 +2050,34 @@ export default {
                     this.valid = true;
                     return false;
                 }
+
+                // ตรวจตามวิธีการผสม
+                const method = this.data[this.index].GoatAIMethodID;
+
+                if (method == "Buck") {
+                    if (!this.data[this.index].BreederAnimalID) {
+                        this.$toast.add({
+                            severity: "error",
+                            summary: "ล้มเหลว",
+                            detail: "กรุณาเลือกพ่อพันธุ์",
+                            life: 5000,
+                        });
+                        this.valid = true;
+                        return false;
+                    }
+                } else if (method == "AI") {
+                    if (!this.data[this.index].SemenID) {
+                        this.$toast.add({
+                            severity: "error",
+                            summary: "ล้มเหลว",
+                            detail: "กรุณาเลือกน้ำเชื้อ",
+                            life: 5000,
+                        });
+                        this.valid = true;
+                        return false;
+                    }
+                }
+
                 const AIDate = dayjs(this.data[this.index].AIDate); // แปลงเป็น dayjs object
                 const AnimalBirthDate = dayjs(
                     this.data_animal[0].AnimalBirthDate

@@ -1481,6 +1481,8 @@ export default {
     },
     data() {
         return {
+            isSelectAIZoneDisabled: false,
+            isSelectOrganizationZoneDisabled: false,
             urlOrganization:
                 "/organization/selection?includeAll=false&isActive=1",
             urlOrganizationZone:
@@ -1532,6 +1534,9 @@ export default {
             Tumbol: [],
             Amphur: [],
             Province: [],
+            AnimalBreed: [],
+            checkAnimal: 0,
+            project: [],
 
             rowPerPage: 10,
             currentPage: 1,

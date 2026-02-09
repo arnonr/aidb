@@ -1143,6 +1143,8 @@ export default {
             is_abortion_open: false,
             is_birth_open: false,
             is_distribution_open: false,
+            isSelectAIZoneDisabled: false,
+            isSelectOrganizationZoneDisabled: false,
 
             // Start Selection
             selection: {

@@ -1217,12 +1217,12 @@ export default {
             let params = {};
 
             if (this.search.AIZoneID == null && this.search.OrganizationZoneID == null) {
-                params["AIZoneID"] = this.user.Staff.Organization.OrganizationAiZoneID || undefined;
+                params["OrganizationAiZoneID"] = this.user.Staff.Organization.OrganizationAiZoneID || undefined;
                 return;
             }
 
             if (this.search.AIZoneID != null) {
-                params["AIZoneID"] = this.search.AIZoneID;
+                params["OrganizationAiZoneID"] = this.search.AIZoneID;
             }
 
             if (this.search.OrganizationZoneID != null) {

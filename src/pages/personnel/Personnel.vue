@@ -191,26 +191,26 @@
                             ">
                                 <Tag severity="success">{{
                                     slotProps.data.CardStatus
-                                }}</Tag>
+                                    }}</Tag>
                             </div>
                             <div v-else-if="
                                 slotProps.data.CardStatus === 'ยกเลิกใช้งาน'
                             ">
                                 <Tag severity="danger">{{
                                     slotProps.data.CardStatus
-                                }}</Tag>
+                                    }}</Tag>
                             </div>
                             <div v-else-if="
                                 slotProps.data.CardStatus === 'หมดอายุ'
                             ">
                                 <Tag severity="warning">{{
                                     slotProps.data.CardStatus
-                                }}</Tag>
+                                    }}</Tag>
                             </div>
                             <div v-else>
                                 <Tag severity="primary">{{
                                     slotProps.data.CardStatus
-                                }}</Tag>
+                                    }}</Tag>
                             </div>
                         </template>
                     </Column>
@@ -670,7 +670,7 @@
                             <RadioButton :id="isActive.key" name="category" :value="isActive" v-model="form.isActive" />
                             <label :for="isActive.key">{{
                                 isActive.name
-                            }}</label>
+                                }}</label>
                         </div>
                     </div>
                 </div>
@@ -1046,7 +1046,7 @@
                             <RadioButton :id="isActive.key" name="category" :value="isActive" v-model="form.isActive" />
                             <label :for="isActive.key">{{
                                 isActive.name
-                            }}</label>
+                                }}</label>
                         </div>
                     </div>
                 </div>
@@ -1431,7 +1431,7 @@
                                 disabled />
                             <label :for="isActive.key">{{
                                 isActive.name
-                            }}</label>
+                                }}</label>
                         </div>
                     </div>
                 </div>
@@ -1893,7 +1893,7 @@ export default {
                 !this.form.StaffOrganizationID ||
                 !this.form.StaffPositionTypeID ||
                 !this.form.StaffPositionID ||
-                !this.form.StaffStartDate ||
+                // !this.form.StaffStartDate ||
                 !this.form.StaffStatus ||
                 !this.form.StaffEmail ||
                 !this.form.StaffMobilePhone

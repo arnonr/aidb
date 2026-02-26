@@ -12,216 +12,96 @@
                     </div>
 
                     <div class="col-12 sm:col-6 lg:col-6">
-                        <label
-                            for="AIZoneID"
-                            class="block text-600 text-sm font-bold mb-2"
-                        >
-                            ศูนย์วิจัย</label
-                        >
-                        <Dropdown
-                            class="w-full"
-                            v-model="search.AIZoneID"
-                            :options="dropdown.AIZones"
-                            optionLabel="AIZoneName"
-                            optionValue="AIZoneID"
-                            :disabled="isSelectAIZoneDisabled"
-                            :filter="true"
-                            :showClear="true"
-                            placeholder="-- โปรดเลือกศูนย์วิจัย --"
-                        >
+                        <label for="AIZoneID" class="block text-600 text-sm font-bold mb-2">
+                            ศูนย์วิจัย</label>
+                        <Dropdown class="w-full" v-model="search.AIZoneID" :options="dropdown.AIZones"
+                            optionLabel="AIZoneName" optionValue="AIZoneID" :disabled="isSelectAIZoneDisabled"
+                            :filter="true" :showClear="true" placeholder="-- โปรดเลือกศูนย์วิจัย --">
                         </Dropdown>
                     </div>
 
                     <div class="col-12 sm:col-6 lg:col-6">
-                        <label
-                            for="searchOrganizationZoneID"
-                            class="block text-600 text-sm font-bold mb-2"
-                        >
-                            เขตพื้นที่ปศุสัตว์</label
-                        >
-                        <Dropdown
-                            class="w-full"
-                            v-model="search.OrganizationZoneID"
-                            :options="dropdown.OrganizationZones"
-                            optionLabel="OrganizationZoneName"
-                            optionValue="OrganizationZoneID"
-                            :disabled="isSelectOrganizationZoneDisabled"
-                            :filter="true"
-                            :showClear="true"
-                            placeholder="-- เลือกเขตพื้นที่ปศุสัตว์ --"
-                        >
+                        <label for="searchOrganizationZoneID" class="block text-600 text-sm font-bold mb-2">
+                            เขตพื้นที่ปศุสัตว์</label>
+                        <Dropdown class="w-full" v-model="search.OrganizationZoneID"
+                            :options="dropdown.OrganizationZones" optionLabel="OrganizationZoneName"
+                            optionValue="OrganizationZoneID" :disabled="isSelectOrganizationZoneDisabled" :filter="true"
+                            :showClear="true" placeholder="-- เลือกเขตพื้นที่ปศุสัตว์ --">
                         </Dropdown>
                     </div>
 
                     <div class="col-12 sm:col-6 lg:col-4">
-                        <label
-                            for="searchProvinceID"
-                            class="block text-600 text-sm font-bold mb-2"
-                        >
-                            จังหวัด</label
-                        >
-                        <Dropdown
-                            class="w-full"
-                            v-model="search.StaffProvinceID"
-                            :options="dropdown.Provinces"
-                            optionLabel="ProvinceName"
-                            optionValue="ProvinceID"
-                            :filter="true"
-                            :showClear="true"
-                            placeholder="ทั้งหมด"
-                        >
+                        <label for="searchProvinceID" class="block text-600 text-sm font-bold mb-2">
+                            จังหวัด</label>
+                        <Dropdown class="w-full" v-model="search.StaffProvinceID" :options="dropdown.Provinces"
+                            optionLabel="ProvinceName" optionValue="ProvinceID" :filter="true" :showClear="true"
+                            placeholder="ทั้งหมด">
                         </Dropdown>
                     </div>
 
                     <div class="col-12 sm:col-6 lg:col-4">
-                        <label
-                            for="searchAmphurID"
-                            class="block text-600 text-sm font-bold mb-2"
-                        >
-                            อำเภอ</label
-                        >
-                        <Dropdown
-                            class="w-full"
-                            v-model="search.StaffAmphurID"
-                            :options="dropdown.Amphurs"
-                            optionLabel="AmphurName"
-                            optionValue="AmphurID"
-                            :filter="true"
-                            :showClear="true"
-                            placeholder="ทั้งหมด"
-                        >
+                        <label for="searchAmphurID" class="block text-600 text-sm font-bold mb-2">
+                            อำเภอ</label>
+                        <Dropdown class="w-full" v-model="search.StaffAmphurID" :options="dropdown.Amphurs"
+                            optionLabel="AmphurName" optionValue="AmphurID" :filter="true" :showClear="true"
+                            placeholder="ทั้งหมด">
                         </Dropdown>
                     </div>
 
                     <div class="col-12 sm:col-6 lg:col-4">
-                        <label
-                            for="searchTumbolID"
-                            class="block text-600 text-sm font-bold mb-2"
-                        >
-                            ตำบล</label
-                        >
-                        <Dropdown
-                            class="w-full"
-                            v-model="search.StaffTumbolID"
-                            :options="dropdown.Tumbols"
-                            optionLabel="TumbolName"
-                            optionValue="TumbolID"
-                            :filter="true"
-                            :showClear="true"
-                            placeholder="ทั้งหมด"
-                        >
+                        <label for="searchTumbolID" class="block text-600 text-sm font-bold mb-2">
+                            ตำบล</label>
+                        <Dropdown class="w-full" v-model="search.StaffTumbolID" :options="dropdown.Tumbols"
+                            optionLabel="TumbolName" optionValue="TumbolID" :filter="true" :showClear="true"
+                            placeholder="ทั้งหมด">
                         </Dropdown>
                     </div>
 
                     <div class="col-12 sm:col-12 lg:col-12">
-                        <label
-                            for="searchTumbolID"
-                            class="block text-600 text-sm font-bold mb-2"
-                        >
-                            หน่วยงาน</label
-                        >
+                        <label for="searchTumbolID" class="block text-600 text-sm font-bold mb-2">
+                            หน่วยงาน</label>
 
-                        <Dropdown
-                            class="w-full"
-                            v-model="search.StaffOrganizationID"
-                            :options="dropdown.Organizations"
-                            optionLabel="OrganizationName"
-                            optionValue="OrganizationID"
-                            emptyMessage="ไม่มีข้อมูล"
-                            emptyFilterMessage="ไม่พบข้อมูล"
-                            :filter="true"
-                            :showClear="true"
-                            placeholder="ทั้งหมด"
-                            :virtualScrollerOptions="{ itemSize: 38 }"
-                        />
+                        <Dropdown class="w-full" v-model="search.StaffOrganizationID" :options="dropdown.Organizations"
+                            optionLabel="OrganizationName" optionValue="OrganizationID" emptyMessage="ไม่มีข้อมูล"
+                            emptyFilterMessage="ไม่พบข้อมูล" :filter="true" :showClear="true" placeholder="ทั้งหมด"
+                            :virtualScrollerOptions="{ itemSize: 38 }" />
                     </div>
 
                     <div class="col-12 sm:col-6 lg:col-4">
-                        <label
-                            for="searchTumbolID"
-                            class="block text-600 text-sm font-bold mb-2"
-                        >
-                            รหัสบุคลากร</label
-                        >
-                        <InputText
-                            class="w-full"
-                            type="text"
-                            v-model="search.StaffNumber"
-                        />
+                        <label for="searchTumbolID" class="block text-600 text-sm font-bold mb-2">
+                            รหัสบุคลากร</label>
+                        <InputText class="w-full" type="text" v-model="search.StaffNumber" />
                     </div>
 
                     <div class="col-12 sm:col-6 lg:col-4">
-                        <label
-                            for="searchTumbolID"
-                            class="block text-600 text-sm font-bold mb-2"
-                        >
-                            ชื่อ</label
-                        >
-                        <InputText
-                            class="w-full"
-                            type="text"
-                            v-model="search.StaffGivenName"
-                        />
+                        <label for="searchTumbolID" class="block text-600 text-sm font-bold mb-2">
+                            ชื่อ</label>
+                        <InputText class="w-full" type="text" v-model="search.StaffGivenName" />
                     </div>
 
                     <div class="col-12 sm:col-6 lg:col-4">
-                        <label
-                            for="searchTumbolID"
-                            class="block text-600 text-sm font-bold mb-2"
-                        >
-                            นามสกุล</label
-                        >
-                        <InputText
-                            class="w-full"
-                            type="text"
-                            v-model="search.StaffSurname"
-                        />
+                        <label for="searchTumbolID" class="block text-600 text-sm font-bold mb-2">
+                            นามสกุล</label>
+                        <InputText class="w-full" type="text" v-model="search.StaffSurname" />
                     </div>
 
                     <div class="col-12 sm:col-6 lg:col-4">
-                        <label
-                            for="searchTumbolID"
-                            class="block text-600 text-sm font-bold mb-2"
-                        >
-                            เลขบัตรประจำตัวประชาชน</label
-                        >
-                        <InputMask
-                            class="w-full"
-                            mask="9-9999-99999-99-9"
-                            v-model="search.StaffIdentificationNumber"
-                        />
+                        <label for="searchTumbolID" class="block text-600 text-sm font-bold mb-2">
+                            เลขบัตรประจำตัวประชาชน</label>
+                        <InputMask class="w-full" mask="9-9999-99999-99-9" v-model="search.StaffIdentificationNumber" />
                     </div>
 
                     <div class="col-12 sm:col-6 lg:col-4">
-                        <label
-                            for="searchAmphurID"
-                            class="block text-600 text-sm font-bold mb-2"
-                        >
-                            สถานะบุคลากร</label
-                        >
-                        <Dropdown
-                            class="w-full"
-                            emptyMessage="ไม่มีข้อมูล"
-                            emptyFilterMessage="ไม่พบข้อมูล"
-                            v-model="search.StaffStatus"
-                            :options="dropdown.StatusAlives"
-                            optionLabel="name"
-                            optionValue="id"
-                            :filter="true"
-                            :showClear="true"
-                            placeholder="ทั้งหมด"
-                        >
+                        <label for="searchAmphurID" class="block text-600 text-sm font-bold mb-2">
+                            สถานะบุคลากร</label>
+                        <Dropdown class="w-full" emptyMessage="ไม่มีข้อมูล" emptyFilterMessage="ไม่พบข้อมูล"
+                            v-model="search.StaffStatus" :options="dropdown.StatusAlives" optionLabel="name"
+                            optionValue="id" :filter="true" :showClear="true" placeholder="ทั้งหมด">
                         </Dropdown>
                     </div>
 
                     <div class="col-12 sm:col-12 lg:col-12">
-                        <Button
-                            @click="onSearch"
-                            label="ค้นหา"
-                            icon=""
-                            style="width: 100%"
-                            class="mr-2 mb-3"
-                        />
+                        <Button @click="onSearch" label="ค้นหา" icon="" style="width: 100%" class="mr-2 mb-3" />
                     </div>
 
                     <!-- <div class="col-12 sm:col-6 lg:col-4">
@@ -248,19 +128,11 @@
                         <h1 class="text-2xl mb-0 text-600">ทะเบียนบุคลากร</h1>
                     </div>
                     <div class="col-12 md:col-6 md:text-right">
-                        <Button
-                            label="เพิ่มข้อมูล"
-                            icon="pi pi-plus"
-                            class="mb-3 mr-1 p-button-raised p-button-raised p-button-info"
-                            @click="open_add"
-                        />
+                        <Button label="เพิ่มข้อมูล" icon="pi pi-plus"
+                            class="mb-3 mr-1 p-button-raised p-button-raised p-button-info" @click="open_add" />
 
-                        <Button
-                            @click="onExport()"
-                            label="ดาวน์โหลด"
-                            icon="pi pi-download"
-                            class="mb-3 p-button-raised p-button-raised p-button-success"
-                        />
+                        <Button @click="onExport()" label="ดาวน์โหลด" icon="pi pi-download"
+                            class="mb-3 p-button-raised p-button-raised p-button-success" />
 
                         <!-- <Button
                             @click="onUpdateAllFarmer()"
@@ -271,141 +143,66 @@
                     </div>
                 </div>
 
-                <DataTable
-                    class="text-sm"
-                    :value="data"
-                    :exportable="true"
-                    ref="dt"
-                    :rowHover="true"
-                    :loading="isLoading"
-                    :paginator="true"
-                    v-model:rows="this.rowPerPage"
+                <DataTable class="text-sm" :value="data" :exportable="true" ref="dt" :rowHover="true"
+                    :loading="isLoading" :paginator="true" v-model:rows="this.rowPerPage"
                     paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
-                    :rowsPerPageOptions="[10, 20, 50]"
-                    responsiveLayout="scroll"
-                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"
-                    :totalRecords="total"
-                    @page="load"
-                    @sort="sort($event)"
-                    lazy
-                >
-                    <Column
-                        field="StaffNumber"
-                        header="รหัสบุคลากร"
-                        class="text-center cursor-pointer"
-                        exportFooter="&#8203;"
-                        :sortable="true"
-                    >
+                    :rowsPerPageOptions="[10, 20, 50]" responsiveLayout="scroll"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" :totalRecords="total"
+                    @page="load" @sort="sort($event)" lazy>
+                    <Column field="StaffNumber" header="รหัสบุคลากร" class="text-center cursor-pointer"
+                        exportFooter="&#8203;" :sortable="true">
                         <template #body="slotProps">
                             <div>
-                                <span
-                                    class="text-blue-400"
-                                    @click="open_detail(slotProps.data.StaffID)"
-                                    ><u>{{
-                                        slotProps.data.StaffNumber
-                                    }}</u></span
-                                >
+                                <span class="text-blue-400" @click="open_detail(slotProps.data.StaffID)"><u>{{
+                                    slotProps.data.StaffNumber
+                                        }}</u></span>
                             </div>
                         </template>
                     </Column>
 
-                    <Column
-                        field="StaffGivenName"
-                        header="ชื่อ"
-                        class="text-center"
-                        :sortable="true"
-                        exportFooter="&#8203;"
-                    ></Column>
-                    <Column
-                        field="StaffSurname"
-                        header="นามสกุล"
-                        class="text-center"
-                        :sortable="true"
-                        exportFooter="&#8203;"
-                    ></Column>
-                    <Column
-                        field="Organization.OrganizationName"
-                        header="หน่วยงานที่สังกัด"
-                        class="text-center"
-                        :sortable="true"
-                        exportFooter="&#8203;"
-                    >
+                    <Column field="StaffGivenName" header="ชื่อ" class="text-center" :sortable="true"
+                        exportFooter="&#8203;"></Column>
+                    <Column field="StaffSurname" header="นามสกุล" class="text-center" :sortable="true"
+                        exportFooter="&#8203;"></Column>
+                    <Column field="Organization.OrganizationName" header="หน่วยงานที่สังกัด" class="text-center"
+                        :sortable="true" exportFooter="&#8203;">
                     </Column>
-                    <Column
-                        field="PositionType.PositionTypeName"
-                        header="ประเภทบุคลากร"
-                        class="text-center"
-                        :sortable="true"
-                        exportFooter="&#8203;"
-                    >
+                    <Column field="PositionType.PositionTypeName" header="ประเภทบุคลากร" class="text-center"
+                        :sortable="true" exportFooter="&#8203;">
                     </Column>
-                    <Column
-                        field="Position.PositionName"
-                        header="ตำแหน่งงาน"
-                        class="text-center"
-                        :sortable="true"
-                        exportFooter="&#8203;"
-                    ></Column>
-                    <Column
-                        field="StaffEmail"
-                        header="อีเมล"
-                        class="text-center"
-                        :sortable="true"
-                        exportFooter="&#8203;"
-                    ></Column>
-                    <Column
-                        field="StaffStartDateThai"
-                        header="วันที่เริ่มงาน"
-                        class="text-center"
-                        :sortable="true"
-                        exportFooter="&#8203;"
-                    ></Column>
-                    <Column
-                        field="StaffEndDateThai"
-                        header="วันที่สิ้นสุดการทำงาน"
-                        class="text-center"
-                        :sortable="true"
-                        exportFooter="&#8203;"
-                    >
+                    <Column field="Position.PositionName" header="ตำแหน่งงาน" class="text-center" :sortable="true"
+                        exportFooter="&#8203;">
                     </Column>
-                    <Column
-                        field="StaffStatus"
-                        header="สถานะบุคลากร"
-                        class="text-center"
-                        :sortable="true"
-                        exportFooter="&#8203;"
-                    >
+                    <Column field="StaffEmail" header="อีเมล" class="text-center" :sortable="true"
+                        exportFooter="&#8203;"></Column>
+                    <Column field="StaffStartDateThai" header="วันที่เริ่มงาน" class="text-center" :sortable="true"
+                        exportFooter="&#8203;">
                     </Column>
-                    <Column
-                        field="CardStatus"
-                        header="สถานะบัตร"
-                        class="text-center"
-                        exportFooter="&#8203;"
-                    >
+                    <Column field="StaffEndDateThai" header="วันที่สิ้นสุดการทำงาน" class="text-center" :sortable="true"
+                        exportFooter="&#8203;">
+                    </Column>
+                    <Column field="StaffStatus" header="สถานะบุคลากร" class="text-center" :sortable="true"
+                        exportFooter="&#8203;">
+                    </Column>
+                    <Column field="CardStatus" header="สถานะบัตร" class="text-center" exportFooter="&#8203;">
                         <template #body="slotProps">
-                            <div
-                                v-if="
-                                    slotProps.data.CardStatus === 'ใช้งานอยู่'
-                                "
-                            >
+                            <div v-if="
+                                slotProps.data.CardStatus === 'ใช้งานอยู่'
+                            ">
                                 <Tag severity="success">{{
                                     slotProps.data.CardStatus
                                 }}</Tag>
                             </div>
-                            <div
-                                v-else-if="
-                                    slotProps.data.CardStatus === 'ยกเลิกใช้งาน'
-                                "
-                            >
+                            <div v-else-if="
+                                slotProps.data.CardStatus === 'ยกเลิกใช้งาน'
+                            ">
                                 <Tag severity="danger">{{
                                     slotProps.data.CardStatus
                                 }}</Tag>
                             </div>
-                            <div
-                                v-else-if="
-                                    slotProps.data.CardStatus === 'หมดอายุ'
-                                "
-                            >
+                            <div v-else-if="
+                                slotProps.data.CardStatus === 'หมดอายุ'
+                            ">
                                 <Tag severity="warning">{{
                                     slotProps.data.CardStatus
                                 }}</Tag>
@@ -418,106 +215,71 @@
                         </template>
                     </Column>
 
-                    <Column
-                        header="ส่งเรื่องขอมีบัตร"
-                        class="text-center"
-                        exportFooter="&#8203;"
-                    >
+                    <Column header="ส่งเรื่องขอมีบัตร" class="text-center" exportFooter="&#8203;">
                         <template #body="slotProps">
-                            <div
-                                class="field-checkbox flex justify-content-center"
-                                v-if="slotProps.data.CardRequestLog"
-                            >
-                                <Checkbox
-                                    v-if="
-                                        slotProps.data.CardRequestLog
-                                            .IsApprove !== 'รออนุมัติ' &&
-                                        slotProps.data.CardStatus !=
-                                            'ยกเลิกใช้งาน'
-                                    "
-                                    :binary="true"
-                                    v-model="slotProps.data.IsDone"
-                                    @input="
-                                        fillDone($event, slotProps.data.StaffID)
-                                    "
-                                />
+                            <div class="field-checkbox flex justify-content-center"
+                                v-if="slotProps.data.CardRequestLog">
+                                <Checkbox v-if="
+                                    slotProps.data.CardRequestLog
+                                        .IsApprove !== 'รออนุมัติ' &&
+                                    slotProps.data.CardStatus !=
+                                    'ยกเลิกใช้งาน'
+                                " :binary="true" v-model="slotProps.data.IsDone" @input="
+                                    fillDone($event, slotProps.data.StaffID)
+                                    " />
                             </div>
-                            <div
-                                class="field-checkbox flex justify-content-center"
-                                v-else
-                            >
-                                <Checkbox
-                                    :binary="true"
-                                    v-model="slotProps.data.IsDone"
-                                    @input="
-                                        fillDone($event, slotProps.data.StaffID)
-                                    "
-                                />
+                            <div class="field-checkbox flex justify-content-center" v-else>
+                                <Checkbox :binary="true" v-model="slotProps.data.IsDone" @input="
+                                    fillDone($event, slotProps.data.StaffID)
+                                    " />
                             </div>
                         </template>
                     </Column>
 
-                    <Column
-                        header="สถานะขอมีบัตร"
-                        class="text-center"
-                        exportFooter="&#8203;"
-                    >
+                    <Column header="สถานะขอมีบัตร" class="text-center" exportFooter="&#8203;">
                         <template #body="slotProps">
                             <div v-if="slotProps.data.CardRequestLog">
-                                <div
-                                    v-if="
-                                        slotProps.data.CardRequestLog
-                                            .IsApprove === 'อนุมัติ'
-                                    "
-                                >
+                                <div v-if="
+                                    slotProps.data.CardRequestLog
+                                        .IsApprove === 'อนุมัติ'
+                                ">
                                     <span class="text-green-500">{{
-                                        `${
-                                            slotProps.data.CardRequestLog
-                                                .IsApprove || ""
+                                        `${slotProps.data.CardRequestLog
+                                            .IsApprove || ""
                                         }`
                                     }}</span>
                                 </div>
-                                <div
-                                    v-else-if="
-                                        slotProps.data.CardRequestLog
-                                            .IsApprove === 'ไม่อนุมัติ'
-                                    "
-                                >
-                                    <span class="text-red-500"
-                                        >{{
-                                            `${
-                                                slotProps.data.CardRequestLog
-                                                    .IsApprove || ""
-                                            }`
-                                        }}
+                                <div v-else-if="
+                                    slotProps.data.CardRequestLog
+                                        .IsApprove === 'ไม่อนุมัติ'
+                                ">
+                                    <span class="text-red-500">{{
+                                        `${slotProps.data.CardRequestLog
+                                            .IsApprove || ""
+                                        }`
+                                    }}
                                         {{
                                             "(" +
-                                            `${
-                                                slotProps.data.CardRequestLog
-                                                    .Remark || ""
+                                            `${slotProps.data.CardRequestLog
+                                                .Remark || ""
                                             }` +
                                             ")"
-                                        }}</span
-                                    >
+                                        }}</span>
                                 </div>
-                                <div
-                                    v-else-if="
-                                        slotProps.data.CardRequestLog
-                                            .IsApprove === 'รออนุมัติ'
-                                    "
-                                >
+                                <div v-else-if="
+                                    slotProps.data.CardRequestLog
+                                        .IsApprove === 'รออนุมัติ'
+                                ">
                                     <span class="text-yellow-500">{{
-                                        `${
-                                            slotProps.data.CardRequestLog
-                                                .IsApprove || ""
+                                        `${slotProps.data.CardRequestLog
+                                            .IsApprove || ""
                                         }`
                                     }}</span>
                                 </div>
                                 <div v-else>
                                     <span severity="primary">{{
-                                        `${
-                                            slotProps.data.CardRequestLog
-                                                .IsApprove || ""
+                                        `${slotProps.data.CardRequestLog
+                                            .IsApprove || ""
                                         }`
                                     }}</span>
                                 </div>
@@ -525,20 +287,11 @@
                         </template>
                     </Column>
 
-                    <Column
-                        header="จัดการ"
-                        class="text-center"
-                        exportFooter="&#8203;"
-                        v-if="isPermission()"
-                    >
+                    <Column header="จัดการ" class="text-center" exportFooter="&#8203;" v-if="isPermission()">
                         <template #body="slotProps">
-                            <SplitButton
-                                label="แก้ไข"
-                                icon="pi pi-pencil"
-                                @click="open_edit(slotProps.data.StaffID)"
+                            <SplitButton label="แก้ไข" icon="pi pi-pencil" @click="open_edit(slotProps.data.StaffID)"
                                 class="p-button-sm p-button-outlined p-button-warning"
-                                :model="getItems(slotProps.data.StaffID)"
-                            >
+                                :model="getItems(slotProps.data.StaffID)">
                             </SplitButton>
                         </template>
                     </Column>
@@ -554,165 +307,79 @@
         <!-- end main page -->
 
         <!-- Start Add Dialog -->
-        <Dialog
-            header="เพิ่มทะเบียนบุคลากร"
-            v-model:visible="display_add"
-            :style="{ width: '75vw' }"
-            :modal="true"
-        >
+        <Dialog header="เพิ่มทะเบียนบุคลากร" v-model:visible="display_add" :style="{ width: '75vw' }" :modal="true">
             <form class="grid mt-2">
                 <div class="col-12 lg:col-12">
                     <div class="grid">
                         <div class="col-12 sm:col-12 lg:col-4 text-center">
-                            <Image
-                                width="200"
-                                height="200"
-                                alt="Image Text"
-                                preview
-                                v-if="path"
-                                :src="path"
-                            >
+                            <Image width="200" height="200" alt="Image Text" preview v-if="path" :src="path">
                             </Image>
-                            <Image
-                                v-else
-                                width="200"
-                                height="200"
-                                alt="Image Text"
-                                preview
-                                src="images/widgets/user-card.png"
-                            >
+                            <Image v-else width="200" height="200" alt="Image Text" preview
+                                src="images/widgets/user-card.png">
                             </Image>
 
-                            <FileUpload
-                                mode="basic"
-                                :customUpload="true"
-                                @select="preview"
-                                accept="image/*"
-                                v-model="form.StaffImage"
-                            />
+                            <FileUpload mode="basic" :customUpload="true" @select="preview" accept="image/*"
+                                v-model="form.StaffImage" />
                         </div>
                         <div class="col-12 sm:col-12 lg:col-8 grid">
                             <div class="field col-12 sm:col-6">
-                                <label
-                                    class="block text-600 text-sm font-bold mb-2"
-                                >
+                                <label class="block text-600 text-sm font-bold mb-2">
                                     รหัสบุคลากร
-                                    <span class="text-red-500">*</span></label
-                                >
-                                <InputText
-                                    :disabled="!isAdminPermission()"
-                                    type="text"
-                                    class="w-full"
-                                    v-model="form.StaffNumber"
-                                    :class="{
+                                    <span class="text-red-500">*</span></label>
+                                <InputText :disabled="!isAdminPermission()" type="text" class="w-full"
+                                    v-model="form.StaffNumber" :class="{
                                         'p-invalid': !form.StaffNumber && valid,
-                                    }"
-                                />
+                                    }" />
                             </div>
 
                             <div class="field col-12 sm:col-6">
-                                <label
-                                    for="selectedUnit"
-                                    class="block text-600 text-sm font-bold mb-2"
-                                >
+                                <label for="selectedUnit" class="block text-600 text-sm font-bold mb-2">
                                     ประเภทบุคลากร<span class="text-red-500">
-                                        *</span
-                                    ></label
-                                >
-                                <Dropdown
-                                    class="w-full"
-                                    placeholder="เลือกประเภทบุคลากร"
-                                    optionLabel="PositionTypeName"
-                                    optionValue="PositionTypeID"
-                                    v-model="form.StaffPositionTypeID"
-                                    :class="{
+                                        *</span></label>
+                                <Dropdown class="w-full" placeholder="เลือกประเภทบุคลากร" optionLabel="PositionTypeName"
+                                    optionValue="PositionTypeID" v-model="form.StaffPositionTypeID" :class="{
                                         'p-invalid':
                                             !form.StaffPositionTypeID && valid,
-                                    }"
-                                    :options="dropdown.PositionTypes"
-                                    :filter="true"
-                                />
+                                    }" :options="dropdown.PositionTypes" :filter="true" />
                             </div>
 
                             <div class="field col-12 sm:col-6">
-                                <label
-                                    for="selectedUnit"
-                                    class="block text-600 text-sm font-bold mb-2"
-                                >
+                                <label for="selectedUnit" class="block text-600 text-sm font-bold mb-2">
                                     ตำแหน่งงาน<span class="text-red-500">
-                                        *</span
-                                    ></label
-                                >
-                                <Dropdown
-                                    class="w-full"
-                                    placeholder="เลือกตำแหน่งงาน"
-                                    optionLabel="PositionName"
-                                    optionValue="PositionID"
-                                    v-model="form.StaffPositionID"
-                                    :class="{
+                                        *</span></label>
+                                <Dropdown class="w-full" placeholder="เลือกตำแหน่งงาน" optionLabel="PositionName"
+                                    optionValue="PositionID" v-model="form.StaffPositionID" :class="{
                                         'p-invalid':
                                             !form.StaffPositionID && valid,
-                                    }"
-                                    :options="dropdown.Positions"
-                                    :filter="true"
-                                />
+                                    }" :options="dropdown.Positions" :filter="true" />
                             </div>
                             <div class="field col-12 sm:col-6">
-                                <label
-                                    for="selectedUnit"
-                                    class="block text-600 text-sm font-bold mb-2"
-                                >
+                                <label for="selectedUnit" class="block text-600 text-sm font-bold mb-2">
                                     สถานะบุคลากร<span class="text-red-500">
-                                        *</span
-                                    ></label
-                                >
-                                <Dropdown
-                                    class="w-full"
-                                    placeholder="เลือกสถานะบุคลากร"
-                                    optionLabel="name"
-                                    optionValue="id"
-                                    v-model="form.StaffStatus"
-                                    :class="{
+                                        *</span></label>
+                                <Dropdown class="w-full" placeholder="เลือกสถานะบุคลากร" optionLabel="name"
+                                    optionValue="id" v-model="form.StaffStatus" :class="{
                                         'p-invalid': !form.StaffStatus && valid,
-                                    }"
-                                    :options="dropdown.StatusAlives"
-                                    :filter="true"
-                                />
+                                    }" :options="dropdown.StatusAlives" :filter="true" />
                             </div>
 
                             <div class="field col-12 sm:col-12">
-                                <label
-                                    for="selectedUnit"
-                                    class="block text-600 text-sm font-bold mb-2"
-                                >
+                                <label for="selectedUnit" class="block text-600 text-sm font-bold mb-2">
                                     หน่วยงานที่สังกัด
-                                    <span class="text-red-500">*</span></label
-                                >
-                                <Dropdown
-                                    class="w-full"
-                                    placeholder="เลือกหน่วยงานที่สังกัด"
-                                    optionLabel="OrganizationName"
-                                    optionValue="OrganizationID"
-                                    v-model="form.StaffOrganizationID"
-                                    :class="{
+                                    <span class="text-red-500">*</span></label>
+                                <Dropdown class="w-full" placeholder="เลือกหน่วยงานที่สังกัด"
+                                    optionLabel="OrganizationName" optionValue="OrganizationID"
+                                    v-model="form.StaffOrganizationID" :class="{
                                         'p-invalid':
                                             !form.StaffOrganizationID && valid,
-                                    }"
-                                    :virtualScrollerOptions="{ itemSize: 38 }"
-                                    :options="dropdown.Organizations1"
-                                    :filter="true"
-                                />
+                                    }" :virtualScrollerOptions="{ itemSize: 38 }" :options="dropdown.Organizations1"
+                                    :filter="true" />
                             </div>
 
                             <div class="field col-12 sm:col-6">
-                                <label
-                                    for="selectedUnit"
-                                    class="block text-600 text-sm font-bold mb-2"
-                                >
+                                <label for="selectedUnit" class="block text-600 text-sm font-bold mb-2">
                                     วันที่เริ่มงาน<span class="text-red-500">
-                                        *</span
-                                    ></label
-                                >
+                                        *</span></label>
                                 <!-- <Calendar
                   class="w-full"
                   :showButtonBar="true"
@@ -721,18 +388,9 @@
                   :class="{ 'p-invalid': !form.StaffStartDate && valid }"
                 /> -->
 
-                                <Datepicker
-                                    v-model="form.StaffStartDate"
-                                    id="dateRange"
-                                    locale="th"
-                                    :format="format"
-                                    utc
-                                    :enableTimePicker="false"
-                                    cancelText="ยกเลิก"
-                                    selectText="ยืนยัน"
-                                    placeholder="วันที่เริ่มงาน"
-                                    autoApply
-                                >
+                                <Datepicker v-model="form.StaffStartDate" id="dateRange" locale="th" :format="format"
+                                    utc :enableTimePicker="false" cancelText="ยกเลิก" selectText="ยืนยัน"
+                                    placeholder="วันที่เริ่มงาน" autoApply>
                                     <template #year-overlay-value="{ text }">
                                         {{ parseInt(text) + 543 }}
                                     </template>
@@ -742,12 +400,8 @@
                                 </Datepicker>
                             </div>
                             <div class="field col-12 sm:col-6">
-                                <label
-                                    for="selectedUnit"
-                                    class="block text-600 text-sm font-bold mb-2"
-                                >
-                                    วันที่สิ้นสุดการทำงาน</label
-                                >
+                                <label for="selectedUnit" class="block text-600 text-sm font-bold mb-2">
+                                    วันที่สิ้นสุดการทำงาน</label>
                                 <!-- <Calendar
                   class="w-full"
                   :showButtonBar="true"
@@ -755,22 +409,12 @@
                   v-model="form.StaffEndDate"
                 /> -->
 
-                                <Datepicker
-                                    v-model="form.StaffEndDate"
-                                    id="dateRange"
-                                    locale="th"
-                                    :format="format"
-                                    utc
+                                <Datepicker v-model="form.StaffEndDate" id="dateRange" locale="th" :format="format" utc
                                     :class="{
                                         'p-invalid':
                                             !form.StaffEndDate && valid,
-                                    }"
-                                    :enableTimePicker="false"
-                                    cancelText="ยกเลิก"
-                                    selectText="ยืนยัน"
-                                    placeholder="วันที่สิ้นสุดการทำงาน"
-                                    autoApply
-                                >
+                                    }" :enableTimePicker="false" cancelText="ยกเลิก" selectText="ยืนยัน"
+                                    placeholder="วันที่สิ้นสุดการทำงาน" autoApply>
                                     <template #year-overlay-value="{ text }">
                                         {{ parseInt(text) + 543 }}
                                     </template>
@@ -780,12 +424,8 @@
                                 </Datepicker>
                             </div>
                             <div class="field col-12 sm:col-6">
-                                <label
-                                    for="selectedUnit"
-                                    class="block text-600 text-sm font-bold mb-2"
-                                >
-                                    วันที่ออกบัตร</label
-                                >
+                                <label for="selectedUnit" class="block text-600 text-sm font-bold mb-2">
+                                    วันที่ออกบัตร</label>
                                 <!-- <Calendar
                   class="w-full"
                   :showButtonBar="true"
@@ -793,18 +433,9 @@
                   v-model="form.CardStartDate"
                 /> -->
 
-                                <Datepicker
-                                    v-model="form.CardStartDate"
-                                    id="dateRange"
-                                    locale="th"
-                                    :format="format"
-                                    utc
-                                    :enableTimePicker="false"
-                                    cancelText="ยกเลิก"
-                                    selectText="ยืนยัน"
-                                    placeholder="วันที่ออกบัตร"
-                                    autoApply
-                                >
+                                <Datepicker v-model="form.CardStartDate" id="dateRange" locale="th" :format="format" utc
+                                    :enableTimePicker="false" cancelText="ยกเลิก" selectText="ยืนยัน"
+                                    placeholder="วันที่ออกบัตร" autoApply>
                                     <template #year-overlay-value="{ text }">
                                         {{ parseInt(text) + 543 }}
                                     </template>
@@ -814,12 +445,8 @@
                                 </Datepicker>
                             </div>
                             <div class="field col-12 sm:col-6">
-                                <label
-                                    for="selectedUnit"
-                                    class="block text-600 text-sm font-bold mb-2"
-                                >
-                                    วันที่บัตรหมดอายุ</label
-                                >
+                                <label for="selectedUnit" class="block text-600 text-sm font-bold mb-2">
+                                    วันที่บัตรหมดอายุ</label>
                                 <!-- <Calendar
                   class="w-full"
                   :showButtonBar="true"
@@ -827,18 +454,9 @@
                   v-model="form.CardExpireDate"
                 /> -->
 
-                                <Datepicker
-                                    v-model="form.CardExpireDate"
-                                    id="dateRange"
-                                    locale="th"
-                                    :format="format"
-                                    utc
-                                    :enableTimePicker="false"
-                                    cancelText="ยกเลิก"
-                                    selectText="ยืนยัน"
-                                    placeholder="วันที่บัตรหมดอายุ"
-                                    autoApply
-                                >
+                                <Datepicker v-model="form.CardExpireDate" id="dateRange" locale="th" :format="format"
+                                    utc :enableTimePicker="false" cancelText="ยกเลิก" selectText="ยืนยัน"
+                                    placeholder="วันที่บัตรหมดอายุ" autoApply>
                                     <template #year-overlay-value="{ text }">
                                         {{ parseInt(text) + 543 }}
                                     </template>
@@ -848,18 +466,9 @@
                                 </Datepicker>
                             </div>
                             <div class="field col-12 sm:col-6">
-                                <label
-                                    for="selectedUnit"
-                                    class="block text-600 text-sm font-bold mb-2"
-                                >
-                                    หน้าที่ความรับผิดชอบ</label
-                                >
-                                <InputText
-                                    type="text"
-                                    class="w-full"
-                                    placeholder=""
-                                    v-model="form.StaffResponsible"
-                                />
+                                <label for="selectedUnit" class="block text-600 text-sm font-bold mb-2">
+                                    หน้าที่ความรับผิดชอบ</label>
+                                <InputText type="text" class="w-full" placeholder="" v-model="form.StaffResponsible" />
                             </div>
                         </div>
                     </div>
@@ -868,114 +477,55 @@
                     <div class="text-xl">ประวัติบุคลากร</div>
                     <div class="formgrid grid mt-2">
                         <div class="field col-12 sm:col-2">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
+                            <label class="block text-600 text-sm font-bold mb-2">
                                 คำนำหน้า<span class="text-red-500">
-                                    *</span
-                                ></label
-                            >
-                            <Dropdown
-                                class="w-full"
-                                placeholder="เลือกคำนำหน้า"
-                                optionLabel="TitleName"
-                                optionValue="TitleID"
-                                v-model="form.StaffTitleID"
-                                :class="{
+                                    *</span></label>
+                            <Dropdown class="w-full" placeholder="เลือกคำนำหน้า" optionLabel="TitleName"
+                                optionValue="TitleID" v-model="form.StaffTitleID" :class="{
                                     'p-invalid': !form.StaffTitleID && valid,
-                                }"
-                                :options="dropdown.Titles"
-                                :filter="true"
-                            />
+                                }" :options="dropdown.Titles" :filter="true" />
                         </div>
                         <div class="field col-12 sm:col-5">
-                            <label class="block text-600 text-sm font-bold mb-2"
-                                >ชื่อ<span class="text-red-500"> *</span></label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffGivenName"
-                                :class="{
-                                    'p-invalid': !form.StaffGivenName && valid,
-                                }"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">ชื่อ<span class="text-red-500">
+                                    *</span></label>
+                            <InputText type="text" class="w-full" v-model="form.StaffGivenName" :class="{
+                                'p-invalid': !form.StaffGivenName && valid,
+                            }" />
                         </div>
                         <div class="field col-12 sm:col-5">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
+                            <label class="block text-600 text-sm font-bold mb-2">
                                 นามสกุล<span class="text-red-500">
-                                    *</span
-                                ></label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffSurname"
-                                :class="{
-                                    'p-invalid': !form.StaffSurname && valid,
-                                }"
-                            />
+                                    *</span></label>
+                            <InputText type="text" class="w-full" v-model="form.StaffSurname" :class="{
+                                'p-invalid': !form.StaffSurname && valid,
+                            }" />
                         </div>
                         <div class="field col-12 sm:col-2">
-                            <label class="block text-600 text-sm font-bold mb-2"
-                                >เพศ<span class="text-red-500"> *</span></label
-                            >
-                            <Dropdown
-                                class="w-full"
-                                placeholder="เลือกเพศ"
-                                optionLabel="GenderName"
-                                optionValue="GenderID"
-                                v-model="form.StaffGenderID"
-                                :class="{
+                            <label class="block text-600 text-sm font-bold mb-2">เพศ<span class="text-red-500">
+                                    *</span></label>
+                            <Dropdown class="w-full" placeholder="เลือกเพศ" optionLabel="GenderName"
+                                optionValue="GenderID" v-model="form.StaffGenderID" :class="{
                                     'p-invalid': !form.StaffGenderID && valid,
-                                }"
-                                :options="dropdown.Genders"
-                                :filter="true"
-                            />
+                                }" :options="dropdown.Genders" :filter="true" />
                         </div>
 
                         <div class="field col-12 sm:col-5">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                เลขบัตรประจำตัวประชาชน<span
-                                    class="text-red-500"
-                                >
-                                    *</span
-                                ></label
-                            >
-                            <InputMask
-                                class="w-full"
-                                mask="9-9999-99999-99-9"
-                                v-model="form.StaffIdentificationNumber"
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                เลขบัตรประจำตัวประชาชน<span class="text-red-500">
+                                    *</span></label>
+                            <InputMask class="w-full" mask="9-9999-99999-99-9" v-model="form.StaffIdentificationNumber"
                                 :class="{
                                     'p-invalid':
                                         !form.StaffIdentificationNumber &&
                                         valid,
-                                }"
-                            />
+                                }" />
                         </div>
                         <div class="field col-12 sm:col-5">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                วัน-เดือน-ปี (เกิด)</label
-                            >
-                            <Datepicker
-                                v-model="form.StaffBirthDate"
-                                id="dateRange"
-                                locale="th"
-                                :format="format"
-                                utc
-                                :maxDate="new Date()"
-                                :enableTimePicker="false"
-                                cancelText="ยกเลิก"
-                                selectText="ยืนยัน"
-                                placeholder="วัน-เดือน-ปี (เกิด)"
-                                autoApply
-                            >
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                วัน-เดือน-ปี (เกิด)</label>
+                            <Datepicker v-model="form.StaffBirthDate" id="dateRange" locale="th" :format="format" utc
+                                :maxDate="new Date()" :enableTimePicker="false" cancelText="ยกเลิก" selectText="ยืนยัน"
+                                placeholder="วัน-เดือน-ปี (เกิด)" autoApply>
                                 <template #year-overlay-value="{ text }">
                                     {{ parseInt(text) + 543 }}
                                 </template>
@@ -985,493 +535,227 @@
                             </Datepicker>
                         </div>
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                อีเมล<span class="text-red-500"> *</span></label
-                            >
-                            <InputText
-                                type="email"
-                                class="w-full"
-                                v-model="form.StaffEmail"
-                                :class="{
-                                    'p-invalid': !form.StaffEmail && valid,
-                                }"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                อีเมล<span class="text-red-500"> *</span></label>
+                            <InputText type="email" class="w-full" v-model="form.StaffEmail" :class="{
+                                'p-invalid': !form.StaffEmail && valid,
+                            }" />
                         </div>
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                เบอร์โทรศัพท์ (มือถือ)<span
-                                    class="text-red-500"
-                                >
-                                    *</span
-                                ></label
-                            >
-                            <InputMask
-                                class="w-full"
-                                mask="999-999-9999"
-                                v-model="form.StaffMobilePhone"
-                                :class="{
-                                    'p-invalid':
-                                        !form.StaffMobilePhone && valid,
-                                }"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                เบอร์โทรศัพท์ (มือถือ)<span class="text-red-500">
+                                    *</span></label>
+                            <InputMask class="w-full" mask="999-999-9999" v-model="form.StaffMobilePhone" :class="{
+                                'p-invalid':
+                                    !form.StaffMobilePhone && valid,
+                            }" />
                         </div>
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                ระดับการศึกษา</label
-                            >
-                            <Dropdown
-                                class="w-full"
-                                placeholder="เลือกระดับการศึกษา"
-                                optionLabel="EducationName"
-                                optionValue="EducationID"
-                                v-model="form.StaffEducationID"
-                                :options="dropdown.Educations"
-                                :filter="true"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                ระดับการศึกษา</label>
+                            <Dropdown class="w-full" placeholder="เลือกระดับการศึกษา" optionLabel="EducationName"
+                                optionValue="EducationID" v-model="form.StaffEducationID" :options="dropdown.Educations"
+                                :filter="true" />
                         </div>
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                สาขาวิชา</label
-                            >
-                            <Dropdown
-                                class="w-full"
-                                placeholder="เลือกสาขาวิชา"
-                                optionLabel="MajorName"
-                                optionValue="MajorID"
-                                v-model="form.StaffMajorID"
-                                :options="dropdown.Majors"
-                                :filter="true"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                สาขาวิชา</label>
+                            <Dropdown class="w-full" placeholder="เลือกสาขาวิชา" optionLabel="MajorName"
+                                optionValue="MajorID" v-model="form.StaffMajorID" :options="dropdown.Majors"
+                                :filter="true" />
                         </div>
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                ปีที่สำเร็จการศึกษา</label
-                            >
-                            <InputText
-                                type="number"
-                                class="w-full"
-                                v-model="form.StaffGraduatedYear"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                ปีที่สำเร็จการศึกษา</label>
+                            <InputText type="number" class="w-full" v-model="form.StaffGraduatedYear" />
                         </div>
 
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                สถานภาพการสมรส</label
-                            >
-                            <Dropdown
-                                class="w-full"
-                                placeholder="เลือกสถานภาพการสมรส"
-                                optionLabel="MarriedStatusName"
-                                optionValue="MarriedStatusID"
-                                v-model="form.StaffMarriedStatusID"
-                                :options="dropdown.MariedStatuses"
-                                :filter="true"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                สถานภาพการสมรส</label>
+                            <Dropdown class="w-full" placeholder="เลือกสถานภาพการสมรส" optionLabel="MarriedStatusName"
+                                optionValue="MarriedStatusID" v-model="form.StaffMarriedStatusID"
+                                :options="dropdown.MariedStatuses" :filter="true" />
                         </div>
 
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                เบอร์โทรศัพท์</label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffTelephone"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                เบอร์โทรศัพท์</label>
+                            <InputText type="text" class="w-full" v-model="form.StaffTelephone" />
                         </div>
 
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                หมายเลขโทรสาร</label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffFax"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                หมายเลขโทรสาร</label>
+                            <InputText type="text" class="w-full" v-model="form.StaffFax" />
                         </div>
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                ไอดีไลน์ (ID Line)</label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffIDLine"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                ไอดีไลน์ (ID Line)</label>
+                            <InputText type="text" class="w-full" v-model="form.StaffIDLine" />
                         </div>
                     </div>
                     <hr />
                     <div class="text-xl">ที่อยู่บุคลากร</div>
                     <div class="formgrid grid mt-2">
                         <div class="field col-12 sm:col-3">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                เลขที่บ้าน</label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffAddress"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                เลขที่บ้าน</label>
+                            <InputText type="text" class="w-full" v-model="form.StaffAddress" />
                         </div>
                         <div class="field col-12 sm:col-3">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                หมู่ที่</label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffMoo"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                หมู่ที่</label>
+                            <InputText type="text" class="w-full" v-model="form.StaffMoo" />
                         </div>
                         <div class="field col-12 sm:col-3">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                ชื่อหมู่บ้าน/อาคาร</label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffVillageName"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                ชื่อหมู่บ้าน/อาคาร</label>
+                            <InputText type="text" class="w-full" v-model="form.StaffVillageName" />
                         </div>
                         <div class="field col-12 sm:col-3">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                ชั้น</label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffFloor"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                ชั้น</label>
+                            <InputText type="text" class="w-full" v-model="form.StaffFloor" />
                         </div>
 
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                ถนน</label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffStreet"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                ถนน</label>
+                            <InputText type="text" class="w-full" v-model="form.StaffStreet" />
                         </div>
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                ตรอก</label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffSubLane"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                ตรอก</label>
+                            <InputText type="text" class="w-full" v-model="form.StaffSubLane" />
                         </div>
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                ซอย</label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffLane"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                ซอย</label>
+                            <InputText type="text" class="w-full" v-model="form.StaffLane" />
                         </div>
 
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                จังหวัด</label
-                            >
-                            <Dropdown
-                                class="w-full"
-                                placeholder="เลือกจังหวัด"
-                                optionLabel="ProvinceName"
-                                optionValue="ProvinceID"
-                                v-model="form.StaffProvinceID"
-                                :options="dropdown.Provinces1"
-                                :filter="true"
-                                :virtualScrollerOptions="{ itemSize: 38 }"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                จังหวัด</label>
+                            <Dropdown class="w-full" placeholder="เลือกจังหวัด" optionLabel="ProvinceName"
+                                optionValue="ProvinceID" v-model="form.StaffProvinceID" :options="dropdown.Provinces1"
+                                :filter="true" :virtualScrollerOptions="{ itemSize: 38 }" />
                         </div>
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                อำเภอ/เขต</label
-                            >
-                            <Dropdown
-                                class="w-full"
-                                placeholder="เลือกอำเภอ/เขต"
-                                optionLabel="AmphurName"
-                                optionValue="AmphurID"
-                                v-model="form.StaffAmphurID"
-                                :options="dropdown.Amphurs1"
-                                :filter="true"
-                                :virtualScrollerOptions="{ itemSize: 38 }"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                อำเภอ/เขต</label>
+                            <Dropdown class="w-full" placeholder="เลือกอำเภอ/เขต" optionLabel="AmphurName"
+                                optionValue="AmphurID" v-model="form.StaffAmphurID" :options="dropdown.Amphurs1"
+                                :filter="true" :virtualScrollerOptions="{ itemSize: 38 }" />
                         </div>
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                ตำบล/แขวง</label
-                            >
-                            <Dropdown
-                                class="w-full"
-                                placeholder="เลือกตำบล/แขวง"
-                                optionLabel="TumbolName"
-                                optionValue="TumbolID"
-                                v-model="form.StaffTumbolID"
-                                :options="dropdown.Tumbols1"
-                                :filter="true"
-                                :virtualScrollerOptions="{ itemSize: 38 }"
-                                @change="filterZipcode($event)"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                ตำบล/แขวง</label>
+                            <Dropdown class="w-full" placeholder="เลือกตำบล/แขวง" optionLabel="TumbolName"
+                                optionValue="TumbolID" v-model="form.StaffTumbolID" :options="dropdown.Tumbols1"
+                                :filter="true" :virtualScrollerOptions="{ itemSize: 38 }"
+                                @change="filterZipcode($event)" />
                         </div>
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                รหัสไปรษณีย์</label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffZipCode"
-                                maxlength="5"
-                                minlength="5"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                รหัสไปรษณีย์</label>
+                            <InputText type="text" class="w-full" v-model="form.StaffZipCode" maxlength="5"
+                                minlength="5" />
                         </div>
                     </div>
                     <div class="field col-12 sm:col-12 lg:col-12">
                         <div class="text-xl">สถานะ</div>
-                        <div
-                            v-for="isActive of status"
-                            :key="isActive.key"
-                            class="field-radiobutton"
-                        >
-                            <RadioButton
-                                :id="isActive.key"
-                                name="category"
-                                :value="isActive"
-                                v-model="form.isActive"
-                            />
+                        <div v-for="isActive of status" :key="isActive.key" class="field-radiobutton">
+                            <RadioButton :id="isActive.key" name="category" :value="isActive" v-model="form.isActive" />
                             <label :for="isActive.key">{{
                                 isActive.name
                             }}</label>
                         </div>
                     </div>
                 </div>
-                <div
-                    class="col-12 text-center mt-5 flex justify-content-between"
-                >
-                    <Button
-                        label="ยกเลิก"
-                        class="p-button-secondary w-full mr-3"
-                        @click="close_add()"
-                    />
-                    <Button
-                        label="บันทึกข้อมูล"
-                        class="ml-3 p-button-success w-full"
-                        @click="add()"
-                    />
+                <div class="col-12 text-center mt-5 flex justify-content-between">
+                    <Button label="ยกเลิก" class="p-button-secondary w-full mr-3" @click="close_add()" />
+                    <Button label="บันทึกข้อมูล" class="ml-3 p-button-success w-full" @click="add()" />
                 </div>
             </form>
         </Dialog>
         <!-- End Add Dialog -->
 
         <!-- Start EDIT Dialog -->
-        <Dialog
-            header="แก้ไขทะเบียนบุคลากร"
-            v-model:visible="display_edit"
-            :style="{ width: '75vw' }"
-            :modal="true"
-        >
+        <Dialog header="แก้ไขทะเบียนบุคลากร" v-model:visible="display_edit" :style="{ width: '75vw' }" :modal="true">
             <form class="grid mt-2">
                 <div class="col-12 lg:col-12">
                     <div class="grid">
                         <div class="col-12 sm:col-12 lg:col-4 text-center">
-                            <Image
-                                width="200"
-                                height="200"
-                                alt="Image Text"
-                                preview
-                                v-if="path"
-                                :src="path"
-                            >
+                            <Image width="200" height="200" alt="Image Text" preview v-if="path" :src="path">
                             </Image>
-                            <Image
-                                v-else
-                                width="200"
-                                height="200"
-                                alt="Image Text"
-                                preview
-                                src="images/widgets/user-card.png"
-                            >
+                            <Image v-else width="200" height="200" alt="Image Text" preview
+                                src="images/widgets/user-card.png">
                             </Image>
 
-                            <FileUpload
-                                mode="basic"
-                                :customUpload="true"
-                                @select="preview"
-                                accept="image/*"
-                                v-model="form.StaffImage"
-                            />
+                            <FileUpload mode="basic" :customUpload="true" @select="preview" accept="image/*"
+                                v-model="form.StaffImage" />
                         </div>
                         <div class="col-12 sm:col-12 lg:col-8 grid">
                             <div class="field col-12 sm:col-6">
-                                <label
-                                    class="block text-600 text-sm font-bold mb-2"
-                                >
+                                <label class="block text-600 text-sm font-bold mb-2">
                                     รหัสบุคลากร
-                                    <span class="text-red-500">*</span></label
-                                >
-                                <InputText
-                                    :disabled="!isAdminPermission()"
-                                    type="text"
-                                    class="w-full"
-                                    v-model="form.StaffNumber"
-                                    :class="{
+                                    <span class="text-red-500">*</span></label>
+                                <InputText :disabled="!isAdminPermission()" type="text" class="w-full"
+                                    v-model="form.StaffNumber" :class="{
                                         'p-invalid': !form.StaffNumber && valid,
-                                    }"
-                                />
+                                    }" />
                             </div>
 
                             <div class="field col-12 sm:col-6">
-                                <label
-                                    for="selectedUnit"
-                                    class="block text-600 text-sm font-bold mb-2"
-                                >
+                                <label for="selectedUnit" class="block text-600 text-sm font-bold mb-2">
                                     ประเภทบุคลากร<span class="text-red-500">
-                                        *</span
-                                    ></label
-                                >
-                                <Dropdown
-                                    class="w-full"
-                                    placeholder="เลือกประเภทบุคลากร"
-                                    optionLabel="PositionTypeName"
-                                    optionValue="PositionTypeID"
-                                    v-model="form.StaffPositionTypeID"
-                                    :class="{
+                                        *</span></label>
+                                <Dropdown class="w-full" placeholder="เลือกประเภทบุคลากร" optionLabel="PositionTypeName"
+                                    optionValue="PositionTypeID" v-model="form.StaffPositionTypeID" :class="{
                                         'p-invalid':
                                             !form.StaffPositionTypeID && valid,
-                                    }"
-                                    :options="dropdown.PositionTypes"
-                                    :filter="true"
-                                />
+                                    }" :options="dropdown.PositionTypes" :filter="true" />
                             </div>
 
                             <div class="field col-12 sm:col-6">
-                                <label
-                                    for="selectedUnit"
-                                    class="block text-600 text-sm font-bold mb-2"
-                                >
+                                <label for="selectedUnit" class="block text-600 text-sm font-bold mb-2">
                                     ตำแหน่งงาน<span class="text-red-500">
-                                        *</span
-                                    ></label
-                                >
-                                <Dropdown
-                                    class="w-full"
-                                    placeholder="เลือกตำแหน่งงาน"
-                                    optionLabel="PositionName"
-                                    optionValue="PositionID"
-                                    v-model="form.StaffPositionID"
-                                    :class="{
+                                        *</span></label>
+                                <Dropdown class="w-full" placeholder="เลือกตำแหน่งงาน" optionLabel="PositionName"
+                                    optionValue="PositionID" v-model="form.StaffPositionID" :class="{
                                         'p-invalid':
                                             !form.StaffPositionID && valid,
-                                    }"
-                                    :options="dropdown.Positions"
-                                    :filter="true"
-                                />
+                                    }" :options="dropdown.Positions" :filter="true" />
                             </div>
                             <div class="field col-12 sm:col-6">
-                                <label
-                                    for="selectedUnit"
-                                    class="block text-600 text-sm font-bold mb-2"
-                                >
+                                <label for="selectedUnit" class="block text-600 text-sm font-bold mb-2">
                                     สถานะบุคลากร<span class="text-red-500">
-                                        *</span
-                                    ></label
-                                >
-                                <Dropdown
-                                    class="w-full"
-                                    placeholder="เลือกสถานะบุคลากร"
-                                    optionLabel="name"
-                                    optionValue="id"
-                                    v-model="form.StaffStatus"
-                                    :class="{
+                                        *</span></label>
+                                <Dropdown class="w-full" placeholder="เลือกสถานะบุคลากร" optionLabel="name"
+                                    optionValue="id" v-model="form.StaffStatus" :class="{
                                         'p-invalid': !form.StaffStatus && valid,
-                                    }"
-                                    :options="dropdown.StatusAlives"
-                                    :filter="true"
-                                />
+                                    }" :options="dropdown.StatusAlives" :filter="true" />
                             </div>
 
                             <div class="field col-12 sm:col-12">
-                                <label
-                                    for="selectedUnit"
-                                    class="block text-600 text-sm font-bold mb-2"
-                                >
+                                <label for="selectedUnit" class="block text-600 text-sm font-bold mb-2">
                                     หน่วยงานที่สังกัด
-                                    <span class="text-red-500">*</span></label
-                                >
-                                <Dropdown
-                                    class="w-full"
-                                    placeholder="เลือกหน่วยงานที่สังกัด"
-                                    optionLabel="OrganizationName"
-                                    optionValue="OrganizationID"
-                                    v-model="form.StaffOrganizationID"
-                                    :class="{
+                                    <span class="text-red-500">*</span></label>
+                                <Dropdown class="w-full" placeholder="เลือกหน่วยงานที่สังกัด"
+                                    optionLabel="OrganizationName" optionValue="OrganizationID"
+                                    v-model="form.StaffOrganizationID" :class="{
                                         'p-invalid':
                                             !form.StaffOrganizationID && valid,
-                                    }"
-                                    :virtualScrollerOptions="{ itemSize: 38 }"
-                                    :options="dropdown.Organizations1"
-                                    :filter="true"
-                                />
+                                    }" :virtualScrollerOptions="{ itemSize: 38 }" :options="dropdown.Organizations1"
+                                    :filter="true" />
                             </div>
 
                             <div class="field col-12 sm:col-6">
-                                <label
-                                    for="selectedUnit"
-                                    class="block text-600 text-sm font-bold mb-2"
-                                >
+                                <label for="selectedUnit" class="block text-600 text-sm font-bold mb-2">
                                     วันที่เริ่มงาน<span class="text-red-500">
-                                        *</span
-                                    ></label
-                                >
+                                        *</span></label>
                                 <!-- <Calendar
                   class="w-full"
                   :showButtonBar="true"
@@ -1480,18 +764,9 @@
                   :class="{ 'p-invalid': !form.StaffStartDate && valid }"
                 /> -->
 
-                                <Datepicker
-                                    v-model="form.StaffStartDate"
-                                    id="dateRange"
-                                    locale="th"
-                                    :format="format"
-                                    utc
-                                    :enableTimePicker="false"
-                                    cancelText="ยกเลิก"
-                                    selectText="ยืนยัน"
-                                    placeholder="วันที่เริ่มงาน"
-                                    autoApply
-                                >
+                                <Datepicker v-model="form.StaffStartDate" id="dateRange" locale="th" :format="format"
+                                    utc :enableTimePicker="false" cancelText="ยกเลิก" selectText="ยืนยัน"
+                                    placeholder="วันที่เริ่มงาน" autoApply>
                                     <template #year-overlay-value="{ text }">
                                         {{ parseInt(text) + 543 }}
                                     </template>
@@ -1501,12 +776,8 @@
                                 </Datepicker>
                             </div>
                             <div class="field col-12 sm:col-6">
-                                <label
-                                    for="selectedUnit"
-                                    class="block text-600 text-sm font-bold mb-2"
-                                >
-                                    วันที่สิ้นสุดการทำงาน</label
-                                >
+                                <label for="selectedUnit" class="block text-600 text-sm font-bold mb-2">
+                                    วันที่สิ้นสุดการทำงาน</label>
                                 <!-- <Calendar
                   class="w-full"
                   :showButtonBar="true"
@@ -1514,22 +785,12 @@
                   v-model="form.StaffEndDate"
                 /> -->
 
-                                <Datepicker
-                                    v-model="form.StaffEndDate"
-                                    id="dateRange"
-                                    locale="th"
-                                    :format="format"
-                                    utc
+                                <Datepicker v-model="form.StaffEndDate" id="dateRange" locale="th" :format="format" utc
                                     :class="{
                                         'p-invalid':
                                             !form.StaffEndDate && valid,
-                                    }"
-                                    :enableTimePicker="false"
-                                    cancelText="ยกเลิก"
-                                    selectText="ยืนยัน"
-                                    placeholder="วันที่สิ้นสุดการทำงาน"
-                                    autoApply
-                                >
+                                    }" :enableTimePicker="false" cancelText="ยกเลิก" selectText="ยืนยัน"
+                                    placeholder="วันที่สิ้นสุดการทำงาน" autoApply>
                                     <template #year-overlay-value="{ text }">
                                         {{ parseInt(text) + 543 }}
                                     </template>
@@ -1539,12 +800,8 @@
                                 </Datepicker>
                             </div>
                             <div class="field col-12 sm:col-6">
-                                <label
-                                    for="selectedUnit"
-                                    class="block text-600 text-sm font-bold mb-2"
-                                >
-                                    วันที่ออกบัตร</label
-                                >
+                                <label for="selectedUnit" class="block text-600 text-sm font-bold mb-2">
+                                    วันที่ออกบัตร</label>
                                 <!-- <Calendar
                   class="w-full"
                   :showButtonBar="true"
@@ -1552,18 +809,9 @@
                   v-model="form.CardStartDate"
                 /> -->
 
-                                <Datepicker
-                                    v-model="form.CardStartDate"
-                                    id="dateRange"
-                                    locale="th"
-                                    :format="format"
-                                    utc
-                                    :enableTimePicker="false"
-                                    cancelText="ยกเลิก"
-                                    selectText="ยืนยัน"
-                                    placeholder="วันที่ออกบัตร"
-                                    autoApply
-                                >
+                                <Datepicker v-model="form.CardStartDate" id="dateRange" locale="th" :format="format" utc
+                                    :enableTimePicker="false" cancelText="ยกเลิก" selectText="ยืนยัน"
+                                    placeholder="วันที่ออกบัตร" autoApply>
                                     <template #year-overlay-value="{ text }">
                                         {{ parseInt(text) + 543 }}
                                     </template>
@@ -1573,12 +821,8 @@
                                 </Datepicker>
                             </div>
                             <div class="field col-12 sm:col-6">
-                                <label
-                                    for="selectedUnit"
-                                    class="block text-600 text-sm font-bold mb-2"
-                                >
-                                    วันที่บัตรหมดอายุ</label
-                                >
+                                <label for="selectedUnit" class="block text-600 text-sm font-bold mb-2">
+                                    วันที่บัตรหมดอายุ</label>
                                 <!-- <Calendar
                   class="w-full"
                   :showButtonBar="true"
@@ -1586,18 +830,9 @@
                   v-model="form.CardExpireDate"
                 /> -->
 
-                                <Datepicker
-                                    v-model="form.CardExpireDate"
-                                    id="dateRange"
-                                    locale="th"
-                                    :format="format"
-                                    utc
-                                    :enableTimePicker="false"
-                                    cancelText="ยกเลิก"
-                                    selectText="ยืนยัน"
-                                    placeholder="วันที่บัตรหมดอายุ"
-                                    autoApply
-                                >
+                                <Datepicker v-model="form.CardExpireDate" id="dateRange" locale="th" :format="format"
+                                    utc :enableTimePicker="false" cancelText="ยกเลิก" selectText="ยืนยัน"
+                                    placeholder="วันที่บัตรหมดอายุ" autoApply>
                                     <template #year-overlay-value="{ text }">
                                         {{ parseInt(text) + 543 }}
                                     </template>
@@ -1607,18 +842,9 @@
                                 </Datepicker>
                             </div>
                             <div class="field col-12 sm:col-6">
-                                <label
-                                    for="selectedUnit"
-                                    class="block text-600 text-sm font-bold mb-2"
-                                >
-                                    หน้าที่ความรับผิดชอบ</label
-                                >
-                                <InputText
-                                    type="text"
-                                    class="w-full"
-                                    placeholder=""
-                                    v-model="form.StaffResponsible"
-                                />
+                                <label for="selectedUnit" class="block text-600 text-sm font-bold mb-2">
+                                    หน้าที่ความรับผิดชอบ</label>
+                                <InputText type="text" class="w-full" placeholder="" v-model="form.StaffResponsible" />
                             </div>
                         </div>
                     </div>
@@ -1627,114 +853,55 @@
                     <div class="text-xl">ประวัติบุคลากร</div>
                     <div class="formgrid grid mt-2">
                         <div class="field col-12 sm:col-2">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
+                            <label class="block text-600 text-sm font-bold mb-2">
                                 คำนำหน้า<span class="text-red-500">
-                                    *</span
-                                ></label
-                            >
-                            <Dropdown
-                                class="w-full"
-                                placeholder="เลือกคำนำหน้า"
-                                optionLabel="TitleName"
-                                optionValue="TitleID"
-                                v-model="form.StaffTitleID"
-                                :class="{
+                                    *</span></label>
+                            <Dropdown class="w-full" placeholder="เลือกคำนำหน้า" optionLabel="TitleName"
+                                optionValue="TitleID" v-model="form.StaffTitleID" :class="{
                                     'p-invalid': !form.StaffTitleID && valid,
-                                }"
-                                :options="dropdown.Titles"
-                                :filter="true"
-                            />
+                                }" :options="dropdown.Titles" :filter="true" />
                         </div>
                         <div class="field col-12 sm:col-5">
-                            <label class="block text-600 text-sm font-bold mb-2"
-                                >ชื่อ<span class="text-red-500"> *</span></label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffGivenName"
-                                :class="{
-                                    'p-invalid': !form.StaffGivenName && valid,
-                                }"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">ชื่อ<span class="text-red-500">
+                                    *</span></label>
+                            <InputText type="text" class="w-full" v-model="form.StaffGivenName" :class="{
+                                'p-invalid': !form.StaffGivenName && valid,
+                            }" />
                         </div>
                         <div class="field col-12 sm:col-5">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
+                            <label class="block text-600 text-sm font-bold mb-2">
                                 นามสกุล<span class="text-red-500">
-                                    *</span
-                                ></label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffSurname"
-                                :class="{
-                                    'p-invalid': !form.StaffSurname && valid,
-                                }"
-                            />
+                                    *</span></label>
+                            <InputText type="text" class="w-full" v-model="form.StaffSurname" :class="{
+                                'p-invalid': !form.StaffSurname && valid,
+                            }" />
                         </div>
                         <div class="field col-12 sm:col-2">
-                            <label class="block text-600 text-sm font-bold mb-2"
-                                >เพศ<span class="text-red-500"> *</span></label
-                            >
-                            <Dropdown
-                                class="w-full"
-                                placeholder="เลือกเพศ"
-                                optionLabel="GenderName"
-                                optionValue="GenderID"
-                                v-model="form.StaffGenderID"
-                                :class="{
+                            <label class="block text-600 text-sm font-bold mb-2">เพศ<span class="text-red-500">
+                                    *</span></label>
+                            <Dropdown class="w-full" placeholder="เลือกเพศ" optionLabel="GenderName"
+                                optionValue="GenderID" v-model="form.StaffGenderID" :class="{
                                     'p-invalid': !form.StaffGenderID && valid,
-                                }"
-                                :options="dropdown.Genders"
-                                :filter="true"
-                            />
+                                }" :options="dropdown.Genders" :filter="true" />
                         </div>
 
                         <div class="field col-12 sm:col-5">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                เลขบัตรประจำตัวประชาชน<span
-                                    class="text-red-500"
-                                >
-                                    *</span
-                                ></label
-                            >
-                            <InputMask
-                                class="w-full"
-                                mask="9-9999-99999-99-9"
-                                v-model="form.StaffIdentificationNumber"
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                เลขบัตรประจำตัวประชาชน<span class="text-red-500">
+                                    *</span></label>
+                            <InputMask class="w-full" mask="9-9999-99999-99-9" v-model="form.StaffIdentificationNumber"
                                 :class="{
                                     'p-invalid':
                                         !form.StaffIdentificationNumber &&
                                         valid,
-                                }"
-                            />
+                                }" />
                         </div>
                         <div class="field col-12 sm:col-5">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                วัน-เดือน-ปี (เกิด)</label
-                            >
-                            <Datepicker
-                                v-model="form.StaffBirthDate"
-                                id="dateRange"
-                                locale="th"
-                                :format="format"
-                                utc
-                                :maxDate="new Date()"
-                                :enableTimePicker="false"
-                                cancelText="ยกเลิก"
-                                selectText="ยืนยัน"
-                                placeholder="วัน-เดือน-ปี (เกิด)"
-                                autoApply
-                            >
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                วัน-เดือน-ปี (เกิด)</label>
+                            <Datepicker v-model="form.StaffBirthDate" id="dateRange" locale="th" :format="format" utc
+                                :maxDate="new Date()" :enableTimePicker="false" cancelText="ยกเลิก" selectText="ยืนยัน"
+                                placeholder="วัน-เดือน-ปี (เกิด)" autoApply>
                                 <template #year-overlay-value="{ text }">
                                     {{ parseInt(text) + 543 }}
                                 </template>
@@ -1744,497 +911,226 @@
                             </Datepicker>
                         </div>
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                อีเมล<span class="text-red-500"> *</span></label
-                            >
-                            <InputText
-                                type="email"
-                                class="w-full"
-                                v-model="form.StaffEmail"
-                                :class="{
-                                    'p-invalid': !form.StaffEmail && valid,
-                                }"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                อีเมล<span class="text-red-500"> *</span></label>
+                            <InputText type="email" class="w-full" v-model="form.StaffEmail" :class="{
+                                'p-invalid': !form.StaffEmail && valid,
+                            }" />
                         </div>
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                เบอร์โทรศัพท์ (มือถือ)<span
-                                    class="text-red-500"
-                                >
-                                    *</span
-                                ></label
-                            >
-                            <InputMask
-                                class="w-full"
-                                mask="999-999-9999"
-                                v-model="form.StaffMobilePhone"
-                                :class="{
-                                    'p-invalid':
-                                        !form.StaffMobilePhone && valid,
-                                }"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                เบอร์โทรศัพท์ (มือถือ)<span class="text-red-500">
+                                    *</span></label>
+                            <InputMask class="w-full" mask="999-999-9999" v-model="form.StaffMobilePhone" :class="{
+                                'p-invalid':
+                                    !form.StaffMobilePhone && valid,
+                            }" />
                         </div>
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                ระดับการศึกษา</label
-                            >
-                            <Dropdown
-                                class="w-full"
-                                placeholder="เลือกระดับการศึกษา"
-                                optionLabel="EducationName"
-                                optionValue="EducationID"
-                                v-model="form.StaffEducationID"
-                                :options="dropdown.Educations"
-                                :filter="true"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                ระดับการศึกษา</label>
+                            <Dropdown class="w-full" placeholder="เลือกระดับการศึกษา" optionLabel="EducationName"
+                                optionValue="EducationID" v-model="form.StaffEducationID" :options="dropdown.Educations"
+                                :filter="true" />
                         </div>
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                สาขาวิชา</label
-                            >
-                            <Dropdown
-                                class="w-full"
-                                placeholder="เลือกสาขาวิชา"
-                                optionLabel="MajorName"
-                                optionValue="MajorID"
-                                v-model="form.StaffMajorID"
-                                :options="dropdown.Majors"
-                                :filter="true"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                สาขาวิชา</label>
+                            <Dropdown class="w-full" placeholder="เลือกสาขาวิชา" optionLabel="MajorName"
+                                optionValue="MajorID" v-model="form.StaffMajorID" :options="dropdown.Majors"
+                                :filter="true" />
                         </div>
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                ปีที่สำเร็จการศึกษา</label
-                            >
-                            <InputText
-                                type="number"
-                                class="w-full"
-                                v-model="form.StaffGraduatedYear"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                ปีที่สำเร็จการศึกษา</label>
+                            <InputText type="number" class="w-full" v-model="form.StaffGraduatedYear" />
                         </div>
 
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                สถานภาพการสมรส</label
-                            >
-                            <Dropdown
-                                class="w-full"
-                                placeholder="เลือกสถานภาพการสมรส"
-                                optionLabel="MarriedStatusName"
-                                optionValue="MarriedStatusID"
-                                v-model="form.StaffMarriedStatusID"
-                                :options="dropdown.MariedStatuses"
-                                :filter="true"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                สถานภาพการสมรส</label>
+                            <Dropdown class="w-full" placeholder="เลือกสถานภาพการสมรส" optionLabel="MarriedStatusName"
+                                optionValue="MarriedStatusID" v-model="form.StaffMarriedStatusID"
+                                :options="dropdown.MariedStatuses" :filter="true" />
                         </div>
 
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                เบอร์โทรศัพท์</label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffTelephone"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                เบอร์โทรศัพท์</label>
+                            <InputText type="text" class="w-full" v-model="form.StaffTelephone" />
                         </div>
 
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                หมายเลขโทรสาร</label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffFax"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                หมายเลขโทรสาร</label>
+                            <InputText type="text" class="w-full" v-model="form.StaffFax" />
                         </div>
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                ไอดีไลน์ (ID Line)</label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffIDLine"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                ไอดีไลน์ (ID Line)</label>
+                            <InputText type="text" class="w-full" v-model="form.StaffIDLine" />
                         </div>
                     </div>
                     <hr />
                     <div class="text-xl">ที่อยู่บุคลากร</div>
                     <div class="formgrid grid mt-2">
                         <div class="field col-12 sm:col-3">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                เลขที่บ้าน</label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffAddress"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                เลขที่บ้าน</label>
+                            <InputText type="text" class="w-full" v-model="form.StaffAddress" />
                         </div>
                         <div class="field col-12 sm:col-3">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                หมู่ที่</label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffMoo"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                หมู่ที่</label>
+                            <InputText type="text" class="w-full" v-model="form.StaffMoo" />
                         </div>
                         <div class="field col-12 sm:col-3">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                ชื่อหมู่บ้าน/อาคาร</label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffVillageName"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                ชื่อหมู่บ้าน/อาคาร</label>
+                            <InputText type="text" class="w-full" v-model="form.StaffVillageName" />
                         </div>
                         <div class="field col-12 sm:col-3">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                ชั้น</label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffFloor"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                ชั้น</label>
+                            <InputText type="text" class="w-full" v-model="form.StaffFloor" />
                         </div>
 
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                ถนน</label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffStreet"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                ถนน</label>
+                            <InputText type="text" class="w-full" v-model="form.StaffStreet" />
                         </div>
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                ตรอก</label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffSubLane"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                ตรอก</label>
+                            <InputText type="text" class="w-full" v-model="form.StaffSubLane" />
                         </div>
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                ซอย</label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffLane"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                ซอย</label>
+                            <InputText type="text" class="w-full" v-model="form.StaffLane" />
                         </div>
 
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                จังหวัด</label
-                            >
-                            <Dropdown
-                                class="w-full"
-                                placeholder="เลือกจังหวัด"
-                                optionLabel="ProvinceName"
-                                optionValue="ProvinceID"
-                                v-model="form.StaffProvinceID"
-                                :options="dropdown.Provinces1"
-                                :filter="true"
-                                :virtualScrollerOptions="{ itemSize: 38 }"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                จังหวัด</label>
+                            <Dropdown class="w-full" placeholder="เลือกจังหวัด" optionLabel="ProvinceName"
+                                optionValue="ProvinceID" v-model="form.StaffProvinceID" :options="dropdown.Provinces1"
+                                :filter="true" :virtualScrollerOptions="{ itemSize: 38 }" />
                         </div>
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                อำเภอ/เขต</label
-                            >
-                            <Dropdown
-                                class="w-full"
-                                placeholder="เลือกอำเภอ/เขต"
-                                optionLabel="AmphurName"
-                                optionValue="AmphurID"
-                                v-model="form.StaffAmphurID"
-                                :options="dropdown.Amphurs1"
-                                :filter="true"
-                                :virtualScrollerOptions="{ itemSize: 38 }"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                อำเภอ/เขต</label>
+                            <Dropdown class="w-full" placeholder="เลือกอำเภอ/เขต" optionLabel="AmphurName"
+                                optionValue="AmphurID" v-model="form.StaffAmphurID" :options="dropdown.Amphurs1"
+                                :filter="true" :virtualScrollerOptions="{ itemSize: 38 }" />
                         </div>
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                ตำบล/แขวง</label
-                            >
-                            <Dropdown
-                                class="w-full"
-                                placeholder="เลือกตำบล/แขวง"
-                                optionLabel="TumbolName"
-                                optionValue="TumbolID"
-                                v-model="form.StaffTumbolID"
-                                :options="dropdown.Tumbols1"
-                                :filter="true"
-                                :virtualScrollerOptions="{ itemSize: 38 }"
-                                @change="filterZipcode($event)"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                ตำบล/แขวง</label>
+                            <Dropdown class="w-full" placeholder="เลือกตำบล/แขวง" optionLabel="TumbolName"
+                                optionValue="TumbolID" v-model="form.StaffTumbolID" :options="dropdown.Tumbols1"
+                                :filter="true" :virtualScrollerOptions="{ itemSize: 38 }"
+                                @change="filterZipcode($event)" />
                         </div>
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                รหัสไปรษณีย์</label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffZipCode"
-                                maxlength="5"
-                                minlength="5"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                รหัสไปรษณีย์</label>
+                            <InputText type="text" class="w-full" v-model="form.StaffZipCode" maxlength="5"
+                                minlength="5" />
                         </div>
                     </div>
                     <div class="field col-12 sm:col-12 lg:col-12">
                         <div class="text-xl">สถานะ</div>
-                        <div
-                            v-for="isActive of status"
-                            :key="isActive.key"
-                            class="field-radiobutton"
-                        >
-                            <RadioButton
-                                :id="isActive.key"
-                                name="category"
-                                :value="isActive"
-                                v-model="form.isActive"
-                            />
+                        <div v-for="isActive of status" :key="isActive.key" class="field-radiobutton">
+                            <RadioButton :id="isActive.key" name="category" :value="isActive" v-model="form.isActive" />
                             <label :for="isActive.key">{{
                                 isActive.name
                             }}</label>
                         </div>
                     </div>
                 </div>
-                <div
-                    class="col-12 text-center mt-5 flex justify-content-between"
-                >
-                    <Button
-                        label="ยกเลิก"
-                        class="p-button-secondary w-full mr-3"
-                        @click="close_edit()"
-                    />
-                    <Button
-                        label="บันทึกข้อมูล"
-                        class="ml-3 p-button-info w-full"
-                        @click="update()"
-                    />
+                <div class="col-12 text-center mt-5 flex justify-content-between">
+                    <Button label="ยกเลิก" class="p-button-secondary w-full mr-3" @click="close_edit()" />
+                    <Button label="บันทึกข้อมูล" class="ml-3 p-button-info w-full" @click="update()" />
                 </div>
             </form>
         </Dialog>
         <!-- End EDIT Dialog -->
 
         <!-- Start View Dialog -->
-        <Dialog
-            header="รายละเอียดบุคลากร"
-            v-model:visible="display_view"
-            :style="{ width: '75vw' }"
-            :modal="true"
-        >
+        <Dialog header="รายละเอียดบุคลากร" v-model:visible="display_view" :style="{ width: '75vw' }" :modal="true">
             <form class="grid mt-2">
                 <div class="col-12 lg:col-12">
                     <div class="grid">
                         <div class="col-12 sm:col-12 lg:col-4 text-center">
-                            <Image
-                                width="200"
-                                height="200"
-                                alt="Image Text"
-                                preview
-                                v-if="path"
-                                :src="path"
-                            >
+                            <Image width="200" height="200" alt="Image Text" preview v-if="path" :src="path">
                             </Image>
-                            <Image
-                                v-else
-                                width="200"
-                                height="200"
-                                alt="Image Text"
-                                preview
-                                src="images/widgets/user-card.png"
-                            >
+                            <Image v-else width="200" height="200" alt="Image Text" preview
+                                src="images/widgets/user-card.png">
                             </Image>
 
-                            <FileUpload
-                                mode="basic"
-                                :customUpload="true"
-                                @select="preview"
-                                accept="image/*"
-                                v-model="form.StaffImage"
-                            />
+                            <FileUpload mode="basic" :customUpload="true" @select="preview" accept="image/*"
+                                v-model="form.StaffImage" />
                         </div>
                         <div class="col-12 sm:col-12 lg:col-8 grid">
                             <div class="field col-12 sm:col-6">
-                                <label
-                                    class="block text-600 text-sm font-bold mb-2"
-                                >
+                                <label class="block text-600 text-sm font-bold mb-2">
                                     รหัสบุคลากร
-                                    <span class="text-red-500">*</span></label
-                                >
-                                <InputText
-                                    type="text"
-                                    class="w-full"
-                                    v-model="form.StaffNumber"
-                                    :class="{
-                                        'p-invalid': !form.StaffNumber && valid,
-                                    }"
-                                    disabled
-                                />
+                                    <span class="text-red-500">*</span></label>
+                                <InputText type="text" class="w-full" v-model="form.StaffNumber" :class="{
+                                    'p-invalid': !form.StaffNumber && valid,
+                                }" disabled />
                             </div>
 
                             <div class="field col-12 sm:col-6">
-                                <label
-                                    for="selectedUnit"
-                                    class="block text-600 text-sm font-bold mb-2"
-                                >
+                                <label for="selectedUnit" class="block text-600 text-sm font-bold mb-2">
                                     ประเภทบุคลากร<span class="text-red-500">
-                                        *</span
-                                    ></label
-                                >
-                                <Dropdown
-                                    class="w-full"
-                                    placeholder="เลือกประเภทบุคลากร"
-                                    optionLabel="PositionTypeName"
-                                    optionValue="PositionTypeID"
-                                    v-model="form.StaffPositionTypeID"
-                                    :class="{
+                                        *</span></label>
+                                <Dropdown class="w-full" placeholder="เลือกประเภทบุคลากร" optionLabel="PositionTypeName"
+                                    optionValue="PositionTypeID" v-model="form.StaffPositionTypeID" :class="{
                                         'p-invalid':
                                             !form.StaffPositionTypeID && valid,
-                                    }"
-                                    :options="PositionType"
-                                    :filter="true"
-                                    disabled
-                                />
+                                    }" :options="PositionType" :filter="true" disabled />
                             </div>
 
                             <div class="field col-12 sm:col-6">
-                                <label
-                                    for="selectedUnit"
-                                    class="block text-600 text-sm font-bold mb-2"
-                                >
+                                <label for="selectedUnit" class="block text-600 text-sm font-bold mb-2">
                                     ตำแหน่งงาน<span class="text-red-500">
-                                        *</span
-                                    ></label
-                                >
-                                <Dropdown
-                                    class="w-full"
-                                    placeholder="เลือกตำแหน่งงาน"
-                                    optionLabel="PositionName"
-                                    optionValue="PositionID"
-                                    v-model="form.StaffPositionID"
-                                    :class="{
+                                        *</span></label>
+                                <Dropdown class="w-full" placeholder="เลือกตำแหน่งงาน" optionLabel="PositionName"
+                                    optionValue="PositionID" v-model="form.StaffPositionID" :class="{
                                         'p-invalid':
                                             !form.StaffPositionID && valid,
-                                    }"
-                                    :options="Position"
-                                    :filter="true"
-                                    disabled
-                                />
+                                    }" :options="Position" :filter="true" disabled />
                             </div>
                             <div class="field col-12 sm:col-6">
-                                <label
-                                    for="selectedUnit"
-                                    class="block text-600 text-sm font-bold mb-2"
-                                >
+                                <label for="selectedUnit" class="block text-600 text-sm font-bold mb-2">
                                     สถานะบุคลากร<span class="text-red-500">
-                                        *</span
-                                    ></label
-                                >
-                                <Dropdown
-                                    class="w-full"
-                                    placeholder="เลือกสถานะบุคลากร"
-                                    optionLabel="name"
-                                    optionValue="name"
-                                    v-model="form.StaffStatus"
-                                    :class="{
+                                        *</span></label>
+                                <Dropdown class="w-full" placeholder="เลือกสถานะบุคลากร" optionLabel="name"
+                                    optionValue="name" v-model="form.StaffStatus" :class="{
                                         'p-invalid': !form.StaffStatus && valid,
-                                    }"
-                                    :options="StatusAlive"
-                                    :filter="true"
-                                    disabled
-                                />
+                                    }" :options="StatusAlive" :filter="true" disabled />
                             </div>
 
                             <div class="field col-12 sm:col-12">
-                                <label
-                                    for="selectedUnit"
-                                    class="block text-600 text-sm font-bold mb-2"
-                                >
+                                <label for="selectedUnit" class="block text-600 text-sm font-bold mb-2">
                                     หน่วยงานที่สังกัด
-                                    <span class="text-red-500">*</span></label
-                                >
-                                <Dropdown
-                                    class="w-full"
-                                    placeholder="เลือกหน่วยงานที่สังกัด"
-                                    optionLabel="OrganizationName"
-                                    optionValue="OrganizationID"
-                                    v-model="form.StaffOrganizationID"
-                                    :class="{
+                                    <span class="text-red-500">*</span></label>
+                                <Dropdown class="w-full" placeholder="เลือกหน่วยงานที่สังกัด"
+                                    optionLabel="OrganizationName" optionValue="OrganizationID"
+                                    v-model="form.StaffOrganizationID" :class="{
                                         'p-invalid':
                                             !form.StaffOrganizationID && valid,
-                                    }"
-                                    :virtualScrollerOptions="{ itemSize: 38 }"
-                                    :options="Organization"
-                                    :filter="true"
-                                    disabled
-                                />
+                                    }" :virtualScrollerOptions="{ itemSize: 38 }" :options="Organization"
+                                    :filter="true" disabled />
                             </div>
 
                             <div class="field col-12 sm:col-6">
-                                <label
-                                    for="selectedUnit"
-                                    class="block text-600 text-sm font-bold mb-2"
-                                >
+                                <label for="selectedUnit" class="block text-600 text-sm font-bold mb-2">
                                     วันที่เริ่มงาน<span class="text-red-500">
-                                        *</span
-                                    ></label
-                                >
+                                        *</span></label>
                                 <!-- <Calendar
                   class="w-full"
                   :showButtonBar="true"
@@ -2243,19 +1139,9 @@
                   :class="{ 'p-invalid': !form.StaffStartDate && valid }"
                 /> -->
 
-                                <Datepicker
-                                    v-model="form.StaffStartDate"
-                                    id="dateRange"
-                                    locale="th"
-                                    :format="format"
-                                    utc
-                                    :enableTimePicker="false"
-                                    cancelText="ยกเลิก"
-                                    selectText="ยืนยัน"
-                                    placeholder="วันที่เริ่มงาน"
-                                    disabled
-                                    autoApply
-                                >
+                                <Datepicker v-model="form.StaffStartDate" id="dateRange" locale="th" :format="format"
+                                    utc :enableTimePicker="false" cancelText="ยกเลิก" selectText="ยืนยัน"
+                                    placeholder="วันที่เริ่มงาน" disabled autoApply>
                                     <template #year-overlay-value="{ text }">
                                         {{ parseInt(text) + 543 }}
                                     </template>
@@ -2265,12 +1151,8 @@
                                 </Datepicker>
                             </div>
                             <div class="field col-12 sm:col-6">
-                                <label
-                                    for="selectedUnit"
-                                    class="block text-600 text-sm font-bold mb-2"
-                                >
-                                    วันที่สิ้นสุดการทำงาน</label
-                                >
+                                <label for="selectedUnit" class="block text-600 text-sm font-bold mb-2">
+                                    วันที่สิ้นสุดการทำงาน</label>
                                 <!-- <Calendar
                   class="w-full"
                   :showButtonBar="true"
@@ -2278,23 +1160,12 @@
                   v-model="form.StaffEndDate"
                 /> -->
 
-                                <Datepicker
-                                    v-model="form.StaffEndDate"
-                                    id="dateRange"
-                                    locale="th"
-                                    :format="format"
-                                    utc
+                                <Datepicker v-model="form.StaffEndDate" id="dateRange" locale="th" :format="format" utc
                                     :class="{
                                         'p-invalid':
                                             !form.StaffEndDate && valid,
-                                    }"
-                                    :enableTimePicker="false"
-                                    cancelText="ยกเลิก"
-                                    selectText="ยืนยัน"
-                                    placeholder="วันที่สิ้นสุดการทำงาน"
-                                    disabled
-                                    autoApply
-                                >
+                                    }" :enableTimePicker="false" cancelText="ยกเลิก" selectText="ยืนยัน"
+                                    placeholder="วันที่สิ้นสุดการทำงาน" disabled autoApply>
                                     <template #year-overlay-value="{ text }">
                                         {{ parseInt(text) + 543 }}
                                     </template>
@@ -2304,12 +1175,8 @@
                                 </Datepicker>
                             </div>
                             <div class="field col-12 sm:col-6">
-                                <label
-                                    for="selectedUnit"
-                                    class="block text-600 text-sm font-bold mb-2"
-                                >
-                                    วันที่ออกบัตร</label
-                                >
+                                <label for="selectedUnit" class="block text-600 text-sm font-bold mb-2">
+                                    วันที่ออกบัตร</label>
                                 <!-- <Calendar
                   class="w-full"
                   :showButtonBar="true"
@@ -2317,19 +1184,9 @@
                   v-model="form.CardStartDate"
                 /> -->
 
-                                <Datepicker
-                                    v-model="form.CardStartDate"
-                                    id="dateRange"
-                                    locale="th"
-                                    :format="format"
-                                    utc
-                                    :enableTimePicker="false"
-                                    cancelText="ยกเลิก"
-                                    selectText="ยืนยัน"
-                                    placeholder="วันที่ออกบัตร"
-                                    disabled
-                                    autoApply
-                                >
+                                <Datepicker v-model="form.CardStartDate" id="dateRange" locale="th" :format="format" utc
+                                    :enableTimePicker="false" cancelText="ยกเลิก" selectText="ยืนยัน"
+                                    placeholder="วันที่ออกบัตร" disabled autoApply>
                                     <template #year-overlay-value="{ text }">
                                         {{ parseInt(text) + 543 }}
                                     </template>
@@ -2339,12 +1196,8 @@
                                 </Datepicker>
                             </div>
                             <div class="field col-12 sm:col-6">
-                                <label
-                                    for="selectedUnit"
-                                    class="block text-600 text-sm font-bold mb-2"
-                                >
-                                    วันที่บัตรหมดอายุ</label
-                                >
+                                <label for="selectedUnit" class="block text-600 text-sm font-bold mb-2">
+                                    วันที่บัตรหมดอายุ</label>
                                 <!-- <Calendar
                   class="w-full"
                   :showButtonBar="true"
@@ -2352,19 +1205,9 @@
                   v-model="form.CardExpireDate"
                 /> -->
 
-                                <Datepicker
-                                    v-model="form.CardExpireDate"
-                                    id="dateRange"
-                                    locale="th"
-                                    :format="format"
-                                    utc
-                                    :enableTimePicker="false"
-                                    cancelText="ยกเลิก"
-                                    selectText="ยืนยัน"
-                                    placeholder="วันที่บัตรหมดอายุ"
-                                    disabled
-                                    autoApply
-                                >
+                                <Datepicker v-model="form.CardExpireDate" id="dateRange" locale="th" :format="format"
+                                    utc :enableTimePicker="false" cancelText="ยกเลิก" selectText="ยืนยัน"
+                                    placeholder="วันที่บัตรหมดอายุ" disabled autoApply>
                                     <template #year-overlay-value="{ text }">
                                         {{ parseInt(text) + 543 }}
                                     </template>
@@ -2374,19 +1217,10 @@
                                 </Datepicker>
                             </div>
                             <div class="field col-12 sm:col-6">
-                                <label
-                                    for="selectedUnit"
-                                    class="block text-600 text-sm font-bold mb-2"
-                                >
-                                    หน้าที่ความรับผิดชอบ</label
-                                >
-                                <InputText
-                                    type="text"
-                                    class="w-full"
-                                    placeholder=""
-                                    v-model="form.StaffResponsible"
-                                    disabled
-                                />
+                                <label for="selectedUnit" class="block text-600 text-sm font-bold mb-2">
+                                    หน้าที่ความรับผิดชอบ</label>
+                                <InputText type="text" class="w-full" placeholder="" v-model="form.StaffResponsible"
+                                    disabled />
                             </div>
                         </div>
                     </div>
@@ -2395,99 +1229,48 @@
                     <div class="text-xl">ประวัติบุคลากร</div>
                     <div class="formgrid grid mt-2">
                         <div class="field col-12 sm:col-2">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
+                            <label class="block text-600 text-sm font-bold mb-2">
                                 คำนำหน้า<span class="text-red-500">
-                                    *</span
-                                ></label
-                            >
-                            <Dropdown
-                                class="w-full"
-                                placeholder="เลือกคำนำหน้า"
-                                optionLabel="TitleName"
-                                optionValue="TitleID"
-                                v-model="form.StaffTitleID"
-                                :class="{
+                                    *</span></label>
+                            <Dropdown class="w-full" placeholder="เลือกคำนำหน้า" optionLabel="TitleName"
+                                optionValue="TitleID" v-model="form.StaffTitleID" :class="{
                                     'p-invalid': !form.StaffTitleID && valid,
-                                }"
-                                :options="Title"
-                                :filter="true"
-                                disabled
-                            />
+                                }" :options="Title" :filter="true" disabled />
                         </div>
                         <div class="field col-12 sm:col-5">
-                            <label class="block text-600 text-sm font-bold mb-2"
-                                >ชื่อ<span class="text-red-500"> *</span></label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffGivenName"
-                                :class="{
-                                    'p-invalid': !form.StaffGivenName && valid,
-                                }"
-                                disabled
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">ชื่อ<span class="text-red-500">
+                                    *</span></label>
+                            <InputText type="text" class="w-full" v-model="form.StaffGivenName" :class="{
+                                'p-invalid': !form.StaffGivenName && valid,
+                            }" disabled />
                         </div>
                         <div class="field col-12 sm:col-5">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
+                            <label class="block text-600 text-sm font-bold mb-2">
                                 นามสกุล<span class="text-red-500">
-                                    *</span
-                                ></label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffSurname"
-                                :class="{
-                                    'p-invalid': !form.StaffSurname && valid,
-                                }"
-                                disabled
-                            />
+                                    *</span></label>
+                            <InputText type="text" class="w-full" v-model="form.StaffSurname" :class="{
+                                'p-invalid': !form.StaffSurname && valid,
+                            }" disabled />
                         </div>
                         <div class="field col-12 sm:col-2">
-                            <label class="block text-600 text-sm font-bold mb-2"
-                                >เพศ<span class="text-red-500"> *</span></label
-                            >
-                            <Dropdown
-                                class="w-full"
-                                placeholder="เลือกเพศ"
-                                optionLabel="GenderName"
-                                optionValue="GenderID"
-                                v-model="form.StaffGenderID"
-                                :class="{
+                            <label class="block text-600 text-sm font-bold mb-2">เพศ<span class="text-red-500">
+                                    *</span></label>
+                            <Dropdown class="w-full" placeholder="เลือกเพศ" optionLabel="GenderName"
+                                optionValue="GenderID" v-model="form.StaffGenderID" :class="{
                                     'p-invalid': !form.StaffGenderID && valid,
-                                }"
-                                :options="Gender"
-                                :filter="true"
-                                disabled
-                            />
+                                }" :options="Gender" :filter="true" disabled />
                         </div>
 
                         <div class="field col-12 sm:col-5">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                เลขบัตรประจำตัวประชาชน<span
-                                    class="text-red-500"
-                                >
-                                    *</span
-                                ></label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffIdentificationNumberTemp"
-                                disabled
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                เลขบัตรประจำตัวประชาชน<span class="text-red-500">
+                                    *</span></label>
+                            <InputText type="text" class="w-full" v-model="form.StaffIdentificationNumberTemp" disabled
                                 :class="{
                                     'p-invalid':
                                         !form.StaffIdentificationNumberTemp &&
                                         valid,
-                                }"
-                            />
+                                }" />
                             <!-- <InputMask
                 class="w-full"
                 mask="9-9999-99999-99-9"
@@ -2498,25 +1281,11 @@
               /> -->
                         </div>
                         <div class="field col-12 sm:col-5">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                วัน-เดือน-ปี (เกิด)</label
-                            >
-                            <Datepicker
-                                v-model="form.StaffBirthDate"
-                                id="dateRange"
-                                locale="th"
-                                :format="format"
-                                utc
-                                :maxDate="new Date()"
-                                :enableTimePicker="false"
-                                cancelText="ยกเลิก"
-                                selectText="ยืนยัน"
-                                placeholder="วัน-เดือน-ปี (เกิด)"
-                                disabled
-                                autoApply
-                            >
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                วัน-เดือน-ปี (เกิด)</label>
+                            <Datepicker v-model="form.StaffBirthDate" id="dateRange" locale="th" :format="format" utc
+                                :maxDate="new Date()" :enableTimePicker="false" cancelText="ยกเลิก" selectText="ยืนยัน"
+                                placeholder="วัน-เดือน-ปี (เกิด)" disabled autoApply>
                                 <template #year-overlay-value="{ text }">
                                     {{ parseInt(text) + 543 }}
                                 </template>
@@ -2526,330 +1295,140 @@
                             </Datepicker>
                         </div>
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                อีเมล<span class="text-red-500"> *</span></label
-                            >
-                            <InputText
-                                type="email"
-                                class="w-full"
-                                v-model="form.StaffEmail"
-                                disabled
-                                :class="{
-                                    'p-invalid': !form.StaffEmail && valid,
-                                }"
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                อีเมล<span class="text-red-500"> *</span></label>
+                            <InputText type="email" class="w-full" v-model="form.StaffEmail" disabled :class="{
+                                'p-invalid': !form.StaffEmail && valid,
+                            }" />
                         </div>
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                เบอร์โทรศัพท์ (มือถือ)<span
-                                    class="text-red-500"
-                                >
-                                    *</span
-                                ></label
-                            >
-                            <InputMask
-                                class="w-full"
-                                mask="999-999-9999"
-                                v-model="form.StaffMobilePhone"
-                                disabled
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                เบอร์โทรศัพท์ (มือถือ)<span class="text-red-500">
+                                    *</span></label>
+                            <InputMask class="w-full" mask="999-999-9999" v-model="form.StaffMobilePhone" disabled
                                 :class="{
                                     'p-invalid':
                                         !form.StaffMobilePhone && valid,
-                                }"
-                            />
+                                }" />
                         </div>
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                ระดับการศึกษา</label
-                            >
-                            <Dropdown
-                                class="w-full"
-                                placeholder="เลือกระดับการศึกษา"
-                                optionLabel="EducationName"
-                                optionValue="EducationID"
-                                v-model="form.StaffEducationID"
-                                :options="Education"
-                                :filter="true"
-                                disabled
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                ระดับการศึกษา</label>
+                            <Dropdown class="w-full" placeholder="เลือกระดับการศึกษา" optionLabel="EducationName"
+                                optionValue="EducationID" v-model="form.StaffEducationID" :options="Education"
+                                :filter="true" disabled />
                         </div>
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                สาขาวิชา</label
-                            >
-                            <Dropdown
-                                class="w-full"
-                                placeholder="เลือกสาขาวิชา"
-                                optionLabel="MajorName"
-                                optionValue="MajorID"
-                                v-model="form.StaffMajorID"
-                                :options="Major"
-                                :filter="true"
-                                disabled
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                สาขาวิชา</label>
+                            <Dropdown class="w-full" placeholder="เลือกสาขาวิชา" optionLabel="MajorName"
+                                optionValue="MajorID" v-model="form.StaffMajorID" :options="Major" :filter="true"
+                                disabled />
                         </div>
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                ปีที่สำเร็จการศึกษา</label
-                            >
-                            <InputText
-                                type="number"
-                                class="w-full"
-                                v-model="form.StaffGraduatedYear"
-                                disabled
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                ปีที่สำเร็จการศึกษา</label>
+                            <InputText type="number" class="w-full" v-model="form.StaffGraduatedYear" disabled />
                         </div>
 
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                สถานภาพการสมรส</label
-                            >
-                            <Dropdown
-                                class="w-full"
-                                placeholder="เลือกสถานภาพการสมรส"
-                                optionLabel="MarriedStatusName"
-                                optionValue="MarriedStatusID"
-                                v-model="form.StaffMarriedStatusID"
-                                :options="MariedStatus"
-                                :filter="true"
-                                disabled
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                สถานภาพการสมรส</label>
+                            <Dropdown class="w-full" placeholder="เลือกสถานภาพการสมรส" optionLabel="MarriedStatusName"
+                                optionValue="MarriedStatusID" v-model="form.StaffMarriedStatusID"
+                                :options="MariedStatus" :filter="true" disabled />
                         </div>
 
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                เบอร์โทรศัพท์</label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffTelephone"
-                                disabled
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                เบอร์โทรศัพท์</label>
+                            <InputText type="text" class="w-full" v-model="form.StaffTelephone" disabled />
                         </div>
 
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                หมายเลขโทรสาร</label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffFax"
-                                disabled
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                หมายเลขโทรสาร</label>
+                            <InputText type="text" class="w-full" v-model="form.StaffFax" disabled />
                         </div>
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                ไอดีไลน์ (ID Line)</label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffIDLine"
-                                disabled
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                ไอดีไลน์ (ID Line)</label>
+                            <InputText type="text" class="w-full" v-model="form.StaffIDLine" disabled />
                         </div>
                     </div>
                     <hr />
                     <div class="text-xl">ที่อยู่บุคลากร</div>
                     <div class="formgrid grid mt-2">
                         <div class="field col-12 sm:col-3">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                เลขที่บ้าน</label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffAddress"
-                                disabled
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                เลขที่บ้าน</label>
+                            <InputText type="text" class="w-full" v-model="form.StaffAddress" disabled />
                         </div>
                         <div class="field col-12 sm:col-3">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                หมู่ที่</label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffMoo"
-                                disabled
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                หมู่ที่</label>
+                            <InputText type="text" class="w-full" v-model="form.StaffMoo" disabled />
                         </div>
                         <div class="field col-12 sm:col-3">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                ชื่อหมู่บ้าน/อาคาร</label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffVillageName"
-                                disabled
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                ชื่อหมู่บ้าน/อาคาร</label>
+                            <InputText type="text" class="w-full" v-model="form.StaffVillageName" disabled />
                         </div>
                         <div class="field col-12 sm:col-3">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                ชั้น</label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffFloor"
-                                disabled
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                ชั้น</label>
+                            <InputText type="text" class="w-full" v-model="form.StaffFloor" disabled />
                         </div>
 
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                ถนน</label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffStreet"
-                                disabled
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                ถนน</label>
+                            <InputText type="text" class="w-full" v-model="form.StaffStreet" disabled />
                         </div>
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                ตรอก</label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffSubLane"
-                                disabled
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                ตรอก</label>
+                            <InputText type="text" class="w-full" v-model="form.StaffSubLane" disabled />
                         </div>
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                ซอย</label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffLane"
-                                disabled
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                ซอย</label>
+                            <InputText type="text" class="w-full" v-model="form.StaffLane" disabled />
                         </div>
 
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                จังหวัด</label
-                            >
-                            <Dropdown
-                                class="w-full"
-                                placeholder="เลือกจังหวัด"
-                                optionLabel="ProvinceName"
-                                optionValue="ProvinceID"
-                                v-model="form.StaffProvinceID"
-                                :options="Province"
-                                :filter="true"
-                                :virtualScrollerOptions="{ itemSize: 38 }"
-                                disabled
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                จังหวัด</label>
+                            <Dropdown class="w-full" placeholder="เลือกจังหวัด" optionLabel="ProvinceName"
+                                optionValue="ProvinceID" v-model="form.StaffProvinceID" :options="Province"
+                                :filter="true" :virtualScrollerOptions="{ itemSize: 38 }" disabled />
                         </div>
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                อำเภอ/เขต</label
-                            >
-                            <Dropdown
-                                class="w-full"
-                                placeholder="เลือกอำเภอ/เขต"
-                                optionLabel="Fullname"
-                                optionValue="AmphurID"
-                                v-model="form.StaffAmphurID"
-                                :options="Amphur"
-                                :filter="true"
-                                :virtualScrollerOptions="{ itemSize: 38 }"
-                                disabled
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                อำเภอ/เขต</label>
+                            <Dropdown class="w-full" placeholder="เลือกอำเภอ/เขต" optionLabel="Fullname"
+                                optionValue="AmphurID" v-model="form.StaffAmphurID" :options="Amphur" :filter="true"
+                                :virtualScrollerOptions="{ itemSize: 38 }" disabled />
                         </div>
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                ตำบล/แขวง</label
-                            >
-                            <Dropdown
-                                class="w-full"
-                                placeholder="เลือกตำบล/แขวง"
-                                optionLabel="Fullname"
-                                optionValue="TumbolID"
-                                v-model="form.StaffTumbolID"
-                                :options="Tumbol"
-                                :filter="true"
-                                :virtualScrollerOptions="{ itemSize: 38 }"
-                                @change="filterZipcode($event)"
-                                disabled
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                ตำบล/แขวง</label>
+                            <Dropdown class="w-full" placeholder="เลือกตำบล/แขวง" optionLabel="Fullname"
+                                optionValue="TumbolID" v-model="form.StaffTumbolID" :options="Tumbol" :filter="true"
+                                :virtualScrollerOptions="{ itemSize: 38 }" @change="filterZipcode($event)" disabled />
                         </div>
                         <div class="field col-12 sm:col-6">
-                            <label
-                                class="block text-600 text-sm font-bold mb-2"
-                            >
-                                รหัสไปรษณีย์</label
-                            >
-                            <InputText
-                                type="text"
-                                class="w-full"
-                                v-model="form.StaffZipCode"
-                                maxlength="5"
-                                minlength="5"
-                                disabled
-                            />
+                            <label class="block text-600 text-sm font-bold mb-2">
+                                รหัสไปรษณีย์</label>
+                            <InputText type="text" class="w-full" v-model="form.StaffZipCode" maxlength="5"
+                                minlength="5" disabled />
                         </div>
                     </div>
                     <div class="field col-12 sm:col-12 lg:col-12">
                         <div class="text-xl">สถานะ</div>
-                        <div
-                            v-for="isActive of status"
-                            :key="isActive.key"
-                            class="field-radiobutton"
-                        >
-                            <RadioButton
-                                :id="isActive.key"
-                                name="category"
-                                :value="isActive"
-                                v-model="form.isActive"
-                                disabled
-                            />
+                        <div v-for="isActive of status" :key="isActive.key" class="field-radiobutton">
+                            <RadioButton :id="isActive.key" name="category" :value="isActive" v-model="form.isActive"
+                                disabled />
                             <label :for="isActive.key">{{
                                 isActive.name
                             }}</label>
@@ -2861,12 +1440,7 @@
         <!-- End View Dialog -->
 
         <!-- Start Delete Dialog -->
-        <Dialog
-            header="ตรวจสอบข้อมูล"
-            v-model:visible="display_delete"
-            :style="{ width: '350px' }"
-            :modal="true"
-        >
+        <Dialog header="ตรวจสอบข้อมูล" v-model:visible="display_delete" :style="{ width: '350px' }" :modal="true">
             <div class="confirmation-content text-center">
                 <i class="pi pi-trash" style="font-size: 5rem" />
                 <br />
@@ -2874,16 +1448,8 @@
             </div>
             <template #footer>
                 <div class="col-12 text-center flex justify-content-between">
-                    <Button
-                        label="ยกเลิก"
-                        @click="close_delete()"
-                        class="p-button-secondary w-full mr-3"
-                    />
-                    <Button
-                        label="ยืนยัน"
-                        @click="remove()"
-                        class="p-button-danger w-full ml-3"
-                    />
+                    <Button label="ยกเลิก" @click="close_delete()" class="p-button-secondary w-full mr-3" />
+                    <Button label="ยืนยัน" @click="remove()" class="p-button-danger w-full ml-3" />
                 </div>
             </template>
         </Dialog>
@@ -3225,7 +1791,7 @@ export default {
                 this.fetchTumbol1();
             }
         },
-        "form.StaffTumbolID"() {},
+        "form.StaffTumbolID"() { },
     },
     methods: {
         isPermission() {
@@ -3238,7 +1804,7 @@ export default {
                 return false;
             }
         },
-         isAdminPermission() {
+        isAdminPermission() {
             if (
                 store.state.user.GroupID === 1
             ) {
@@ -3930,7 +2496,7 @@ export default {
                         "Content-Type": "multipart/form-data",
                     },
                 })
-                .then(() => {})
+                .then(() => { })
                 .catch((err) => {
                     this.form.isActive = this.dropdown.statuses[0];
                     this.$toast.add({
@@ -3943,7 +2509,8 @@ export default {
         },
 
         remove() {
-            axios.delete(this.url + "/" + this.form.id).then(() => {
+            console.log(this.form)
+            axios.delete("/staff/" + this.form.id).then(() => {
                 this.close_delete();
                 this.load();
                 this.$toast.add({
@@ -4399,7 +2966,7 @@ export default {
                 .then((response) => {
                     console.log(response);
                 })
-                .finally(() => {});
+                .finally(() => { });
         },
     },
 };

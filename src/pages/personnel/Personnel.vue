@@ -100,6 +100,15 @@
                         </Dropdown>
                     </div>
 
+                    <div class="col-12 sm:col-6 lg:col-4">
+                        <label for="searchAmphurID" class="block text-600 text-sm font-bold mb-2">
+                            สถานะการใช้งาน</label>
+                        <Dropdown class="w-full" emptyMessage="ไม่มีข้อมูล" emptyFilterMessage="ไม่พบข้อมูล"
+                            v-model="search.isActive" :options="dropdown.isActives" optionLabel="name"
+                            optionValue="value" :filter="true" :showClear="true" placeholder="ทั้งหมด">
+                        </Dropdown>
+                    </div>
+
                     <div class="col-12 sm:col-12 lg:col-12">
                         <Button @click="onSearch" label="ค้นหา" icon="" style="width: 100%" class="mr-2 mb-3" />
                     </div>
@@ -191,26 +200,26 @@
                             ">
                                 <Tag severity="success">{{
                                     slotProps.data.CardStatus
-                                    }}</Tag>
+                                }}</Tag>
                             </div>
                             <div v-else-if="
                                 slotProps.data.CardStatus === 'ยกเลิกใช้งาน'
                             ">
                                 <Tag severity="danger">{{
                                     slotProps.data.CardStatus
-                                    }}</Tag>
+                                }}</Tag>
                             </div>
                             <div v-else-if="
                                 slotProps.data.CardStatus === 'หมดอายุ'
                             ">
                                 <Tag severity="warning">{{
                                     slotProps.data.CardStatus
-                                    }}</Tag>
+                                }}</Tag>
                             </div>
                             <div v-else>
                                 <Tag severity="primary">{{
                                     slotProps.data.CardStatus
-                                    }}</Tag>
+                                }}</Tag>
                             </div>
                         </template>
                     </Column>
@@ -670,7 +679,7 @@
                             <RadioButton :id="isActive.key" name="category" :value="isActive" v-model="form.isActive" />
                             <label :for="isActive.key">{{
                                 isActive.name
-                                }}</label>
+                            }}</label>
                         </div>
                     </div>
                 </div>
@@ -1046,7 +1055,7 @@
                             <RadioButton :id="isActive.key" name="category" :value="isActive" v-model="form.isActive" />
                             <label :for="isActive.key">{{
                                 isActive.name
-                                }}</label>
+                            }}</label>
                         </div>
                     </div>
                 </div>
@@ -1431,7 +1440,7 @@
                                 disabled />
                             <label :for="isActive.key">{{
                                 isActive.name
-                                }}</label>
+                            }}</label>
                         </div>
                     </div>
                 </div>
@@ -1532,6 +1541,8 @@ export default {
                 StaffTumbolID: "",
                 StaffStartDate: "",
                 StaffEndDate: "",
+                StaffStatus: "ปฏิบัติงานอยู่",
+                isActive: 1,
             },
             dropdown: {
                 AIZones: [],
@@ -1565,6 +1576,10 @@ export default {
                 statuses: [
                     { name: "เปิดใช้งาน", key: "A", value: 1 },
                     { name: "ปิดใช้งาน", key: "B", value: 0 },
+                ],
+                isActives: [
+                    { name: "เปิดใช้งาน", value: 1 },
+                    { name: "ปิดใช้งาน", value: 0 },
                 ],
                 Organizations1: [],
                 Provinces1: [],
@@ -1982,6 +1997,14 @@ export default {
 
             if (this.search.StaffStatus) {
                 url += "&StaffStatus=" + this.search.StaffStatus;
+            }
+
+            if (
+                this.search.isActive !== null &&
+                this.search.isActive !== undefined &&
+                this.search.isActive !== ""
+            ) {
+                url += "&isActive=" + this.search.isActive;
             }
 
             if (this.search.AIZoneID) {
@@ -2812,6 +2835,14 @@ export default {
 
             if (this.search.StaffStatus) {
                 url += "&StaffStatus=" + this.search.StaffStatus;
+            }
+
+            if (
+                this.search.isActive !== null &&
+                this.search.isActive !== undefined &&
+                this.search.isActive !== ""
+            ) {
+                url += "&isActive=" + this.search.isActive;
             }
 
             if (this.search.AIZoneID) {

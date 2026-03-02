@@ -2123,40 +2123,42 @@ export default {
                     // ตั้งค่า ดึงข้อมูลแพะพ่อพัน
 
                     for (let i in this.LoadSelection) {
-                        if (this.LoadSelection[i] == "/project") {
-                            this.LoadSelection[i] =
-                                this.LoadSelection[i] +
+                        const baseUrl = this.LoadSelection[i];
+                        let requestUrl = baseUrl;
+
+                        if (baseUrl == "/project") {
+                            requestUrl =
+                                baseUrl +
                                 "?ProjectLevel=AI&includeAll=false&isActive=1";
                         }
                         if (
-                            this.LoadSelection[i] ==
+                            baseUrl ==
                             "/staff/selection?includeAll=false&isActive=1"
                         ) {
-                            this.LoadSelection[i] =
-                                this.LoadSelection[i] +
-                                "?StaffOrganizationID=" +
-                                this.user.Staff.StaffOrganizationID +
-                                "&includeAll=false&isActive=1";
+                            requestUrl =
+                                baseUrl +
+                                "&StaffOrganizationID=" +
+                                this.user.Staff.StaffOrganizationID;
                         }
 
                         if (
-                            this.LoadSelection[i] ==
+                            baseUrl ==
                             "/semen/selection?includeAll=false&isActive=1"
                         ) {
                             if (this.animal_id == 1) {
-                                this.LoadSelection.Semen +=
+                                requestUrl +=
                                     "&AnimalTypeID=[1,2,41,42]&orderByField=SemenNumber&orderBy=asc";
                             } else if (this.animal_id == 2) {
-                                this.LoadSelection.Semen +=
+                                requestUrl +=
                                     "&AnimalTypeID=[3,4,43,44]&orderByField=SemenNumber&orderBy=asc";
                             } else if (this.animal_id == 3) {
-                                this.LoadSelection.Semen +=
+                                requestUrl +=
                                     "&AnimalTypeID=[17,18,45,46]&orderByField=SemenNumber&orderBy=asc";
                             }
                         }
 
                         axios
-                            .get(this.LoadSelection[i], {
+                            .get(requestUrl, {
                                 signal: this.controller.signal,
                             })
                             .then((response) => {
